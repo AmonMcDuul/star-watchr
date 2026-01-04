@@ -1,0 +1,48 @@
+.astro {
+    padding: 2rem;
+    color: #e6e6ff;
+    background: radial-gradient(circle at top, #1b1e3c, #070815);
+    min-height: 100vh;
+  }
+  
+  h1 {
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+  
+  .card {
+    background: rgba(20, 22, 60, 0.8);
+    border-radius: 14px;
+    padding: 1rem;
+    box-shadow: 0 0 20px rgba(120, 120, 255, 0.2);
+    transition: transform 0.2s;
+  
+    &:hover {
+      transform: translateY(-4px);
+    }
+  }
+  
+  .time {
+    font-weight: 600;
+    opacity: 0.8;
+  }
+  
+  .score {
+    font-size: 1.4rem;
+    margin: 0.5rem 0;
+  }
+  
+  .loading {
+    opacity: 0.7;
+  }
+  
+  .error {
+    color: #ff6b6b;
+  }
+  
