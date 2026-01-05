@@ -8,6 +8,7 @@ import { WeatherApiService } from '../../services/weather-api.service';
   styleUrl: './home.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class HomeComponent {
   constructor(public weatherApiService: WeatherApiService) {
     this.weatherApiService.loadAstroWeather(52.37, 4.89);
