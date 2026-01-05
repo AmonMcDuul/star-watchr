@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "clear-sky": {
+    "star-watchr": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -61,10 +61,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "clear-sky:build:production"
+              "buildTarget": "star-watchr:build:production"
             },
             "development": {
-              "buildTarget": "clear-sky:build:development"
+              "buildTarget": "star-watchr:build:development"
             }
           },
           "defaultConfiguration": "development"

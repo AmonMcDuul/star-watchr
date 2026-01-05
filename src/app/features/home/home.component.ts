@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { WeatherApiService } from '../../services/weather-api-service';
+import { WeatherApiService } from '../../services/weather-api.service';
 
 @Component({
-  selector: 'app-home-component',
+  selector: 'app-home',
   imports: [],
-  templateUrl: './home-component.html',
-  styleUrl: './home-component.scss',
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {

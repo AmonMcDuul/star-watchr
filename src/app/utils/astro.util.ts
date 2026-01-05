@@ -1,5 +1,5 @@
-import { AstroCardVM } from "../models/astro-card-viewmodel";
-import { AstroDataPoint } from "../models/astro-data-point-model";
+import { AstroCardVM } from "../models/astro-card.model";
+import { AstroDataPoint } from "../models/astro-data-point.model";
 
 export function cloudLabelFromValue(value: number): string {
   if (value <= 2) return 'Perfect';

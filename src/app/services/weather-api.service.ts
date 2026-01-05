@@ -1,8 +1,8 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AstroCardVM } from '../models/astro-card-viewmodel';
-import { AstroWeatherResponse } from '../models/astro-weather-response-model';
-import { mapToAstroCardVM } from '../utils/astro-utils';
+import { AstroCardVM } from '../models/astro-card.model';
+import { AstroWeatherResponse } from '../models/astro-weather-response.model';
+import { mapToAstroCardVM } from '../utils/astro.util';
 
 @Injectable({ providedIn: 'root' })
 export class WeatherApiService {
