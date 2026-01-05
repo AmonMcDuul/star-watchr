@@ -1,12 +1,10 @@
-import { Injectable, signal, computed } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { AstroCardVM } from '../models/astro-card.model';
-import { AstroWeatherResponse } from '../models/astro-weather-response.model';
-import { mapToAstroCardVM } from '../utils/astro.util';
+import { HttpClient } from "@angular/common/http";
+import { AstroWeatherResponse } from "../models/astro-weather-response.model";
+import { Injectable, signal, computed } from "@angular/core";
+import { mapToAstroCardVM } from "../utils/astro.util";
 
 @Injectable({ providedIn: 'root' })
 export class WeatherApiService {
-  private readonly baseUrl = 'https://www.7timer.info/bin/api.pl';
 
   private readonly _data = signal<AstroWeatherResponse | null>(null);
   private readonly _loading = signal(false);
@@ -15,30 +13,33 @@ export class WeatherApiService {
   readonly loading = this._loading.asReadonly();
   readonly error = this._error.asReadonly();
 
-  private readonly forecast = computed(() =>
-    this._data()?.dataseries.filter(d => d.cloudcover !== -9999) ?? []
-  );
+  readonly cards = computed(() => {
+    const r = this._data();
+    if (!r) return [];
 
-  readonly cards = computed<AstroCardVM[]>(() =>
-    this.forecast().map(mapToAstroCardVM)
-  );
+    const init = new Date(r.init);
+
+    return r.dataseries
+      .filter(d => d.cloudcover !== -9999)
+      .map(d => mapToAstroCardVM(d, init));
+  });
 
   constructor(private http: HttpClient) {}
 
-  loadAstroWeather(lat: number, lon: number) {
+  load(lat: number, lon: number) {
     this._loading.set(true);
     this._error.set(null);
 
-    this.http.get<AstroWeatherResponse>(this.baseUrl, {
+    this.http.get<AstroWeatherResponse>('https://www.7timer.info/bin/api.pl', {
       params: {
         lat,
         lon,
         product: 'astro',
-        output: 'json',
+        output: 'json'
       }
     }).subscribe({
-      next: data => {
-        this._data.set(data);
+      next: r => {
+        this._data.set(r);
         this._loading.set(false);
       },
       error: () => {

@@ -1,0 +1,17 @@
+<div class="location">
+  <input
+    [(ngModel)]="query"
+    (input)="search()"
+    placeholder="Search location…"
+  />
+
+  @if (location.results().length) {
+    <ul>
+      @for (r of location.results(); track r.display_name) {
+        <li (click)="select(r)">
+          {{ r.display_name }}
+        </li>
+      }
+    </ul>
+  }
+</div>

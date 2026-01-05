@@ -1,0 +1,67 @@
+.matrix {
+  overflow-x: auto;
+  background: #000;
+  padding: 1rem;
+  border-radius: 12px;
+  font-family: system-ui, sans-serif;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 120px repeat(auto-fit, minmax(36px, 1fr));
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.header {
+  color: #aaa;
+  font-size: 0.75rem;
+}
+
+.label {
+  color: #aaa;
+  font-size: 0.8rem;
+}
+
+.cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* dots */
+.dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #333;
+}
+
+/* cloud scale */
+.cloud.c1 { background: #fff; }
+.cloud.c2 { background: #d0d8ff; }
+.cloud.c3 { background: #9db1ff; }
+.cloud.c4 { background: #4b5b9f; }
+
+/* seeing */
+.seeing {
+  background: #222;
+}
+.seeing.s6,
+.seeing.s7,
+.seeing.s8 {
+  background: #6cf;
+}
+
+/* transparency bar */
+.bar.trans {
+  height: 6px;
+  background: #9cf;
+  border-radius: 3px;
+}
+
+/* temp */
+.temp {
+  color: #8fd;
+  font-size: 0.75rem;
+}

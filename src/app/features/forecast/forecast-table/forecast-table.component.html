@@ -1,0 +1,28 @@
+<table class="forecast">
+    <thead>
+      <tr>
+        <th>Tijd</th>
+        <th>Score</th>
+        <th>Wolken</th>
+        <th>Seeing</th>
+        <th>Transp.</th>
+        <th>Temp</th>
+        <th>Wind</th>
+      </tr>
+    </thead>
+  
+    <tbody>
+      @for (c of cards; track c.timepoint) {
+        <tr [class.good]="c.score > 70">
+          <td>+{{ c.timepoint }}h</td>
+          <td>{{ c.score }}</td>
+          <td>{{ c.cloudLabel }}</td>
+          <td>{{ c.seeing }}/8</td>
+          <td>{{ c.transparency }}/8</td>
+          <td>{{ c.temperature }}°</td>
+          <td>{{ c.windSpeed }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+  

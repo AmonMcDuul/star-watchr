@@ -1,16 +1,8 @@
 <section class="astro">
     <h1>Clear sky</h1>
   
-    @if (weatherApiService.loading()) {
-      <p class="loading">Data ophalen…</p>
-    }
-  
-    @if (weatherApiService.error()) {
-      <p class="error">{{ weatherApiService.error() }}</p>
-    }
-  
     <div class="grid">
-      @for (card of weatherApiService.cards(); track card.timepoint) {
+      @for (card of cards; track card.timepoint) {
         <div class="card">
           <div class="time">+{{ card.timepoint }}h</div>
           <div class="score">⭐ {{ card.score }}</div>
@@ -20,7 +12,7 @@
             <li>👁 Seeing: {{ card.seeing }}/8</li>
             <li>✨ Transparantie: {{ card.transparency }}/8</li>
             <li>🌡 {{ card.temperature }} °C</li>
-            <li>💨 {{ card.wind }}</li>
+            <li>💨 {{ card.windSpeed }}</li>
           </ul>
         </div>
       }

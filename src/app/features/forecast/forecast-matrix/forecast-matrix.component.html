@@ -1,0 +1,59 @@
+<div class="matrix">
+  <!-- header row -->
+  <div class="row header">
+    <div class="label"></div>
+    @for (c of cards; track c.time) {
+      <div class="cell time">{{ c.time | date:'HH' }}h</div>
+    }
+  </div>
+  <div class="row header">
+    <div class="label"></div>
+    @for (c of cards; track c.timepoint) {
+      <div class="cell time">+{{ c.timepoint }}</div>
+    }
+  </div>
+
+  <!-- cloud cover -->
+  <div class="row">
+    <div class="label">Cloud</div>
+    @for (c of cards; track c.timepoint) {
+      <div class="cell">
+        <span
+          class="dot cloud"
+          [class.c1]="c.cloudcover <= 2"
+          [class.c2]="c.cloudcover <= 4"
+          [class.c3]="c.cloudcover <= 6"
+          [class.c4]="c.cloudcover <= 8"
+        ></span>
+      </div>
+    }
+  </div>
+
+  <!-- seeing -->
+  <div class="row">
+    <div class="label">Seeing</div>
+    @for (c of cards; track c.timepoint) {
+      <div class="cell">
+        <span class="dot seeing s{{ c.seeing }}"></span>
+      </div>
+    }
+  </div>
+
+  <!-- transparency -->
+  <div class="row">
+    <div class="label">Transparency</div>
+    @for (c of cards; track c.timepoint) {
+      <div class="cell">
+        <span class="bar trans" [style.width.%]="c.transparency * 12"></span>
+      </div>
+    }
+  </div>
+
+  <!-- temperature -->
+  <div class="row">
+    <div class="label">Temp</div>
+    @for (c of cards; track c.timepoint) {
+      <div class="cell temp">{{ c.temperature }}°</div>
+    }
+  </div>
+</div>
