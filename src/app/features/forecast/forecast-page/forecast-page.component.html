@@ -1,26 +1,16 @@
-<section class="page">
-    <h2>Tonight overview</h2>
-  
-    @if (weather.loading()) {
+<section class="page" [class.loading-active]="weather.loading()">
+  <app-location-search></app-location-search>
+  <br><br>
+  <app-forecast-matrix [cards]="weather.cards()"></app-forecast-matrix>
+  <!-- <br><br>    
+  <app-best-two-hours [cards]="weather.cards()"></app-best-two-hours> -->
+  <br><br>  
+  <app-forecast-cards [cards]="weather.cards()"></app-forecast-cards>
+
+  @if (weather.loading()) {
+    <div class="loading-overlay">
+      <div class="spinner"></div>
       <p>Laden…</p>
-    }
-  
-    @if (weather.error()) {
-      <p class="error">{{ weather.error() }}</p>
-    }
-  
-    <app-location-search></app-location-search>
-
-    <app-best-two-hours [cards]="weather.cards()"></app-best-two-hours>
-    
-    <app-forecast-matrix [cards]="weather.cards()"></app-forecast-matrix>
-
-    <app-forecast-table [cards]="weather.cards()"></app-forecast-table>
-  
-    <!-- <div class="ad">
-      Advertentie (Google Ads)
-    </div> -->
-  
-    <app-forecast-cards [cards]="weather.cards()"></app-forecast-cards>
-  </section>
-  
+    </div>
+  }
+</section>

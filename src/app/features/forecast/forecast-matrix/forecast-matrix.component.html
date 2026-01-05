@@ -3,7 +3,7 @@
   <div class="row header">
     <div class="label"></div>
     @for (c of cards; track c.time) {
-      <div class="cell time">{{ c.time | date:'HH' }}h</div>
+      <div class="cell time">{{ c.time | date:'HH:mm' }}h</div>
     }
   </div>
   <div class="row header">
@@ -20,10 +20,15 @@
       <div class="cell">
         <span
           class="dot cloud"
-          [class.c1]="c.cloudcover <= 2"
-          [class.c2]="c.cloudcover <= 4"
-          [class.c3]="c.cloudcover <= 6"
-          [class.c4]="c.cloudcover <= 8"
+          [class.c1]="c.cloudcover == 1"
+          [class.c2]="c.cloudcover == 2"
+          [class.c3]="c.cloudcover == 3"
+          [class.c4]="c.cloudcover == 4"
+          [class.c5]="c.cloudcover == 5"
+          [class.c6]="c.cloudcover == 6"
+          [class.c7]="c.cloudcover == 7"
+          [class.c8]="c.cloudcover == 8"
+          [class.c9]="c.cloudcover == 9"
         ></span>
       </div>
     }

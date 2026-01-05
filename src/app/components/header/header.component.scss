@@ -1,17 +1,81 @@
+/* HEADER STYLING */
 header {
     display: flex;
     justify-content: space-between;
-    padding: 1rem 2rem;
-    background: rgba(10,10,30,0.9);
+    align-items: center;
+    padding: 3rem 2rem;
+    background: radial-gradient(ellipse at top, #0a0a30 0%, #000 100%);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* STAR EFFECT */
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background: transparent url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+    animation: starsMove 60s linear infinite;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  
+  @keyframes starsMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(-50%, -50%); }
+  }
+  
+  /* BRAND */
+  .brand h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    color: #f0f8ff;
+    text-shadow: 0 0 10px #00f6ff, 0 0 20px #00f6ff, 0 0 30px #ff00ff;
+    margin: 0;
   }
   
   .brand span {
-    font-size: 0.8rem;
+    font-size: 1rem;
     opacity: 0.7;
+    display: block;
+    font-family: 'Roboto', sans-serif;
+    color: #b0c4de;
+    letter-spacing: 0.5px;
   }
   
+  /* NAVIGATION */
   nav a {
-    margin-left: 1rem;
-    opacity: 0.8;
+    margin-left: 1.5rem;
+    text-decoration: none;
+    color: #c0dfff;
+    font-weight: 500;
+    transition: 0.3s ease;
+    position: relative;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  nav a::after {
+    content: '';
+    display: block;
+    height: 2px;
+    background: #00f6ff;
+    width: 0;
+    transition: 0.3s;
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+  }
+  
+  nav a:hover {
+    color: #ffffff;
+  }
+  
+  nav a:hover::after {
+    width: 100%;
   }
   

@@ -1,6 +1,6 @@
 .matrix {
   overflow-x: auto;
-  background: #000;
+  background: #00000016;
   padding: 1rem;
   border-radius: 12px;
   font-family: system-ui, sans-serif;
@@ -38,10 +38,16 @@
 }
 
 /* cloud scale */
-.cloud.c1 { background: #fff; }
-.cloud.c2 { background: #d0d8ff; }
-.cloud.c3 { background: #9db1ff; }
-.cloud.c4 { background: #4b5b9f; }
+.cloud.c1 { background: #04081b; }
+.cloud.c2 { background: #1a2763; }
+.cloud.c3 { background: #2e4abd; }
+.cloud.c4 { background: #5467c3; }
+.cloud.c5 { background: #7d94ee; }
+.cloud.c6 { background: #9caefe; }
+.cloud.c7 { background: #bec8fb; }
+.cloud.c8 { background: #d0d8ff; }
+.cloud.c9 { background: #fff; }
+
 
 /* seeing */
 .seeing {

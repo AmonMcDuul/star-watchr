@@ -1,12 +1,17 @@
-<div class="location">
-  <input
-    [(ngModel)]="query"
-    (input)="search()"
-    placeholder="Search location…"
-  />
+<div class="location-wrapper" #wrapper>
+  <div class="location-search" [class.active]="searchActive" (click)="activateSearch()">
+    <span class="icon">🔍</span>
+    <input
+      [(ngModel)]="query"
+      (input)="onInput()"
+      placeholder="Search location…"
+    />
+  </div>
 
-  @if (location.results().length) {
-    <ul>
+  <h2 class="chosen-location">{{ chosenLocation }}</h2>
+
+  @if (location.results().length && searchActive) {
+    <ul class="results">
       @for (r of location.results(); track r.display_name) {
         <li (click)="select(r)">
           {{ r.display_name }}
