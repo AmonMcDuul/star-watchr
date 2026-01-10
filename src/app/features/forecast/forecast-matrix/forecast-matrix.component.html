@@ -6,6 +6,8 @@
   }
 
 <div class="matrix" [class.loading-active]="weatherApi.loading()">
+  <div class="label">Date: {{ astroDate() }}</div>
+  <br>
   <div class="matrix-controls">
     <button
       [class.active]="mode() === '24h'"
@@ -28,12 +30,26 @@
       All
     </button>
   </div>
+  <br><br>
+
+  @if (hoverCard()) {
+  <div class="matrix-tooltip">
+    <strong>{{ hoverCard().time | date:'HH:mm' }}</strong>
+
+    <div>Cloud cover: {{ hoverCard().cloudcover }}/9</div>
+    <div>Seeing: {{ hoverCard().seeing }}/8</div>
+    <div>Transparency: {{ hoverCard().transparency }}/8</div>
+    <div>Temp: {{ hoverCard().temperature }} °C</div>
+    <div>Wind: {{ hoverCard().windSpeed }} m/s {{ hoverCard().windDir }}</div>
+  </div>
+}
 
   <!-- header row -->
   <div class="row header">
     <div class="label"></div>
     @for (c of cardsToShow(); track c.time) {
-      <div class="cell time">{{ c.time | date:'HH:mm' }}h</div>
+      <div class="cell time" (mouseenter)="hoverCard.set(c)"
+      (mouseleave)="hoverCard.set(null)">{{ c.time | date:'HH:mm' }}h</div>
     }
   </div>
   <div class="row header">
@@ -91,5 +107,93 @@
       <div class="cell temp">{{ c.temperature }}°</div>
     }
   </div>
+
+  <!-- twilight -->
+  <div class="row">
+    <div class="label">Twilight</div>
+    @for (c of cardsToShow(); track c.timepoint) {
+      <div class="cell"      
+      [class.twilight]="isNight(c.time)"
+      [class.astro-night]="isAstroNight(c.time)">&nbsp;</div>
+    }
+  </div>
+
+    <!-- moon -->
+  <div class="row">
+    <div class="label">Moon</div>
+    @for (c of cardsToShow(); track c.timepoint) {
+      <div class="cell"   
+      [class.moon-bar]="moonUpAt(c.time)">
+      &nbsp;
+    </div>
+    }
+  </div>
 </div>
 
+<div class="matrix-legend">
+  <!-- Clouds -->
+  <div class="legend-item">
+    <span class="dot cloud c2"></span>
+    <span>Low clouds (good)</span>
+  </div>
+  <div class="legend-item">
+    <span class="dot cloud c7"></span>
+    <span>High clouds (bad)</span>
+  </div>
+
+  <!-- Seeing -->
+  <div class="legend-item">
+    <span class="dot seeing s7"></span>
+    <span>Seeing (higher = better)</span>
+  </div>
+
+  <!-- Transparency -->
+  <div class="legend-item legend-trans">
+    <span class="bar trans t2"></span>
+    <span>Low transparency</span>
+
+    <span class="bar trans t6"></span>
+    <span>Medium</span>
+
+    <span class="bar trans t9"></span>
+    <span>High (best)</span>
+  </div>
+
+  <!-- Twilight / Astro Night -->
+  <div class="legend-item">
+    <span class="cell twilight">&nbsp;</span>
+    <span>Civil/Nautical twilight</span>
+  </div>
+  <div class="legend-item">
+    <span class="cell astro-night">&nbsp;</span>
+    <span>Astronomical night</span>
+  </div>
+
+  <!-- Moon -->
+  <div class="legend-item">
+    <span class="cell moon-bar">&nbsp;</span>
+    <span>Moon above horizon</span>
+  </div>
+</div>
+
+
+<div class="astro-times">
+  <div class="astro-grid">
+    <div>Sunrise<span>{{ sunTimes().sunrise | date:'HH:mm' }}</span></div>
+    <div>Sunset<span>{{ sunTimes().sunset | date:'HH:mm' }}</span></div>
+
+    <div>Civil dawn<span>{{ sunTimes().dawn | date:'HH:mm' }}</span></div>
+    <div>Civil dusk<span>{{ sunTimes().dusk | date:'HH:mm' }}</span></div>
+
+    <div>Nautical dawn<span>{{ sunTimes().nauticalDawn | date:'HH:mm' }}</span></div>
+    <div>Nautical dusk<span>{{ sunTimes().nauticalDusk | date:'HH:mm' }}</span></div>
+
+    <div>Astronomical dawn<span>{{ sunTimes().nightEnd | date:'HH:mm' }}</span></div>
+    <div>Astronomical dusk<span>{{ sunTimes().night | date:'HH:mm' }}</span></div>
+
+    <div>Moonrise<span>{{ moonTimes().rise ? (moonTimes().rise | date:'HH:mm') : '—' }}</span></div>
+    <div>Moonset<span>{{ moonTimes().set ? (moonTimes().set | date:'HH:mm') : '—' }}</span></div>
+
+    <div class="full">Moon phase<span>{{ moonPhaseLabel() }}</span></div>
+  </div>
+</div>

@@ -1,9 +1,11 @@
 .matrix {
   overflow-x: auto;
-  background: #00000016;
+  background: #0000003d;
   padding: 1rem;
   border-radius: 12px;
   font-family: system-ui, sans-serif;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .row {
@@ -116,15 +118,15 @@
   
 
   .matrix-controls {
-  display: inline-flex;
-  background: #0b1020;
-  border-radius: 5px;
-  padding: 4px;
-  margin-bottom: 10px;
-  gap: 4px;
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
-    0 0 20px rgba(100, 150, 255, 0.15);
+    display: inline-flex;
+    background: #0b1020;
+    border-radius: 5px;
+    padding: 4px;
+    margin-bottom: 10px;
+    gap: 4px;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+      0 0 20px rgba(100, 150, 255, 0.15);
   }
 
 .matrix-controls button {
@@ -159,4 +161,146 @@
   font-weight: 600;
   box-shadow:
     0 0 12px rgba(140, 170, 255, 0.6);
+}
+
+
+.matrix-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  color: #bbb;
+  margin: 20px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.legend-trans {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 0.3rem 0.6rem;
+  align-items: center;
+}
+
+.bar.trans {
+  width: 40px;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(
+    90deg,
+    #355,
+    #9cf
+  );
+}
+
+.bar.trans.t2 { opacity: 0.3; }
+.bar.trans.t6 { opacity: 0.6; }
+.bar.trans.t9 { opacity: 1; }
+
+/* Twilight / Astro night bars in legenda */
+.matrix-legend .cell.twilight,
+.matrix-legend .cell.astro-night,
+.matrix-legend .cell.moon-bar {
+  width: 20px;
+  height: 14px;
+  display: inline-block;
+  border-radius: 3px;
+  vertical-align: middle;
+}
+
+/* Kleuren zoals in de matrix */
+.matrix-legend .cell.twilight {
+  background: rgba(80, 100, 180, 0.08);
+}
+
+.matrix-legend .cell.astro-night {
+  background: rgba(140, 40, 53, 0.18);
+}
+
+.matrix-legend .cell.moon-bar {
+  background: rgba(242, 243, 248, 0.08);
+}
+
+.matrix-tooltip {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #0b1020;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  color: #e6ebff;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  pointer-events: none;
+}
+
+.astro-times {
+  margin: 20px;
+  margin-top: 1.5rem;
+  padding: 1rem 1.25rem;
+  width: 500px;
+  border-radius: 12px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(20, 24, 44, 0.9),
+    rgba(10, 12, 26, 0.9)
+  );
+
+  color: #dbe3ff;
+  font-size: 0.9rem;
+
+  display: grid;
+  gap: 0.5rem;
+
+  box-shadow: 0 0 0 1px rgba(120, 140, 255, 0.15),
+              0 10px 30px rgba(0, 0, 0, 0.4);
+
+  strong {
+    color: #ffffff;
+    font-weight: 600;
+  }
+}
+
+.astro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem 1rem;
+}
+
+.astro-grid div {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.astro-grid strong {
+  color: #9fb0ff;
+  font-weight: 500;
+}
+
+.astro-grid span {
+  color: #fff;
+}
+
+.astro-grid .full {
+  grid-column: 1 / -1;
+  justify-content: flex-start;
+}
+
+.cell.twilight {
+  background: rgba(80, 100, 180, 0.08);
+}
+
+.cell.astro-night {
+  background: rgba(140, 40, 53, 0.18);
+}
+
+.cell.moon-bar {
+  background: rgba(242, 243, 248, 0.08);
 }

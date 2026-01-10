@@ -1,1 +1,58 @@
-<p>alerts works!</p>
+<section class="alerts-page">
+  <div class="card">
+    <h1>Stargazing Alerts</h1>
+
+    <p class="intro">
+      Get a quiet email when the night sky is worth stepping outside for.
+      No spam. No noise. Just clear skies.
+    </p>
+
+    <div class="conditions">
+      <h2>Alert conditions</h2>
+
+      <ul>
+        <li>
+          <span class="label">Cloud cover</span>
+          <span class="value">{{ conditions.cloudCover }}</span>
+        </li>
+        <li>
+          <span class="label">Seeing</span>
+          <span class="value">{{ conditions.seeing }}</span>
+        </li>
+        <li>
+          <span class="label">Transparency</span>
+          <span class="value">{{ conditions.transparency }}</span>
+        </li>
+        <li>
+          <span class="label">Night time</span>
+          <span class="value">
+            {{ conditions.nightOnly ? 'Astronomical night' : 'Any time' }}
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    @if (!subscribed) {
+      <form class="form" (submit)="submit(); $event.preventDefault()">
+        <input
+          type="email"
+          placeholder="you@email.com"
+          [(ngModel)]="email"
+          name="email"
+          required
+        />
+
+        <button type="submit">
+          Notify me
+        </button>
+      </form>
+    }
+
+    @if (subscribed) {
+      <div class="success">
+        You’re on the list.<br />
+        We’ll let you know when the sky aligns.
+      </div>
+    }
+  </div>
+</section>

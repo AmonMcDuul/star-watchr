@@ -27,14 +27,14 @@ export function mapToAstroCardVM(
   init: Date
 ): AstroCard {
 
-  //voor de time dingetje
+  //voor de time dingetje hocus pocus stom
   const baseTime = init instanceof Date && !isNaN(init.getTime()) ? init.getTime() : Date.now();
   const hoursOffset = typeof d.timepoint === 'number' ? d.timepoint : 0;
-  
+  const oneDayMs = 24 * 60 * 60 * 1000;
+
   return {
     timepoint: d.timepoint,
-    // time: new Date(init.getTime() + d.timepoint * 3600_000),
-    time: new Date(baseTime + hoursOffset * 3600_000),
+    time: new Date(baseTime + hoursOffset * 3600_000 - oneDayMs),
     score: calculateScore(d),
     cloudLabel: cloudLabelFromValue(d.cloudcover),
 
