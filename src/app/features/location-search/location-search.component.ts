@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { LocationResult, LocationService } from '../../services/location.service';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, ViewChild } from '@angular/core';
+import { LocationService } from '../../services/location.service';
 import { WeatherApiService } from '../../services/weather-api.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { LocationResult } from '../../models/location-result.model';
 
 @Component({
   selector: 'app-location-search',
@@ -12,27 +13,23 @@ import { CommonModule } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocationSearchComponent {
-    // fugly temp oplossing voor search bar weer weghalen
+  // fugly temp oplossing voor search bar weer weghalen
   @ViewChild('wrapper') wrapper!: ElementRef<HTMLDivElement>;
 
-  query = '';
-  chosenLocation = '';
-  searchActive = false;
+  public location = inject(LocationService); 
+  public weatherApi = inject(WeatherApiService); 
 
-  constructor(
-    public location: LocationService,
-    private weather: WeatherApiService
-  ) {}
+  query = '';
+  searchActive = false;
 
   onInput() {
     this.location.setQuery(this.query);
   }
 
   select(loc: LocationResult) {
-    console.log(loc)
-    this.weather.load(+loc.lat, +loc.lon);
+    this.location.selectLocation(loc);
+    this.weatherApi.load(+loc.lat, +loc.lon);
     this.query = loc.display_name;
-    this.chosenLocation = loc.display_name;
     this.location.clearResults();
     this.deactivateSearch();
   }

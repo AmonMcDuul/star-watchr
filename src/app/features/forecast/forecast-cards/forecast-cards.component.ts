@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { AstroCardVM } from '../../../models/astro-card.model';
+import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { WeatherApiService } from '../../../services/weather-api.service';
 
 @Component({
   selector: 'app-forecast-cards',
@@ -11,5 +11,5 @@ import { CommonModule } from '@angular/common';
 })
 
 export class ForecastCardsComponent {
-  @Input({ required: true }) cards!: AstroCardVM[];
+  public weatherApi = inject(WeatherApiService); 
 }

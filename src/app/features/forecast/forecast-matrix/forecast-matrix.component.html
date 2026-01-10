@@ -1,14 +1,21 @@
-<div class="matrix">
+  @if (weatherApi.loading()) {
+    <div class="loading-overlay">
+      <div class="spinner"></div>
+      <p>Laden…</p>
+    </div>
+  }
+
+<div class="matrix" [class.loading-active]="weatherApi.loading()">
   <!-- header row -->
   <div class="row header">
     <div class="label"></div>
-    @for (c of cards; track c.time) {
+    @for (c of cardsToShow(); track c.time) {
       <div class="cell time">{{ c.time | date:'HH:mm' }}h</div>
     }
   </div>
   <div class="row header">
     <div class="label"></div>
-    @for (c of cards; track c.timepoint) {
+    @for (c of cardsToShow(); track c.timepoint) {
       <div class="cell time">+{{ c.timepoint }}</div>
     }
   </div>
@@ -16,7 +23,7 @@
   <!-- cloud cover -->
   <div class="row">
     <div class="label">Cloud</div>
-    @for (c of cards; track c.timepoint) {
+    @for (c of cardsToShow(); track c.timepoint) {
       <div class="cell">
         <span
           class="dot cloud"
@@ -37,7 +44,7 @@
   <!-- seeing -->
   <div class="row">
     <div class="label">Seeing</div>
-    @for (c of cards; track c.timepoint) {
+    @for (c of cardsToShow(); track c.timepoint) {
       <div class="cell">
         <span class="dot seeing s{{ c.seeing }}"></span>
       </div>
@@ -47,7 +54,7 @@
   <!-- transparency -->
   <div class="row">
     <div class="label">Transparency</div>
-    @for (c of cards; track c.timepoint) {
+    @for (c of cardsToShow(); track c.timepoint) {
       <div class="cell">
         <span class="bar trans" [style.width.%]="c.transparency * 12"></span>
       </div>
@@ -57,8 +64,10 @@
   <!-- temperature -->
   <div class="row">
     <div class="label">Temp</div>
-    @for (c of cards; track c.timepoint) {
+    @for (c of cardsToShow(); track c.timepoint) {
       <div class="cell temp">{{ c.temperature }}°</div>
     }
   </div>
 </div>
+<button (click)="show7()">show 7</button>
+<button (click)="showAll()">show all</button>

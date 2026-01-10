@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, computed, Input } from '@angular/core';
-import { AstroCardVM } from '../../../models/astro-card.model';
+import { ChangeDetectionStrategy, Component, computed, inject, Input } from '@angular/core';
 import { findBestTwoHours } from '../../../utils/best-hours.util';
 import { CommonModule } from '@angular/common';
+import { WeatherApiService } from '../../../services/weather-api.service';
 
 @Component({
   selector: 'app-best-two-hours',
@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 
 export class BestTwoHoursComponent {
-  @Input({ required: true }) cards!: AstroCardVM[];
+  public weatherApi = inject(WeatherApiService); 
 
-  readonly best = computed(() => findBestTwoHours(this.cards));
+  readonly best = computed(() => findBestTwoHours(this.weatherApi.cards()));
 }

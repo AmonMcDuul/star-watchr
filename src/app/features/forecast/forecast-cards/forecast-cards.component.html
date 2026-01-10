@@ -1,6 +1,6 @@
 <section class="astro">
     <div class="grid">
-      @for (card of cards; track card.timepoint) {
+      @for (card of weatherApi.cards(); track card.timepoint) {
         <div class="card">
           <div class="time">{{ card.time | date:'HH:mm'}}h</div>
           <div class="time">+{{ card.timepoint }}h</div>

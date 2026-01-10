@@ -1,4 +1,4 @@
-export interface AstroCardVM {
+export interface AstroCard {
   timepoint: number;
   time: Date;
 

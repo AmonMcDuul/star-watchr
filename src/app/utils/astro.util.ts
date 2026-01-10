@@ -1,5 +1,5 @@
+import { AstroCard } from '../models/astro-card.model';
 import { AstroDataPoint } from '../models/astro-data-point.model';
-import { AstroCardVM } from '../models/astro-card.model';
 
 export function calculateScore(d: AstroDataPoint): number {
   // gewogen, max ≈ 100
@@ -25,7 +25,7 @@ export function cloudLabelFromValue(v: number): string {
 export function mapToAstroCardVM(
   d: AstroDataPoint,
   init: Date
-): AstroCardVM {
+): AstroCard {
 
   //voor de time dingetje
   const baseTime = init instanceof Date && !isNaN(init.getTime()) ? init.getTime() : Date.now();

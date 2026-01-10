@@ -1,22 +1,29 @@
-import { Injectable, signal, effect } from '@angular/core';
+import { Injectable, signal, effect, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
-export interface LocationResult {
-  display_name: string;
-  lat: string;
-  lon: string;
-}
+import { LocationResult } from '../models/location-result.model';
 
 @Injectable({ providedIn: 'root' })
 export class LocationService {
+  private _http = inject(HttpClient);
+
   private readonly _results = signal<LocationResult[]>([]);
   readonly results = this._results.asReadonly();
+
+  private readonly _selected = signal<LocationResult | null>(this.loadFromStorage());
+  readonly selected = this._selected.asReadonly();
 
   private readonly _query = signal('');
   private debounceTimer: any;
   private cache = new Map<string, LocationResult[]>();
 
-  constructor(private http: HttpClient) {
+  constructor() {
+    effect(() => {
+      const selected = this._selected();
+      if (selected) {
+        localStorage.setItem('lastLocation', JSON.stringify(selected));
+      }
+    });
+
     effect(() => {
       const query = this._query();
       if (!query || query.length < 2) {
@@ -36,6 +43,15 @@ export class LocationService {
   clearResults() {
     this._results.set([]);
   }
+
+  
+  selectLocation(loc: LocationResult) {
+    this._selected.set({
+      display_name: loc.display_name,
+      lat: loc.lat,
+      lon: loc.lon,
+    });
+  }
   
   private fetch(query: string) {
     if (this.cache.has(query)) {
@@ -43,7 +59,7 @@ export class LocationService {
       return;
     }
   
-    this.http.get<LocationResult[]>(
+    this._http.get<LocationResult[]>(
       'https://nominatim.openstreetmap.org/search',
       {
         params: { q: query, format: 'json', limit: '5' }
@@ -55,7 +71,13 @@ export class LocationService {
   
       this.cache.set(query, uniqueResults);
       this._results.set(uniqueResults);
+
     });
   }
   
+  private loadFromStorage(): LocationResult | null {
+    const raw = localStorage.getItem('lastLocation');
+    return raw ? JSON.parse(raw) : null;
+  }
+
 }

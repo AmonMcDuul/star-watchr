@@ -8,7 +8,7 @@
     />
   </div>
 
-  <h2 class="chosen-location">{{ chosenLocation }}</h2>
+  <h2 class="chosen-location">{{ location.selected()?.display_name }}</h2>
 
   @if (location.results().length && searchActive) {
     <ul class="results">

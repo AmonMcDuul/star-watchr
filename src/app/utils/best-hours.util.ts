@@ -1,4 +1,4 @@
-import { AstroCardVM } from '../models/astro-card.model';
+import { AstroCard } from "../models/astro-card.model";
 
 export interface BestHoursResult {
   from: number;
@@ -6,7 +6,7 @@ export interface BestHoursResult {
   avgScore: number;
 }
 
-export function findBestTwoHours(cards: AstroCardVM[]): BestHoursResult | null {
+export function findBestTwoHours(cards: AstroCard[]): BestHoursResult | null {
   if (cards.length < 2) return null;
 
   let best: BestHoursResult | null = null;

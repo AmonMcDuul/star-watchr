@@ -1,10 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { AstroWeatherResponse } from "../models/astro-weather-response.model";
-import { Injectable, signal, computed } from "@angular/core";
+import { Injectable, signal, computed, inject } from "@angular/core";
 import { mapToAstroCardVM } from "../utils/astro.util";
 
 @Injectable({ providedIn: 'root' })
 export class WeatherApiService {
+  private _http = inject(HttpClient); 
 
   private readonly _data = signal<AstroWeatherResponse | null>(null);
   private readonly _loading = signal(false);
@@ -24,13 +25,11 @@ export class WeatherApiService {
       .map(d => mapToAstroCardVM(d, init));
   });
 
-  constructor(private http: HttpClient) {}
-
   load(lat: number, lon: number) {
     this._loading.set(true);
     this._error.set(null);
 
-    this.http.get<AstroWeatherResponse>('https://www.7timer.info/bin/api.pl', {
+    this._http.get<AstroWeatherResponse>('https://www.7timer.info/bin/api.pl', {
       params: {
         lat,
         lon,

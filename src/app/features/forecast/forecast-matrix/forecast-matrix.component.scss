@@ -71,3 +71,46 @@
   color: #8fd;
   font-size: 0.75rem;
 }
+
+  /* blur als loading actief is */
+  .page.loading-active {
+    filter: blur(3px);
+    pointer-events: none; 
+  }
+  
+  /* Overlay */
+  .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000; 
+  }
+  
+  /* Spinner */
+  .spinner {
+    margin-top: -250px;
+    width: 60px;
+    height: 60px;
+    border: 6px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  .loading-overlay p {
+    color: white;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+  
