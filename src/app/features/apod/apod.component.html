@@ -1,0 +1,34 @@
+<section class="apod-page">
+  <div class="image-wrapper">
+    <img
+      [src]="apod.url"
+      [alt]="apod.title"
+      loading="lazy"
+    />
+
+    <div class="image-overlay"></div>
+
+    <div class="image-meta">
+
+    </div>
+  </div>
+
+  <div>
+    <h1>{{ apod.title }}</h1>
+    <span class="date">{{ apod.date }}</span>
+  </div>
+
+  <div class="content">
+    <p class="explanation">
+      {{ apod.explanation }}
+    </p>
+    <a href="{{ apod.url }}">Source</a>
+
+
+    @if(apod.copyright){
+        <p class="credit">
+          © {{ apod.copyright }}
+        </p>
+    }
+  </div>
+</section>

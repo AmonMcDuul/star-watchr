@@ -6,6 +6,29 @@
   }
 
 <div class="matrix" [class.loading-active]="weatherApi.loading()">
+  <div class="matrix-controls">
+    <button
+      [class.active]="mode() === '24h'"
+      (click)="mode.set('24h')">
+      24h
+    </button>
+    <button
+      [class.active]="mode() === '24h/48h'"
+      (click)="mode.set('24h/48h')">
+      24h/48h
+    </button>
+      <button
+      [class.active]="mode() === '48h/72h'"
+      (click)="mode.set('48h/72h')">
+      48h/72h
+    </button>
+    <button
+      [class.active]="mode() === 'all'"
+      (click)="mode.set('all')">
+      All
+    </button>
+  </div>
+
   <!-- header row -->
   <div class="row header">
     <div class="label"></div>
@@ -16,7 +39,7 @@
   <div class="row header">
     <div class="label"></div>
     @for (c of cardsToShow(); track c.timepoint) {
-      <div class="cell time">+{{ c.timepoint }}</div>
+      <div class="cell time">+{{ c.timepoint }}h</div>
     }
   </div>
 
@@ -69,5 +92,4 @@
     }
   </div>
 </div>
-<button (click)="show7()">show 7</button>
-<button (click)="showAll()">show all</button>
+
