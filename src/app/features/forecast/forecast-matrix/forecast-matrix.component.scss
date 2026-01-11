@@ -305,3 +305,99 @@
 .cell.moon-bar {
   background: rgba(242, 243, 248, 0.08);
 }
+
+
+//media queries
+@media (max-width: 768px) {
+  .matrix {
+    padding: 0.75rem;
+    margin: 10px;
+    overflow-x: auto;
+  }
+
+  .row {
+    grid-template-columns: 80px repeat(auto-fit, minmax(32px, 1fr));
+  }
+
+  .label {
+    font-size: 0.7rem;
+  }
+
+  .header {
+    font-size: 0.65rem;
+  }
+
+  .cell {
+    min-height: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .matrix-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .matrix-controls button {
+    flex: 1;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .matrix-tooltip {
+    position: static;
+    margin: 0.75rem 0;
+    pointer-events: auto;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .matrix-legend {
+    flex-direction: column;
+    gap: 0.6rem;
+    margin: 10px;
+  }
+
+  .legend-item {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .astro-times {
+    width: auto;
+    margin: 10px;
+    font-size: 0.85rem;
+  }
+
+  .astro-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .spinner {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 768px){
+  .matrix::after {
+    content: "← swipe →";
+    display: block;
+    text-align: right;
+    font-size: 0.6rem;
+    color: #667;
+  }
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  background: #0b1020;
+  z-index: 5;
+}

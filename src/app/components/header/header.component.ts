@@ -11,7 +11,19 @@ import { Router, RouterModule } from '@angular/router';
 export class HeaderComponent {
   private router = inject(Router)
   
-  goHome(){
+  menuOpen = false;
+
+  goHome() {
+    this.menuOpen = false;
     this.router.navigate(['/']);
   }
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
+
+  closeMenu() {
+    this.menuOpen = false;
+  }
+
 }
