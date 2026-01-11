@@ -91,3 +91,84 @@
   text-align: center;
   font-style: italic;
 }
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 3rem 1.5rem 2.5rem;
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+
+  .about {
+    padding-bottom: 3rem;
+  }
+
+  .content {
+    padding: 0 1.25rem;
+    gap: 1.5rem;
+  }
+
+  .card {
+    padding: 1.6rem;
+
+    h2 {
+      font-size: 1.25rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+    }
+  }
+
+  .features {
+    gap: 1.2rem;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 2.5rem 1rem 2rem;
+
+    h1 {
+      font-size: 1.7rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+    }
+  }
+
+  .content {
+    padding: 0 1rem;
+    gap: 1.2rem;
+  }
+
+  .card {
+    padding: 1.4rem;
+    border-radius: 14px;
+
+    h2 {
+      font-size: 1.15rem;
+    }
+  }
+
+  .feature {
+    padding: 0.9rem;
+    border-radius: 14px;
+
+    h3 {
+      font-size: 1rem;
+    }
+
+    p {
+      font-size: 0.9rem;
+    }
+  }
+}

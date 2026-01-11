@@ -385,16 +385,6 @@
   }
 }
 
-@media (max-width: 768px){
-  .matrix::after {
-    content: "← swipe →";
-    display: block;
-    text-align: right;
-    font-size: 0.6rem;
-    color: #667;
-  }
-}
-
 .header {
   position: sticky;
   top: 0;
