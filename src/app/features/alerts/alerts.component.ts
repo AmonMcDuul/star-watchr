@@ -21,9 +21,6 @@ export class AlertsComponent {
 
   submit() {
     if (!this.email) return;
-
-    console.log('Subscribed:', this.email);
-
     this.subscribed = true;
   }
 }

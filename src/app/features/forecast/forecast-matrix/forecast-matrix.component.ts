@@ -28,7 +28,6 @@ export class ForecastMatrixComponent {
 
   cardsToShow = computed(() => {
     const list = this.weatherApi.cards();
-    console.log(this.weatherApi.cards())
     switch (this.mode()) {
       case '24h': return list.slice(0, 8);
       case '24h/48h': return list.slice(8, 16);
