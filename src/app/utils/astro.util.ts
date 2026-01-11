@@ -34,7 +34,8 @@ export function mapToAstroCardVM(
 
   return {
     timepoint: d.timepoint,
-    time: new Date(baseTime + hoursOffset * 3600_000 - oneDayMs),
+    // time: new Date(baseTime + hoursOffset * 3600_000 - oneDayMs),
+    time: new Date(baseTime + hoursOffset * 3600_000),
     score: calculateScore(d),
     cloudLabel: cloudLabelFromValue(d.cloudcover),
 

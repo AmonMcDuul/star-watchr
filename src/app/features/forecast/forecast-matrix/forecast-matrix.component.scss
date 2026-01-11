@@ -41,33 +41,40 @@
 }
 
 /* cloud scale */
-.cloud.c1 { background: #04081b; }
-.cloud.c2 { background: #1a2763; }
-.cloud.c3 { background: #2e4abd; }
-.cloud.c4 { background: #5467c3; }
-.cloud.c5 { background: #7d94ee; }
-.cloud.c6 { background: #9caefe; }
-.cloud.c7 { background: #bec8fb; }
-.cloud.c8 { background: #d0d8ff; }
-.cloud.c9 { background: #fff; }
+.cloud.c1 { background: #08121b; }
+.cloud.c2 { background: #1a2a5f; }
+.cloud.c3 { background: #2b42a3; }
+.cloud.c4 { background: #4c63c5; }
+.cloud.c5 { background: #6d85e0; }
+.cloud.c6 { background: #90a6f5; }
+.cloud.c7 { background: #b3c8fb; }
+.cloud.c8 { background: #d0e0ff; }
+.cloud.c9 { background: #ffffff; }
 
 
-/* seeing */
-.seeing {
-  background: #222;
-}
-.seeing.s6,
-.seeing.s7,
-.seeing.s8 {
-  background: #6cf;
-}
+/* Seeing scale */
+.seeing.s1 { background: #111; }
+.seeing.s2 { background: #223; }
+.seeing.s3 { background: #335; }
+.seeing.s4 { background: #447; }
+.seeing.s5 { background: #559; }
+.seeing.s6 { background: #66c; }
+.seeing.s7 { background: #7dd; }
+.seeing.s8 { background: #8ff; }
+.seeing.s9 { background: #aaf; }
+
 
 /* transparency bar */
 .bar.trans {
+  width: 40px;  
   height: 6px;
-  background: #9cf;
   border-radius: 3px;
+  background: #9cf; 
 }
+
+.bar.trans.t2 { opacity: 0.3; } /* laag */
+.bar.trans.t6 { opacity: 0.6; } /* medium */
+.bar.trans.t9 { opacity: 1; }   /* hoog */
 
 /* temp */
 .temp {
@@ -228,9 +235,7 @@
 }
 
 .matrix-tooltip {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
+  position: absolute;
   background: #0b1020;
   padding: 0.8rem 1rem;
   border-radius: 10px;
@@ -238,7 +243,11 @@
   color: #e6ebff;
   box-shadow: 0 10px 30px rgba(0,0,0,0.6);
   pointer-events: none;
+  transition: opacity 0.15s ease;
+  z-index: 1000;
+  margin-top: 100px;
 }
+
 
 .astro-times {
   margin: 20px;
@@ -294,16 +303,24 @@
   justify-content: flex-start;
 }
 
-.cell.twilight {
-  background: rgba(80, 100, 180, 0.08);
+.cell.astro-hack {
+  background: rgba(140, 40, 53, 0.28);
 }
 
 .cell.astro-night {
-  background: rgba(140, 40, 53, 0.18);
+  background: rgba(140, 40, 53, 0);
+}
+
+.cell.astro-night-partial {
+    background: rgba(140, 40, 53, 0.18);
 }
 
 .cell.moon-bar {
-  background: rgba(242, 243, 248, 0.08);
+  background: rgba(242, 243, 248, 0.18);
+}
+
+.cell.moon-bar-partial {
+  background: rgba(242, 243, 248, 0.10);
 }
 
 
