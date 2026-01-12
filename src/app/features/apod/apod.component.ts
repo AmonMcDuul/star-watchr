@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { NasaApod } from '../../models/NasaApod.model';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-apod',
@@ -6,15 +8,25 @@ import { Component } from '@angular/core';
   templateUrl: './apod.component.html',
   styleUrl: './apod.component.scss',
 })
+
 export class ApodComponent {
-  apod = {
-    title: 'The Pillars of Creation',
-    date: '2023-10-12',
-    explanation:
-      'Stars are forming deep within the iconic Pillars of Creation. ' +
-      'This image from the James Webb Space Telescope reveals stunning detail ' +
-      'in a region of space filled with gas, dust and cosmic light.',
-    url: 'https://apod.nasa.gov/apod/image/2210/stsci-pillarsofcreation.png',
-    copyright: 'NASA / ESA / CSA / STScI'
-  };
+  private api = inject(ApiService);
+
+  apod?: NasaApod;
+  loading = true;
+  error = false;
+
+  ngOnInit(): void {
+    this.api.getTodayApod().subscribe({
+      next: apod => {
+        this.apod = apod;
+        this.loading = false;
+      },
+      error: err => {
+        console.error('APOD load failed', err);
+        this.error = true;
+        this.loading = false;
+      }
+    });
+  }
 }

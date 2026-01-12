@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { EmailService } from '../../services/email.service';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-contact',
@@ -10,7 +10,7 @@ import { EmailService } from '../../services/email.service';
   styleUrl: './contact.component.scss',
 })
 export class ContactComponent implements OnInit{
-  private emailService = inject(EmailService);
+  private apiService = inject(ApiService);
 
   submitAttempted = false;
   showConfirmation = false;
@@ -23,7 +23,7 @@ export class ContactComponent implements OnInit{
   });
 
   ngOnInit(): void {
-    this.emailService.setAlive().subscribe({
+    this.apiService.setAlive().subscribe({
       error: err => console.error('setAlive error:', err)
     });
   }
@@ -53,7 +53,7 @@ export class ContactComponent implements OnInit{
       'Name: ' + (this.contactForm.get('name')?.value || '—') + '\n' +
       'Email: ' + this.contactForm.get('email')?.value;
 
-    this.emailService.sendEmail(
+    this.apiService.sendEmail(
       'New message from StarWatchr',
       body
     ).subscribe({
