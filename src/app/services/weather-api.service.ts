@@ -21,7 +21,7 @@ export class WeatherApiService {
     const init = new Date(r.init);
 
     return r.dataseries
-      .filter(d => d.cloudcover !== -9999)
+      // .filter(d => d.cloudcover !== -9999)
       .map(d => mapToAstroCardVM(d, init));
   });
 
