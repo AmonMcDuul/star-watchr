@@ -23,8 +23,6 @@ export class ApiService {
   }
 
   getTodayApod(): Observable<NasaApod> {
-    // return this.http.get<NasaApod>(`${this.apiUrl}/NasaApod/today`);
-    return this.http.get<NasaApod>(`https://localhost:7102/NasaApod/today`);
-    
+    return this.http.get<NasaApod>(`${this.apiUrl}/NasaApod/today`);
   }
 }
