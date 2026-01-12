@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EmailService } from '../../services/email.service';
 
@@ -9,7 +9,7 @@ import { EmailService } from '../../services/email.service';
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss',
 })
-export class ContactComponent {
+export class ContactComponent implements OnInit{
   private emailService = inject(EmailService);
 
   submitAttempted = false;
@@ -21,6 +21,12 @@ export class ContactComponent {
     email: new FormControl('', [Validators.required, Validators.email]),
     honeypot: new FormControl('')
   });
+
+  ngOnInit(): void {
+    this.emailService.setAlive().subscribe({
+      error: err => console.error('setAlive error:', err)
+    });
+  }
 
   showError(controlName: string): boolean {
     const control = this.contactForm.get(controlName);
@@ -43,18 +49,26 @@ export class ContactComponent {
     }
 
     const body =
-    'Idea: ' + this.contactForm.get('idea')?.value + '\n' +
-    'Name: ' + this.contactForm.get('name')?.value || '—' + '\n' +
-    'Email: ' + this.contactForm.get('email')?.value;    
+      'Idea: ' + this.contactForm.get('idea')?.value + '\n\n' +
+      'Name: ' + (this.contactForm.get('name')?.value || '—') + '\n' +
+      'Email: ' + this.contactForm.get('email')?.value;
 
-    this.emailService.sendEmail("New message from StarWatchr", body)
-    this.showConfirmation = true;
+    this.emailService.sendEmail(
+      'New message from StarWatchr',
+      body
+    ).subscribe({
+      next: () => {
+        this.showConfirmation = true;
+        this.contactForm.reset();
+        this.submitAttempted = false;
 
-    this.contactForm.reset();
-    this.submitAttempted = false;
-
-    setTimeout(() => {
-      this.showConfirmation = false;
-    }, 8000);
+        setTimeout(() => {
+          this.showConfirmation = false;
+        }, 8000);
+      },
+      error: err => {
+        console.error('sendEmail error:', err);
+      }
+    });
   }
 }
