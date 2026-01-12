@@ -1,0 +1,78 @@
+<section class="contact-page">
+    <div class="card">
+      <h1>Contact</h1>
+  
+      <p class="intro">
+        Do you have a question, idea, bug report, or feedback about StarWatchr?<br>
+        Feel free to leave a message. I'd love to hear from you.
+      </p>
+  
+      @if (!showConfirmation) {
+        <form
+          class="form"
+          [formGroup]="contactForm"
+          (ngSubmit)="onSubmit()"
+        >
+          <textarea
+            formControlName="idea"
+            placeholder="Your message…"
+          ></textarea>
+  
+          @if (showError('idea')) {
+            <p class="error">Please enter a message.</p>
+          }
+  
+          <input
+            type="text"
+            formControlName="name"
+            placeholder="Your name (optional)"
+          />
+  
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="you@email.com"
+          />
+  
+          @if (showError('email')) {
+            <p class="error">
+              @if (contactForm.get('email')?.errors?.['required']) {
+                Email is required.
+              }
+              @if (contactForm.get('email')?.errors?.['email']) {
+                Please enter a valid email address.
+              }
+            </p>
+          }
+  
+          <input
+            type="text"
+            formControlName="honeypot"
+            class="honeypot"
+            tabindex="-1"
+            autocomplete="off"
+          />
+  
+          <button type="submit" [disabled]="contactForm.invalid">
+            Send message
+          </button>
+  
+          @if (contactForm.invalid && submitAttempted) {
+            <p class="form-hint">
+              Please fix the highlighted fields before sending.
+            </p>
+          }
+        </form>
+      }
+  
+      @if (showConfirmation) {
+        <div class="success">
+            Thanks for reaching out!<br />
+            I’ll do my best to get back to you soon.
+        </div>
+      }
+    </div>
+  </section>
+  
+  
+

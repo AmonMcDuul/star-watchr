@@ -2,4 +2,11 @@ body{
     margin: 0px;
     background: radial-gradient(circle at top, #070815, #1b1e3c);
     color:white;
+    font-family: 'Inter', system-ui, sans-serif;
 }
+
+  
+  h1, h2, h3 {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    letter-spacing: -0.02em;
+  }

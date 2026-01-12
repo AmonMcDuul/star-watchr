@@ -1,0 +1,60 @@
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { EmailService } from '../../services/email.service';
+
+@Component({
+  selector: 'app-contact',
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './contact.component.html',
+  styleUrl: './contact.component.scss',
+})
+export class ContactComponent {
+  private emailService = inject(EmailService);
+
+  submitAttempted = false;
+  showConfirmation = false;
+
+  contactForm = new FormGroup({
+    idea: new FormControl('', Validators.required),
+    name: new FormControl(''),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    honeypot: new FormControl('')
+  });
+
+  showError(controlName: string): boolean {
+    const control = this.contactForm.get(controlName);
+    return !!(
+      control &&
+      control.invalid &&
+      (control.touched || this.submitAttempted)
+    );
+  }
+
+  onSubmit(): void {
+    this.submitAttempted = true;
+
+    if (this.contactForm.get('honeypot')?.value) {
+      return;
+    }
+
+    if (this.contactForm.invalid) {
+      return;
+    }
+
+    const body =
+    'Idea: ' + this.contactForm.get('idea')?.value + '\n' +
+    'Name: ' + this.contactForm.get('name')?.value || '—' + '\n' +
+    'Email: ' + this.contactForm.get('email')?.value;    
+
+    this.emailService.sendEmail("New message from StarWatchr", body)
+    this.showConfirmation = true;
+
+    this.contactForm.reset();
+    this.submitAttempted = false;
+
+    setTimeout(() => {
+      this.showConfirmation = false;
+    }, 8000);
+  }
+}
