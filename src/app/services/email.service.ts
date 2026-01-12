@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class EmailService {
-  private apiUrl = 'https://starwatchr.azurewebsites.net'
+  private apiUrl = 'https://starwatchr-api.azurewebsites.net'
 
   constructor(private http: HttpClient) {}
 
