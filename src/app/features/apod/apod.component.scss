@@ -60,6 +60,22 @@
   max-width: 720px;
   margin: 3rem auto 0;
   padding: 0 2rem;
+  background: rgba(10, 16, 36, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 2rem;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+
+  h2 {
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+  }
+
+  p {
+    line-height: 1.7;
+    opacity: 0.9;
+  }
 }
 
 .explanation {
