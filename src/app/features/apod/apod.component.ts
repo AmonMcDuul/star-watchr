@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { NasaApod } from '../../models/NasaApod.model';
 import { ApiService } from '../../services/api.service';
 
@@ -12,21 +12,25 @@ import { ApiService } from '../../services/api.service';
 export class ApodComponent {
   private api = inject(ApiService);
 
-  apod?: NasaApod;
-  loading = true;
-  error = false;
+  apod = signal<NasaApod | null>(null);
+  loading = signal(true);
+  error = signal(false);
 
-  ngOnInit(): void {
+  constructor() {
+    this.loadApod();
+  }
+
+  loadApod() {
     this.api.getTodayApod().subscribe({
-      next: apod => {
-        this.apod = apod;
-        this.loading = false;
+      next: (apod) => {
+        this.apod.set(apod);
+        this.loading.set(false);
       },
-      error: err => {
-        console.error('APOD load failed', err);
-        this.error = true;
-        this.loading = false;
-      }
+      error: (err) => {
+        console.error(err);
+        this.error.set(true);
+        this.loading.set(false);
+      },
     });
   }
 }

@@ -1,45 +1,49 @@
-@if (!loading && apod) {
+@if (loading()){
+  <div class="loading-overlay">
+    <div class="spinner"></div>
+    <p>Laden…</p>
+  </div>
+}
+
+
+@if (!loading()) {
   <section class="apod-page">
 
-    @if (apod.mediaType === 'image') {
+    @if (apod()!.mediaType === 'image') {
       <div class="image-wrapper">
         <img
-          [src]="apod.hdurl || apod.url"
-          [alt]="apod.title"
+          [src]="apod()!.hdurl || apod()!.url"
+          [alt]="apod()!.title"
           loading="lazy"
         />
 
         <div class="image-overlay"></div>
 
         <div class="image-meta">
-          <h1>{{ apod.title }}</h1>
-          <span class="date">{{ apod.date }}</span>
+          <h1>{{ apod()!.title }}</h1>
+          <span class="date">{{ apod()!.date }}</span>
         </div>
       </div>
     }
 
     <div class="content">
       <p class="explanation">
-        {{ apod.explanation }}
+        {{ apod()!.explanation }}
       </p>
 
-      <a [href]="apod.url" target="_blank" rel="noopener">
+      <a [href]="apod()!.url" target="_blank" rel="noopener">
         Source
       </a>
 
-      @if (apod.copyright) {
+      @if (apod()!.copyright) {
         <p class="credit">
-          © {{ apod.copyright }}
+          © {{ apod()!.copyright }}
         </p>
       }
     </div>
   </section>
 }
 
-@if (loading) {
-  <p class="loading">Loading today’s cosmic view…</p>
-}
-
-@if (error) {
-  <p class="error">Could not load today’s APOD.</p>
+@if (error()) {
+  <p class="error">Could not load today’s APOD()!.</p>
 }
