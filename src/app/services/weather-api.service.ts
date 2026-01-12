@@ -28,13 +28,15 @@ export class WeatherApiService {
   load(lat: number, lon: number) {
     this._loading.set(true);
     this._error.set(null);
-
-    this._http.get<AstroWeatherResponse>('https://www.7timer.info/bin/api.pl', {
+  
+    this._http.get<AstroWeatherResponse>('https://www.7timer.info/bin/astro.php', {
       params: {
-        lat,
-        lon,
-        product: 'astro',
-        output: 'json'
+        lat: lat.toString(),
+        lon: lon.toString(),
+        ac: '0', 
+        unit: 'metric',
+        output: 'json',
+        tzshift: '0'
       }
     }).subscribe({
       next: r => {
@@ -47,4 +49,5 @@ export class WeatherApiService {
       }
     });
   }
+  
 }
