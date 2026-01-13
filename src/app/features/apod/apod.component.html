@@ -8,31 +8,62 @@
 @if (!loading()) {
   <section class="apod-page">
 
-    @if (apod()!.mediaType === 'image') {
-      <div class="image-wrapper">
-        <img
-          [src]="apod()!.hdurl || apod()!.url"
-          [alt]="apod()!.title"
-          loading="lazy"
-        />
-
-        <div class="image-overlay"></div>
-
-        <div class="image-meta">
-          <h1>{{ apod()!.title }}</h1>
-          <span class="date">{{ apod()!.date }}</span>
-        </div>
+  @if (apod()!.mediaType === "image") {
+    <div class="image-wrapper">
+      <img
+        [src]="apod()!.hdurl || apod()!.url"
+        [alt]="apod()!.title"
+        loading="lazy"
+      />
+      <div class="image-overlay"></div>
+      <div class="image-meta">
+        <h1>{{ apod()!.title }}</h1>
+        <span class="date">{{ apod()!.date }}</span>
       </div>
-    }
+    </div>
+  }
+
+  @if (apod()!.mediaType === "video") {
+    <div class="video-wrapper">
+      <iframe
+        [src]="apod()!.url"
+        frameborder="0"
+        allowfullscreen
+        title="@apod()!.title"
+      ></iframe>
+      <div class="video-meta">
+        <h1>{{ apod()!.title }}</h1>
+        <span class="date">{{ apod()!.date }}</span>
+      </div>
+    </div>
+  }
+
+  @if (apod()!.mediaType !== "image" && apod()!.mediaType !== "video") {
+    <div class="other-wrapper">
+      <p>
+        This APOD does not have a direct URL to display. You can view it at
+        <a href="https://apod.nasa.gov/apod/astropix.html" target="_blank" rel="noopener">
+          NASA APOD
+        </a>.
+      </p>
+      <div class="other-meta">
+        <h1>{{ apod()!.title }}</h1>
+        <span class="date">{{ apod()!.date }}</span>
+      </div>
+    </div>
+  }
+
 
     <div class="content">
       <p class="explanation card">
         {{ apod()!.explanation }}
       </p>
 
-      <a [href]="apod()!.url" target="_blank" rel="noopener">
-        Source
-      </a>
+      @if(apod()!.url){
+        <a [href]="apod()!.url" target="_blank" rel="noopener">
+          Source
+        </a>
+      }
 
       @if (apod()!.copyright) {
         <p class="credit">
