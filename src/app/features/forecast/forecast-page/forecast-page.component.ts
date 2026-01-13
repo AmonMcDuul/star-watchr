@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { WeatherApiService } from '../../../services/weather-api.service';
 import { LocationSearchComponent } from "../../location-search/location-search.component";
 import { CommonModule } from '@angular/common';
 import { ForecastMatrixComponent } from "../forecast-matrix/forecast-matrix.component";
 import { LocationService } from '../../../services/location.service';
+import { ApiService } from '../../../services/api.service';
 
 @Component({
   selector: 'app-forecast-page',
@@ -12,9 +13,10 @@ import { LocationService } from '../../../services/location.service';
   styleUrl: './forecast-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ForecastPageComponent {
+export class ForecastPageComponent implements OnInit{
   public weatherApi = inject(WeatherApiService); 
   public location = inject(LocationService);
+  private apiService = inject(ApiService);
 
   constructor(){
     const saved = this.location.selected();
@@ -24,4 +26,11 @@ export class ForecastPageComponent {
       this.weatherApi.load(52.37, 4.89);
     }
   }
+
+  ngOnInit(): void {
+    this.apiService.setAlive().subscribe({
+      error: err => console.error('setAlive error:', err)
+    });
+  }
+
 }
