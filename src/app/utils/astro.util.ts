@@ -28,14 +28,19 @@ export function mapToAstroCardVM(
 ): AstroCard {
 
   //voor de time dingetje hocus pocus stom
-  const baseTime = init instanceof Date && !isNaN(init.getTime()) ? init.getTime() : Date.now();
-  const hoursOffset = typeof d.timepoint === 'number' ? d.timepoint : 0;
-  const oneDayMs = 24 * 60 * 60 * 1000;
+  // const baseTime = init instanceof Date && !isNaN(init.getTime()) ? init.getTime() : Date.now();
+  // const hoursOffset = typeof d.timepoint === 'number' ? d.timepoint : 0;
+  // const oneDayMs = 24 * 60 * 60 * 1000;
+
+  const baseUtcTime = new Date();
+  baseUtcTime.setUTCHours(0,0,0,0); // begin van de dag in UTC
+
+  const time = new Date(baseUtcTime.getTime() + d.timepoint * 3600_000);
 
   return {
     timepoint: d.timepoint,
     // time: new Date(baseTime + hoursOffset * 3600_000 - oneDayMs),
-    time: new Date(baseTime + hoursOffset * 3600_000),
+    time: time,
     score: calculateScore(d),
     cloudLabel: cloudLabelFromValue(d.cloudcover),
 
