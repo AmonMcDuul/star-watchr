@@ -6,7 +6,7 @@
   }
 
 <div class="matrix" [class.loading-active]="weatherApi.loading()">
-  <div class="label">Date: {{ astroDate() }}</div>
+  <div class="label">Date: {{ astroDate() | date:'short' }}</div>
   <br>
   <div class="matrix-controls">
     <button

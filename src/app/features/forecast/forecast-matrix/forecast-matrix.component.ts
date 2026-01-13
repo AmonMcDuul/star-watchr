@@ -36,22 +36,26 @@ export class ForecastMatrixComponent {
     }
   });
 
-  astroDate = computed(() => {
-    const today = new Date();
-
-    switch (this.mode()) {
-      case '24h': return today;
-      case '24h/48h': return this.addDays(today, 1);
-      case '48h/72h': return this.addDays(today, 2);
-      case 'all': return today;
-    }
-  });
-
-  addDays(base: Date, days: number): Date {
-    const d = new Date(base);
-    d.setDate(d.getDate() + days);
+  addDaysUtc(base: Date, days: number): Date {
+    const d = new Date(Date.UTC(base.getUTCFullYear(), base.getUTCMonth(), base.getUTCDate()));
+    d.setUTCDate(d.getUTCDate() + days);
     return d;
   }
+  
+  astroDate = computed(() => {
+    const todayUtc = new Date(Date.UTC(
+      new Date().getUTCFullYear(),
+      new Date().getUTCMonth(),
+      new Date().getUTCDate()
+    ));
+  
+    switch (this.mode()) {
+      case '24h': return todayUtc;
+      case '24h/48h': return this.addDaysUtc(todayUtc, 1);
+      case '48h/72h': return this.addDaysUtc(todayUtc, 2);
+      case 'all': return todayUtc;
+    }
+  });
 
   sunTimes = computed(() =>
     SunCalc.getTimes(this.astroDate(), +this.lat(), +this.lon())
