@@ -44,37 +44,61 @@
 }
 
 /* Cloud colors */
-.cloud.c1 { background: #08121b; }
-.cloud.c2 { background: #1a2a5f; }
-.cloud.c3 { background: #2b42a3; }
-.cloud.c4 { background: #4c63c5; }
-.cloud.c5 { background: #6d85e0; }
-.cloud.c6 { background: #90a6f5; }
-.cloud.c7 { background: #b3c8fb; }
-.cloud.c8 { background: #d0e0ff; }
-.cloud.c9 { background: #ffffff; }
+// .cloud.c1 { background: #08121b; }
+// .cloud.c2 { background: #1a2a5f; }
+// .cloud.c3 { background: #2b42a3; }
+// .cloud.c4 { background: #4c63c5; }
+// .cloud.c5 { background: #6d85e0; }
+// .cloud.c6 { background: #90a6f5; }
+// .cloud.c7 { background: #b3c8fb; }
+// .cloud.c8 { background: #d0e0ff; }
+// .cloud.c9 { background: #ffffff; }
+.cloud.c1 { background: #2e7d32; } // very clear
+.cloud.c2 { background: #558b2f; }
+.cloud.c3 { background: #7cb342; }
+.cloud.c4 { background: #c0ca33; }
+.cloud.c5 { background: #fdd835; } // half
+.cloud.c6 { background: #f9a825; }
+.cloud.c7 { background: #ef6c00; }
+.cloud.c8 { background: #e53935; }
+.cloud.c9 { background: #c62828; } // overcast
 
 /* Seeing colors */
-.seeing.s1 { background: #111; }
-.seeing.s2 { background: #223; }
-.seeing.s3 { background: #335; }
-.seeing.s4 { background: #447; }
-.seeing.s5 { background: #559; }
-.seeing.s6 { background: #66c; }
-.seeing.s7 { background: #7dd; }
-.seeing.s8 { background: #8ff; }
-.seeing.s9 { background: #aaf; }
+// .seeing.s1 { background: #111; }
+// .seeing.s2 { background: #223; }
+// .seeing.s3 { background: #335; }
+// .seeing.s4 { background: #447; }
+// .seeing.s5 { background: #559; }
+// .seeing.s6 { background: #66c; }
+// .seeing.s7 { background: #7dd; }
+// .seeing.s8 { background: #8ff; }
+// .seeing.s9 { background: #aaf; }
+// SEEING (1 = very poor, 9 = excellent)
+.seeing.s1 { background: #c62828; }
+.seeing.s2 { background: #e53935; }
+.seeing.s3 { background: #ef6c00; }
+.seeing.s4 { background: #f9a825; }
+.seeing.s5 { background: #fdd835; } // moderate
+.seeing.s6 { background: #c0ca33; }
+.seeing.s7 { background: #7cb342; }
+.seeing.s8 { background: #558b2f; }
+.seeing.s9 { background: #2e7d32; } // excellent
+
+.dot, .bar {
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15);
+}
+
 
 /* Transparency */
 .bar.trans {
   width: 40px;
   height: 6px;
   border-radius: 3px;
-  background: linear-gradient(90deg, #355, #9cf);
 }
-.bar.trans.t2 { opacity: 0.3; }
-.bar.trans.t6 { opacity: 0.6; }
-.bar.trans.t9 { opacity: 1; }
+
+.trans.t2 { background: #c62828; } // low
+.trans.t6 { background: #fdd835; } // medium
+.trans.t9 { background: #2e7d32; } // high
 
 /* Temperature */
 .temp {
@@ -84,7 +108,7 @@
 
 /* Matrix Astro / Moon cells */
 .cell.astro-hack {
-  background: rgba(140, 40, 53, 0.28);
+  background: rgba(140, 40, 53, 0.705);
 }
 
 .cell.astro-night {
@@ -92,15 +116,15 @@
 }
 
 .cell.astro-night-partial {
-  background: rgba(140, 40, 53, 0.18); /* partial night */
+  background: rgba(140, 40, 53, 0.442); /* partial night */
 }
 
 .cell.moon-bar {
-  background: rgba(242, 243, 248, 0.18); /* moon up full */
+  background: rgba(242, 243, 248, 0.475); /* moon up full */
 }
 
 .cell.moon-bar-partial {
-  background: rgba(242, 243, 248, 0.10); /* moon partial */
+  background: rgba(242, 243, 248, 0.327); /* moon partial */
 }
 
 
@@ -237,15 +261,29 @@
 
     .dot { width: 16px; height: 16px; border-radius: 50%; }
 
-    .bar.trans { width: 40px; height: 6px; border-radius: 3px; background: linear-gradient(90deg, #355, #9cf); }
+    .bar.trans { width: 40px; height: 6px; border-radius: 3px; }
+    .trans.t2 { background: #c62828; } // low
+    .trans.t6 { background: #fdd835; } // medium
+    .trans.t9 { background: #2e7d32; } // high
 
     .cell { width: 20px; height: 14px; border-radius: 3px; }
 
     /* Astro / Moon cells */
-    .astro-night { background: rgba(140,40,53,0.28); }
-    .astro-night-partial { background: rgba(140,40,53,0.18); }
-    .moon-bar { background: rgba(242,243,248,0.18); }
-    .moon-bar-partial { background: rgba(242,243,248,0.10); }
+    .astro-night {
+      background: rgba(140, 40, 53, 0.705);
+    }
+    
+    .astro-night-partial {
+      background: rgba(140, 40, 53, 0.442); /* partial night */
+    }
+    
+    .moon-bar {
+      background: rgba(242, 243, 248, 0.475); /* moon up full */
+    }
+    
+    .moon-bar-partial {
+      background: rgba(242, 243, 248, 0.327); /* moon partial */
+    }
   }
 }
 
