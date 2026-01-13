@@ -156,16 +156,18 @@
         (touchstart)="onMobileHover(c, $event)"
         (mouseenter)="onHover(c, $event)"
         (mouseleave)="onHover(null, null)">
-
-        @for (p of planetsVisibleAt(c.time); track p) {
-          <img
+        @if(isAstroNight(c.time) !== "full"){
+          
+          @for (p of planetsVisibleAt(c.time); track p) {
+            <img
             class="planet-icon"
             [src]="'assets/img/' + p + '.png'"
             [alt]="p"
             loading="lazy"
-          />
+            />
+          }
+          
         }
-
       </div>
     }
   </div>
