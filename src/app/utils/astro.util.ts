@@ -22,88 +22,25 @@ export function cloudLabelFromValue(v: number): string {
   return 'Slecht';
 }
 
-// export function mapToAstroCardVM(
-//   d: AstroDataPoint,
-//   init: Date
-// ): AstroCard {
-
-//   //voor de time dingetje hocus pocus stom
-//   const baseTime = init instanceof Date && !isNaN(init.getTime()) ? init.getTime() : Date.now();
-//   const hoursOffset = typeof d.timepoint === 'number' ? d.timepoint : 0;
-//   const oneDayMs = 24 * 60 * 60 * 1000;
-
-//   // const baseUtcTime = new Date();
-//   // baseUtcTime.setUTCHours(0,0,0,0); // begin van de dag in UTC
-
-//   // const time = new Date(baseUtcTime.getTime() + d.timepoint * 3600_000);
-
-//   return {
-//     timepoint: d.timepoint,
-//     time: new Date(baseTime + hoursOffset * 3600_000 - oneDayMs),
-//     // time: time,
-//     score: calculateScore(d),
-//     cloudLabel: cloudLabelFromValue(d.cloudcover),
-
-//     cloudcover: d.cloudcover,
-//     seeing: d.seeing,
-//     transparency: d.transparency,
-
-//     temperature: d.temp2m,
-//     windDir: d.wind10m.direction,
-//     windSpeed: d.wind10m.speed
-//   };
-// }
-
-// export function mapToAstroCardVM(
-//   d: AstroDataPoint,
-//   init: Date
-// ): AstroCard {
-
-//   const base =
-//     init instanceof Date && !isNaN(init.getTime())
-//       ? new Date(init)
-//       : new Date();
-
-//   const hoursOffset =
-//     typeof d.timepoint === 'number'
-//       ? d.timepoint
-//       : 0;
-
-//   // forecasttijd = nu + timepoint
-//   const time = new Date(base.getTime() + hoursOffset * 3600_000);
-
-//   // afronden op hele uren (zoals 7timer)
-//   time.setMinutes(0, 0, 0);
-
-//   return {
-//     timepoint: d.timepoint,
-//     time,
-
-//     score: calculateScore(d),
-//     cloudLabel: cloudLabelFromValue(d.cloudcover),
-
-//     cloudcover: d.cloudcover,
-//     seeing: d.seeing,
-//     transparency: d.transparency,
-
-//     temperature: d.temp2m,
-//     windDir: d.wind10m.direction,
-//     windSpeed: d.wind10m.speed
-//   };
-// }
-
 export function mapToAstroCardVM(
-  d: AstroDataPoint
+  d: AstroDataPoint,
+  init: Date
 ): AstroCard {
 
-  const baseTime = get7TimerBaseTime().getTime();
+  const base =
+    init instanceof Date && !isNaN(init.getTime())
+      ? new Date(init)
+      : new Date();
+
   const hoursOffset =
     typeof d.timepoint === 'number'
       ? d.timepoint
       : 0;
 
-  const time = new Date(baseTime + hoursOffset * 3600_000);
+  // forecasttijd = nu + timepoint
+  const time = new Date(base.getTime() + hoursOffset * 3600_000);
 
+  // afronden op hele uren (zoals 7timer)
   time.setMinutes(0, 0, 0);
 
   return {
@@ -121,28 +58,4 @@ export function mapToAstroCardVM(
     windDir: d.wind10m.direction,
     windSpeed: d.wind10m.speed
   };
-}
-
-
-function get7TimerBaseTime(): Date {
-  const now = new Date();
-
-  const utcHour = now.getUTCHours();
-
-  const slots = [1, 4, 7, 10, 13, 16, 19, 22];
-
-  let baseHour = slots[0];
-  for (const h of slots) {
-    if (h <= utcHour) baseHour = h;
-  }
-
-  const base = new Date(now);
-  base.setUTCHours(baseHour, 0, 0, 0);
-
-  if (utcHour < 1) {
-    base.setUTCDate(base.getUTCDate() - 1);
-    base.setUTCHours(22, 0, 0, 0);
-  }
-
-  return base;
 }
