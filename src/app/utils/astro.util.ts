@@ -22,25 +22,63 @@ export function cloudLabelFromValue(v: number): string {
   return 'Slecht';
 }
 
+// export function mapToAstroCardVM(
+//   d: AstroDataPoint,
+//   init: Date
+// ): AstroCard {
+
+//   //voor de time dingetje hocus pocus stom
+//   const baseTime = init instanceof Date && !isNaN(init.getTime()) ? init.getTime() : Date.now();
+//   const hoursOffset = typeof d.timepoint === 'number' ? d.timepoint : 0;
+//   const oneDayMs = 24 * 60 * 60 * 1000;
+
+//   // const baseUtcTime = new Date();
+//   // baseUtcTime.setUTCHours(0,0,0,0); // begin van de dag in UTC
+
+//   // const time = new Date(baseUtcTime.getTime() + d.timepoint * 3600_000);
+
+//   return {
+//     timepoint: d.timepoint,
+//     time: new Date(baseTime + hoursOffset * 3600_000 - oneDayMs),
+//     // time: time,
+//     score: calculateScore(d),
+//     cloudLabel: cloudLabelFromValue(d.cloudcover),
+
+//     cloudcover: d.cloudcover,
+//     seeing: d.seeing,
+//     transparency: d.transparency,
+
+//     temperature: d.temp2m,
+//     windDir: d.wind10m.direction,
+//     windSpeed: d.wind10m.speed
+//   };
+// }
+
 export function mapToAstroCardVM(
   d: AstroDataPoint,
   init: Date
 ): AstroCard {
 
-  //voor de time dingetje hocus pocus stom
-  const baseTime = init instanceof Date && !isNaN(init.getTime()) ? init.getTime() : Date.now();
-  const hoursOffset = typeof d.timepoint === 'number' ? d.timepoint : 0;
-  const oneDayMs = 24 * 60 * 60 * 1000;
+  const base =
+    init instanceof Date && !isNaN(init.getTime())
+      ? new Date(init)
+      : new Date();
 
-  // const baseUtcTime = new Date();
-  // baseUtcTime.setUTCHours(0,0,0,0); // begin van de dag in UTC
+  const hoursOffset =
+    typeof d.timepoint === 'number'
+      ? d.timepoint
+      : 0;
 
-  // const time = new Date(baseUtcTime.getTime() + d.timepoint * 3600_000);
+  // forecasttijd = nu + timepoint
+  const time = new Date(base.getTime() + hoursOffset * 3600_000);
+
+  // afronden op hele uren (zoals 7timer)
+  time.setMinutes(0, 0, 0);
 
   return {
     timepoint: d.timepoint,
-    time: new Date(baseTime + hoursOffset * 3600_000 - oneDayMs),
-    // time: time,
+    time,
+
     score: calculateScore(d),
     cloudLabel: cloudLabelFromValue(d.cloudcover),
 
