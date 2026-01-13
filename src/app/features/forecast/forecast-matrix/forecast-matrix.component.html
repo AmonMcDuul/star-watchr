@@ -146,66 +146,101 @@
   </div>
 </div>
 
-<div class="matrix-legend">
-  <!-- Clouds -->
-  <h3>Clouds</h3>
-  <div class="legend-item legend-trans">
-    <span class="dot cloud c1"></span><span>No clouds</span>
-    <span class="dot cloud c9"></span><span>Many clouds</span>
-  </div>
 
-  <!-- Seeing -->
+<div class="legend-suncalc-container">
+  <!-- Legenda -->
+  <div class="matrix-legend">
+    <h2>Legend</h2>
+
+    <div class="legend-grid">
+
+ <!-- Cloud Cover -->
+<div class="legend-section">
+  <h3>Cloud Cover</h3>
+  <div class="legend-row">
+    <span class="dot cloud c1" title="Clear (1/9)"></span><span>Clear (1/9)</span>
+    <span class="dot cloud c2" title="2/9"></span><span>2/9</span>
+    <span class="dot cloud c3" title="3/9"></span><span>3/9</span>
+    <span class="dot cloud c4" title="4/9"></span><span>4/9</span>
+    <span class="dot cloud c5" title="Partial (5/9)"></span><span>(5/9)</span>
+    <span class="dot cloud c6" title="6/9"></span><span>6/9</span>
+    <span class="dot cloud c7" title="7/9"></span><span>7/9</span>
+    <span class="dot cloud c8" title="8/9"></span><span>8/9</span>
+    <span class="dot cloud c9" title="Overcast (9/9)"></span><span>Overcast (9/9)</span>
+  </div>
+</div>
+
+<!-- Seeing -->
+<div class="legend-section">
   <h3>Seeing</h3>
-  <div class="legend-item legend-trans">
-    <span class="dot seeing s1"></span><span>Very poor</span>
-    <span class="dot seeing s9"></span><span>Excellent</span>
+  <div class="legend-row">
+    <span class="dot seeing s1" title="Very Poor (1/9)"></span><span>Very Poor (1/9)</span>
+    <span class="dot seeing s2" title="2/9"></span><span>2/9</span>
+    <span class="dot seeing s3" title="3/9"></span><span>3/9</span>
+    <span class="dot seeing s4" title="4/9"></span><span>4/9</span>
+    <span class="dot seeing s5" title="Moderate (5/9)"></span><span>(5/9)</span>
+    <span class="dot seeing s6" title="6/9"></span><span>6/9</span>
+    <span class="dot seeing s7" title="7/9"></span><span>7/9</span>
+    <span class="dot seeing s8" title="8/9"></span><span>8/9</span>
+    <span class="dot seeing s9" title="Excellent (9/9)"></span><span>Excellent (9/9)</span>
   </div>
+</div>
 
-  <!-- Transparency -->
+<!-- Transparency -->
+<div class="legend-section">
   <h3>Transparency</h3>
-  <div class="legend-item legend-trans">
-    <span class="bar trans t2"></span>
-    <span>Low transparency</span>
-
-    <span class="bar trans t6"></span>
-    <span>Medium</span>
-
-    <span class="bar trans t9"></span>
-    <span>High (best)</span>
-  </div>
-
-  <!-- Twilight / Astro Night -->
-  <div class="legend-item">
-    <span class="cell astro-night">&nbsp;</span>
-    <span>Astronomical night</span>
-  </div>
-
-  <!-- Moon -->
-  <div class="legend-item">
-    <span class="cell moon-bar">&nbsp;</span>
-    <span>Moon above horizon</span>
+  <div class="legend-row">
+    <span class="bar trans t2" title="Low"></span><span>Low</span>
+    <span class="bar trans t6" title="Medium"></span><span>Medium</span>
+    <span class="bar trans t9" title="High"></span><span>High</span>
   </div>
 </div>
 
 
-<div class="astro-times">
-  <div class="astro-grid">
-    <div>Sunrise<span>{{ sunTimes().sunrise | date:'HH:mm' }}</span></div>
-    <div>Sunset<span>{{ sunTimes().sunset | date:'HH:mm' }}</span></div>
+      <!-- Astronomical Night -->
+      <div class="legend-section">
+        <h3>Astronomical Night</h3>
+        <div class="legend-row">
+          <span class="cell astro-night" title="Full Night"></span>
+          <span class="cell astro-night-partial" title="Partial Night"></span>
+        </div>
+      </div>
 
-    <div>Civil dawn<span>{{ sunTimes().dawn | date:'HH:mm' }}</span></div>
-    <div>Civil dusk<span>{{ sunTimes().dusk | date:'HH:mm' }}</span></div>
+      <!-- Moon -->
+      <div class="legend-section">
+        <h3>Moon</h3>
+        <div class="legend-row">
+          <span class="cell moon-bar" title="Moon Above Horizon"></span>
+          <span class="cell moon-bar-partial" title="Moon Partially Up"></span>
+        </div>
+      </div>
 
-    <div>Nautical dawn<span>{{ sunTimes().nauticalDawn | date:'HH:mm' }}</span></div>
-    <div>Nautical dusk<span>{{ sunTimes().nauticalDusk | date:'HH:mm' }}</span></div>
+    </div>
+  </div>
 
-    <div>Astronomical dawn<span>{{ sunTimes().nightEnd | date:'HH:mm' }}</span></div>
-    <div>Astronomical dusk<span>{{ sunTimes().night | date:'HH:mm' }}</span></div>
+  <!-- SunCalc / Astro Times -->
+  <div class="astro-times">
+    <h2>Sun & Moon</h2>
+    <div class="astro-grid">
+      <div>Sunrise<span>{{ sunTimes().sunrise | date:'HH:mm' }}</span></div>
+      <div>Sunset<span>{{ sunTimes().sunset | date:'HH:mm' }}</span></div>
 
-    <div>Moonrise<span>{{ moonTimes().rise ? (moonTimes().rise | date:'HH:mm') : '—' }}</span></div>
-    <div>Moonset<span>{{ moonTimes().set ? (moonTimes().set | date:'HH:mm') : '—' }}</span></div>
+      <div>Civil dawn<span>{{ sunTimes().dawn | date:'HH:mm' }}</span></div>
+      <div>Civil dusk<span>{{ sunTimes().dusk | date:'HH:mm' }}</span></div>
 
-    <div class="full">Moon phase<span>{{ moonPhaseLabel() }}</span></div>
+      <div>Nautical dawn<span>{{ sunTimes().nauticalDawn | date:'HH:mm' }}</span></div>
+      <div>Nautical dusk<span>{{ sunTimes().nauticalDusk | date:'HH:mm' }}</span></div>
+
+      <div>Astronomical dawn<span>{{ sunTimes().nightEnd | date:'HH:mm' }}</span></div>
+      <div>Astronomical dusk<span>{{ sunTimes().night | date:'HH:mm' }}</span></div>
+
+      <div>Moonrise<span>{{ moonTimes().rise ? (moonTimes().rise | date:'HH:mm') : '—' }}</span></div>
+      <div>Moonset<span>{{ moonTimes().set ? (moonTimes().set | date:'HH:mm') : '—' }}</span></div>
+
+      <div class="full">Moon phase<span>{{ moonPhaseLabel() }}</span></div>
+    </div>
   </div>
 </div>
+
+
 <br><br>
