@@ -120,11 +120,41 @@
 }
 
 .cell.moon-bar {
-  background: rgba(242, 243, 248, 0.475); /* moon up full */
+  background: rgba(242, 243, 248, 0.075); /* moon up full */
 }
 
 .cell.moon-bar-partial {
-  background: rgba(242, 243, 248, 0.327); /* moon partial */
+  background: rgba(242, 243, 248, 0.026); /* moon partial */
+}
+
+.moon-cell {
+  position: relative;
+
+  .planet-icon {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+
+// planets
+.planet-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  overflow: hidden;
+}
+
+// .planet-icon {
+//   width: 30px;
+//   height: 30px;
+//   object-fit: contain;
+// }
+
+.planet-cell .planet-icon {
+  width: 25px;
+  height: 25px;
 }
 
 
@@ -227,6 +257,11 @@
   box-shadow: 0 0 0 1px rgba(120,140,255,0.15), 0 10px 30px rgba(0,0,0,0.4);
 }
 
+.astro-times{
+  max-width: 500px;
+
+}
+
 .matrix-legend h2,
 .astro-times h2 {
   font-size: 1rem;
@@ -278,11 +313,11 @@
     }
     
     .moon-bar {
-      background: rgba(242, 243, 248, 0.475); /* moon up full */
+      background: rgba(242, 243, 248, 0.075); /* moon up full */
     }
     
     .moon-bar-partial {
-      background: rgba(242, 243, 248, 0.327); /* moon partial */
+      background: rgba(242, 243, 248, 0.026); /* moon partial */
     }
   }
 }
@@ -304,6 +339,23 @@
   .full { grid-column: 1 / -1; justify-content: flex-start; }
 }
 
+.planets-grid {
+  grid-template-columns: 1.4fr 1fr 1fr;
+}
+
+.planet-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.planet-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+
 /* Tooltip */
 .matrix-tooltip {
   position: absolute;
@@ -320,6 +372,15 @@
 }
 
 /* Responsive tweaks */
+
+@media (max-width: 1100px) {
+  .planet-cell .planet-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+
 @media (max-width: 768px) {
   .matrix {
     padding: 0.75rem;
@@ -338,11 +399,14 @@
   .matrix-tooltip { position: static; margin: 0.75rem 0; pointer-events: auto; font-size: 0.8rem; }
 
   .legend-grid .legend-row { flex-wrap: wrap; }
-  .astro-grid { grid-template-columns: 1fr; }
   .matrix-legend, .astro-times { max-width: 100%; font-size: 0.75rem; padding: 0.75rem; }
 
-
+  .planet-cell .planet-icon {
+    width: 8px;
+    height: 8px;
+  }
 }
+
 @media (max-width: 768px) {
   .astro-times {
     width: 100%;              
@@ -354,7 +418,6 @@
 
   .astro-grid {
     width: 100%;              
-    grid-template-columns: 1fr;
     padding: 0;
     gap: 0.5rem 1rem;
     box-sizing: border-box;
@@ -374,5 +437,9 @@
   .matrix-controls button { flex: 1 1 45%; padding: 6px 0; font-size: 0.65rem; }
   .matrix-tooltip { font-size: 0.7rem; padding: 0.5rem 0.75rem; }
   .astro-times { font-size: 0.75rem; padding: 0.5rem 0.75rem; }
-  .astro-grid { grid-template-columns: 1fr; }
+  .planet-cell .planet-icon {
+    width: 4px;
+    height: 4px;
+  }
 }
+

@@ -1,8 +1,11 @@
-import { ChangeDetectionStrategy, Component, HostListener, Input, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, Input, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WeatherApiService } from '../../../services/weather-api.service';
 import { LocationService } from '../../../services/location.service';
 import SunCalc from 'suncalc';
+import { PlanetVisibilityService } from '../../../services/planet-visibility.server';
+import { PlanetVisibility } from '../../../models/planet-visibility.model';
+import { Body, Equator, Horizon, Observer } from 'astronomy-engine';
 
 @Component({
   selector: 'app-forecast-matrix',
@@ -15,6 +18,7 @@ import SunCalc from 'suncalc';
 export class ForecastMatrixComponent {
   public weatherApi = inject(WeatherApiService); 
   public location = inject(LocationService);
+  public planetVisibilityService = inject(PlanetVisibilityService);
 
   mode = signal<'24h' | '24h/48h' | '48h/72h' | 'all'>('24h');
   hoverCard = signal<any | null>(null);
@@ -26,6 +30,15 @@ export class ForecastMatrixComponent {
   tooltipY = 0;
   mobileTooltipVisible = false;
 
+  private planetCache = new Map<string, string[]>();
+
+  constructor() {
+    effect(() => {
+      this.planetVisibilityService.setLocation(this.astroDate(), +this.lat(), +this.lon());
+      this.planetCache.clear();
+    });
+  }
+  
   cardsToShow = computed(() => {
     const list = this.weatherApi.cards();
     switch (this.mode()) {
@@ -98,6 +111,25 @@ export class ForecastMatrixComponent {
     return 'Waning Crescent';
   });
 
+  readonly planetTimesToday = computed(() => {
+    const all = this.planetVisibilityService.visibility(); 
+    const today = this.astroDate().toISOString().slice(0, 10);
+  
+    return all
+      .filter(p => p.date === today && p.isAboveHorizonNow)
+      .map(p => ({
+        planet: p.planet.toLowerCase(),
+        rise: p.riseDateTime ? new Date(p.riseDateTime) : null,
+        set: p.setDateTime ? new Date(p.setDateTime) : null
+      }));
+  });
+  
+
+  planetsToday = computed(() =>
+    this.planetVisibilityService.visibility().filter(p => p.date === this.astroDate().toISOString().slice(0, 10))
+  );
+  
+
 // isAstroNight = (date: Date): boolean => {
 //   const t = this.sunTimes();
 
@@ -147,7 +179,41 @@ export class ForecastMatrixComponent {
     return 'partial';
   }
 
+  planetsVisibleAt(date: Date): string[] {
+    const key = date.getTime().toString();
+    if (this.planetCache.has(key)) {
+      return this.planetCache.get(key)!;
+    }
+  
+    const observer = new Observer(
+      +this.lat(),
+      +this.lon(),
+      0
+    );
+  
+    const visible: string[] = [];
+  
+    for (const p of this.planetsToday()) {
+      const body = Body[p.planet as keyof typeof Body];
+  
+      const equ = Equator(body, date, observer, true, true);
+      const hor = Horizon(date, observer, equ.ra, equ.dec);
+  
+      if (hor.altitude > 0 && p.isAboveHorizonNow) {
+        visible.push(p.planet.toLowerCase());
+      }
+    }
+  
+    this.planetCache.set(key, visible);
+    return visible;
+  }
+  
 
+  planetsUpAt(date: Date): 'full' | 'partial' | '' {
+    const visible = this.planetsVisibleAt(date);
+    return visible.length ? 'full' : '';
+  }
+  
 
   private toMinutes(d: Date): number {
     return d.getHours() * 60 + d.getMinutes();

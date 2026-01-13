@@ -40,6 +40,8 @@
     <div>Transparency: {{ hoverCard().transparency }}/8</div>
     <div>Temp: {{ hoverCard().temperature }} °C</div>
     <div>Wind: {{ hoverCard().windSpeed }} m/s {{ hoverCard().windDir }}</div>
+    <div>Moon phase: {{ moonPhaseLabel() }}</div>
+    <div>planets: {{ planetsVisibleAt(hoverCard().time).join(', ') }}</div>
   </div>
 }
 
@@ -117,6 +119,58 @@
     }
   </div>
 
+  <!-- Moon -->
+  <div class="row">
+    <div class="label">Moon</div>
+    @for (c of cardsToShow(); track c.timepoint) {
+      <div
+        class="cell moon-cell"
+        (touchstart)="onMobileHover(c, $event)"
+        (mouseenter)="onHover(c, $event)"
+        (mouseleave)="onHover(null, null)"
+        [class.moon-bar]="moonUpAt(c.time) === 'full'"
+        [class.moon-bar-partial]="moonUpAt(c.time) === 'partial'"
+      >
+        <!-- Alleen tonen als full of partial -->
+        @if (moonUpAt(c.time) === 'full' || moonUpAt(c.time) === 'partial') {
+          <div class="planet-name">
+            <img
+              class="planet-icon"
+              [src]="'assets/img/' + moonPhaseLabel() + '.png'"
+              alt="Moon phase"
+            />
+          </div>
+        }
+      </div>
+    }
+  </div>
+  
+  <!-- Planets -->
+  <div class="row">
+    <div class="label">Planets</div>
+
+    @for (c of cardsToShow(); track c.timepoint) {
+      <div
+        class="cell planet-cell"
+        [title]="planetsVisibleAt(c.time).join(', ')"
+        (touchstart)="onMobileHover(c, $event)"
+        (mouseenter)="onHover(c, $event)"
+        (mouseleave)="onHover(null, null)">
+
+        @for (p of planetsVisibleAt(c.time); track p) {
+          <img
+            class="planet-icon"
+            [src]="'assets/img/' + p + '.png'"
+            [alt]="p"
+            loading="lazy"
+          />
+        }
+
+      </div>
+    }
+  </div>
+
+
   <!-- Twilight -->
   <div class="row">
     <div class="label">Twilight</div>
@@ -130,24 +184,67 @@
       </div>
     }
   </div>
-
-  <!-- Moon -->
-  <div class="row">
-    <div class="label">Moon</div>
-    @for (c of cardsToShow(); track c.timepoint) {
-      <div
-        class="cell" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
-     (mouseleave)="onHover(null, null)"
-        [class.moon-bar]="moonUpAt(c.time) === 'full'"
-        [class.moon-bar-partial]="moonUpAt(c.time) === 'partial'">
-        &nbsp;
-      </div>
-    }
-  </div>
 </div>
 
 
 <div class="legend-suncalc-container">
+    <!-- SunCalc / Astro Times and Planets-->
+      <div class="astro-times">
+        <h2>Sun & Moon</h2>
+        <div class="astro-grid planets-grid">
+          <div class="planet-name"><img
+            class="planet-icon"
+            [src]="'assets/img/sun.png'"
+          />Sun</div>
+          <div>Rise<span>{{ sunTimes().sunrise | date:'HH:mm' }}</span></div>
+          <div>Set<span>{{ sunTimes().sunset | date:'HH:mm' }}</span></div>
+  
+          <div class="planet-name"><img
+            class="planet-icon"
+            [src]="'assets/img/' + moonPhaseLabel() + '.png'"
+          />Moon</div>
+          <div>Rise<span>{{ moonTimes().rise ? (moonTimes().rise | date:'HH:mm') : '—' }}</span></div>
+          <div>Set<span>{{ moonTimes().set ? (moonTimes().set | date:'HH:mm') : '—' }}</span></div>
+
+          <div class="full">Moon phase<span>{{ moonPhaseLabel() }}</span></div>
+        </div>
+        <h2>Planets</h2>
+      
+        <div class="astro-grid planets-grid">
+          @for (p of planetTimesToday(); track p.planet) {
+      
+            <div class="planet-name">
+              <img
+                class="planet-icon"
+                [src]="'assets/img/' + p.planet + '.png'"
+                [alt]="p.planet"
+              />
+              {{ p.planet | titlecase }}
+            </div>
+      
+            <div>
+              Rise
+              <span>{{ p.rise ? (p.rise | date:'HH:mm') : '—' }}</span>
+            </div>
+      
+            <div>
+              Set
+              <span>{{ p.set ? (p.set | date:'HH:mm') : '—' }}</span>
+            </div>
+      
+          }
+        </div>
+        <h2>Dusk & Dawn</h2>
+        <div class="astro-grid">
+          <div>Astronomical dawn<span>{{ sunTimes().nightEnd | date:'HH:mm' }}</span></div>
+          <div>Astronomical dusk<span>{{ sunTimes().night | date:'HH:mm' }}</span></div>
+          <div>Civil dawn<span>{{ sunTimes().dawn | date:'HH:mm' }}</span></div>
+          <div>Civil dusk<span>{{ sunTimes().dusk | date:'HH:mm' }}</span></div>
+          <div>Nautical dawn<span>{{ sunTimes().nauticalDawn | date:'HH:mm' }}</span></div>
+          <div>Nautical dusk<span>{{ sunTimes().nauticalDusk | date:'HH:mm' }}</span></div>
+        </div>
+      </div>
+
   <!-- Legenda -->
   <div class="matrix-legend">
     <h2>Legend</h2>
@@ -218,29 +315,9 @@
     </div>
   </div>
 
-  <!-- SunCalc / Astro Times -->
-  <div class="astro-times">
-    <h2>Sun & Moon</h2>
-    <div class="astro-grid">
-      <div>Sunrise<span>{{ sunTimes().sunrise | date:'HH:mm' }}</span></div>
-      <div>Sunset<span>{{ sunTimes().sunset | date:'HH:mm' }}</span></div>
 
-      <div>Civil dawn<span>{{ sunTimes().dawn | date:'HH:mm' }}</span></div>
-      <div>Civil dusk<span>{{ sunTimes().dusk | date:'HH:mm' }}</span></div>
-
-      <div>Nautical dawn<span>{{ sunTimes().nauticalDawn | date:'HH:mm' }}</span></div>
-      <div>Nautical dusk<span>{{ sunTimes().nauticalDusk | date:'HH:mm' }}</span></div>
-
-      <div>Astronomical dawn<span>{{ sunTimes().nightEnd | date:'HH:mm' }}</span></div>
-      <div>Astronomical dusk<span>{{ sunTimes().night | date:'HH:mm' }}</span></div>
-
-      <div>Moonrise<span>{{ moonTimes().rise ? (moonTimes().rise | date:'HH:mm') : '—' }}</span></div>
-      <div>Moonset<span>{{ moonTimes().set ? (moonTimes().set | date:'HH:mm') : '—' }}</span></div>
-
-      <div class="full">Moon phase<span>{{ moonPhaseLabel() }}</span></div>
-    </div>
-  </div>
 </div>
+
 
 
 <br><br>
