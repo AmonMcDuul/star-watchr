@@ -83,7 +83,6 @@ export class PlanetVisibilityService {
           isAboveHorizonNow: isAboveHorizon
         });
       }
-      console.log(result)
       return result;
     });
   
