@@ -146,10 +146,11 @@
 
 
   /* blur als loading actief is */
-  .page.loading-active {
+  .apod-page.loading-active {
     filter: blur(3px);
-    pointer-events: none; 
+    pointer-events: none;
   }
+  
   
   /* Overlay */
   .loading-overlay {
@@ -186,3 +187,125 @@
     font-size: 1.2rem;
     text-align: center;
   }
+
+  .video-wrapper {
+    position: relative;
+    height: min(75vh, 700px);
+    border-radius: 32px;
+    overflow: hidden;
+    background: #000;
+  
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  }
+  
+  .video-meta {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 2.5rem;
+    right: 2.5rem;
+    z-index: 2;
+  
+    h1 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+  
+    .date {
+      font-size: 0.95rem;
+      opacity: 0.8;
+    }
+  }
+  
+  /* subtiele fade net als image */
+  .video-wrapper::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.1),
+      rgba(0,0,0,0.85)
+    );
+    pointer-events: none;
+  }
+
+  @media (max-width: 768px) {
+    .video-wrapper {
+      height: 55vh;
+      border-radius: 20px;
+    }
+  
+    .video-meta {
+      bottom: 1.5rem;
+      left: 1.25rem;
+      right: 1.25rem;
+  
+      h1 {
+        font-size: 1.6rem;
+      }
+  
+      .date {
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  .other-wrapper {
+    max-width: 720px;
+    margin: 4rem auto 0;
+    padding: 2rem;
+  
+    background: rgba(10, 16, 36, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  
+    p {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      opacity: 0.9;
+      margin-bottom: 1.5rem;
+    }
+  
+    a {
+      color: #9fb4ff;
+      text-decoration: underline;
+  
+      &:hover {
+        color: #c7d2ff;
+      }
+    }
+  }
+  
+  .other-meta {
+    margin-top: 2rem;
+  
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 0.25rem;
+    }
+  
+    .date {
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .other-wrapper {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      border-radius: 18px;
+    }
+  
+    .other-meta h1 {
+      font-size: 1.4rem;
+    }
+  }
+  
