@@ -25,6 +25,24 @@ export class PlanetVisibilityService {
       Body.Neptune
     ];
   
+    private matrixTimes(hours: number[] = [0,3,6,9,12,15,18,21]): Date[] {
+      const baseDate = this.date();
+      return hours.map(h => {
+        const d = new Date(baseDate);
+        d.setHours(h, 0, 0, 0);
+        return d;
+      });
+    }
+    
+    isTimeBetween(time: Date, start: Date, end: Date) {
+      const t = time.getHours() * 3600 + time.getMinutes() * 60 + time.getSeconds();
+      const s = start.getHours() * 3600 + start.getMinutes() * 60 + start.getSeconds();
+      const e = end.getHours() * 3600 + end.getMinutes() * 60 + end.getSeconds();
+    
+      if (s <= e) return t >= s && t <= e;
+      return t >= s || t <= e;
+    }
+
     readonly visibility = computed(() => {
       const lat = this.latitude();
       const lon = this.longitude();
@@ -35,23 +53,37 @@ export class PlanetVisibilityService {
       const now = new Date();
   
       const result: PlanetVisibility[] = [];
-  
+      const times = this.matrixTimes();
+
       for (const planet of this.planets) {
         const rise = SearchRiseSet(planet, observer, +1, baseDate, 1);
         const set = SearchRiseSet(planet, observer, -1, baseDate, 1);
   
-        const equ = Equator(planet, now, observer, true, true);
-        const hor = Horizon(now, observer, equ.ra, equ.dec);
+        let isAboveHorizon = false;
+
+        for (const time of times) {
+          const equ = Equator(planet, time, observer, true, true);
+          const hor = Horizon(time, observer, equ.ra, equ.dec);
+    
+          const visible =
+            hor.altitude > 0 &&
+            (!rise || !set || this.isTimeBetween(time, rise.date, set.date));
+    
+          if (visible) {
+            isAboveHorizon = true;
+            break; 
+          }
+        }
   
         result.push({
           planet: Body[planet],
           date: baseDate.toISOString().slice(0, 10),
           riseDateTime: rise?.date.toISOString() ?? null,
           setDateTime: set?.date.toISOString() ?? null,
-          isAboveHorizonNow: hor.altitude > 0
+          isAboveHorizonNow: isAboveHorizon
         });
       }
-  
+      console.log(result)
       return result;
     });
   

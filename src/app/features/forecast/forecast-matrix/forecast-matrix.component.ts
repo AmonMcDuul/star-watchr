@@ -130,16 +130,6 @@ export class ForecastMatrixComponent {
   );
   
 
-// isAstroNight = (date: Date): boolean => {
-//   const t = this.sunTimes();
-
-//   const now = this.toMinutes(date);
-//   const nightStart = this.toMinutes(t.night);   
-//   const nightEnd = this.toMinutes(t.nightEnd);  
-
-//   return now >= nightStart || now <= nightEnd;
-// };
-
   isAstroNight(date: Date): 'full' | 'partial' | '' {
     const t = this.sunTimes();
     if (!t.nightEnd || !t.night) return '';
@@ -203,7 +193,6 @@ export class ForecastMatrixComponent {
         visible.push(p.planet.toLowerCase());
       }
     }
-  
     this.planetCache.set(key, visible);
     return visible;
   }
