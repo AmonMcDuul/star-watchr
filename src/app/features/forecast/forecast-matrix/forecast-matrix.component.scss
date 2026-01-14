@@ -396,7 +396,18 @@
   .matrix-controls { width: 100%; justify-content: space-between; }
   .matrix-controls button { flex: 1; text-align: center; padding: 8px 0; font-size: 0.75rem; }
 
-  .matrix-tooltip { position: static; margin: 0.75rem 0; pointer-events: auto; font-size: 0.8rem; }
+  // .matrix-tooltip { position: static; margin: 0.75rem 0; pointer-events: auto; font-size: 0.8rem; }
+  .matrix {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .matrix-tooltip {
+    position: static;
+    order: 999;
+    margin-top: 1rem;
+    pointer-events: auto;
+  }
 
   .legend-grid .legend-row { flex-wrap: wrap; }
   .matrix-legend, .astro-times { max-width: 100%; font-size: 0.75rem; padding: 0.75rem; }

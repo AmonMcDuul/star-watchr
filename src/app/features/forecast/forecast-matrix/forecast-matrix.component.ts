@@ -217,7 +217,7 @@ export class ForecastMatrixComponent {
     return e1 > s2 && s1 < e2;
   }
 
-  onHover(c: any, event: MouseEvent | null) {
+  onHover(c: any, event: MouseEvent | null, bool: boolean = false) {
     this.hoverCard.set(c);
     if (event) {
       const matrixRect = (event.target as HTMLElement).closest('.matrix')?.getBoundingClientRect();
@@ -233,8 +233,8 @@ export class ForecastMatrixComponent {
 
     if (this.hoverCard() === c && this.mobileTooltipVisible) {
       // tweede tap sluit de tooltip
-      this.hoverCard.set(null);
-      this.mobileTooltipVisible = false;
+      // this.hoverCard.set(null);
+      // this.mobileTooltipVisible = false;
     } else {
       this.hoverCard.set(c);
       this.mobileTooltipVisible = true;

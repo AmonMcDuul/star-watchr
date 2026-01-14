@@ -50,7 +50,7 @@
     <div class="label"></div>
     @for (c of cardsToShow(); track c.time) {
       <div class="cell time" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
-     (mouseleave)="onHover(null, null)">{{ c.time | date:'HH:mm' }}h</div>
+     (mouseleave)="onHover(null, null, true)">{{ c.time | date:'HH:mm' }}h</div>
     }
   </div>
   <div class="row header">
