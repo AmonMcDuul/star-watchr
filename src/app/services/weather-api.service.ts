@@ -44,7 +44,7 @@ export class WeatherApiService {
         this._loading.set(false);
       },
       error: () => {
-        this._error.set('Kon astro-weer niet laden');
+        this._error.set("Can't load astro-weather");
         this._loading.set(false);
       }
     });
