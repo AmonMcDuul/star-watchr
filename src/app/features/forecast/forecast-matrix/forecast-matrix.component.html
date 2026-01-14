@@ -41,7 +41,9 @@
     <div>Temp: {{ hoverCard().temperature }} °C</div>
     <div>Wind: {{ hoverCard().windSpeed }} m/s {{ hoverCard().windDir }}</div>
     <div>Moon phase: {{ moonPhaseLabel() }}</div>
-    <div>planets: {{ planetsVisibleAt(hoverCard().time).join(', ') }}</div>
+    @if(isAstroNight(hoverCard().time) !== "full"){
+      <div>planets: {{ planetsVisibleAt(hoverCard().time).join(', ') }}</div>
+    }
   </div>
 }
 
@@ -50,7 +52,7 @@
     <div class="label"></div>
     @for (c of cardsToShow(); track c.time) {
       <div class="cell time" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
-     (mouseleave)="onHover(null, null, true)">{{ c.time | date:'HH:mm' }}h</div>
+     (mouseleave)="onHover(null, null)">{{ c.time | date:'HH:mm' }}h</div>
     }
   </div>
   <div class="row header">
