@@ -9,6 +9,7 @@
   max-width: 1100px;
   margin: 0 auto;
   padding-bottom: 4rem;
+  text-align: center;
 }
 
 .hero {
@@ -60,9 +61,9 @@
 
 .features {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 220px));
   gap: 1.5rem;
-  margin-top: 1rem;
+  justify-content: center;
 }
 
 .feature {
