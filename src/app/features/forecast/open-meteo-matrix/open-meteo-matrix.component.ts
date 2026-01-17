@@ -65,15 +65,6 @@ export class OpenMeteoMatrixComponent implements OnInit {
     this.time.mode.set('hourly');
   }
 
-  // cardsToShow = computed(() => {
-  //   const list = this.weatherApi.cards();
-  //   switch (this.context.mode()) {
-  //     case '24h': return list.slice(0, 8);
-  //     case '24h/48h': return list.slice(8, 16);
-  //     case '48h/72h': return list.slice(16, 24);
-  //   }
-  // });
-
   dayPlus(days: number): string {
     const d = new Date();
     d.setDate(d.getDate() + days);
@@ -84,12 +75,24 @@ export class OpenMeteoMatrixComponent implements OnInit {
     const targetDate = new Date();
     targetDate.setDate(targetDate.getDate() + n);
 
-    // vergelijk alleen de dag, maand, jaar
-    const targetStr = formatDate(targetDate, 'EEE', 'en-US'); // of 'nl-NL' als je NL wilt
+    const targetStr = formatDate(targetDate, 'EEE', 'en-US');
     const currentStr = formatDate(this.context.astroDate(), 'EEE', 'en-US');
 
     return targetStr === currentStr;
   }
+
+  get nextDisabled(): boolean {
+    const cards = this.cardsToShow();
+    if (!cards.length) return true;
+
+    const lastCard = cards[cards.length - 1];
+    const allCards = this.weatherApi.cards();
+    const lastDataCard = allCards[allCards.length - 1];
+
+    return lastCard.time >= lastDataCard.time;
+  }
+
+
 
   onHover(c: any, event: MouseEvent | null) {
     this.hoverCard.set(c);

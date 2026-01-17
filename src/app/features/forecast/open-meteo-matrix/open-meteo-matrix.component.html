@@ -10,9 +10,11 @@
 
   <div class="matrix-controls-row">
     <div class="matrix-controls">
-      <button (click)="time.shift(-time.window().stepHours)">◀</button>
-      <button (click)="time.reset()">Now</button>
-      <button (click)="time.shift(time.window().stepHours)">▶</button>
+  <div class="matrix-controls">
+    <button (click)="time.shift(-time.window().stepHours)">◀</button>
+    <button (click)="time.reset()">Now</button>
+    <button (click)="time.shift(time.window().stepHours)" [disabled]="nextDisabled">▶</button>
+  </div>
     </div>
 
     <div class="matrix-controls">
@@ -116,7 +118,7 @@
         @if (context.moonUpAt(c.time) === 'full' || context.moonUpAt(c.time) === 'partial') {
           <div class="planet-name">
             <img
-              class="planet-icon"
+              class="moon-icon"
               [src]="'assets/img/' + context.moonPhaseLabel() + '.png'"
               alt="Moon phase"
             />
