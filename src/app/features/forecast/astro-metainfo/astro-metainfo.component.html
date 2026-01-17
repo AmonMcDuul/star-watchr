@@ -1,0 +1,54 @@
+<div class="astro-times">
+    <h2>Sun & Moon</h2>
+    <div class="astro-grid planets-grid">
+        <div class="planet-name"><img
+        class="planet-icon"
+        [src]="'assets/img/sun.png'"
+        />Sun</div>
+        <div>Rise<span>{{ context.sunTimes().sunrise | date:'HH:mm' }}</span></div>
+        <div>Set<span>{{ context.sunTimes().sunset | date:'HH:mm' }}</span></div>
+
+        <div class="planet-name"><img
+        class="planet-icon"
+        [src]="'assets/img/' + context.moonPhaseLabel() + '.png'"
+        />Moon</div>
+        <div>Rise<span>{{ context.moonTimes().rise ? (context.moonTimes().rise | date:'HH:mm') : '—' }}</span></div>
+        <div>Set<span>{{ context.moonTimes().set ? (context.moonTimes().set | date:'HH:mm') : '—' }}</span></div>
+
+        <div class="full">Moon phase<span>{{ context.moonPhaseLabel() }}</span></div>
+    </div>
+    <h2>Planets</h2>
+
+    <div class="astro-grid planets-grid">
+        @for (p of planetTimesToday(); track p.planet) {
+
+        <div class="planet-name">
+            <img
+            class="planet-icon"
+            [src]="'assets/img/' + p.planet + '.png'"
+            [alt]="p.planet"
+            />
+            {{ p.planet | titlecase }}
+        </div>
+
+        <div>
+            Rise
+            <span>{{ p.rise ? (p.rise | date:'HH:mm') : '—' }}</span>
+        </div>
+
+        <div>
+            Set
+            <span>{{ p.set ? (p.set | date:'HH:mm') : '—' }}</span>
+        </div>
+        }
+    </div>
+    <h2>Dusk & Dawn</h2>
+    <div class="astro-grid">
+        <div>Astronomical dawn<span>{{ context.sunTimes().nightEnd | date:'HH:mm' }}</span></div>
+        <div>Astronomical dusk<span>{{ context.sunTimes().night | date:'HH:mm' }}</span></div>
+        <div>Civil dawn<span>{{ context.sunTimes().dawn | date:'HH:mm' }}</span></div>
+        <div>Civil dusk<span>{{ context.sunTimes().dusk | date:'HH:mm' }}</span></div>
+        <div>Nautical dawn<span>{{ context.sunTimes().nauticalDawn | date:'HH:mm' }}</span></div>
+        <div>Nautical dusk<span>{{ context.sunTimes().nauticalDusk | date:'HH:mm' }}</span></div>
+    </div>
+</div>

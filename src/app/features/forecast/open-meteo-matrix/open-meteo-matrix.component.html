@@ -1,0 +1,184 @@
+@if (weatherApi.loading()) {
+    <div class="loading-overlay">
+      <div class="spinner"></div>
+      <p>Laden…</p>
+    </div>
+  }
+
+<div class="matrix" [class.loading-active]="weatherApi.loading()">
+  <h2>Date: {{ context.astroDate() | date:'EEE MMM dd yyyy' }}</h2>
+
+  <div class="matrix-controls-row">
+    <div class="matrix-controls">
+      <button (click)="time.shift(-time.window().stepHours)">◀</button>
+      <button (click)="time.reset()">Now</button>
+      <button (click)="time.shift(time.window().stepHours)">▶</button>
+    </div>
+
+    <div class="matrix-controls">
+      <button (click)="time.reset(); time.shift(24)">{{ dayPlus(1) }}</button>
+      <button (click)="time.reset(); time.shift(48)">{{ dayPlus(2) }}</button>
+      <button (click)="time.reset(); time.shift(72)">{{ dayPlus(3) }}</button>
+      <button (click)="time.reset(); time.shift(96)">{{ dayPlus(4) }}</button>
+      <button (click)="time.reset(); time.shift(120)">{{ dayPlus(5) }}</button>
+      <button (click)="time.reset(); time.shift(144)">{{ dayPlus(6) }}</button>
+    </div>
+  </div>
+  <br>
+
+  <!-- header row -->
+  <div class="row header">
+    <div class="label"></div>
+    @for (c of cardsToShow(); track c.time) {
+      <div class="cell time" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
+     (mouseleave)="onHover(null, null)">{{ c.time | date:'HH:mm' }}h</div>
+    }
+  </div>
+  <div class="row header">
+    <div class="label"></div>
+    @for (c of cardsToShow(); track c.timepoint) {
+      <div class="cell time" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
+     (mouseleave)="onHover(null, null)">+{{ c.timepoint }}h</div>
+    }
+  </div>
+
+  <!-- cloud cover -->
+  <div class="row">
+    <div class="label">Cloud</div>
+    @for (c of cardsToShow(); track c.timepoint) {
+      <div class="cell" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
+     (mouseleave)="onHover(null, null)">
+        <span
+          class="dot cloud"
+          [class.c1]="c.cloudcover == 1"
+          [class.c2]="c.cloudcover == 2"
+          [class.c3]="c.cloudcover == 3"
+          [class.c4]="c.cloudcover == 4"
+          [class.c5]="c.cloudcover == 5"
+          [class.c6]="c.cloudcover == 6"
+          [class.c7]="c.cloudcover == 7"
+          [class.c8]="c.cloudcover == 8"
+          [class.c9]="c.cloudcover == 9"
+        ></span>
+      </div>
+    }
+  </div>
+
+  <!-- seeing -->
+  <div class="row">
+    <div class="label">Seeing</div>
+    @for (c of cardsToShow(); track c.timepoint) {
+      <div class="cell" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
+     (mouseleave)="onHover(null, null)">
+        <span class="dot seeing s{{ c.seeing }}"></span>
+      </div>
+    }
+  </div>
+
+  <!-- transparency -->
+  <div class="row">
+    <div class="label">Transparency</div>
+    @for (c of cardsToShow(); track c.timepoint) {
+      <div class="cell" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
+     (mouseleave)="onHover(null, null)">
+        <span
+          class="bar trans"
+          [class.t2]="c.transparency <= 2"
+          [class.t6]="c.transparency > 2 && c.transparency <= 6"
+          [class.t9]="c.transparency > 6">
+        </span>      
+      </div>
+    }
+  </div>
+
+  <!-- temperature -->
+  <div class="row">
+    <div class="label">Temp</div>
+    @for (c of cardsToShow(); track c.timepoint) {
+      <div class="cell temp" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
+     (mouseleave)="onHover(null, null)">{{ c.temperature }}°</div>
+    }
+  </div>
+
+  <!-- Moon -->
+  <div class="row">
+    <div class="label">Moon</div>
+    @for (c of cardsToShow(); track c.timepoint) {
+      <div
+        class="cell moon-cell"
+        (touchstart)="onMobileHover(c, $event)"
+        (mouseenter)="onHover(c, $event)"
+        (mouseleave)="onHover(null, null)"
+        [class.moon-bar]="context.moonUpAt(c.time) === 'full'"
+        [class.moon-bar-partial]="context.moonUpAt(c.time) === 'partial'"
+      >
+        <!-- Alleen tonen als full of partial -->
+        @if (context.moonUpAt(c.time) === 'full' || context.moonUpAt(c.time) === 'partial') {
+          <div class="planet-name">
+            <img
+              class="planet-icon"
+              [src]="'assets/img/' + context.moonPhaseLabel() + '.png'"
+              alt="Moon phase"
+            />
+          </div>
+        }
+      </div>
+    }
+  </div>
+  
+  <!-- Planets -->
+  <div class="row">
+    <div class="label">Planets</div>
+
+    @for (c of cardsToShow(); track c.timepoint) {
+      <div
+        class="cell planet-cell"
+        [title]="context.planetsVisibleAt(c.time).join(', ')"
+        (touchstart)="onMobileHover(c, $event)"
+        (mouseenter)="onHover(c, $event)"
+        (mouseleave)="onHover(null, null)">
+        @if(context.isAstroNight(c.time) !== "full"){
+          
+          @for (p of context.planetsVisibleAt(c.time); track p) {
+            <img
+            class="planet-icon"
+            [src]="'assets/img/' + p + '.png'"
+            [alt]="p"
+            loading="lazy"
+            />
+          }
+          
+        }
+      </div>
+    }
+  </div>
+
+
+  <!-- Twilight -->
+  <div class="row">
+    <div class="label">Twilight</div>
+    @for (c of cardsToShow(); track c.timepoint) {
+      <div
+        class="cell astro-hack" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
+     (mouseleave)="onHover(null, null)"
+        [class.astro-night]="context.isAstroNight(c.time) === 'full'"
+        [class.astro-night-partial]="context.isAstroNight(c.time) === 'partial'">
+        &nbsp;
+      </div>
+    }
+  </div>
+  @if (hoverCard()) {
+  <div class="matrix-tooltip" *ngIf="hoverCard()" [style.top.px]="tooltipY" [style.left.px]="tooltipX">
+    <strong>{{ hoverCard().time | date:'HH:mm' }}</strong>
+    <div>Cloud cover: {{ hoverCard().cloudcover }}/9</div>
+    <div>Seeing: {{ hoverCard().seeing }}/8</div>
+    <div>Transparency: {{ hoverCard().transparency }}/8</div>
+    <div>Temp: {{ hoverCard().temperature }} °C</div>
+    <div>Wind: {{ hoverCard().windSpeed }} m/s {{ hoverCard().windDir }}</div>
+    <div>Moon phase: {{ context.moonPhaseLabel() }}</div>
+    @if(context.isAstroNight(hoverCard().time) !== "full"){
+      <div>planets: {{ context.planetsVisibleAt(hoverCard().time).join(', ') }}</div>
+    }
+  </div>
+}
+</div>

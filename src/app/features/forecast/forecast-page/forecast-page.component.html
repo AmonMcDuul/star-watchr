@@ -1,7 +1,34 @@
-<section>
-  <br>
-  <app-location-search></app-location-search>
-  <br>
+<div class="forecast-toggle">
+  <button
+    class="toggle-btn"
+    [class.active]="openMeteo()"
+    (click)="openMeteo.set(true)"
+  >
+    Open-Meteo
+  </button>
+
+  <button
+    class="toggle-btn"
+    [class.active]="!openMeteo()"
+    (click)="openMeteo.set(false)"
+  >
+    7timer
+  </button>
+</div>
+
+@if (openMeteo()) {
+  <app-open-meteo-matrix></app-open-meteo-matrix>
+
+  <div class="legend-suncalc-container">
+    <div class="metainfo">
+      <app-astro-metainfo></app-astro-metainfo>
+    </div>
+
+    <div class="legend">
+      <app-matrix-legend></app-matrix-legend>
+    </div>
+  </div>
+}
+@else {
   <app-forecast-matrix></app-forecast-matrix>
-</section>
-<br><br>
+}
