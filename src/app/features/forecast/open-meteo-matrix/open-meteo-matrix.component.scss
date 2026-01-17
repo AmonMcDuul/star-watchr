@@ -15,7 +15,6 @@
   grid-template-columns: clamp(70px, 18vw, 120px)
                          repeat(auto-fit, minmax(36px, 1fr));
   align-items: center;
-  margin-bottom: 6px;
 }
 
 .header {
@@ -44,7 +43,7 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: clamp(26px, 6vw, 34px);
+  min-height: clamp(26px, 6vw, 30px);
 }
 
 .dot {
@@ -244,7 +243,7 @@ h2 {
   .matrix-controls button {
     flex: 1 1 auto;
   }
-  
+
   .matrix-controls-row {
     flex-direction: column;
     align-items: flex-start;
