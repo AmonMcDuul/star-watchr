@@ -16,12 +16,12 @@
     </div>
 
     <div class="matrix-controls">
-      <button (click)="time.reset(); time.shift(24)">{{ dayPlus(1) }}</button>
-      <button (click)="time.reset(); time.shift(48)">{{ dayPlus(2) }}</button>
-      <button (click)="time.reset(); time.shift(72)">{{ dayPlus(3) }}</button>
-      <button (click)="time.reset(); time.shift(96)">{{ dayPlus(4) }}</button>
-      <button (click)="time.reset(); time.shift(120)">{{ dayPlus(5) }}</button>
-      <button (click)="time.reset(); time.shift(144)">{{ dayPlus(6) }}</button>
+    <button
+        *ngFor="let n of [1,2,3,4,5,6]"
+        (click)="time.reset(); time.shift(n * 24)"
+        [class.active]="isActiveDay(n)">
+        {{ dayPlus(n) }}
+    </button>
     </div>
   </div>
   <br>

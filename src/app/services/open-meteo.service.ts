@@ -24,8 +24,8 @@ export class OpenMeteoService {
 
     this.http.get('https://api.open-meteo.com/v1/forecast', {
       params: {
-        latitude: lat,
-        longitude: lon,
+        latitude: lat.toString(),
+        longitude: lon.toString(),
         hourly: [
           'cloudcover',
           'cloudcover_high',

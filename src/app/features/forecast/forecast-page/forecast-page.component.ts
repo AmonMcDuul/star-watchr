@@ -14,7 +14,7 @@ import { ForecastMatrixComponent } from '../forecast-matrix/forecast-matrix.comp
 
 @Component({
   selector: 'app-forecast-page',
-  imports: [CommonModule, LocationSearchComponent, SevenTimerMatrixComponent, AstroMetainfoComponent, MatrixLegendComponent, ForecastMatrixComponent, OpenMeteoMatrixComponent],
+  imports: [CommonModule, LocationSearchComponent, AstroMetainfoComponent, MatrixLegendComponent, ForecastMatrixComponent, OpenMeteoMatrixComponent],
   templateUrl: './forecast-page.component.html',
   styleUrl: './forecast-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

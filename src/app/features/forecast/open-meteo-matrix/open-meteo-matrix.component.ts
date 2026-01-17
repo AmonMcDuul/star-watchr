@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import {
   Component,
   computed,
@@ -78,6 +78,17 @@ export class OpenMeteoMatrixComponent implements OnInit {
     const d = new Date();
     d.setDate(d.getDate() + days);
     return d.toLocaleDateString(undefined, { weekday: 'short' });
+  }
+
+  isActiveDay(n: number) {
+    const targetDate = new Date();
+    targetDate.setDate(targetDate.getDate() + n);
+
+    // vergelijk alleen de dag, maand, jaar
+    const targetStr = formatDate(targetDate, 'EEE', 'en-US'); // of 'nl-NL' als je NL wilt
+    const currentStr = formatDate(this.context.astroDate(), 'EEE', 'en-US');
+
+    return targetStr === currentStr;
   }
 
   onHover(c: any, event: MouseEvent | null) {

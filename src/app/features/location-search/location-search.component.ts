@@ -4,6 +4,7 @@ import { WeatherApiService } from '../../services/weather-api.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { LocationResult } from '../../models/location-result.model';
+import { OpenMeteoService } from '../../services/open-meteo.service';
 
 @Component({
   selector: 'app-location-search',
@@ -15,9 +16,9 @@ import { LocationResult } from '../../models/location-result.model';
 export class LocationSearchComponent {
   // fugly temp oplossing voor search bar weer weghalen
   @ViewChild('wrapper') wrapper!: ElementRef<HTMLDivElement>;
-
   public location = inject(LocationService); 
   public weatherApi = inject(WeatherApiService); 
+  public openMeteoApi = inject(OpenMeteoService); 
 
   query = '';
   searchActive = false;
@@ -29,6 +30,7 @@ export class LocationSearchComponent {
   select(loc: LocationResult) {
     this.location.selectLocation(loc);
     this.weatherApi.load(+loc.lat, +loc.lon);
+    this.openMeteoApi.load(+loc.lat, +loc.lon);
     this.query = loc.display_name;
     this.location.clearResults();
     this.deactivateSearch();
