@@ -1,4 +1,4 @@
-<div class="forecast-toggle">
+<!-- <div class="forecast-toggle">
   <button
     class="toggle-btn"
     [class.active]="openMeteo()"
@@ -14,9 +14,9 @@
   >
     7timer
   </button>
-</div>
+</div> -->
 <app-location-search></app-location-search>
-@if (openMeteo()) {
+<!-- @if (openMeteo()) { -->
   <app-open-meteo-matrix></app-open-meteo-matrix>
 
   <div class="legend-suncalc-container">
@@ -28,7 +28,7 @@
       <app-matrix-legend></app-matrix-legend>
     </div>
   </div>
-}
-@else {
+<!-- } -->
+<!-- @else {
   <app-forecast-matrix></app-forecast-matrix>
-}
+} -->

@@ -66,13 +66,13 @@ export class OpenMeteoMatrixComponent implements OnInit {
   }
 
   dayPlus(days: number): string {
-    const d = new Date();
+    const d = new Date(this.context.astroDateBase());
     d.setDate(d.getDate() + days);
     return d.toLocaleDateString(undefined, { weekday: 'short' });
   }
 
   isActiveDay(n: number) {
-    const targetDate = new Date();
+    const targetDate = new Date(this.context.astroDateBase());
     targetDate.setDate(targetDate.getDate() + n);
 
     const targetStr = formatDate(targetDate, 'EEE', 'en-US');

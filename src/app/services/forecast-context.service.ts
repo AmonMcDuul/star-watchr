@@ -56,6 +56,15 @@ export class ForecastContextService {
     return date;
   });
 
+  readonly astroDateBase = computed(() => {
+    const cards = this.openMeteoService.cards();
+    if (!cards.length) return new Date();
+
+    const card = cards[0]; 
+    const date = new Date(card.time);
+    date.setHours(0, 0, 0, 0);
+    return date;
+  });
 
   readonly lat = computed(() => this.location.selected()?.lat ?? 52.37);
   readonly lon = computed(() => this.location.selected()?.lon ?? 4.89);
