@@ -77,29 +77,30 @@
 .bar.trans { width: 40px; height: 6px; border-radius: 3px; }
 .cell { width: 20px; height: 14px; border-radius: 3px; }
 
-.cloud.c1 { background: #2e7d32; }
-.cloud.c2 { background: #558b2f; }
-.cloud.c3 { background: #7cb342; }
-.cloud.c4 { background: #c0ca33; }
-.cloud.c5 { background: #fdd835; }
-.cloud.c6 { background: #f9a825; }
-.cloud.c7 { background: #ef6c00; }
-.cloud.c8 { background: #e53935; }
-.cloud.c9 { background: #c62828; }
+.cloud.c9 { background: #ff4d4d; }
+.cloud.c8 { background: #ff6666; }
+.cloud.c7 { background: #ff9999; }
+.cloud.c6 { background: #ffcc66; }
+.cloud.c5 { background: #ffee66; }
+.cloud.c4 { background: #ccff66; }
+.cloud.c3 { background: #99ff66; }
+.cloud.c2 { background: #66ff66; }
+.cloud.c1 { background: #33cc33; }
 
-.seeing.s1 { background: #c62828; }
-.seeing.s2 { background: #e53935; }
-.seeing.s3 { background: #ef6c00; }
-.seeing.s4 { background: #f9a825; }
-.seeing.s5 { background: #fdd835; }
-.seeing.s6 { background: #c0ca33; }
-.seeing.s7 { background: #7cb342; }
-.seeing.s8 { background: #558b2f; }
-.seeing.s9 { background: #2e7d32; }
+.seeing.s1 { background: #ff3333; }
+.seeing.s2 { background: #ff6666; }
+.seeing.s3 { background: #ff9966; }
+.seeing.s4 { background: #ffcc66; }
+.seeing.s5 { background: #ffff66; }
+.seeing.s6 { background: #ccff66; }
+.seeing.s7 { background: #99ff66; }
+.seeing.s8 { background: #66ff66; }
+.seeing.s9 { background: #33cc33; }
 
-.trans.t2 { background: #c62828; }
-.trans.t6 { background: #fdd835; }
-.trans.t9 { background: #2e7d32; }
+.trans.t2 { background: #ff6666; }
+.trans.t6 { background: #ffee66; }
+.trans.t9 { background: #66cc66; }
+
 
 .astro-night { background: rgba(140,40,53,0.7); }
 .astro-night-partial { background: rgba(140,40,53,0.44); }
