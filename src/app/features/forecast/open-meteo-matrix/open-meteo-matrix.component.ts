@@ -27,6 +27,9 @@ export class OpenMeteoMatrixComponent implements OnInit {
   tooltipY = 0;
   mobileTooltipVisible = false;
 
+  private touchStartX = 0;
+  private touchStartY = 0;
+
   readonly pointsCount = signal(8);
 
   cardsToShow = computed(() => {
@@ -136,4 +139,48 @@ export class OpenMeteoMatrixComponent implements OnInit {
       this.mobileTooltipVisible = false;
     }
   }
+
+  onTouchStart(event: TouchEvent) {
+    const touch = event.touches[0];
+    this.touchStartX = touch.clientX;
+    this.touchStartY = touch.clientY;
+  }
+
+  onTouchEnd(event: TouchEvent) {
+    const touch = event.changedTouches[0];
+
+    const deltaX = touch.clientX - this.touchStartX;
+    const deltaY = touch.clientY - this.touchStartY;
+
+    const absX = Math.abs(deltaX);
+    const absY = Math.abs(deltaY);
+
+    if (absX < 40 || absX < absY) return;
+
+    if (deltaX < 0) {
+      this.shiftForward();
+    } else {
+      this.shiftBackward();
+    }
+  }
+
+  private shiftForward() {
+    const step = this.time.window().stepHours;
+
+    const maxOffset =
+      this.weatherApi.cards().length * step - this.time.window().windowHours;
+
+    if (this.time.offsetHours() + step <= maxOffset) {
+      this.time.shift(step);
+    }
+  }
+
+  private shiftBackward() {
+    const step = this.time.window().stepHours;
+
+    if (this.time.offsetHours() - step >= 0) {
+      this.time.shift(-step);
+    }
+  }
+
 }

@@ -5,7 +5,9 @@
     </div>
   }
 
-<div class="matrix" [class.loading-active]="weatherApi.loading()">
+<div class="matrix" [class.loading-active]="weatherApi.loading()"
+  (touchstart)="onTouchStart($event)"
+  (touchend)="onTouchEnd($event)">
   <h2>Date: {{ context.astroDate() | date:'EEE MMM dd yyyy' }}</h2>
 
   <div class="matrix-controls-row">
