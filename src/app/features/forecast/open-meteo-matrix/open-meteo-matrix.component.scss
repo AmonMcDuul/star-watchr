@@ -8,6 +8,8 @@
   box-shadow:
     0 0 0 1px rgba(120,140,255,0.15),
     0 10px 30px rgba(0,0,0,0.4);
+  cursor: grab;
+  user-select: none;
 }
 
 .row {

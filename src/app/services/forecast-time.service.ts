@@ -28,4 +28,8 @@ export class ForecastTimeService {
   reset() {
     this.offsetHours.set(0);
   }
+
+  setOffset(hours: number) {
+    this.offsetHours.set(hours);
+  }
 }

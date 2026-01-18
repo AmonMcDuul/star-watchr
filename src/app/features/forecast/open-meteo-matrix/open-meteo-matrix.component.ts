@@ -27,8 +27,12 @@ export class OpenMeteoMatrixComponent implements OnInit {
   tooltipY = 0;
   mobileTooltipVisible = false;
 
-  private touchStartX = 0;
-  private touchStartY = 0;
+  private startX = 0;
+  private startOffset = 0;
+  private dragging = false;
+
+  private readonly PX_PER_HOUR = 60; 
+
 
   readonly pointsCount = signal(8);
 
@@ -140,47 +144,54 @@ export class OpenMeteoMatrixComponent implements OnInit {
     }
   }
 
-  onTouchStart(event: TouchEvent) {
-    const touch = event.touches[0];
-    this.touchStartX = touch.clientX;
-    this.touchStartY = touch.clientY;
+  onPointerStart(x: number) {
+    this.startX = x;
+    this.startOffset = this.time.offsetHours();
+    this.dragging = true;
   }
 
-  onTouchEnd(event: TouchEvent) {
-    const touch = event.changedTouches[0];
+  onPointerMove(x: number) {
+    if (!this.dragging) return;
 
-    const deltaX = touch.clientX - this.touchStartX;
-    const deltaY = touch.clientY - this.touchStartY;
+    const dx = x - this.startX;
+    const deltaHours = -dx / this.PX_PER_HOUR;
 
-    const absX = Math.abs(deltaX);
-    const absY = Math.abs(deltaY);
-
-    if (absX < 40 || absX < absY) return;
-
-    if (deltaX < 0) {
-      this.shiftForward();
-    } else {
-      this.shiftBackward();
-    }
-  }
-
-  private shiftForward() {
     const step = this.time.window().stepHours;
-
     const maxOffset =
-      this.weatherApi.cards().length * step - this.time.window().windowHours;
+      this.weatherApi.cards().length * step -
+      this.time.window().windowHours;
 
-    if (this.time.offsetHours() + step <= maxOffset) {
-      this.time.shift(step);
-    }
+    let next = this.startOffset + deltaHours;
+
+    next = Math.max(0, Math.min(maxOffset, next));
+
+    this.time.setOffset(next);
   }
 
-  private shiftBackward() {
-    const step = this.time.window().stepHours;
+  onPointerEnd() {
+    if (!this.dragging) return;
+    this.dragging = false;
 
-    if (this.time.offsetHours() - step >= 0) {
-      this.time.shift(-step);
-    }
+    const step = this.time.window().stepHours;
+    const snapped =
+      Math.round(this.time.offsetHours() / step) * step;
+
+    this.time.setOffset(snapped);
+  }
+
+  onMouseDown(event: MouseEvent) {
+    event.preventDefault();
+    this.onPointerStart(event.clientX);
+
+    const move = (e: MouseEvent) => this.onPointerMove(e.clientX);
+    const up = () => {
+      this.onPointerEnd();
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseup', up);
+    };
+
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', up);
   }
 
 }
