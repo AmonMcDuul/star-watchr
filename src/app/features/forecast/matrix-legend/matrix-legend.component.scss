@@ -102,11 +102,19 @@
 .trans.t9 { background: #66cc66; }
 
 
-.astro-night { background: rgba(140,40,53,0.7); }
-.astro-night-partial { background: rgba(140,40,53,0.44); }
+.astro-night { background: linear-gradient(to top, rgba(140, 40, 53, 0.7), rgba(140,40,53,0.05)); }
+.astro-night-partial { background: linear-gradient(to top, rgba(140,40,53,0.4), rgba(140,40,53,0.15)); }
 
-.moon-bar { background: rgba(242,243,248,0.075); }
-.moon-bar-partial { background: rgba(242,243,248,0.026); }
+.moon-bar { background: linear-gradient(
+    to top,
+    rgba(242, 243, 248, 0.05),
+    rgba(242, 243, 248, 0.15)
+  ); }
+.moon-bar-partial { background: linear-gradient(
+    to top,
+    rgba(242, 243, 248, 0.02),
+    rgba(242, 243, 248, 0.08)
+  ); }
 
 @media (max-width: 768px) {
   .matrix-legend {

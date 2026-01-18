@@ -11,6 +11,7 @@
   (touchmove)="onPointerMove($event.touches[0].clientX)"
   (touchend)="onPointerEnd()">
   <h2>Date: {{ context.astroDate() | date:'EEE MMM dd yyyy' }}</h2>
+  <br>
 
   <div class="matrix-controls-row">
     <div class="matrix-controls">
