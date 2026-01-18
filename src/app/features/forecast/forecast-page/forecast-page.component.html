@@ -1,22 +1,4 @@
-<!-- <div class="forecast-toggle">
-  <button
-    class="toggle-btn"
-    [class.active]="openMeteo()"
-    (click)="openMeteo.set(true)"
-  >
-    Open-Meteo
-  </button>
-
-  <button
-    class="toggle-btn"
-    [class.active]="!openMeteo()"
-    (click)="openMeteo.set(false)"
-  >
-    7timer
-  </button>
-</div> -->
 <app-location-search></app-location-search>
-<!-- @if (openMeteo()) { -->
   <app-open-meteo-matrix></app-open-meteo-matrix>
 
   <div class="legend-suncalc-container">
@@ -30,7 +12,3 @@
   </div>
   <br><br>
   <br><br>
-<!-- } -->
-<!-- @else {
-  <app-forecast-matrix></app-forecast-matrix>
-} -->
