@@ -18,26 +18,9 @@ export class ForecastContextService {
   private openMeteoService = inject(OpenMeteoService);
   private time = inject(ForecastTimeService);
 
-
   private planetCache = new Map<string, string[]>();
 
   readonly mode = signal<ForecastMode>('24h');
-
-  // readonly astroDate = computed(() => {
-  //   const today = new Date();
-  //   switch (this.mode()) {
-  //     case '24h':
-  //       return today;
-  //     case '24h/48h':
-  //       today.setDate(today.getDate() + 1);
-  //       return today;
-  //     case '48h/72h':
-  //       today.setDate(today.getDate() + 2);
-  //       return today;
-  //     default:
-  //       return today;
-  //   }
-  // });
 
   readonly astroDate = computed(() => {
     const cards = this.openMeteoService.cards();
@@ -105,7 +88,7 @@ export class ForecastContextService {
     const t = this.sunTimes();
     if (!t.nightEnd || !t.night) return '';
 
-    const STEP_HOURS = 3;
+    const STEP_HOURS = 1;
     const HALF_STEP = STEP_HOURS / 2;
 
     const start = this.toMinutes(new Date(date.getTime() - HALF_STEP * 3600_000));
@@ -124,7 +107,7 @@ export class ForecastContextService {
     const m = this.moonTimes();
     if (!m.rise || !m.set) return '';
 
-    const STEP_HOURS = 3;
+    const STEP_HOURS = 1;
     const HALF_STEP = STEP_HOURS / 2;
 
     const start = this.toMinutes(new Date(date.getTime() - HALF_STEP * 3600_000));
