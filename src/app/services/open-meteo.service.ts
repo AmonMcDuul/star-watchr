@@ -22,23 +22,27 @@ export class OpenMeteoService {
   load(lat: number, lon: number) {
     this._loading.set(true);
 
-    this.http.get('https://api.open-meteo.com/v1/forecast', {
-      params: {
-        latitude: lat.toString(),
-        longitude: lon.toString(),
-        hourly: [
-          'cloudcover',
-          'cloudcover_high',
-          'cloudcover_mid',
-          'cloudcover_low',
-          'temperature_2m',
-          'windspeed_10m',
-          'winddirection_10m',
-          'visibility'
-        ],
-        timezone: 'auto'
-      }
-    }).subscribe({
+      this.http.get('https://api.open-meteo.com/v1/forecast', {
+        params: {
+          latitude: lat.toString(),
+          longitude: lon.toString(),
+          hourly: [
+            'cloudcover',           
+            'cloudcover_high',      
+            'cloudcover_mid',
+            'cloudcover_low',
+            'temperature_2m',
+            'relativehumidity_2m',
+            'dewpoint_2m',
+            'surface_pressure',     
+            'windspeed_10m',
+            'winddirection_10m',
+            'visibility',
+          ],
+          timezone: 'auto'
+        }
+      })
+      .subscribe({
       next: r => {
         this._data.set(r);
         this._loading.set(false);

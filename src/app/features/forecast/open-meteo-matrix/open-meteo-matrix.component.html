@@ -21,7 +21,7 @@
     <button (click)="time.shift(time.window().stepHours)" [disabled]="nextDisabled">▶</button>
   </div>
     </div>
-
+    <div class="matrix-controls">
     <div class="matrix-controls">
       <button (click)="time.reset(); time.shift(24)"  [class.active]="isActiveDay(1)">{{ dayPlus(1) }}</button>
       <button (click)="time.reset(); time.shift(48)"  [class.active]="isActiveDay(2)">{{ dayPlus(2) }}</button>
@@ -30,6 +30,7 @@
       <button (click)="time.reset(); time.shift(120)" [class.active]="isActiveDay(5)">{{ dayPlus(5) }}</button>
       <!-- <button (click)="time.reset(); time.shift(144)" [class.active]="isActiveDay(6)">{{ dayPlus(6) }}</button> -->
     </div>
+    </div>
   </div>
   <br>
 
@@ -37,14 +38,14 @@
   <div class="row header">
     <div class="label"></div>
     @for (c of cardsToShow(); track c.time) {
-      <div class="cell time" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
+      <div class="cell time head" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
      (mouseleave)="onHover(null, null)">{{ c.time | date:'HH:mm' }}h</div>
     }
   </div>
   <div class="row header">
     <div class="label"></div>
     @for (c of cardsToShow(); track c.timepoint) {
-      <div class="cell time" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
+      <div class="cell time head" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
      (mouseleave)="onHover(null, null)">+{{ c.timepoint }}h</div>
     }
   </div>

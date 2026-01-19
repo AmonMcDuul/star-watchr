@@ -14,6 +14,7 @@
   cursor: pointer;
   transition: width 0.3s ease, padding 0.3s ease;
   overflow: hidden;
+  margin-top: 10px;
 }
 
 .location-search.active {
@@ -65,6 +66,9 @@
 }
 
 .chosen-location {
+  margin-top: 30px;
   margin-left: 1rem;
-  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #9fb0ff;
 }

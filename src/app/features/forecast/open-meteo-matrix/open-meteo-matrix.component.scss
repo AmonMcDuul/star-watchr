@@ -23,9 +23,12 @@
   position: sticky;
   top: 0;
   z-index: 5;
-  background: #0b1020;
   color: #dbe3ff;
   font-size: clamp(0.6rem, 2vw, 0.75rem);
+}
+
+.head {
+  background-color: #0b1020;
 }
 
 h2 {
@@ -61,29 +64,29 @@ h2 {
   box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15);
 }
 
-.cloud.c9 { background: #ff4d4d; }
-.cloud.c8 { background: #ff6666; }
-.cloud.c7 { background: #ff9999; }
-.cloud.c6 { background: #ffcc66; }
-.cloud.c5 { background: #ffee66; }
-.cloud.c4 { background: #ccff66; }
-.cloud.c3 { background: #99ff66; }
-.cloud.c2 { background: #66ff66; }
-.cloud.c1 { background: #33cc33; }
+.cloud.c9 { background: linear-gradient(to bottom, #990000, #ff4d4d); }
+.cloud.c8 { background: linear-gradient(to bottom, #b23333, #ff6666); }
+.cloud.c7 { background: linear-gradient(to bottom, #cc6666, #ff9999); }
+.cloud.c6 { background: linear-gradient(to bottom, #996633, #ffcc66); }
+.cloud.c5 { background: linear-gradient(to bottom, #cccc66, #ffee66); }
+.cloud.c4 { background: linear-gradient(to bottom, #66cc33, #ccff66); }
+.cloud.c3 { background: linear-gradient(to bottom, #66ff66, #99ff66); }
+.cloud.c2 { background: linear-gradient(to bottom, #33cc33, #66ff66); }
+.cloud.c1 { background: linear-gradient(to bottom, #006600, #33cc33); }
 
-.seeing.s1 { background: #ff3333; }
-.seeing.s2 { background: #ff6666; }
-.seeing.s3 { background: #ff9966; }
-.seeing.s4 { background: #ffcc66; }
-.seeing.s5 { background: #ffff66; }
-.seeing.s6 { background: #ccff66; }
-.seeing.s7 { background: #99ff66; }
-.seeing.s8 { background: #66ff66; }
-.seeing.s9 { background: #33cc33; }
+.seeing.s1 { background: linear-gradient(to bottom, #990000, #ff3333); }
+.seeing.s2 { background: linear-gradient(to bottom, #b23333, #ff6666); }
+.seeing.s3 { background: linear-gradient(to bottom, #cc9966, #ff9966); }
+.seeing.s4 { background: linear-gradient(to bottom, #cca366, #ffcc66); }
+.seeing.s5 { background: linear-gradient(to bottom, #cccc66, #ffff66); }
+.seeing.s6 { background: linear-gradient(to bottom, #66cc33, #ccff66); }
+.seeing.s7 { background: linear-gradient(to bottom, #33cc33, #99ff66); }
+.seeing.s8 { background: linear-gradient(to bottom, #006600, #33cc33); }
 
-.trans.t2 { background: #ff6666; }
-.trans.t6 { background: #ffee66; }
-.trans.t9 { background: #66cc66; }
+.trans.t2 { background: linear-gradient(to bottom, #b24d00, #ff6666); }
+.trans.t6 { background: linear-gradient(to bottom, #998000, #ffee66); }
+.trans.t9 { background: linear-gradient(to bottom, #339933, #66cc66); }
+
 
 .bar.trans {
   width: 40px;

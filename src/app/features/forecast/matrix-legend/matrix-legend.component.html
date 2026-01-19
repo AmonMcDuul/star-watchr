@@ -1,5 +1,6 @@
 <div class="matrix-legend">
   <h2>Legend</h2>
+
   <div class="legend-columns">
 
     <div class="legend-column legend-left">
@@ -25,15 +26,14 @@
         <div class="legend-section">
           <h3>Seeing</h3>
           <div class="legend-column-items">
-            <div class="legend-item"><span class="dot seeing s1"></span><span>Very Poor (1/9)</span></div>
-            <div class="legend-item"><span class="dot seeing s2"></span><span>2/9</span></div>
-            <div class="legend-item"><span class="dot seeing s3"></span><span>3/9</span></div>
-            <div class="legend-item"><span class="dot seeing s4"></span><span>4/9</span></div>
-            <div class="legend-item"><span class="dot seeing s5"></span><span>5/9</span></div>
-            <div class="legend-item"><span class="dot seeing s6"></span><span>6/9</span></div>
-            <div class="legend-item"><span class="dot seeing s7"></span><span>7/9</span></div>
-            <div class="legend-item"><span class="dot seeing s8"></span><span>8/9</span></div>
-            <div class="legend-item"><span class="dot seeing s9"></span><span>Excellent (9/9)</span></div>
+            <div class="legend-item"><span class="dot seeing s1"></span><span>Very Poor (1/8)</span></div>
+            <div class="legend-item"><span class="dot seeing s2"></span><span>2/8</span></div>
+            <div class="legend-item"><span class="dot seeing s3"></span><span>3/8</span></div>
+            <div class="legend-item"><span class="dot seeing s4"></span><span>4/8</span></div>
+            <div class="legend-item"><span class="dot seeing s5"></span><span>5/8</span></div>
+            <div class="legend-item"><span class="dot seeing s6"></span><span>6/8</span></div>
+            <div class="legend-item"><span class="dot seeing s7"></span><span>7/8</span></div>
+            <div class="legend-item"><span class="dot seeing s8"></span><span>Excellent 8/8</span></div>
           </div>
         </div>
 
@@ -41,6 +41,7 @@
     </div>
 
     <div class="legend-column legend-right">
+
       <!-- Transparency -->
       <div class="legend-section">
         <h3>Transparency</h3>
@@ -68,7 +69,57 @@
           <div class="legend-item"><span class="cell moon-bar-partial"></span><span>Moon Partially Up</span></div>
         </div>
       </div>
-    </div>
 
+    </div>
   </div>
+
+  <!-- Explanation -->
+  <div class="legend-explanation">
+
+    <button
+      class="legend-toggle"
+      (click)="toggleCalculationInfo()"
+      [attr.aria-expanded]="showCalculationInfo"
+      aria-controls="legend-calc-content">
+
+      How the values are calculated
+      <span class="chevron" [class.open]="showCalculationInfo"></span>
+    </button>
+
+    <div
+      id="legend-calc-content"
+      class="legend-calc-content"
+      *ngIf="showCalculationInfo">
+
+      <h4>Cloud cover</h4>
+      <p>
+        Cloud cover is calculated from the forecasted total cloud percentage.
+        The percentage of cloud cover is converted into a numeric value to represent
+        how much of the sky is obstructed by clouds.
+      </p>
+
+      <h4>Seeing</h4>
+      <p>
+        Seeing estimates how stable the atmosphere is for astronomical observing.
+        It is calculated using surface wind speed, atmospheric pressure, temperature
+        gradients in the atmosphere, and high-altitude wind (jet stream) data when available.
+      </p>
+
+      <h4>Transparency</h4>
+      <p>
+        Transparency estimates how clear and light-transparent the atmosphere is.
+        It is derived from forecasted visibility, relative humidity, and the amount
+        of high-level cloud cover, which can reduce sky clarity even without thick clouds.
+      </p>
+
+      <!-- <h4>Overall score</h4>
+      <p>
+        The overall score combines cloud cover, seeing, and transparency into a single
+        value that represents the overall suitability for astronomical observation at
+        a given time.
+      </p> -->
+
+    </div>
+  </div>
+
 </div>
