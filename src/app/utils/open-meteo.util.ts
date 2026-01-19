@@ -11,10 +11,10 @@ function getHourlyVar(api: any, nameOptions: string[], i: number) {
 
 export function mapOpenMeteoToAstroCards(api: any): AstroCard[] {
   const now = new Date();
-
+  const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
   return api.hourly.time
     .map((t: string, i: number) => ({ t: new Date(t), i }))
-    .filter((x: { t: Date; i: number }) => x.t >= now)
+    .filter((x: { t: Date; i: number }) => x.t >= oneHourAgo)
     .map(({ t, i }: { t: Date; i: number }) => {
       const cloudTotal = getHourlyVar(api, ['cloudcover', 'cloud_cover'], i) ?? 0;
       const cloudHigh = getHourlyVar(api, ['cloudcover_high', 'cloud_cover_high'], i) ?? 0;

@@ -21,7 +21,6 @@ export class OpenMeteoService {
 
   load(lat: number, lon: number) {
     this._loading.set(true);
-
       this.http.get('https://api.open-meteo.com/v1/forecast', {
         params: {
           latitude: lat.toString(),
