@@ -176,17 +176,44 @@
     }
   </div>
   @if (hoverCard()) {
-  <div class="matrix-tooltip" *ngIf="hoverCard()" [style.top.px]="tooltipY" [style.left.px]="tooltipX">
-    <strong>{{ hoverCard().time | date:'HH:mm' }}</strong>
-    <div>Cloud cover: {{ hoverCard().cloudcover }}/9</div>
-    <div>Seeing: {{ hoverCard().seeing }}/8</div>
-    <div>Transparency: {{ hoverCard().transparency }}/8</div>
-    <div>Temp: {{ hoverCard().temperature }} °C</div>
-    <div>Wind: {{ hoverCard().windSpeed }} m/s {{ hoverCard().windDir }}</div>
-    <div>Moon phase: {{ context.moonPhaseLabel() }}</div>
+    <div class="matrix-tooltip" [style.top.px]="tooltipY" [style.left.px]="tooltipX">
+    <strong class="time">Time: {{ hoverCard().time | date:'HH:mm' }}</strong>
+
+    <div class="tooltip-row">
+      <span class="label">Cloud cover:</span>
+      <span class="value">{{ hoverCard().cloudcover }}/9</span>
+    </div>
+
+    <div class="tooltip-row">
+      <span class="label">Seeing:</span>
+      <span class="value">{{ hoverCard().seeing }}/8</span>
+    </div>
+
+    <div class="tooltip-row">
+      <span class="label">Transparency:</span>
+      <span class="value">{{ hoverCard().transparency }}/3</span>
+    </div>
+
+    <div class="tooltip-row">
+      <span class="label">Temp:</span>
+      <span class="value temp">{{ hoverCard().temperature }} °C</span>
+    </div>
+
+    <div class="tooltip-row">
+      <span class="label">Wind:</span>
+      <span class="value">{{ hoverCard().windSpeed }} m/s {{ hoverCard().windDir }}</span>
+    </div>
+
+    <div class="tooltip-row">
+      <span class="label">Moon phase:</span>
+      <span class="value moon">{{ context.moonPhaseLabel() }}</span>
+    </div>
     @if(context.isAstroNight(hoverCard().time) !== "full"){
-      <div>planets: {{ context.planetsVisibleAt(hoverCard().time).join(', ') }}</div>
-    }
+    <div class="tooltip-row">
+      <span class="label">Planets:</span>
+      <span class="value planets">{{ context.planetsVisibleAt(hoverCard().time).join(', ') }}</span>
+    </div>    
+  }
   </div>
 }
 </div>

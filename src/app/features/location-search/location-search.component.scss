@@ -8,67 +8,87 @@
 .location-search {
   display: flex;
   align-items: center;
-  // background: rgba(20,20,40,0.9);
   padding: 0.3rem 0.5rem;
   width: 40px;
+  min-width: 40px;
   cursor: pointer;
   transition: width 0.3s ease, padding 0.3s ease;
   overflow: hidden;
   margin-top: 10px;
-}
-
-.location-search.active {
-  width: 250px;
-  padding: 0.3rem 1rem;
-  cursor: auto;
-}
-
-.location-search input {
-  border: none;
-  background: transparent;
-  color: white;
-  margin-left: 0.5rem;
-  flex: 1;
-  outline: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.location-search.active input {
-  opacity: 1;
-}
-
-.location-search .icon {
   font-size: 1.2rem;
+  border-radius: 8px;
+  // background: rgba(20, 20, 40, 0.9);
+
+  &.active {
+    width: 100%;
+    max-width: 250px;
+    padding: 0.3rem 1rem;
+    cursor: auto;
+    color: #9fb0ff;
+    background: rgba(20, 20, 40, 0.9);
+
+    input {
+      opacity: 1;
+    }
+  }
+
+  input {
+    border: none;
+    background: transparent;
+    color: #9fb0ff;
+    margin-left: 0.5rem;
+    flex: 1;
+    outline: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+}
+
+.icon {
+  color: #9fb0ff;
+  font-size: 1.8rem;
+  flex-shrink: 0; 
 }
 
 .results {
   position: absolute;
   top: 100%;
   left: 0;
-  background: rgba(20,20,40,0.95);
+  background: rgba(20, 20, 40, 0.95);
   border-radius: 8px;
   margin-top: 0.3rem;
   width: 100%;
   z-index: 100;
   max-height: 200px;
   overflow-y: auto;
-}
+  color: #9fb0ff;
 
-.results li {
-  padding: 0.5rem;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
+  li {
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
 
-.results li:hover {
-  background: rgba(50,50,80,0.9);
+    &:hover {
+      background: rgba(50, 50, 80, 0.9);
+    }
+  }
 }
 
 .chosen-location {
-  margin-top: 30px;
+  margin-top: 25px;
   margin-left: 1rem;
   font-size: 1rem;
   font-weight: 600;
   color: #9fb0ff;
+}
+
+@media (max-width: 480px) {
+  .location-search {
+    width: 40px;
+    max-width: 100%;
+
+    &.active {
+      width: 90%;
+    }
+  }
 }
