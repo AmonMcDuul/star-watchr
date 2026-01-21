@@ -10,7 +10,7 @@
   (touchstart)="onPointerStart($event.touches[0].clientX)"
   (touchmove)="onPointerMove($event.touches[0].clientX)"
   (touchend)="onPointerEnd()">
-  <h2>Date: {{ context.astroDate() | date:'EEE MMM dd yyyy' }}</h2>
+  <h2> {{ context.astroDate() | date:'EEEE MMM dd yyyy' }}</h2>
   <br>
 
   <div class="matrix-controls-row">
@@ -36,19 +36,19 @@
 
   <!-- header row -->
   <div class="row header">
-    <div class="label"></div>
+    <div class="label">Time </div>
     @for (c of cardsToShow(); track c.time) {
       <div class="cell time head" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
      (mouseleave)="onHover(null, null)">{{ c.time | date:'HH:mm' }}h</div>
     }
   </div>
-  <div class="row header">
+  <!-- <div class="row header">
     <div class="label"></div>
     @for (c of cardsToShow(); track c.timepoint) {
       <div class="cell time head" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
      (mouseleave)="onHover(null, null)">+{{ c.timepoint }}h</div>
     }
-  </div>
+  </div> -->
 
   <!-- cloud cover -->
   <div class="row">
