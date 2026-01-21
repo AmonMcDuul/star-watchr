@@ -51,6 +51,7 @@ export function mapToAstroCardVM(
     cloudLabel: cloudLabelFromValue(d.cloudcover),
 
     cloudcover: d.cloudcover,
+    astroCloudcover: -9999,
     seeing: d.seeing,
     transparency: d.transparency,
 

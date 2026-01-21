@@ -16,8 +16,12 @@ export function mapOpenMeteoToAstroCards(api: any): AstroCard[] {
     .map((t: string, i: number) => ({ t: new Date(t), i }))
     .filter((x: { t: Date; i: number }) => x.t >= oneHourAgo)
     .map(({ t, i }: { t: Date; i: number }) => {
-      const cloudTotal = getHourlyVar(api, ['cloudcover', 'cloud_cover'], i) ?? 0;
-      const cloudHigh = getHourlyVar(api, ['cloudcover_high', 'cloud_cover_high'], i) ?? 0;
+      // const cloudTotal = getHourlyVar(api, ['cloudcover', 'cloud_cover'], i) ?? 0;
+      // const cloudHigh = getHourlyVar(api, ['cloudcover_high', 'cloud_cover_high'], i) ?? 0;
+      const cloudTotal = getHourlyVar(api, ['cloudcover'], i) ?? 0;
+      const cloudLow   = getHourlyVar(api, ['cloudcover_low'], i) ?? 0;
+      const cloudMid   = getHourlyVar(api, ['cloudcover_mid'], i) ?? 0;
+      const cloudHigh  = getHourlyVar(api, ['cloudcover_high'], i) ?? 0;
       const vis = getHourlyVar(api, ['visibility'], i) ?? 10000;
       const rh = getHourlyVar(api, ['relativehumidity_2m', 'relative_humidity_2m'], i) ?? null;
       const dew = getHourlyVar(api, ['dewpoint_2m', 'dew_point_2m'], i) ?? null;
@@ -28,7 +32,15 @@ export function mapOpenMeteoToAstroCards(api: any): AstroCard[] {
       const w500 = getHourlyVar(api, ['wind_speed_500hPa','wind_speed_500'], i) ?? null;
 
       const cloudScore = normalizeCloud(cloudTotal);
-
+      let astroCloud = calculateAstroCloud(
+        cloudLow,
+        cloudMid,
+        cloudHigh
+      );
+      //extra normalisatie
+      if (cloudLow < 20 && cloudMid < 20 && cloudHigh > 70) {
+        astroCloud = Math.max(1, astroCloud - 1);
+      }
       const transparency = estimateTransparency(vis, rh, cloudHigh);
 
       const tempGradient = (t850 !== null && t2m !== null) ? (t2m - t850) : (t2m !== null && dew !== null ? t2m - dew : null);
@@ -39,6 +51,7 @@ export function mapOpenMeteoToAstroCards(api: any): AstroCard[] {
         timepoint: Math.round((t.getTime() - now.getTime()) / 3600_000),
 
         cloudcover: cloudScore,
+        astroCloudcover: astroCloud,
         transparency,
         seeing,
 
@@ -46,7 +59,7 @@ export function mapOpenMeteoToAstroCards(api: any): AstroCard[] {
         windSpeed: ws10,
         windDir: getHourlyVar(api, ['winddirection_10m','wind_direction_10m'], i),
 
-        score: calculateScore({ cloudcover: cloudScore, transparency, seeing }),
+        score: calculateScore({ cloudcover: astroCloud, transparency, seeing }),
         cloudLabel: ''
       };
 
@@ -59,6 +72,18 @@ export function mapOpenMeteoToAstroCards(api: any): AstroCard[] {
 function normalizeCloud(v: number): number {
   const scaled = Math.round((v / 100) * 8); // 0..8
   return Math.min(9, Math.max(1, 1 + scaled)); // maps 0->1, 100->9
+}
+
+function calculateAstroCloud(
+  low: number,
+  mid: number,
+  high: number
+): number {
+  const weighted =
+    0.6 * low +
+    0.3 * mid +
+    0.1 * high;
+  return normalizeCloud(weighted);
 }
 
 function estimateTransparency(visibility: number, humidity: number | null, cloudHigh: number): number {
@@ -88,32 +113,29 @@ function estimateSeeing(
   tempGradient: number | null,
   wind500hPa: number | null
 ): number {
-  let s = 1;
-
+  let s = 3; 
+  let penalties = 0;
   if (wind10m !== null) {
-    if (wind10m > 8) s += 2;
-    else if (wind10m > 4) s += 1;
+    if (wind10m > 7) penalties++;
   }
 
   if (tempGradient !== null) {
-    const g = Math.abs(tempGradient);
-    if (g > 10) s += 2;
-    else if (g > 6) s += 1;
+    if (Math.abs(tempGradient) > 10) penalties++;
   }
 
-  if (surfacePressure !== null && surfacePressure < 1010) {
-    s += 1;
+  if (surfacePressure !== null && surfacePressure < 1008) {
+    penalties++;
   }
 
   if (wind500hPa !== null) {
-    if (wind500hPa > 80) s += 3;
-    else if (wind500hPa > 50) s += 2;
-    else if (wind500hPa > 30) s += 1;
+    if (wind500hPa > 55) penalties++;
   }
 
-  s = Math.min(8, Math.max(1, Math.round(s)));
+  penalties = Math.min(2, penalties);
 
-  return 9 - s;
+  s = 3 + penalties;
+
+  return 9 - s; 
 }
 
 

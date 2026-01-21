@@ -6,6 +6,7 @@ export interface AstroCard {
 
   cloudLabel: string;
   cloudcover: number;
+  astroCloudcover: number;
   seeing: number;
   transparency: number;
 

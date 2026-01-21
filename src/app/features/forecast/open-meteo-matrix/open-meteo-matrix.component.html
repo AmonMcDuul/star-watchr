@@ -71,7 +71,28 @@
       </div>
     }
   </div>
-
+  <div class="row">
+    <div class="label">Astro Cloud</div>
+    @for (c of cardsToShow(); track c.timepoint) {
+      <div class="cell"
+          (touchstart)="onMobileHover(c, $event)"
+          (mouseenter)="onHover(c, $event)"
+          (mouseleave)="onHover(null, null)">
+        <span
+          class="dot cloud"
+          [class.c1]="c.astroCloudcover == 1"
+          [class.c2]="c.astroCloudcover == 2"
+          [class.c3]="c.astroCloudcover == 3"
+          [class.c4]="c.astroCloudcover == 4"
+          [class.c5]="c.astroCloudcover == 5"
+          [class.c6]="c.astroCloudcover == 6"
+          [class.c7]="c.astroCloudcover == 7"
+          [class.c8]="c.astroCloudcover == 8"
+          [class.c9]="c.astroCloudcover == 9">
+        </span>
+      </div>
+    }
+  </div>
   <!-- seeing -->
   <div class="row">
     <div class="label">Seeing</div>
@@ -91,9 +112,9 @@
      (mouseleave)="onHover(null, null)">
         <span
           class="bar trans"
-          [class.t2]="c.transparency <= 2"
-          [class.t6]="c.transparency > 2 && c.transparency <= 6"
-          [class.t9]="c.transparency > 6">
+          [class.t2]="c.transparency === 1"
+          [class.t6]="c.transparency === 2"
+          [class.t9]="c.transparency === 3">
         </span>      
       </div>
     }
@@ -180,8 +201,13 @@
     <strong class="time">Time: {{ hoverCard().time | date:'HH:mm' }}</strong>
 
     <div class="tooltip-row">
-      <span class="label">Cloud cover:</span>
+      <span class="label">Cloud (total):</span>
       <span class="value">{{ hoverCard().cloudcover }}/9</span>
+    </div>
+
+    <div class="tooltip-row">
+      <span class="label">Astro cloud (normalised):</span>
+      <span class="value">{{ hoverCard().astroCloudcover }}/9</span>
     </div>
 
     <div class="tooltip-row">
