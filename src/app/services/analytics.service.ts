@@ -4,6 +4,7 @@ import { Injectable } from "@angular/core";
 @Injectable({ providedIn: 'root' })
 export class AnalyticsService {
   private readonly userSeedKey = 'analytics_user_seed';
+  private apiUrl = 'https://starwatchr-api.azurewebsites.net'
 
   constructor(private http: HttpClient) {}
 
@@ -23,7 +24,7 @@ export class AnalyticsService {
       path
     };
 
-    this.http.post('/api/analytics/pageview', payload, {
+    this.http.post(`${this.apiUrl}/metrics/pageview`, payload, {
       headers: { 'Content-Type': 'application/json' }
     }).subscribe();
   }
