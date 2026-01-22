@@ -23,7 +23,8 @@ export class AnalyticsService {
       path
     };
 
-    this.http.post('/analytics/pageview', payload)
-      .subscribe({ error: () => {} });
+    this.http.post('/api/analytics/pageview', payload, {
+      headers: { 'Content-Type': 'application/json' }
+    }).subscribe();
   }
-}
+} 
