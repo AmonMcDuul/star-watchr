@@ -38,8 +38,8 @@ export function mapOpenMeteoToAstroCards(api: any): AstroCard[] {
         cloudHigh
       );
       //extra normalisatie
-      if (cloudLow < 20 && cloudMid < 20 && cloudHigh > 70) {
-        astroCloud = Math.max(1, astroCloud - 1);
+      if (cloudLow < 20 && cloudMid < 20 && cloudHigh > 40) {
+        astroCloud = Math.max(2, astroCloud);
       }
       const transparency = estimateTransparency(vis, rh, cloudHigh);
 
