@@ -4,6 +4,7 @@ import { HeaderComponent } from "./components/header/header.component";
 import { FooterComponent } from "./components/footer/footer.component";
 import { filter } from 'rxjs';
 import { SeoService } from './services/seo.service';
+import { AnalyticsService } from './services/analytics.service';
 
 @Component({
   selector: 'app-root',
@@ -15,12 +16,15 @@ export class App {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private seo = inject(SeoService);
+  private analytics = inject(AnalyticsService);
+  private lastPath?: string;
+
   protected readonly title = signal('StarWatchr');
 
   constructor() {
     this.router.events
       .pipe(filter(e => e instanceof NavigationEnd))
-      .subscribe(() => {
+      .subscribe((e: NavigationEnd) => {
         let r = this.route.firstChild;
         while (r?.firstChild) r = r.firstChild;
 
@@ -28,7 +32,13 @@ export class App {
         if (data?.['title'] && data?.['description']) {
           this.seo.update(data['title'], data['description']);
         }
+        if (location.hostname !== 'localhost'){
+          const path = e.urlAfterRedirects.split('?')[0].replace(/\/+$/, '') || '/';;
+          if (path !== this.lastPath) {
+            this.lastPath = path;
+            this.analytics.trackPageView(path);
+          }
+        }
       });
   }
-  
 }
