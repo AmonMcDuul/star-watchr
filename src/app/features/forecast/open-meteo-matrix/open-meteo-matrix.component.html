@@ -6,6 +6,7 @@
   }
 
 <div class="matrix" [class.loading-active]="weatherApi.loading()"
+  [class.dragging]="isDragging()"
   (mousedown)="onMouseDown($event)"
   (touchstart)="onPointerStart($event.touches[0].clientX)"
   (touchmove)="onPointerMove($event.touches[0].clientX)"
@@ -15,27 +16,47 @@
 
   <div class="matrix-controls-row">
     <div class="matrix-controls">
-  <div class="matrix-controls">
-    <button (click)="time.shift(-time.window().stepHours)">◀</button>
-    <button (click)="time.reset()">Now</button>
-    <button (click)="time.shift(time.window().stepHours)" [disabled]="nextDisabled">▶</button>
-  </div>
+      <div class="matrix-controls">
+        <button (click)="time.shift(-time.window().stepHours)">◀</button>
+        <button (click)="time.reset()">Now</button>
+        <button (click)="time.shift(time.window().stepHours)" [disabled]="nextDisabled">▶</button>
+      </div>
     </div>
     <div class="matrix-controls">
-    <div class="matrix-controls">
-      <button (click)="time.reset(); time.shift(24)"  [class.active]="isActiveDay(1)">{{ dayPlus(1) }}</button>
-      <button (click)="time.reset(); time.shift(48)"  [class.active]="isActiveDay(2)">{{ dayPlus(2) }}</button>
-      <button (click)="time.reset(); time.shift(72)"  [class.active]="isActiveDay(3)">{{ dayPlus(3) }}</button>
-      <button (click)="time.reset(); time.shift(96)"  [class.active]="isActiveDay(4)">{{ dayPlus(4) }}</button>
-      <button (click)="time.reset(); time.shift(120)" [class.active]="isActiveDay(5)">{{ dayPlus(5) }}</button>
-      <!-- <button (click)="time.reset(); time.shift(144)" [class.active]="isActiveDay(6)">{{ dayPlus(6) }}</button> -->
+      <div class="matrix-controls">
+        <button (click)="time.reset(); time.shift(24)"  [class.active]="isActiveDay(1)">{{ dayPlus(1) }}</button>
+        <button (click)="time.reset(); time.shift(48)"  [class.active]="isActiveDay(2)">{{ dayPlus(2) }}</button>
+        <button (click)="time.reset(); time.shift(72)"  [class.active]="isActiveDay(3)">{{ dayPlus(3) }}</button>
+        <button (click)="time.reset(); time.shift(96)"  [class.active]="isActiveDay(4)">{{ dayPlus(4) }}</button>
+        <button (click)="time.reset(); time.shift(120)" [class.active]="isActiveDay(5)">{{ dayPlus(5) }}</button>
+        <!-- <button (click)="time.reset(); time.shift(144)" [class.active]="isActiveDay(6)">{{ dayPlus(6) }}</button> -->
+      </div>
     </div>
+    <div class="matrix-controls">
+      <div class="matrix-controls desktop-only">
+        <button
+          class="toggle-btn"
+          [class.active]="pointsCount() === 8"
+          (click)="pointsCount.set(8)">
+          8h
+        </button>
+
+        <button
+          class="toggle-btn"
+          [class.active]="pointsCount() === 24"
+          (click)="pointsCount.set(24)">
+          24h
+        </button>
+      </div>
+    </div>
+      <div class="drag-hint">
+      ⇆ DRAG
     </div>
   </div>
   <br>
 
   <!-- header row -->
-  <div class="row header">
+  <div class="row header hint">
     <div class="label">Time </div>
     @for (c of cardsToShow(); track c.time) {
       <div class="cell time head" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
@@ -51,8 +72,8 @@
   </div> -->
 
   <!-- cloud cover -->
-  <div class="row">
-    <div class="label">Cloud</div>
+  <div class="row hint">
+    <div class="label">Total Cloud</div>
     @for (c of cardsToShow(); track c.timepoint) {
       <div class="cell" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
      (mouseleave)="onHover(null, null)">
@@ -71,8 +92,78 @@
       </div>
     }
   </div>
-  <div class="row">
-    <div class="label">Normalised-Cloud</div>
+
+    <div class="row hint">
+    <div class="label">High cloud</div>
+    @for (c of cardsToShow(); track c.timepoint) {
+      <div class="cell"
+          (touchstart)="onMobileHover(c, $event)"
+          (mouseenter)="onHover(c, $event)"
+          (mouseleave)="onHover(null, null)">
+        <span
+          class="dot cloud"
+          [class.c1]="c.highCloudCover == 1"
+          [class.c2]="c.highCloudCover == 2"
+          [class.c3]="c.highCloudCover == 3"
+          [class.c4]="c.highCloudCover == 4"
+          [class.c5]="c.highCloudCover == 5"
+          [class.c6]="c.highCloudCover == 6"
+          [class.c7]="c.highCloudCover == 7"
+          [class.c8]="c.highCloudCover == 8"
+          [class.c9]="c.highCloudCover == 9">
+        </span>
+      </div>
+    }
+  </div>
+
+    <div class="row hint">
+    <div class="label">Mid cloud</div>
+    @for (c of cardsToShow(); track c.timepoint) {
+      <div class="cell"
+          (touchstart)="onMobileHover(c, $event)"
+          (mouseenter)="onHover(c, $event)"
+          (mouseleave)="onHover(null, null)">
+        <span
+          class="dot cloud"
+          [class.c1]="c.midCloudCover == 1"
+          [class.c2]="c.midCloudCover == 2"
+          [class.c3]="c.midCloudCover == 3"
+          [class.c4]="c.midCloudCover == 4"
+          [class.c5]="c.midCloudCover == 5"
+          [class.c6]="c.midCloudCover == 6"
+          [class.c7]="c.midCloudCover == 7"
+          [class.c8]="c.midCloudCover == 8"
+          [class.c9]="c.midCloudCover == 9">
+        </span>
+      </div>
+    }
+  </div>
+
+    <div class="row hint">
+    <div class="label">Low cloud</div>
+    @for (c of cardsToShow(); track c.timepoint) {
+      <div class="cell"
+          (touchstart)="onMobileHover(c, $event)"
+          (mouseenter)="onHover(c, $event)"
+          (mouseleave)="onHover(null, null)">
+        <span
+          class="dot cloud"
+          [class.c1]="c.lowCloudCover == 1"
+          [class.c2]="c.lowCloudCover == 2"
+          [class.c3]="c.lowCloudCover == 3"
+          [class.c4]="c.lowCloudCover == 4"
+          [class.c5]="c.lowCloudCover == 5"
+          [class.c6]="c.lowCloudCover == 6"
+          [class.c7]="c.lowCloudCover == 7"
+          [class.c8]="c.lowCloudCover == 8"
+          [class.c9]="c.lowCloudCover == 9">
+        </span>
+      </div>
+    }
+  </div>
+
+  <div class="row hint">
+    <div class="label">Cloud Score</div>
     @for (c of cardsToShow(); track c.timepoint) {
       <div class="cell"
           (touchstart)="onMobileHover(c, $event)"
@@ -94,7 +185,7 @@
     }
   </div>
   <!-- seeing -->
-  <div class="row">
+  <div class="row hint">
     <div class="label">Seeing</div>
     @for (c of cardsToShow(); track c.timepoint) {
       <div class="cell" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
@@ -105,7 +196,7 @@
   </div>
 
   <!-- transparency -->
-  <div class="row">
+  <div class="row hint">
     <div class="label">Transparency</div>
     @for (c of cardsToShow(); track c.timepoint) {
       <div class="cell" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
@@ -121,7 +212,7 @@
   </div>
 
   <!-- temperature -->
-  <div class="row">
+  <div class="row hint">
     <div class="label">Temp</div>
     @for (c of cardsToShow(); track c.timepoint) {
       <div class="cell temp" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
@@ -130,7 +221,7 @@
   </div>
 
   <!-- Moon -->
-  <div class="row">
+  <div class="row hint">
     <div class="label">Moon</div>
     @for (c of cardsToShow(); track c.timepoint) {
       <div
@@ -156,7 +247,7 @@
   </div>
   
   <!-- Planets -->
-  <div class="row">
+  <div class="row hint">
     <div class="label">Planets</div>
 
     @for (c of cardsToShow(); track c.timepoint) {
@@ -184,7 +275,7 @@
 
 
   <!-- Twilight -->
-  <div class="row">
+  <div class="row hint">
     <div class="label">Twilight</div>
     @for (c of cardsToShow(); track c.timepoint) {
       <div
@@ -201,12 +292,27 @@
     <strong class="time">Time: {{ hoverCard().time | date:'HH:mm' }}</strong>
 
     <div class="tooltip-row">
-      <span class="label">Cloud (total):</span>
+      <span class="label">Total cloud:</span>
       <span class="value">{{ hoverCard().cloudcover }}/9</span>
     </div>
 
     <div class="tooltip-row">
-      <span class="label">Astro cloud (normalised):</span>
+      <span class="label">High cloud:</span>
+      <span class="value">{{ hoverCard().highCloudCover }}/9</span>
+    </div>
+
+    <div class="tooltip-row">
+      <span class="label">Mid cloud:</span>
+      <span class="value">{{ hoverCard().midCloudCover }}/9</span>
+    </div>
+
+    <div class="tooltip-row">
+      <span class="label">Low cloud:</span>
+      <span class="value">{{ hoverCard().lowCloudCover }}/9</span>
+    </div>
+
+    <div class="tooltip-row">
+      <span class="label">Cloud score:</span>
       <span class="value">{{ hoverCard().astroCloudcover }}/9</span>
     </div>
 

@@ -1,4 +1,5 @@
 .matrix {
+  position: relative;
   overflow-x: auto;
   margin: 20px;
   padding: 1rem;
@@ -10,6 +11,10 @@
     0 10px 30px rgba(0,0,0,0.4);
   cursor: grab;
   user-select: none;
+
+  &.dragging {
+    cursor: grabbing;
+  }
 }
 
 .row {
@@ -40,7 +45,7 @@ h2 {
 
 .label {
   color: #dbe3ff;
-  font-size: clamp(0.7rem, 2.5vw, 0.85rem);
+  font-size: clamp(0.6rem, 2.5vw, 0.85rem);
   white-space: nowrap;
   font-size: 0.9rem;
   color: #9fb0ff;
@@ -64,15 +69,16 @@ h2 {
   box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15);
 }
 
-.cloud.c9 { background: linear-gradient(to bottom, #990000, #ff4d4d); }
-.cloud.c8 { background: linear-gradient(to bottom, #b23333, #ff6666); }
-.cloud.c7 { background: linear-gradient(to bottom, #cc6666, #ff9999); }
-.cloud.c6 { background: linear-gradient(to bottom, #996633, #ffcc66); }
-.cloud.c5 { background: linear-gradient(to bottom, #cccc66, #ffee66); }
-.cloud.c4 { background: linear-gradient(to bottom, #66cc33, #ccff66); }
-.cloud.c3 { background: linear-gradient(to bottom, #66ff66, #99ff66); }
-.cloud.c2 { background: linear-gradient(to bottom, #33cc33, #66ff66); }
-.cloud.c1 { background: linear-gradient(to bottom, #006600, #33cc33); }
+.cloud.c9 { background: linear-gradient(to bottom, #7a0000, #cc3333); }
+.cloud.c8 { background: linear-gradient(to bottom, #993333, #dd5555); }
+.cloud.c7 { background: linear-gradient(to bottom, #b24c4c, #ee7777); }
+.cloud.c6 { background: linear-gradient(to bottom, #a66a2a, #e6a84c); }
+.cloud.c5 { background: linear-gradient(to bottom, #c2a13a, #f0d85c); }
+.cloud.c4 { background: linear-gradient(to bottom, #c9c266, #f5f199); }
+.cloud.c3 { background: linear-gradient(to bottom, #b8d96a, #e6f59a); }
+.cloud.c2 { background: linear-gradient(to bottom, #4caf50, #8fdc8f); }
+.cloud.c1 { background: linear-gradient(to bottom, #1b7f2a, #4caf50); }
+
 
 .seeing.s1 { background: linear-gradient(to bottom, #990000, #ff3333); }
 .seeing.s2 { background: linear-gradient(to bottom, #b23333, #ff6666); }
@@ -219,17 +225,17 @@ h2 {
   }
 }
 
-// .matrix-tooltip {
-//   position: absolute;
-//   z-index: 1000;
-//   padding: 0.8rem 1rem;
-//   border-radius: 10px;
-//   background: #0b1020;
-//   color: #e6ebff;
-//   font-size: 0.75rem;
-//   pointer-events: none;
-//   box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-// }
+
+.desktop-only {
+  display: flex;
+}
+
+@media (max-width: 1150px) {
+  .desktop-only {
+    display: none;
+  }
+}
+
 .matrix-tooltip {
   position: absolute;
   z-index: 1000;
@@ -376,4 +382,31 @@ h2 {
     width: 18px;
     height: 18px;
   }
+}
+
+
+@keyframes nudge {
+  0%   { transform: translateX(0); }
+  40%  { transform: translateX(-12px); }
+  60%  { transform: translateX(-12px); }
+  100% { transform: translateX(0); }
+}
+
+.hint {
+  animation: nudge 1.2s ease-out;
+}
+
+.drag-hint {
+  position: absolute;
+  top: 20px;         
+  right: 16px;
+  font-size: 0.8rem;
+  color: #9fb0ff;
+  opacity: 0;
+  animation: hintFade 0.6s ease forwards;
+  animation-delay: 0.5s;
+}
+
+@keyframes hintFade {
+  to { opacity: 1; }
 }

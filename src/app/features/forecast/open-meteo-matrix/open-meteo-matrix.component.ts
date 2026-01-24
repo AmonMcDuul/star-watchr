@@ -30,6 +30,7 @@ export class OpenMeteoMatrixComponent implements OnInit {
   private startX = 0;
   private startOffset = 0;
   private dragging = false;
+  isDragging = signal(false);
 
   private readonly PX_PER_HOUR = 60; 
 
@@ -49,7 +50,7 @@ export class OpenMeteoMatrixComponent implements OnInit {
   });
   
   constructor() {
-    const media = window.matchMedia('(max-width: 768px)');
+    const media = window.matchMedia('(max-width: 1150px)');
     const mediaSmaller = window.matchMedia('(max-width: 350px)');
 
     const update = () => {
@@ -109,7 +110,7 @@ export class OpenMeteoMatrixComponent implements OnInit {
         ?.getBoundingClientRect();
       if (rect) {
         this.tooltipX = event.clientX - rect.left + 10;
-        this.tooltipY = event.clientY - rect.top + 10;
+        this.tooltipY = event.clientY - rect.top - 200;
       }
     }
   }
@@ -171,6 +172,7 @@ export class OpenMeteoMatrixComponent implements OnInit {
   onPointerEnd() {
     if (!this.dragging) return;
     this.dragging = false;
+    this.isDragging.set(false);
 
     const step = this.time.window().stepHours;
     const snapped =
@@ -182,7 +184,7 @@ export class OpenMeteoMatrixComponent implements OnInit {
   onMouseDown(event: MouseEvent) {
     event.preventDefault();
     this.onPointerStart(event.clientX);
-
+    this.isDragging.set(true);
     const move = (e: MouseEvent) => this.onPointerMove(e.clientX);
     const up = () => {
       this.onPointerEnd();

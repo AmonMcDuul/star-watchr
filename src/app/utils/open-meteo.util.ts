@@ -32,6 +32,10 @@ export function mapOpenMeteoToAstroCards(api: any): AstroCard[] {
       const w500 = getHourlyVar(api, ['wind_speed_500hPa','wind_speed_500'], i) ?? null;
 
       const cloudScore = normalizeCloud(cloudTotal);
+      const highCloudScore = normalizeCloud(cloudHigh);
+      const midCloudScore = normalizeCloud(cloudMid);
+      const lowCloudScore = normalizeCloud(cloudLow);
+
       let astroCloud = calculateAstroCloud(
         cloudLow,
         cloudMid,
@@ -51,6 +55,9 @@ export function mapOpenMeteoToAstroCards(api: any): AstroCard[] {
         timepoint: Math.round((t.getTime() - now.getTime()) / 3600_000),
 
         cloudcover: cloudScore,
+        highCloudCover: highCloudScore,
+        midCloudCover: midCloudScore,
+        lowCloudCover: lowCloudScore,
         astroCloudcover: astroCloud,
         transparency,
         seeing,

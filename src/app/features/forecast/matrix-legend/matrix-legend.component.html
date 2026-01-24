@@ -6,19 +6,19 @@
     <div class="legend-column legend-left">
       <div class="legend-left-sections">
 
-        <!-- Cloud Cover -->
+        <!-- Cloud -->
         <div class="legend-section">
-          <h3>Cloud Cover</h3>
+          <h3>Cloud</h3>
           <div class="legend-column-items">
-            <div class="legend-item"><span class="dot cloud c1"></span><span>Clear (1/9)</span></div>
-            <div class="legend-item"><span class="dot cloud c2"></span><span>2/9</span></div>
-            <div class="legend-item"><span class="dot cloud c3"></span><span>3/9</span></div>
-            <div class="legend-item"><span class="dot cloud c4"></span><span>4/9</span></div>
-            <div class="legend-item"><span class="dot cloud c5"></span><span>5/9</span></div>
-            <div class="legend-item"><span class="dot cloud c6"></span><span>6/9</span></div>
-            <div class="legend-item"><span class="dot cloud c7"></span><span>7/9</span></div>
-            <div class="legend-item"><span class="dot cloud c8"></span><span>8/9</span></div>
             <div class="legend-item"><span class="dot cloud c9"></span><span>Overcast (9/9)</span></div>
+            <div class="legend-item"><span class="dot cloud c8"></span><span>8/9</span></div>
+            <div class="legend-item"><span class="dot cloud c7"></span><span>7/9</span></div>
+            <div class="legend-item"><span class="dot cloud c6"></span><span>6/9</span></div>
+            <div class="legend-item"><span class="dot cloud c5"></span><span>5/9</span></div>
+            <div class="legend-item"><span class="dot cloud c4"></span><span>4/9</span></div>
+            <div class="legend-item"><span class="dot cloud c3"></span><span>3/9</span></div>
+            <div class="legend-item"><span class="dot cloud c2"></span><span>2/9</span></div>
+            <div class="legend-item"><span class="dot cloud c1"></span><span>Clear (1/9)</span></div>
           </div>
         </div>
 
@@ -91,15 +91,15 @@
       class="legend-calc-content"
       *ngIf="showCalculationInfo">
 
-      <h4>Cloud</h4>
+      <h4>Total cloud</h4>
       <p>
-        Cloud cover represents the forecasted total percentage of the sky that is
+        Total cloud cover represents the forecasted total percentage of the sky that is
         covered by clouds, as provided by the weather model.
         It includes all cloud layers (low, mid, and high) and reflects the
         meteorological definition of cloudiness rather than visual sky clarity.
       </p>
 
-      <h4>Normalised loud</h4>
+      <h4>Cloud score</h4>
       <p>
         Normalised cloud cover is an astronomy-optimized interpretation of cloud cover.
         It is calculated by weighting low, mid, and high cloud layers differently,
