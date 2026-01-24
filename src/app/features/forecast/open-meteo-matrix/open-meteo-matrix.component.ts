@@ -35,7 +35,7 @@ export class OpenMeteoMatrixComponent implements OnInit {
   private readonly PX_PER_HOUR = 60; 
 
 
-  readonly pointsCount = signal(8);
+  readonly pointsCount = signal(24);
 
   cardsToShow = computed(() => {
     const cards = this.weatherApi.cards();
@@ -59,7 +59,7 @@ export class OpenMeteoMatrixComponent implements OnInit {
       } else if (media.matches) {
         this.pointsCount.set(7);
       } else {
-        this.pointsCount.set(8);
+        this.pointsCount.set(24);
       }
     };
 
