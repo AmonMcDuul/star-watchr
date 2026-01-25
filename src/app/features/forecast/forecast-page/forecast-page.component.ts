@@ -34,11 +34,7 @@ export class ForecastPageComponent implements OnInit{
       this.weatherApi.load(+saved.lat, +saved.lon);
       this.openMeteoApi.load(+saved.lat, +saved.lon);
       this.planetVisibilityService.setLocation(new Date(), +saved.lat, +saved.lon)
-    } else {
-      this.weatherApi.load(52.37, 4.89);
-      this.openMeteoApi.load(52.37, 4.89);
-      this.planetVisibilityService.setLocation(new Date(), 52.37, 4.89)
-    }
+    } 
   }
 
   ngOnInit(): void {

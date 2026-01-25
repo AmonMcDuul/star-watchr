@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, OnInit, ViewChild } from '@angular/core';
 import { LocationService } from '../../services/location.service';
 import { WeatherApiService } from '../../services/weather-api.service';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +13,7 @@ import { OpenMeteoService } from '../../services/open-meteo.service';
   imports: [CommonModule, FormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LocationSearchComponent {
+export class LocationSearchComponent implements OnInit {
   // fugly temp oplossing voor search bar weer weghalen
   @ViewChild('wrapper') wrapper!: ElementRef<HTMLDivElement>;
   public location = inject(LocationService); 
@@ -22,6 +22,12 @@ export class LocationSearchComponent {
 
   query = '';
   searchActive = false;
+
+  ngOnInit() {
+    if(this.location.selected() == null){
+      this.searchActive = true;
+    }
+  }
 
   onInput() {
     this.location.setQuery(this.query);
