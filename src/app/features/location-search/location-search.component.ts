@@ -58,7 +58,7 @@ export class LocationSearchComponent implements OnInit {
     // fugly temp oplossing voor search bar weer weghalen
     @HostListener('document:click', ['$event'])
     clickOutside(event: MouseEvent) {
-      if(this.location.selected == null){
+      if(this.location.selected() == null){
         return;
       }
       if (this.searchActive && this.wrapper && !this.wrapper.nativeElement.contains(event.target as Node)) {

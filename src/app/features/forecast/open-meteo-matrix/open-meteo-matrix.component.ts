@@ -10,6 +10,7 @@ import {
 import { OpenMeteoService } from '../../../services/open-meteo.service';
 import { ForecastContextService } from '../../../services/forecast-context.service';
 import { ForecastTimeService } from '../../../services/forecast-time.service';
+import { LocationService } from '../../../services/location.service';
 
 @Component({
   selector: 'app-open-meteo-matrix',
@@ -21,6 +22,7 @@ export class OpenMeteoMatrixComponent implements OnInit {
   public weatherApi = inject(OpenMeteoService);
   public context = inject(ForecastContextService);
   public time = inject(ForecastTimeService);
+  public location = inject(LocationService);
 
   hoverCard = signal<any | null>(null);
   tooltipX = 0;

@@ -5,6 +5,20 @@
     </div>
   }
 
+@if(location.selected() == null){
+  <div class="empty-state">
+    <div class="empty-card">
+      <div class="empty-icon"></div>
+      <h3>Select a location</h3>
+      <p>
+        Choose a location to see astronomical conditions,<br>
+        cloud cover and visibility.
+      </p>
+    </div>
+  </div>
+}
+@else{
+
 <div class="matrix" [class.loading-active]="weatherApi.loading()"
   [class.dragging]="isDragging()"
   (mousedown)="onMouseDown($event)"
@@ -349,3 +363,4 @@
   </div>
 }
 </div>
+}
