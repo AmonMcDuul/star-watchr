@@ -3,7 +3,6 @@ import { LocationService } from './location.service';
 import SunCalc from 'suncalc';
 import { PlanetVisibilityService } from './planet-visibility.server';
 import { Body, Equator, Horizon, Observer } from 'astronomy-engine';
-import { WeatherApiService } from './weather-api.service';
 import { ForecastTimeService } from './forecast-time.service';
 import { OpenMeteoService } from './open-meteo.service';
 
@@ -14,7 +13,6 @@ export type TimeWindowMode = 'coarse' | 'hourly';
 export class ForecastContextService {
   private location = inject(LocationService);
   public planetVisibilityService = inject(PlanetVisibilityService);
-  // private weatherApi = inject(WeatherApiService);
   private openMeteoService = inject(OpenMeteoService);
   private time = inject(ForecastTimeService);
 
@@ -58,6 +56,7 @@ export class ForecastContextService {
   readonly moonTimes = computed(() => 
     SunCalc.getMoonTimes(this.astroDate(), +this.lat(), +this.lon())
   );
+
   readonly moonIllum = computed(() => 
     SunCalc.getMoonIllumination(this.astroDate())
   );
@@ -79,6 +78,19 @@ export class ForecastContextService {
       if (p < 0.78) return 'Last Quarter';
       return 'Waning Crescent';
     });
+    
+
+  moonIllumMatrix(date: Date){
+    var moonPhase = SunCalc.getMoonIllumination(date).phase
+    if (moonPhase < 0.03 || moonPhase > 0.97) return 'New Moon';
+    if (moonPhase < 0.22) return 'Waxing Crescent';
+    if (moonPhase < 0.28) return 'First Quarter';
+    if (moonPhase < 0.47) return 'Waxing Gibbous';
+    if (moonPhase < 0.53) return 'Full Moon';
+    if (moonPhase < 0.72) return 'Waning Gibbous';
+    if (moonPhase < 0.78) return 'Last Quarter';
+    return 'Waning Crescent';
+  }
 
   setMode(mode: ForecastMode) {
     this.mode.set(mode);
@@ -103,24 +115,49 @@ export class ForecastContextService {
     return 'partial';
   }
   
-  moonUpAt(date: Date): 'full' | 'partial' | '' {
-    const m = this.moonTimes();
-    if (!m.rise || !m.set) return '';
+moonUpAt(date: Date): 'full' | '' {
+  const lat = +this.lat();
+  const lon = +this.lon();
 
-    const STEP_HOURS = 1;
-    const HALF_STEP = STEP_HOURS / 2;
+  const STEP_MS = 60 * 60 * 1000;
+  const HALF_STEP_MS = STEP_MS / 2;
 
-    const start = this.toMinutes(new Date(date.getTime() - HALF_STEP * 3600_000));
-    const end = this.toMinutes(new Date(date.getTime() + HALF_STEP * 3600_000));
+  const cellStart = date.getTime() - HALF_STEP_MS;
+  const cellEnd   = date.getTime() + HALF_STEP_MS;
 
-    const rise = this.toMinutes(m.rise);
-    const set = this.toMinutes(m.set);
+  const today = SunCalc.getMoonTimes(date, lat, lon);
 
-    if (!this.overlaps(start, end, rise, set)) return '';
-    if (start >= rise && end <= set) return 'full';
+  const yesterdayDate = new Date(date);
+  yesterdayDate.setDate(date.getDate() - 1);
+  const yesterday = SunCalc.getMoonTimes(yesterdayDate, lat, lon);
 
-    return 'partial';
+  return (
+    this.overlapsMoon(today, cellStart, cellEnd) ||
+    this.overlapsMoon(yesterday, cellStart, cellEnd)
+  )
+    ? 'full'
+    : '';
+}
+
+private overlapsMoon(
+  m: { rise?: Date; set?: Date },
+  start: number,
+  end: number
+): boolean {
+  if (!m.rise || !m.set) return false;
+
+  let rise = m.rise.getTime();
+  let set  = m.set.getTime();
+
+  if (set < rise) {
+    set += 24 * 60 * 60 * 1000;
   }
+
+  return start < set && end > rise;
+}
+
+
+
 
   planetsVisibleAt(date: Date): string[] {
     const key = date.getTime().toString();

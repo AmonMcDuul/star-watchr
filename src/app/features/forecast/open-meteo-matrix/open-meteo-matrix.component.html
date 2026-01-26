@@ -243,15 +243,13 @@
         (touchstart)="onMobileHover(c, $event)"
         (mouseenter)="onHover(c, $event)"
         (mouseleave)="onHover(null, null)"
-        [class.moon-bar]="context.moonUpAt(c.time) === 'full'"
-        [class.moon-bar-partial]="context.moonUpAt(c.time) === 'partial'"
       >
         <!-- Alleen tonen als full of partial -->
-        @if (context.moonUpAt(c.time) === 'full' || context.moonUpAt(c.time) === 'partial') {
+        @if (context.moonUpAt(c.time) === 'full') {
           <div class="planet-name">
             <img
               class="moon-icon"
-              [src]="'assets/img/' + context.moonPhaseLabel() + '.png'"
+              [src]="'assets/img/' + context.moonIllumMatrix(c.time) + '.png'"
               alt="Moon phase"
             />
           </div>
@@ -290,7 +288,7 @@
 
   <!-- Twilight -->
   <div class="row hint">
-    <div class="label">Twilight</div>
+    <div class="label">Darkness</div>
     @for (c of cardsToShow(); track c.timepoint) {
       <div
         class="cell astro-hack" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
@@ -352,7 +350,7 @@
 
     <div class="tooltip-row">
       <span class="label">Moon phase:</span>
-      <span class="value moon">{{ context.moonPhaseLabel() }}</span>
+      <span class="value moon">{{ context.moonIllumMatrix(hoverCard().time) }}</span>
     </div>
     @if(context.isAstroNight(hoverCard().time) !== "full"){
     <div class="tooltip-row">
