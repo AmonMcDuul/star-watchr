@@ -103,156 +103,106 @@ h2 {
   }
 }
 
-$cloud-colors: (
-  standard: (
-    c9: (#7a0000, #cc3333),
-    c8: (#993333, #dd5555),
-    c7: (#b24c4c, #ee7777),
-    c6: (#a66a2a, #e6a84c),
-    c5: (#c2a13a, #f0d85c),
-    c4: (#c9c266, #f5f199),
-    c3: (#b8d96a, #e6f59a),
-    c2: (#4caf50, #8fdc8f),
-    c1: (#1b7f2a, #4caf50)
-  ),
 
-  deuteranopia: (
-    c9: (#2b2b2b, #4a4a4a),
-    c8: (#444444, #666666),
-    c7: (#5d5d5d, #7a7a7a),
-    c6: (#6e6b52, #9b956b),
-    c5: (#8f8758, #bdb26e),
-    c4: (#b3b36d, #dede8c),
-    c3: (#6c8fb3, #9bbad6),
-    c2: (#4f76a1, #7fa6cc),
-    c1: (#2f5b89, #5c88b8)
-  ),
+.matrix.mode-standard {
 
-  protanopia: (
-    c9: (#1c1c1c, #3a3a3a),
-    c8: (#2e2e2e, #555555),
-    c7: (#4a4a4a, #707070),
-    c6: (#5b6e6e, #7f9b9b),
-    c5: (#6e8f8f, #9bbdbd),
-    c4: (#8cb3b3, #b7dede),
-    c3: (#5b8fa1, #89b6c9),
-    c2: (#3f6f89, #6fa2b8),
-    c1: (#264f66, #4f7f9b)
-  ),
+  .cloud.c9 { background: linear-gradient(#7a0000, #cc3333); }
+  .cloud.c8 { background: linear-gradient(#993333, #dd5555); }
+  .cloud.c7 { background: linear-gradient(#b24c4c, #ee7777); }
+  .cloud.c6 { background: linear-gradient(#a66a2a, #e6a84c); }
+  .cloud.c5 { background: linear-gradient(#c2a13a, #f0d85c); }
+  .cloud.c4 { background: linear-gradient(#c9c266, #f5f199); }
+  .cloud.c3 { background: linear-gradient(#b8d96a, #e6f59a); }
+  .cloud.c2 { background: linear-gradient(#4caf50, #8fdc8f); }
+  .cloud.c1 { background: linear-gradient(#1b7f2a, #4caf50); }
 
-  tritanopia: (
-    c9: (#2b2b2b, #4b4b4b),
-    c8: (#4a3a3a, #6a5555),
-    c7: (#6b4c4c, #8b6666),
-    c6: (#8b5c5c, #aa7a7a),
-    c5: (#aa7a7a, #c99b9b),
-    c4: (#b88a9b, #d6a6b8),
-    c3: (#8b5f89, #b58ab1),
-    c2: (#6a4b7a, #9b79aa),
-    c1: (#4a2f66, #7a5a99)
-  )
-);
+  .seeing.s1 { background: linear-gradient(#990000, #ff3333); }
+  .seeing.s2 { background: linear-gradient(#b23333, #ff6666); }
+  .seeing.s3 { background: linear-gradient(#cc9966, #ff9966); }
+  .seeing.s4 { background: linear-gradient(#cca366, #ffcc66); }
+  .seeing.s5 { background: linear-gradient(#cccc66, #ffff66); }
+  .seeing.s6 { background: linear-gradient(#66cc33, #ccff66); }
+  .seeing.s7 { background: linear-gradient(#33cc33, #99ff66); }
+  .seeing.s8 { background: linear-gradient(#006600, #33cc33); }
 
-$seeing-colors: (
-  standard: (
-    s1: (#990000, #ff3333),
-    s2: (#b23333, #ff6666),
-    s3: (#cc9966, #ff9966),
-    s4: (#cca366, #ffcc66),
-    s5: (#cccc66, #ffff66),
-    s6: (#66cc33, #ccff66),
-    s7: (#33cc33, #99ff66),
-    s8: (#006600, #33cc33)
-  ),
-
-  deuteranopia: (
-    s1: (#3b3b3b, #5a5a5a),
-    s2: (#505050, #737373),
-    s3: (#616161, #868686),
-    s4: (#727272, #999999),
-    s5: (#8b8b8b, #b0b0b0),
-    s6: (#5f88a1, #8bb3cc),
-    s7: (#3f6f89, #6fa2b8),
-    s8: (#2f5b89, #5c88b8)
-  ),
-
-  protanopia: (
-    s1: (#333333, #555555),
-    s2: (#4a4a4a, #777777),
-    s3: (#5f5f5f, #8a8a8a),
-    s4: (#6f6f6f, #9f9f9f),
-    s5: (#8f9f9f, #b7cfcf),
-    s6: (#6e8f8f, #9bbdbd),
-    s7: (#4f7f9b, #7fa2b8),
-    s8: (#264f66, #4f7f9b)
-  ),
-
-  tritanopia: (
-    s1: (#4a2f66, #7a5a99),
-    s2: (#6a4b7a, #9b79aa),
-    s3: (#8b5f89, #b58ab1),
-    s4: (#aa7a9b, #c99bb8),
-    s5: (#b88a9b, #d6a6b8),
-    s6: (#8b5c5c, #aa7a7a),
-    s7: (#6b4c4c, #8b6666),
-    s8: (#4a2f66, #7a5a99)
-  )
-);
-
-$trans-colors: (
-  standard: (
-    t2: (#666666, #999999),
-    t6: (#cccc66, #ffff99),
-    t9: (#33cc33, #99ff99)
-  ),
-
-  deuteranopia: (
-    t2: (#5a5a5a, #888888),
-    t6: (#8f8758, #bdb26e),
-    t9: (#4f76a1, #7fa6cc)
-  ),
-
-  protanopia: (
-    t2: (#444444, #777777),
-    t6: (#6e8f8f, #9bbdbd),
-    t9: (#3f6f89, #6fa2b8)
-  ),
-
-  tritanopia: (
-    t2: (#555555, #888888),
-    t6: (#aa7a7a, #c99b9b),
-    t9: (#6a4b7a, #9b79aa)
-  )
-);
-
-@each $mode, $levels in $cloud-colors {
-  .matrix.mode-#{$mode} {
-    @each $key, $grad in $levels {
-      .cloud.#{$key} {
-        background: linear-gradient(nth($grad, 1), nth($grad, 2));
-      }
-    }
-  }
+  .trans.t2 { background: linear-gradient(#b24d00, #ff6666); }
+  .trans.t6 { background: linear-gradient(#998000, #ffee66); }
+  .trans.t9 { background: linear-gradient(#339933, #66cc66); }
 }
+.matrix.mode-deuteranopia {
 
-@each $mode, $levels in $seeing-colors {
-  .matrix.mode-#{$mode} {
-    @each $key, $grad in $levels {
-      .seeing.#{$key} {
-        background: linear-gradient(nth($grad, 1), nth($grad, 2));
-      }
-    }
-  }
+  .cloud.c9 { background: linear-gradient(#2b2b2b, #4a4a4a); }
+  .cloud.c8 { background: linear-gradient(#444444, #666666); }
+  .cloud.c7 { background: linear-gradient(#5d5d5d, #7a7a7a); }
+  .cloud.c6 { background: linear-gradient(#6e6b52, #9b956b); }
+  .cloud.c5 { background: linear-gradient(#8f8758, #bdb26e); }
+  .cloud.c4 { background: linear-gradient(#b3b36d, #dede8c); }
+  .cloud.c3 { background: linear-gradient(#6c8fb3, #9bbad6); }
+  .cloud.c2 { background: linear-gradient(#4f76a1, #7fa6cc); }
+  .cloud.c1 { background: linear-gradient(#2f5b89, #5c88b8); }
+
+  .seeing.s1 { background: linear-gradient(#3b3b3b, #5a5a5a); }
+  .seeing.s2 { background: linear-gradient(#505050, #737373); }
+  .seeing.s3 { background: linear-gradient(#616161, #868686); }
+  .seeing.s4 { background: linear-gradient(#727272, #999999); }
+  .seeing.s5 { background: linear-gradient(#8b8b8b, #b0b0b0); }
+  .seeing.s6 { background: linear-gradient(#5f88a1, #8bb3cc); }
+  .seeing.s7 { background: linear-gradient(#3f6f89, #6fa2b8); }
+  .seeing.s8 { background: linear-gradient(#2f5b89, #5c88b8); }
+
+  .trans.t2 { background: linear-gradient(#5a5a5a, #888888); }
+  .trans.t6 { background: linear-gradient(#8f8758, #bdb26e); }
+  .trans.t9 { background: linear-gradient(#4f76a1, #7fa6cc); }
 }
+.matrix.mode-protanopia {
 
-@each $mode, $levels in $trans-colors {
-  .matrix.mode-#{$mode} {
-    @each $key, $grad in $levels {
-      .trans.#{$key} {
-        background: linear-gradient(nth($grad, 1), nth($grad, 2));
-      }
-    }
-  }
+  .cloud.c9 { background: linear-gradient(#1c1c1c, #3a3a3a); }
+  .cloud.c8 { background: linear-gradient(#2e2e2e, #555555); }
+  .cloud.c7 { background: linear-gradient(#4a4a4a, #707070); }
+  .cloud.c6 { background: linear-gradient(#5b6e6e, #7f9b9b); }
+  .cloud.c5 { background: linear-gradient(#6e8f8f, #9bbdbd); }
+  .cloud.c4 { background: linear-gradient(#8cb3b3, #b7dede); }
+  .cloud.c3 { background: linear-gradient(#5b8fa1, #89b6c9); }
+  .cloud.c2 { background: linear-gradient(#3f6f89, #6fa2b8); }
+  .cloud.c1 { background: linear-gradient(#264f66, #4f7f9b); }
+
+  .seeing.s1 { background: linear-gradient(#1c1c1c, #3a3a3a); }
+  .seeing.s2 { background: linear-gradient(#2a2a2a, #505050); }
+  .seeing.s3 { background: linear-gradient(#383838, #6b6b6b); }
+  .seeing.s4 { background: linear-gradient(#474747, #808080); }
+  .seeing.s5 { background: linear-gradient(#575757, #999999); }
+  .seeing.s6 { background: linear-gradient(#6e8f8f, #9bbdbd); }
+  .seeing.s7 { background: linear-gradient(#5b8fa1, #89b6c9); }
+  .seeing.s8 { background: linear-gradient(#264f66, #4f7f9b); }
+
+  .trans.t2 { background: linear-gradient(#444444, #777777); }
+  .trans.t6 { background: linear-gradient(#6e8f8f, #9bbdbd); }
+  .trans.t9 { background: linear-gradient(#3f6f89, #6fa2b8); }
+}
+.matrix.mode-tritanopia {
+
+  .cloud.c9 { background: linear-gradient(#2b2b2b, #4b4b4b); }
+  .cloud.c8 { background: linear-gradient(#4a3a3a, #6a5555); }
+  .cloud.c7 { background: linear-gradient(#6b4c4c, #8b6666); }
+  .cloud.c6 { background: linear-gradient(#8b5c5c, #aa7a7a); }
+  .cloud.c5 { background: linear-gradient(#aa7a7a, #c99b9b); }
+  .cloud.c4 { background: linear-gradient(#b88a9b, #d6a6b8); }
+  .cloud.c3 { background: linear-gradient(#8b5f89, #b58ab1); }
+  .cloud.c2 { background: linear-gradient(#6a4b7a, #9b79aa); }
+  .cloud.c1 { background: linear-gradient(#4a2f66, #7a5a99); }
+
+  .seeing.s1 { background: linear-gradient(#2b2b2b, #4b4b4b); }
+  .seeing.s2 { background: linear-gradient(#3a2f3a, #5c4c5c); }
+  .seeing.s3 { background: linear-gradient(#4b3f4b, #6e5c6e); }
+  .seeing.s4 { background: linear-gradient(#5c4c5c, #856f85); }
+  .seeing.s5 { background: linear-gradient(#6e5c6e, #997a99); }
+  .seeing.s6 { background: linear-gradient(#8b5c5c, #aa7a7a); }
+  .seeing.s7 { background: linear-gradient(#8b5f89, #b58ab1); }
+  .seeing.s8 { background: linear-gradient(#4a2f66, #7a5a99); }
+
+  .trans.t2 { background: linear-gradient(#555555, #888888); }
+  .trans.t6 { background: linear-gradient(#aa7a7a, #c99b9b); }
+  .trans.t9 { background: linear-gradient(#6a4b7a, #9b79aa); }
 }
 
 .color-menu-wrapper {
