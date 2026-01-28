@@ -8,6 +8,7 @@ import { AstroMetainfoComponent } from "../astro-metainfo/astro-metainfo.compone
 import { MatrixLegendComponent } from "../matrix-legend/matrix-legend.component";
 import { OpenMeteoMatrixComponent } from "../open-meteo-matrix/open-meteo-matrix.component";
 import { OpenMeteoService } from '../../../services/open-meteo.service';
+import { UiPreferencesService } from '../../../services/ui-preferences.service';
 
 @Component({
   selector: 'app-forecast-page',
@@ -21,6 +22,7 @@ export class ForecastPageComponent implements OnInit{
   public location = inject(LocationService);
   private apiService = inject(ApiService);
   private planetVisibilityService = inject(PlanetVisibilityService);
+  private ui = inject(UiPreferencesService);
 
   openMeteo = signal(true);
   
@@ -30,6 +32,7 @@ export class ForecastPageComponent implements OnInit{
       this.openMeteoApi.load(+saved.lat, +saved.lon);
       this.planetVisibilityService.setLocation(new Date(), +saved.lat, +saved.lon)
     } 
+    this.ui.loadFromStorage();
   }
 
   ngOnInit(): void {
@@ -37,5 +40,6 @@ export class ForecastPageComponent implements OnInit{
       error: err => console.error('setAlive error:', err)
     });
   }
+
 
 }

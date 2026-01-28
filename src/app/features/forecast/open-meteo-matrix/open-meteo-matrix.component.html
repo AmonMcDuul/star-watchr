@@ -14,6 +14,7 @@
         Choose a location to see astronomical conditions,<br>
         cloud cover and visibility.
       </p>
+      <app-location-search></app-location-search>
     </div>
   </div>
 }
@@ -24,7 +25,11 @@
   (mousedown)="onMouseDown($event)"
   (touchstart)="onPointerStart($event.touches[0].clientX)"
   (touchmove)="onPointerMove($event.touches[0].clientX)"
-  (touchend)="onPointerEnd()">
+  (touchend)="onPointerEnd()"
+  [class.mode-standard]="ui.colorMode() === 'standard'"
+  [class.mode-deuteranopia]="ui.colorMode() === 'deuteranopia'"
+  [class.mode-protanopia]="ui.colorMode() === 'protanopia'"
+  [class.mode-tritanopia]="ui.colorMode() === 'tritanopia'">
   <h2> {{ context.astroDate() | date:'EEEE MMM dd yyyy' }}</h2>
   <br>
 
@@ -63,7 +68,46 @@
         </button>
       </div>
     </div>
-      <div class="drag-hint">
+    <div class="matrix-controls">
+      <div class="matrix-controls color-menu-wrapper drag-hint-color" (clickOutside)="closeColorMenu()">
+        <button
+          class="icon-btn"
+          (click)="toggleColorMenu($event)"
+          title="Color accessibility modes">
+          Colors
+        </button>
+
+        @if (colorMenuOpen()) {
+          <div class="color-menu">
+            <button
+              [class.active]="ui.colorMode() === 'standard'"
+              (click)="setColorMode('standard')">
+              Standard
+            </button>
+
+            <button
+              [class.active]="ui.colorMode() === 'deuteranopia'"
+              (click)="setColorMode('deuteranopia')">
+              Deuteranopia
+            </button>
+
+            <button
+              [class.active]="ui.colorMode() === 'protanopia'"
+              (click)="setColorMode('protanopia')">
+              Protanopia
+            </button>
+
+            <button
+              [class.active]="ui.colorMode() === 'tritanopia'"
+              (click)="setColorMode('tritanopia')">
+              Tritanopia
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="drag-hint">
       ⇆ DRAG
     </div>
   </div>

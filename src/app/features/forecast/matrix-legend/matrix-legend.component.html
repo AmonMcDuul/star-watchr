@@ -1,4 +1,8 @@
-<div class="matrix-legend">
+<div class="matrix-legend"
+        [class.mode-standard]="ui.colorMode() === 'standard'"
+        [class.mode-deuteranopia]="ui.colorMode() === 'deuteranopia'"
+        [class.mode-protanopia]="ui.colorMode() === 'protanopia'"
+        [class.mode-tritanopia]="ui.colorMode() === 'tritanopia'">
   <h2>Legend</h2>
 
   <div class="legend-columns">

@@ -11,10 +11,13 @@ import { OpenMeteoService } from '../../../services/open-meteo.service';
 import { ForecastContextService } from '../../../services/forecast-context.service';
 import { ForecastTimeService } from '../../../services/forecast-time.service';
 import { LocationService } from '../../../services/location.service';
+import { ColorMode, UiPreferencesService } from '../../../services/ui-preferences.service';
+import { LocationSearchComponent } from "../../location-search/location-search.component";
+import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
 
 @Component({
   selector: 'app-open-meteo-matrix',
-  imports: [CommonModule],
+  imports: [CommonModule, LocationSearchComponent, ClickOutsideDirective],
   templateUrl: './open-meteo-matrix.component.html',
   styleUrl: './open-meteo-matrix.component.scss',
 })
@@ -23,6 +26,7 @@ export class OpenMeteoMatrixComponent implements OnInit {
   public context = inject(ForecastContextService);
   public time = inject(ForecastTimeService);
   public location = inject(LocationService);
+  public ui = inject(UiPreferencesService);
 
   hoverCard = signal<any | null>(null);
   tooltipX = 0;
@@ -33,6 +37,8 @@ export class OpenMeteoMatrixComponent implements OnInit {
   private startOffset = 0;
   private dragging = false;
   isDragging = signal(false);
+
+  colorMenuOpen = signal(false);
 
   private readonly PX_PER_HOUR = 60; 
 
@@ -196,6 +202,21 @@ export class OpenMeteoMatrixComponent implements OnInit {
 
     window.addEventListener('mousemove', move);
     window.addEventListener('mouseup', up);
+  }
+
+  
+  toggleColorMenu(event: MouseEvent) {
+    event.stopPropagation();
+    this.colorMenuOpen.update(v => !v);
+  }
+
+  closeColorMenu() {
+    this.colorMenuOpen.set(false);
+  }
+
+  setColorMode(mode: ColorMode) {
+    this.ui.setColorMode(mode);
+    this.colorMenuOpen.set(false);
   }
 
 }

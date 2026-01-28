@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { UiPreferencesService } from '../../../services/ui-preferences.service';
 
 @Component({
   selector: 'app-matrix-legend',
@@ -9,6 +10,7 @@ import { Component } from '@angular/core';
 })
 export class MatrixLegendComponent {
   showCalculationInfo = false;
+  public ui = inject(UiPreferencesService);
 
   toggleCalculationInfo(): void {
     this.showCalculationInfo = !this.showCalculationInfo;

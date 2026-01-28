@@ -1,14 +1,16 @@
-<app-location-search></app-location-search>
-  <app-open-meteo-matrix></app-open-meteo-matrix>
+@if(location.selected()){
+  <app-location-search></app-location-search>
+}
+<app-open-meteo-matrix></app-open-meteo-matrix>
 
-  <div class="legend-suncalc-container">
-    <div class="metainfo">
-      <app-astro-metainfo></app-astro-metainfo>
-    </div>
-
-    <div class="legend">
-      <app-matrix-legend></app-matrix-legend>
-    </div>
+<div class="legend-suncalc-container">
+  <div class="metainfo">
+    <app-astro-metainfo></app-astro-metainfo>
   </div>
-  <br><br>
-  <br><br>
+
+  <div class="legend">
+    <app-matrix-legend></app-matrix-legend>
+  </div>
+</div>
+<br><br>
+<br><br>
