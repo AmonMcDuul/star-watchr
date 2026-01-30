@@ -43,8 +43,8 @@ export class MessierService {
   });
 
   readonly visible = computed(() => {
-    const lat = this.location.selected()?.lat ?? 52.37;
-    const lon = this.location.selected()?.lon ?? 4.89;
+    const lat = this.location.selected()!.lat;
+    const lon = this.location.selected()!.lon;
     const date = this.dateTime();
 
     const observer = new Observer(+lat, +lon, 0);

@@ -1,8 +1,21 @@
-<div class="time">
-    <h2>
-      {{ time.dateTime() | date:'EEEE MMM dd yyyy HH:mm' }}
-    </h2>
-</div>
+@if(location.selected() == null){
+  <div class="empty-state">
+    <div class="empty-card">
+      <div class="empty-icon"></div>
+      <h3>Select a location</h3>
+      <p>
+        Choose a location to see available messiers
+      </p>
+      <app-location-search></app-location-search>
+    </div>
+  </div>
+}
+@else{
+    <div class="time">
+        <h2>
+        {{ time.dateTime() | date:'EEEE MMM dd yyyy HH:mm' }}
+        </h2>
+    </div>
 
   <div class="matrix-controls-row">
     <div class="matrix-controls">
@@ -57,13 +70,15 @@
         @if (selected() === m.messierNumber) {
           <div class="details">
             <div>NGC: {{ m.NGC }}</div>
-            <div>Afstand: {{ m.distance }} ly</div>
-            <div>Grootte: {{ m.size }}</div>
-            <div>Moeilijkheid: {{ m.viewingDifficulty }}</div>
-            <div>Hoogte: {{ m.altitude | number:'1.0-0' }}°</div>
+            <div>Type: {{ m.type }}</div>
+            <div>Distance: {{ m.distance }} ly</div>
+            <div>Size: {{ m.size }}</div>
+            <div>Difficulty: {{ m.viewingDifficulty }}</div>
+            <div>Altitude: {{ m.altitude | number:'1.0-0' }}°</div>
           </div>
         }
       </article>
     }
   </div>
+}
 }

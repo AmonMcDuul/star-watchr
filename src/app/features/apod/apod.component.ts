@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { NasaApod } from '../../models/NasaApod.model';
+import { NasaApod } from '../../models/nasa-apod.model';
 import { ApiService } from '../../services/api.service';
 
 @Component({

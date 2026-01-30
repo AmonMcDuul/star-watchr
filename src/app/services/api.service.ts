@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { NasaApod } from '../models/NasaApod.model';
+import { NasaApod } from '../models/nasa-apod.model';
 
 @Injectable({
   providedIn: 'root'

@@ -3,15 +3,18 @@ import { MessierService } from '../../services/messier.service';
 import { CommonModule } from '@angular/common';
 import { MessierTimeService } from '../../services/messier-time.service';
 import { ForecastContextService } from '../../services/forecast-context.service';
+import { LocationSearchComponent } from "../location-search/location-search.component";
+import { LocationService } from '../../services/location.service';
 
 @Component({
   selector: 'app-dso-tonight',
-  imports: [CommonModule],
+  imports: [CommonModule, LocationSearchComponent],
   templateUrl: './dso-tonight.component.html',
   styleUrl: './dso-tonight.component.scss',
 })
 export class DsoTonightComponent implements OnInit {
   messier = inject(MessierService);
+  location = inject(LocationService)
   time = inject(MessierTimeService);
   context = inject(ForecastContextService);
 
