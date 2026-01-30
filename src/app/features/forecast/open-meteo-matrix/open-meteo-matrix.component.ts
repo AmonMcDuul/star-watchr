@@ -14,10 +14,11 @@ import { LocationService } from '../../../services/location.service';
 import { ColorMode, UiPreferencesService } from '../../../services/ui-preferences.service';
 import { LocationSearchComponent } from "../../location-search/location-search.component";
 import { ClickOutsideDirective } from '../../../directives/click-outside.directive';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-open-meteo-matrix',
-  imports: [CommonModule, LocationSearchComponent, ClickOutsideDirective],
+  imports: [CommonModule, LocationSearchComponent, ClickOutsideDirective, RouterLink],
   templateUrl: './open-meteo-matrix.component.html',
   styleUrl: './open-meteo-matrix.component.scss',
 })

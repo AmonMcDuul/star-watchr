@@ -4,6 +4,7 @@ import { AlertsComponent } from './features/alerts/alerts.component';
 import { AboutComponent } from './features/about/about.component';
 import { ApodComponent } from './features/apod/apod.component';
 import { ContactComponent } from './features/contact/contact.component';
+import { DsoTonightComponent } from './features/dso-tonight/dso-tonight.component';
 
 export const routes: Routes = [
   {
@@ -13,6 +14,15 @@ export const routes: Routes = [
       title: 'Stargazing Forecast – StarWatchr',
       description:
         'Accurate and detailed stargazing forecast with moon phase, twilight times, cloud cover and seeing conditions.'
+    }
+  },
+    {
+    path: 'dso-forecast',
+    component: DsoTonightComponent,
+    data: {
+      title: 'Deep Sky Object Forecast – StarWatchr',
+      description:
+        'See which Messier and deep-sky objects are visible tonight and per hour from your location, based on sky position and time.'
     }
   },
   {

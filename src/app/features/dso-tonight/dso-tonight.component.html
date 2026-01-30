@@ -1,0 +1,69 @@
+<div class="time">
+    <h2>
+      {{ time.dateTime() | date:'EEEE MMM dd yyyy HH:mm' }}
+    </h2>
+</div>
+
+  <div class="matrix-controls-row">
+    <div class="matrix-controls">
+      <div class="matrix-controls">
+    <button (click)="time.shift(-1)">◀</button>
+    <button (click)="time.reset()">Now</button>
+    <button (click)="time.shift(1)">▶</button>
+      </div>
+    </div>
+    <div class="matrix-controls">
+      <div class="matrix-controls">
+    <button (click)="time.shiftDays(1)" [class.active]="isActiveDay(1)">
+      {{ dayPlus(1) }}
+    </button>
+    <button (click)="time.shiftDays(2)" [class.active]="isActiveDay(2)">
+      {{ dayPlus(2) }}
+    </button>
+    <button (click)="time.shiftDays(3)" [class.active]="isActiveDay(3)">
+      {{ dayPlus(3) }}
+    </button>
+    <button (click)="time.shiftDays(4)" [class.active]="isActiveDay(4)">
+      {{ dayPlus(4) }}
+    </button>
+    <button (click)="time.shiftDays(5)" [class.active]="isActiveDay(5)">
+      {{ dayPlus(5) }}
+    </button>
+      </div>
+    </div>
+  </div>
+
+@if (messier.loading()) {
+  <p class="muted">Messier-objecten laden…</p>
+}
+
+@if (!messier.loading()) {
+  <div class="messier-grid">
+    @for (m of messier.visible(); track m.messierNumber) {
+      <article
+        class="messier-card"
+        [class.active]="selected() === m.messierNumber"
+        (click)="select(m.messierNumber)"
+      >
+        <img [src]="m.image" [alt]="m.name" />
+
+        <div class="info">
+          <strong>M{{ m.messierNumber }} – {{ m.name }}</strong>
+          <span>{{ m.type }}</span>
+          <span>Mag {{ m.magnitude }}</span>
+          <span>{{ m.constellation }}</span>
+        </div>
+
+        @if (selected() === m.messierNumber) {
+          <div class="details">
+            <div>NGC: {{ m.NGC }}</div>
+            <div>Afstand: {{ m.distance }} ly</div>
+            <div>Grootte: {{ m.size }}</div>
+            <div>Moeilijkheid: {{ m.viewingDifficulty }}</div>
+            <div>Hoogte: {{ m.altitude | number:'1.0-0' }}°</div>
+          </div>
+        }
+      </article>
+    }
+  </div>
+}
