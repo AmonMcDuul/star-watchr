@@ -343,6 +343,19 @@
       </div>
     }
   </div>
+  
+    <!-- DSO messiers -->
+  <br><br>
+  <div class="dso">
+    <div class="matrix-controls-dso">    
+      <a routerLink="/dso-forecast">
+        View Messier Objects Tonight
+      </a>
+    </div>
+  <div>
+
+  </div>
+</div>
   @if (hoverCard()) {
     <div class="matrix-tooltip" [style.top.px]="tooltipY" [style.left.px]="tooltipX">
     <strong class="time">Time: {{ hoverCard().time | date:'HH:mm' }}</strong>
