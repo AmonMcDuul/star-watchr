@@ -85,7 +85,7 @@ export class MessierService {
         };
       })
 
-      .filter(m => m.altitude > 0)
+      .filter(m => m.altitude > 10)
 
       .filter(m => {
         if (!diffFilter) return true;
