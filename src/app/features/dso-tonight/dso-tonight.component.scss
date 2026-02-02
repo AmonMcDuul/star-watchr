@@ -165,3 +165,185 @@
   line-height: 1.5;
   color: #a0a8c0;
 }
+
+// dso-tonight.component.scss
+// ... bestaande styles ...
+
+.messier-card .details {
+  padding: 0.6rem 0.7rem;
+  background: rgba(11,16,32,0.6);
+  border-top: 1px solid rgba(255,255,255,0.05);
+  font-size: 0.75rem;
+  display: grid;
+  gap: 0.2rem;
+  color: #cdd6f4;
+  
+  .starhop-btn {
+    margin-top: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    background: linear-gradient(135deg, #6f8cff, #8fb6ff);
+    color: #0b1020;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(140,170,255,0.4);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+.starhop-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+  
+  .starhop-content {
+    background: #0b1020;
+    border-radius: 16px;
+    padding: 1.5rem;
+    max-width: 800px;
+    width: 90%;
+    max-height: 90vh;
+    position: relative;
+    border: 1px solid rgba(111,140,255,0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+    
+    app-starhop-map {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .close-btn {
+      position: absolute;
+      top: -0.75rem;
+      right: -0.75rem;
+      background: radial-gradient(#0b1020, #05070f);
+      border: none;
+      color: white;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1001;
+      transition: all 0.2s ease;
+      box-shadow: 0 6px 16px rgba(255, 51, 102, 0.077);
+      
+      &:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(255, 51, 102, 0.4); 
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.messier-grid {
+  position: relative;
+  z-index: 1;
+}
+
+.starhop-overlay * {
+  pointer-events: auto;
+}
+
+.filter-bar {
+  margin: 0 20px 10px;
+}
+
+.filter-dropdown {
+  background: #0b1020;
+  border-radius: 10px;
+  border: 1px solid rgba(120,140,255,0.25);
+  padding: 6px 12px;
+  color: #9fb0ff;
+  width: fit-content;
+
+  summary {
+    cursor: pointer;
+    font-weight: 600;
+    user-select: none;
+  }
+}
+
+.filter-panel {
+  margin-top: 10px;
+  display: grid;
+  gap: 12px;
+}
+
+.filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+
+  span {
+    min-width: 100px;
+    font-size: 0.75rem;
+    opacity: 0.8;
+  }
+
+  button {
+    all: unset;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    background: rgba(120,150,255,0.08);
+    color: #9fb0ff;
+    transition: all .2s;
+
+    &:hover {
+      background: rgba(120,150,255,0.18);
+    }
+
+    &.active {
+      background: linear-gradient(135deg,#6f8cff,#8fb6ff);
+      color: #0b1020;
+      font-weight: 600;
+    }
+  }
+}
+
+.clear-btn {
+  background: rgba(255,60,80,.2) !important;
+  color: #ff8899 !important;
+
+  &:hover {
+    background: rgba(255,60,80,.35) !important;
+  }
+}
+
+.filter-group button.active {
+  box-shadow: 0 0 10px rgba(140,170,255,0.6);
+}

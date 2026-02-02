@@ -1,0 +1,55 @@
+<div class="starhop-container">
+  <div class="controls">
+    <button (click)="toggleMirror()" 
+            [class.active]="mirrored"
+            class="control-btn">
+      {{ mirrored ? 'Normal View' : 'Mirror View' }}
+    </button>
+    
+    <button (click)="toggleNames()" 
+            [class.active]="showNames"
+            class="control-btn">
+      {{ showNames ? 'Hide Names' : 'Show Names' }}
+    </button>
+    
+    <!-- <button (click)="toggleConstellations()" 
+            [class.active]="showConstellations"
+            class="control-btn">
+      {{ showConstellations ? 'Hide Constellations' : 'Show Constellations' }}
+    </button> -->
+    
+    <div class="rotation-controls">
+      <button (click)="rotateLeft()" class="control-btn rotate-btn">
+        ↶ 15°
+      </button>
+      <button (click)="rotateRight()" class="control-btn rotate-btn">
+        15° ↷
+      </button>
+      <button (click)="rotateTo(0)" [class.active]="rotationAngle === 0" class="control-btn rotate-btn">
+        N
+      </button>
+      <button (click)="rotateTo(90)" [class.active]="rotationAngle === 90" class="control-btn rotate-btn">
+        E
+      </button>
+      <button (click)="rotateTo(180)" [class.active]="rotationAngle === 180" class="control-btn rotate-btn">
+        S
+      </button>
+      <button (click)="rotateTo(270)" [class.active]="rotationAngle === 270" class="control-btn rotate-btn">
+        W
+      </button>
+    </div>
+    
+    <button (click)="starCatalog.setStarDensity('sparse'); resetView();" class="control-btn">Sparse</button>
+    <button (click)="starCatalog.setStarDensity('normal'); resetView();" class="control-btn">Normal</button>
+    <button (click)="starCatalog.setStarDensity('dense'); resetView();" class="control-btn">Dense</button>
+    <button (click)="resetView()" class="control-btn reset">
+      Reset
+    </button>
+
+  </div>
+  
+  <div class="map-wrapper">
+    <svg #svg></svg> 
+  </div>
+  <div #tooltip class="star-tooltip"></div>
+</div>

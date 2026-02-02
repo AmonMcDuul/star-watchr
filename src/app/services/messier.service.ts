@@ -7,21 +7,31 @@ import { MessierTimeService } from './messier-time.service';
 
 @Injectable({ providedIn: 'root' })
 export class MessierService {
+
   private location = inject(LocationService);
   private context = inject(ForecastContextService);
   private time = inject(MessierTimeService);
-  
+
+  readonly difficultyFilter =
+    signal<'Easy' | 'Moderate' | 'Hard' | 'Very Easy' | 'Very Hard' | null>(null);
+
+  readonly seasonFilter =
+    signal<'Winter' | 'Spring' | 'Summer' | 'Autumn' | null>(null);
+
+  readonly constellationFilter =
+    signal<string | null>(null);
+
   private raw = signal<MessierJson | null>(null);
   readonly loading = signal(false);
-
-  readonly hourOffset = signal(0);
 
   async load() {
     if (this.raw()) return;
 
     this.loading.set(true);
+
     const res = await fetch('/assets/data/messier.json');
     this.raw.set(await res.json());
+
     this.loading.set(false);
   }
 
@@ -31,43 +41,70 @@ export class MessierService {
     this.raw() ? Object.values(this.raw()!.data) : []
   );
 
-  readonly seasonal = computed(() => {
-    const m = this.context.astroDate().getMonth() + 1;
-    const season =
-      m === 12 || m <= 2 ? 'Winter' :
-      m <= 5 ? 'Spring' :
-      m <= 8 ? 'Summer' :
-      'Autumn';
+  readonly availableConstellations = computed(() => {
+    const set = new Set<string>();
 
-    return this.all().filter(o => o.viewingSeason === season);
+    this.all().forEach(m => {
+      if (m.constellation) {
+        set.add(m.constellation);
+      }
+    });
+
+    return Array.from(set).sort();
   });
 
+
   readonly visible = computed(() => {
+
+    if (!this.location.selected()) return [];
+
     const lat = this.location.selected()!.lat;
     const lon = this.location.selected()!.lon;
     const date = this.dateTime();
 
     const observer = new Observer(+lat, +lon, 0);
 
-    return this.seasonal()
-      .map(m => {
-        const ra = this.raToDegrees(m.rightAscension);
-        const dec = this.decToDegrees(m.declination);
+    const diffFilter = this.difficultyFilter();
+    const seasonFilter = this.seasonFilter();
+    const constFilter = this.constellationFilter();
 
-        const hor = Horizon(date, observer, ra, dec);
+    return this.all()
+
+      .map(m => {
+
+        const raDeg = this.raToDegrees(m.rightAscension);
+        const decDeg = this.decToDegrees(m.declination);
+
+        const hor = Horizon(date, observer, raDeg, decDeg);
 
         return {
           ...m,
+          raDeg,
+          decDeg,
           altitude: hor.altitude
         };
       })
+
       .filter(m => m.altitude > 0)
-      .sort((a, b) => b.altitude - a.altitude);
+
+      .filter(m => {
+        if (!diffFilter) return true;
+        return m.viewingDifficulty === diffFilter;
+      })
+
+      .filter(m => {
+        if (!seasonFilter) return true;
+        return normalizeSeason(m.viewingSeason) === seasonFilter;
+      })
+
+      .filter(m => {
+        if (!constFilter) return true;
+        return m.constellation === constFilter;
+      })
+
+      .sort((a, b) => a.messierNumber - b.messierNumber);
   });
 
-  shiftHours(delta: number) {
-    this.hourOffset.update(v => v + delta);
-  }
 
   private raToDegrees(ra: string): number {
     const [h, m, s] = ra.split(':').map(Number);
@@ -79,4 +116,17 @@ export class MessierService {
     const [d, m, s] = dec.replace('+', '').replace('-', '').split(':').map(Number);
     return sign * (d + m / 60 + s / 3600);
   }
+}
+
+
+function normalizeSeason(v: string): 'Winter' | 'Spring' | 'Summer' | 'Autumn' {
+
+  const s = v.toLowerCase();
+
+  if (s.includes('winter')) return 'Winter';
+  if (s.includes('spring')) return 'Spring';
+  if (s.includes('summer')) return 'Summer';
+  if (s.includes('autumn') || s.includes('fall')) return 'Autumn';
+
+  return 'Summer';
 }
