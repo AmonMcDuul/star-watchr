@@ -15,6 +15,7 @@ import * as d3 from 'd3';
 import { StarCatalogService } from '../../services/star-catalog.service';
 import { Star } from '../../models/star.model';
 import { Constellation } from '../../models/constellation.model';
+import { MessierService } from '../../services/messier.service';
 
 @Component({
   selector: 'app-starhop-map',
@@ -31,12 +32,18 @@ export class StarhopMapComponent
   @Input() dec!: number;
 
   public starCatalog = inject(StarCatalogService);
-  
+
   private catalog = inject(StarCatalogService);
+  private messier = inject(MessierService);
   private zone = inject(NgZone);
 
   showNames = false;
   showConstellations = true;
+  showMessier = true;
+
+  showFov = true;
+  fovArcMin = 60; 
+
   mirrored = false;
   rotationAngle = 0;
 
@@ -47,10 +54,12 @@ export class StarhopMapComponent
   private root!: d3.Selection<SVGGElement, unknown, null, undefined>;
   private zoomLayer!: d3.Selection<SVGGElement, unknown, null, undefined>;
   private rotateLayer!: d3.Selection<SVGGElement, unknown, null, undefined>;
+  private overlayLayer!: d3.Selection<SVGGElement, unknown, null, undefined>;
 
   private resizeObserver!: ResizeObserver;
   private raf = 0;
 
+  // ---------------- LIFECYCLE ----------------
 
   ngAfterViewInit() {
     this.ready = true;
@@ -69,13 +78,17 @@ export class StarhopMapComponent
   }
 
   private async tryRender() {
+
     if (!this.ready) return;
     if (!Number.isFinite(this.ra) || !Number.isFinite(this.dec)) return;
 
     await this.catalog.load();
+    await this.messier.load();
+
     this.render();
   }
 
+  // ---------------- INIT ----------------
 
   private initSvg() {
 
@@ -86,7 +99,6 @@ export class StarhopMapComponent
 
     this.root = this.svg.append('g');
     this.zoomLayer = this.root.append('g');
-    this.rotateLayer = this.zoomLayer.append('g');
 
     const zoom = d3.zoom<SVGSVGElement, unknown>()
       .scaleExtent([0.3, 8])
@@ -97,10 +109,10 @@ export class StarhopMapComponent
     this.svg.call(zoom as any);
   }
 
-
   private initResizeObserver() {
 
     this.resizeObserver = new ResizeObserver(() => {
+
       cancelAnimationFrame(this.raf);
 
       this.raf = requestAnimationFrame(() => {
@@ -111,6 +123,7 @@ export class StarhopMapComponent
     this.resizeObserver.observe(this.svgRef.nativeElement.parentElement!);
   }
 
+  // ---------------- RENDER ----------------
 
   private render() {
 
@@ -121,11 +134,12 @@ export class StarhopMapComponent
     const height = Math.max(300, rect.height);
 
     this.svg.attr('viewBox', `0 0 ${width} ${height}`);
-
     this.root.attr('transform', `translate(${width / 2},${height / 2})`);
 
     this.zoomLayer.selectAll('*').remove();
+
     this.rotateLayer = this.zoomLayer.append('g');
+    this.overlayLayer = this.zoomLayer.append('g');
 
     const project = this.createProjector(width);
 
@@ -137,8 +151,8 @@ export class StarhopMapComponent
     const constellations =
       this.catalog.getConstellationsInView(this.ra, this.dec, visibleRadius);
 
-    console.log('Stars:', stars.length);
-    console.log('Constellations:', constellations.length);
+    const messiers =
+      this.messier.visible();
 
     if (this.showConstellations) {
       this.drawConstellations(project, constellations);
@@ -150,12 +164,21 @@ export class StarhopMapComponent
       this.drawStarLabels(project, stars);
     }
 
-    this.drawTarget();
-    this.drawReferenceCircles(width);
+    if (this.showMessier) {
+      this.drawMessier(project, messiers);
+    }
+
+    if (this.showFov) {
+      this.drawTelescopeFov(width);
+    }
+
+    // this.drawTarget();
+    // this.drawReferenceCircles(width);
 
     this.applyViewTransform();
   }
 
+  // ---------------- TRANSFORM ----------------
 
   private applyViewTransform() {
 
@@ -167,6 +190,7 @@ export class StarhopMapComponent
     this.rotateLayer.attr('transform', t);
   }
 
+  // ---------------- PROJECTION ----------------
 
   private createProjector(width: number) {
 
@@ -176,6 +200,7 @@ export class StarhopMapComponent
     return (ra: number, dec: number) => {
 
       let dra = ra - this.ra;
+
       if (dra > 180) dra -= 360;
       if (dra < -180) dra += 360;
 
@@ -186,6 +211,7 @@ export class StarhopMapComponent
     };
   }
 
+  // ---------------- STARS ----------------
 
   private drawStars(project: any, stars: Star[]) {
 
@@ -198,16 +224,16 @@ export class StarhopMapComponent
       .attr('cy', d => project(d.ra, d.dec).y)
       .attr('r', d => Math.max(0.7, 2 * (8 - Math.min(d.mag, 7)) / 3))
       .attr('fill', d => d.mag < 1 ? '#ffffcc' : d.mag < 3 ? '#ffe8a0' : '#a0a8cc')
-      .attr('opacity', d => Math.max(0.35, 1 - (d.mag - 1) * 0.1));
-
-    nodes
+      .attr('opacity', d => Math.max(0.35, 1 - (d.mag - 1) * 0.1))
       .on('pointerenter', (e, d) => this.showStarTooltip(e, d))
       .on('pointerleave', () => this.hideTooltip());
   }
 
+  // ---------------- LABELS ----------------
+
   private drawStarLabels(project: any, stars: Star[]) {
 
-    this.rotateLayer.selectAll('text.star-label')
+    this.overlayLayer.selectAll('text.star-label')
       .data(stars.filter(s => s.mag < 3 && s.name))
       .enter()
       .append('text')
@@ -216,13 +242,113 @@ export class StarhopMapComponent
       .attr('y', d => project(d.ra, d.dec).y - 6)
       .attr('fill', '#ffcc66')
       .attr('font-size', '11px')
+      .style('pointer-events', 'none')
       .text(d => d.name!);
-      //fix dit
-    if (this.mirrored) {
-        this.rotateLayer.selectAll('text.star-label').attr('transform', 'scale(-1,1)');
-      }
   }
 
+  // ---------------- MESSIER OVERLAY ----------------
+
+  private drawMessier(project:any, list:any[]) {
+
+    const layer = this.rotateLayer.append('g')
+      .attr('class','messier-layer');
+
+    const nodes = layer.selectAll('g.messier')
+      .data(list)
+      .enter()
+      .append('g')
+      .attr('class','messier')
+      .attr('transform', d => {
+
+        const p = project(d.raDeg, d.decDeg);
+        return `translate(${p.x},${p.y})`;
+      });
+
+    nodes.append('path')
+      .attr('d', d => {
+
+        const size = 70;
+
+        switch(d.type.toLowerCase()) {
+
+          case 'spiral galaxy':
+          case 'elliptical galaxy':
+          case 'irregular galaxy':
+            return d3.symbol().type(d3.symbolDiamond2).size(size)();
+
+          case 'globular cluster':
+            return d3.symbol().type(d3.symbolCircle).size(size)();
+
+          case 'open cluster':
+            return d3.symbol().type(d3.symbolTriangle).size(size)();
+
+          case 'planetary nebula':
+            return d3.symbol().type(d3.symbolDiamond).size(size)();
+
+          default:
+            return d3.symbol().type(d3.symbolSquare).size(size)();
+        }
+      })
+      .attr('fill','none')
+      .attr('stroke','#00ffaa')
+      .attr('stroke-width',1.4);
+
+    nodes.append('text')
+      .attr('y', -10)
+      .attr('text-anchor','middle')
+      .attr('fill','#00ffaa')
+      .attr('font-size','11px')
+      .attr('paint-order','stroke')
+      .attr('stroke','rgba(0,0,0,.7)')
+      .attr('stroke-width',3)
+      .text(d => `M${d.messierNumber}`);
+
+    nodes
+      .on('pointerenter', (e,d) => {
+
+        const el = this.tooltipRef.nativeElement;
+
+        el.innerHTML = `
+          <strong>M${d.messierNumber} — ${d.name}</strong><br>
+          ${d.type}<br>
+          Mag ${d.magnitude}
+        `;
+
+        el.style.display = 'block';
+        el.style.left = e.clientX + 30 + 'px';
+        el.style.top = e.clientY - 24 + 'px';
+      })
+      .on('pointerleave', () => this.hideTooltip());
+  }
+
+  // ---------------- TELESCOPE FOV ----------------
+
+  private drawTelescopeFov(width:number) {
+
+    const scale = width / (2 * this.radiusDeg);
+
+    const radiusPx =
+      (this.fovArcMin / 60) * scale;
+
+    const g = this.rotateLayer.append('g')
+      .attr('class','fov-layer');
+
+    g.append('circle')
+      .attr('r', radiusPx)
+      .attr('fill','none')
+      .attr('stroke','#ffcc00')
+      .attr('stroke-width',1.4)
+      .attr('stroke-dasharray','6 4');
+
+    // g.append('text')
+    //   .attr('y', radiusPx + 14)
+    //   .attr('text-anchor','middle')
+    //   .attr('fill','#ffcc00')
+    //   .attr('font-size','11px')
+    //   .text(`${this.fovArcMin}′ FOV`);
+  }
+
+  // ---------------- CONSTELLATIONS ----------------
 
 private drawConstellations(project: any, list: Constellation[]) {
 
@@ -281,6 +407,7 @@ private drawConstellations(project: any, list: Constellation[]) {
 }
 
 
+  // ---------------- HUD ----------------
 
   private drawTarget() {
 
@@ -313,6 +440,7 @@ private drawConstellations(project: any, list: Constellation[]) {
     });
   }
 
+  // ---------------- TOOLTIP ----------------
 
   private showStarTooltip(e: PointerEvent, s: Star) {
 
@@ -324,7 +452,7 @@ private drawConstellations(project: any, list: Constellation[]) {
     `;
 
     el.style.display = 'block';
-    el.style.left = e.clientX + 14 + 'px';
+    el.style.left = e.clientX + 30 + 'px';
     el.style.top = e.clientY - 24 + 'px';
   }
 
@@ -332,19 +460,26 @@ private drawConstellations(project: any, list: Constellation[]) {
     this.tooltipRef.nativeElement.style.display = 'none';
   }
 
+  // ---------------- CONTROLS ----------------
 
   toggleNames() { this.showNames = !this.showNames; this.render(); }
   toggleConstellations() { this.showConstellations = !this.showConstellations; this.render(); }
+  toggleMessier() { this.showMessier = !this.showMessier; this.render(); }
   toggleMirror() { this.mirrored = !this.mirrored; this.render(); }
 
   rotateLeft() { this.rotationAngle -= 15; this.render(); }
   rotateRight() { this.rotationAngle += 15; this.render(); }
   rotateTo(a: number) { this.rotationAngle = a; this.render(); }
 
+  setFov(v:number) { this.fovArcMin = v; this.render(); }
+
   resetView() {
+
     this.rotationAngle = 0;
     this.mirrored = false;
     this.showConstellations = true;
+    this.showMessier = true;
+
     this.render();
   }
 

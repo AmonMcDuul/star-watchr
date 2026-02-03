@@ -17,6 +17,11 @@
             class="control-btn">
       {{ showConstellations ? 'Hide Constellations' : 'Show Constellations' }}
     </button>
+      <button (click)="toggleMessier()" 
+            [class.active]="showMessier"
+            class="control-btn">
+      {{ showNames ? 'Hide Messier' : 'Show Messier' }}
+    </button>
     
     <div class="rotation-controls">
       <button (click)="rotateLeft()" class="control-btn rotate-btn">
@@ -25,7 +30,7 @@
       <button (click)="rotateRight()" class="control-btn rotate-btn">
         15° ↷
       </button>
-      <button (click)="rotateTo(0)" [class.active]="rotationAngle === 0" class="control-btn rotate-btn">
+      <!-- <button (click)="rotateTo(0)" [class.active]="rotationAngle === 0" class="control-btn rotate-btn">
         N
       </button>
       <button (click)="rotateTo(90)" [class.active]="rotationAngle === 90" class="control-btn rotate-btn">
@@ -36,7 +41,7 @@
       </button>
       <button (click)="rotateTo(270)" [class.active]="rotationAngle === 270" class="control-btn rotate-btn">
         W
-      </button>
+      </button> -->
     </div>
     
     <button (click)="starCatalog.setStarDensity('sparse'); resetView();" class="control-btn">Sparse</button>
