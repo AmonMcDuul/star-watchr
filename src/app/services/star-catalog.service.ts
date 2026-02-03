@@ -129,19 +129,21 @@ async load() {
   }
 
   getConstellationsInView(
-    ra:number,
-    dec:number,
-    radius:number
+    ra: number,
+    dec: number,
+    radius: number
   ): Constellation[] {
-
-    return this.getConstellations().filter(c =>
-      c.lines.some(l =>
-        this.angularDistanceDeg(ra,dec,l.from.ra,l.from.dec) <= radius*1.5 ||
-        this.angularDistanceDeg(ra,dec,l.to.ra,l.to.dec) <= radius*1.5
-      )
-    );
+    
+    return this.getConstellations().filter(c => {
+      const allLinesInView = c.lines.every(l => {
+        const fromDist = this.angularDistanceDeg(ra, dec, l.from.ra, l.from.dec);
+        const toDist = this.angularDistanceDeg(ra, dec, l.to.ra, l.to.dec);
+        return fromDist <= radius && toDist <= radius;
+      });
+      
+      return allLinesInView;
+    });
   }
-
 
   getStarsNear(ra:number, dec:number, radius:number): Star[] {
 

@@ -36,7 +36,7 @@ export class StarhopMapComponent
   private zone = inject(NgZone);
 
   showNames = false;
-  showConstellations = false;
+  showConstellations = true;
   mirrored = false;
   rotationAngle = 0;
 
@@ -217,12 +217,16 @@ export class StarhopMapComponent
       .attr('fill', '#ffcc66')
       .attr('font-size', '11px')
       .text(d => d.name!);
+      //fix dit
+    if (this.mirrored) {
+        this.rotateLayer.selectAll('text.star-label').attr('transform', 'scale(-1,1)');
+      }
   }
 
 
 private drawConstellations(project: any, list: Constellation[]) {
 
-  const layer = this.zoomLayer
+  const layer = this.rotateLayer
     .append('g')
     .attr('class', 'constellation-layer');
 
@@ -288,12 +292,12 @@ private drawConstellations(project: any, list: Constellation[]) {
       .attr('stroke', '#ff3366');
 
     g.append('line')
-      .attr('x1', -10).attr('x2', 10)
-      .attr('stroke', '#ff3366');
+      .attr('x1', -7).attr('x2', 7)
+      .attr('stroke', '#ff336651');
 
     g.append('line')
-      .attr('y1', -10).attr('y2', 10)
-      .attr('stroke', '#ff3366');
+      .attr('y1', -7).attr('y2', 7)
+      .attr('stroke', '#ff336651');
   }
 
   private drawReferenceCircles(width: number) {
@@ -340,6 +344,7 @@ private drawConstellations(project: any, list: Constellation[]) {
   resetView() {
     this.rotationAngle = 0;
     this.mirrored = false;
+    this.showConstellations = true;
     this.render();
   }
 
