@@ -2,15 +2,3 @@
   from = "/*"
   to = "/index.html"
   status = 200
-[[headers]]
-  for = "/*"
-  [headers.values]
-    Content-Security-Policy = "script-src 'self' https://aladin.u-strasbg.fr https://skies.esac.esa.int 'unsafe-eval' 'wasm-unsafe-eval';"
-    Cross-Origin-Embedder-Policy = "require-corp"
-    Cross-Origin-Opener-Policy = "same-origin"
-    Cross-Origin-Resource-Policy = "cross-origin"
-
-[[headers]]
-  for = "/assets/*.wasm"
-  [headers.values]
-    Content-Type = "application/wasm"
