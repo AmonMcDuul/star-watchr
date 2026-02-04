@@ -100,7 +100,7 @@ export class DsoDetailComponent implements OnDestroy {
 
 
   goBack() {
-    this.router.navigateByUrl('/dso');
+    this.router.navigateByUrl('/dso-forecast');
   }
 
   toggleConstellations() {
