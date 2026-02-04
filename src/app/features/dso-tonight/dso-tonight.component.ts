@@ -5,12 +5,12 @@ import { MessierTimeService } from '../../services/messier-time.service';
 import { ForecastContextService } from '../../services/forecast-context.service';
 import { LocationSearchComponent } from "../location-search/location-search.component";
 import { LocationService } from '../../services/location.service';
-import { StarhopMapComponent } from "../starhop-map/starhop-map.component";
 import { MessierObject } from '../../models/messier.model'; 
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dso-tonight',
-  imports: [CommonModule, LocationSearchComponent, StarhopMapComponent],
+  imports: [CommonModule, LocationSearchComponent],
   templateUrl: './dso-tonight.component.html',
   styleUrl: './dso-tonight.component.scss',
 })
@@ -19,9 +19,11 @@ export class DsoTonightComponent implements OnInit {
   location = inject(LocationService)
   time = inject(MessierTimeService);
   context = inject(ForecastContextService);
-
+  router = inject(Router);
+  
   readonly selected = signal<number | null>(null);
-  readonly starhopOpen = signal<MessierObject | null>(null); 
+  mapSize: 'compact' | 'normal' | 'large' = 'normal';
+
 
   ngOnInit() {
     this.messier.load();
@@ -47,31 +49,11 @@ export class DsoTonightComponent implements OnInit {
     return diff === days;
   }
   
-  openStarhop(m: MessierObject) {
-    this.starhopOpen.set(m);
-  }
-  
-  closeStarhop() {
-    this.starhopOpen.set(null);
+  goToDso(m: MessierObject) {
+    this.messier.selectMessierByNumber(m.messierNumber);
+    this.router.navigate(['/dso', 'M' + m.messierNumber]);
   }
 
-  parseRa(raString: string): number {
-    const parts = raString.split(':').map(parseFloat);
-    if (parts.length !== 3) return 0;
-    const [hours, minutes, seconds] = parts;
-    const decimalHours = hours + minutes/60 + seconds/3600;
-    return decimalHours * 15; 
-  }
-
-  parseDec(decString: string): number {
-    const sign = decString.trim().startsWith('-') ? -1 : 1;
-    const clean = decString.replace(/[+-]/, '');
-    const parts = clean.split(':').map(parseFloat);
-    if (parts.length !== 3) return 0;
-    const [degrees, minutes, seconds] = parts;
-    return sign * (degrees + minutes/60 + seconds/3600);
-  }
-  
   setDifficulty(v:
     'Easy' | 'Moderate' | 'Hard' | 'Very Easy' | 'Very Hard' | null) {
     this.messier.difficultyFilter.set(v);

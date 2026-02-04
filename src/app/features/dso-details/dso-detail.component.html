@@ -1,0 +1,81 @@
+<div class="dso-page" *ngIf="dso() as dso; else loadingTpl">
+
+  <div class="back-row">
+    <button class="back-btn" (click)="goBack()">
+      ← Back to overview
+    </button>
+  </div>
+
+  <div class="dso-header">
+    <h1>{{ 'M' + dso.messierNumber + ' — ' + dso.name }}</h1>
+    <div class="meta">
+      <span class="type">{{ dso.type }}</span>
+      <span class="constellation">{{ dso.constellation }}</span>
+      <span class="mag">Mag {{ dso.magnitude }}</span>
+    </div>
+  </div>
+
+  <div class="map-section">
+    <div class="map-grid">
+
+      <div class="map-card">
+        <div class="map-title">Live sky</div>
+        <app-aladin-map
+          [raDeg]="raDeg()"
+          [decDeg]="decDeg()"
+          [fov]="3"
+          [showConstellations]="showConstellations"
+          [showConstellationLabels]="showConstellationLabels">
+        </app-aladin-map>
+      </div>
+
+      <div class="map-card">
+        <div class="map-title">Star hop</div>
+        <app-starhop-map
+          [ra]="raDeg()"
+          [dec]="decDeg()">
+        </app-starhop-map>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="info-grid">
+    <div class="dso-info-card">
+      <h3>Description</h3>
+      <p>
+        {{ dso.name }} — {{ dso.type }} located in {{ dso.constellation }}.
+        Distance ~{{ dso.distance }} ly. Apparent size {{ dso.size }}.
+      </p>
+
+      <dl class="meta-grid">
+        <div><dt>Type</dt><dd>{{ dso.type }}</dd></div>
+        <div><dt>Constellation</dt><dd>{{ dso.constellation }}</dd></div>
+        <div><dt>Distance</dt><dd>{{ dso.distance }} ly</dd></div>
+        <div><dt>Apparent size</dt><dd>{{ dso.size }}</dd></div>
+        <div><dt>Best season</dt><dd>{{ dso.viewingSeason }}</dd></div>
+      </dl>
+    </div>
+
+    <div class="dso-image">
+      <img [src]="dso.image" [alt]="dso.name" />
+    </div>
+  </div>
+
+  <div class="dso-lower">
+    <h3>Visibility / Altitude (24h)</h3>
+    <app-altitude-graph
+      [raDeg]="raDeg()"
+      [decDeg]="decDeg()"
+      [lat]="lat()"
+      [lon]="lon()"
+      [date]="time.dateTime()">
+    </app-altitude-graph>
+  </div>
+</div>
+
+<ng-template #loadingTpl>
+  <div class="loading">Loading DSO…</div>
+</ng-template>
+
+<br><br><br><br>

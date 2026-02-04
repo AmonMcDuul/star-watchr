@@ -29,8 +29,6 @@ async load() {
 
   this.constellationCache = null;
 
-  console.log('[StarCatalog] stars:', stars.length);
-
   this.loading.set(false);
 }
 
@@ -72,7 +70,6 @@ async load() {
 
   private buildConstellations(): Constellation[] {
     if (!this.raw()) {
-      console.warn('Tried to build constellations before stars loaded');
       return [];
     }
 
@@ -90,7 +87,6 @@ async load() {
 
         if (!s1 || !s2) {
           missing++;
-          console.warn('[Missing]',def.name,a,b);
           return;
         }
 
@@ -110,9 +106,6 @@ async load() {
       }
 
     });
-
-    console.log('[Constellations built]', result.length);
-    console.log('[Missing links]', missing);
 
     return result;
   }

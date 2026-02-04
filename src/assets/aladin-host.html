@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Aladin Lite Host</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #05060a;
+      overflow: hidden;
+    }
+    #aladin {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+
+  <!-- Aladin Lite (official CDN) -->
+  <script src="https://aladin.u-strasbg.fr/AladinLite/api/v3/latest/aladin.min.js"></script>
+</head>
+
+<body>
+  <div id="aladin"></div>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+
+    const ra  = parseFloat(params.get('ra'));
+    const dec = parseFloat(params.get('dec'));
+    const fov = parseFloat(params.get('fov') || '2');
+
+    const showConstellations = params.get('constellations') !== '0';
+
+    // Init Aladin
+    const aladin = A.aladin('#aladin', {
+      survey: 'P/DSS2/color',
+      fov: fov,
+      target: `${ra} ${dec}`,
+      showCooGrid: false,
+      showReticle: true,
+      showSimbadPointer: false,
+      showContextMenu: false
+    });
+
+
+    // Marker for target (Messier)
+    const catalog = A.catalog({
+      name: 'Target',
+      sourceSize: 18,
+      color: 'yellow'
+    });
+
+    catalog.addSources([
+      A.source(ra, dec, { name: 'Target' })
+    ]);
+
+    aladin.addCatalog(catalog);
+  </script>
+</body>
+</html>

@@ -24,15 +24,30 @@ export class MessierService {
   private raw = signal<MessierJson | null>(null);
   readonly loading = signal(false);
 
+  readonly selectedMessier = signal<MessierObject | null>(null);
+
   async load() {
     if (this.raw()) return;
-
     this.loading.set(true);
-
     const res = await fetch('/assets/data/messier.json');
     this.raw.set(await res.json());
-
     this.loading.set(false);
+  }
+
+  selectMessierByNumber(n: number | string | null) {
+    if (!this.raw() || n == null) {
+      this.selectedMessier.set(null);
+      return;
+    }
+
+    const num = typeof n === 'string' && n.toLowerCase().startsWith('m') ? parseInt(n.slice(1)) : Number(n);
+    const found = Object.values(this.raw()!.data).find(m => m.messierNumber === num || (`M${m.messierNumber}`).toLowerCase() === String(n).toLowerCase());
+    this.selectedMessier.set(found ?? null);
+  }
+
+  getByNumber(n: number) {
+    if (!this.raw()) return undefined;
+    return Object.values(this.raw()!.data).find(m => m.messierNumber === n);
   }
 
   readonly dateTime = computed(() => this.time.dateTime());
@@ -85,7 +100,7 @@ export class MessierService {
         };
       })
 
-      .filter(m => m.altitude > 25)
+      .filter(m => m.altitude > 15)
 
       .filter(m => {
         if (!diffFilter) return true;
