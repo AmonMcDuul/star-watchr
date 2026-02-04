@@ -1,9 +1,8 @@
 <div class="starhop-container">
   <div class="controls">
     <button (click)="toggleMirror()" 
-            [class.active]="mirrored"
             class="control-btn">
-      {{ mirrored ? 'Normal View' : 'Mirror View' }}
+      {{ mirrored ? 'Mirror View' : 'Normal View' }}
     </button>
     
     <button (click)="toggleNames()" 
