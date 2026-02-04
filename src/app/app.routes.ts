@@ -5,7 +5,6 @@ import { AboutComponent } from './features/about/about.component';
 import { ApodComponent } from './features/apod/apod.component';
 import { ContactComponent } from './features/contact/contact.component';
 import { DsoTonightComponent } from './features/dso-tonight/dso-tonight.component';
-import { DsoDetailComponent } from './features/dso-details/dso-detail.component';
 
 export const routes: Routes = [
   {
@@ -62,6 +61,11 @@ export const routes: Routes = [
         'Have a question, idea, bug report or feedback about StarWatchr? Get in touch — we’d love to hear from you.'
     }
   },
-  { path: 'dso/:id', component: DsoDetailComponent },
+{
+  path: 'dso/:id',
+  loadComponent: () =>
+    import('./features/dso-details/dso-detail.component')
+      .then(m => m.DsoDetailComponent)
+},
   { path: '**', redirectTo: '' }
 ];
