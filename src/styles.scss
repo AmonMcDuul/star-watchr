@@ -193,3 +193,69 @@ body{
 .target-group {
   pointer-events: none;
 }
+
+/* ================= MOBILE RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+
+  /* ---- Controls ---- */
+  .controls {
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .controls .control-btn {
+    flex: 1 1 auto;
+    font-size: 0.75rem;
+    padding: 0.45rem 0.6rem;
+  }
+
+  /* ---- Map wrapper ---- */
+  .map-wrapper {
+    height: 55vh;          /* flexibel i.p.v. fixed */
+    min-height: 260px;     /* voorkomt te klein */
+    max-height: 70vh;      /* voorkomt gigantisch */
+  }
+
+  /* ---- Tooltip ---- */
+  .star-tooltip {
+    max-width: 160px;
+    font-size: 0.7rem;
+    padding: 0.5rem;
+
+    /* voorkomt buiten scherm vallen */
+    left: auto !important;
+    right: 8px !important;
+    transform: none !important;
+  }
+
+  /* ---- Labels iets kleiner ---- */
+  .star-label,
+  .constellation-label {
+    font-size: 10px !important;
+  }
+}
+
+
+/* ================= SMALL PHONES ================= */
+
+@media (max-width: 420px) {
+
+  .map-wrapper {
+    height: 50vh;
+    min-height: 220px;
+  }
+
+  .controls {
+    flex-direction: column;
+  }
+
+  .controls .control-btn {
+    width: 100%;
+  }
+
+  .star-tooltip {
+    max-width: 140px;
+    font-size: 0.65rem;
+  }
+}
