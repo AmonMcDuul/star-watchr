@@ -63,6 +63,14 @@
         </div>
 
         <div class="filter-group">
+          <span>Altitude</span>
+          <button (click)="setAltitude(0)" [class.active]="messier.altitudeFilter() === 0">0°</button>
+          <button (click)="setAltitude(15)" [class.active]="messier.altitudeFilter() === 15">15°</button>
+          <button (click)="setAltitude(25)" [class.active]="messier.altitudeFilter() === 25">25°</button>
+          <button (click)="setAltitude(35)" [class.active]="messier.altitudeFilter() === 35">35°</button>
+        </div>
+
+        <div class="filter-group">
           <button class="clear-btn" (click)="clearFilters()">Clear filters</button>
         </div>
 

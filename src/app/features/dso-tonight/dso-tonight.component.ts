@@ -67,10 +67,15 @@ export class DsoTonightComponent implements OnInit {
     this.messier.constellationFilter.set(v);
   }
 
+  setAltitude(n: number){
+    this.messier.altitudeFilter.set(n);
+  }
+
   clearFilters() {
     this.messier.difficultyFilter.set(null);
     this.messier.seasonFilter.set(null);
     this.messier.constellationFilter.set(null);
+    this.messier.altitudeFilter.set(15);
   }
 
 

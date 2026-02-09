@@ -21,6 +21,9 @@ export class MessierService {
   readonly constellationFilter =
     signal<string | null>(null);
 
+  readonly altitudeFilter = 
+    signal<number>(15);
+
   private raw = signal<MessierJson | null>(null);
   readonly loading = signal(false);
 
@@ -82,6 +85,7 @@ export class MessierService {
     const diffFilter = this.difficultyFilter();
     const seasonFilter = this.seasonFilter();
     const constFilter = this.constellationFilter();
+    const altFilter = this.altitudeFilter();
 
     return this.all()
 
@@ -100,7 +104,7 @@ export class MessierService {
         };
       })
 
-      .filter(m => m.altitude > 15)
+      .filter(m => m.altitude > altFilter)
 
       .filter(m => {
         if (!diffFilter) return true;
