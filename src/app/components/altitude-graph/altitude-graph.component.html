@@ -1,0 +1,67 @@
+<div class="chart-layout">
+
+<div class="y-axis">
+  @for (label of yAxisLabels; track label) {
+    <div
+      class="y-label"
+      [style.top.%]="(yForAlt(label) / 200) * 100">
+      {{ label }}°
+    </div>
+  }
+</div>
+
+
+
+  <div class="chart-area"
+       (mousemove)="onPointer($event)"
+       (mouseleave)="clearHover()"
+       (touchstart)="onTouch($event)"
+       (touchmove)="onTouch($event)"
+       (touchend)="onTouchEnd()">
+
+    <svg #svgEl [attr.viewBox]="viewBox" preserveAspectRatio="none">
+
+      @for (line of yAxisGridLines; track line) {
+        <line x1="0" [attr.y1]="line.y" x2="1000" [attr.y2]="line.y" class="grid"/>
+      }
+
+      <polygon [attr.points]="areaPoints" class="area"/>
+      <polyline [attr.points]="polyPoints" class="curve"/>
+
+      <line x1="0" [attr.y1]="horizonY" x2="1000" [attr.y2]="horizonY" class="horizon"/>
+
+      @if (currentTimeX !== null) {
+        <g>
+          <line [attr.x1]="currentTimeX" [attr.x2]="currentTimeX" y1="0" y2="180" class="now-line"/>
+          <circle [attr.cx]="currentTimeX" [attr.cy]="currentTimeY" r="4" class="now-dot"/>
+        </g>
+      }
+
+      @if (hover) {
+        <g>
+          <line [attr.x1]="hover.x" y1="0" [attr.x2]="hover.x" y2="180" class="hover-line"/>
+          <circle [attr.cx]="hover.x" [attr.cy]="hover.y" r="4" class="hover-dot"/>
+        </g>
+      }
+
+    </svg>
+
+    <div class="x-axis">
+      @for (label of xAxisLabels; track label) {
+        <div class="x-label" [style.left.%]="label.x / 10">
+          {{ label.time }}
+        </div>
+      }
+    </div>
+
+    @if (hover) {
+      <div class="tooltip"
+           [style.left.px]="hover.clientX"
+           [style.top.px]="hover.clientY">
+        <strong>{{ hover.time | date:'HH:mm' }}</strong>
+        {{ hover.alt | number:'1.0-0' }}°
+      </div>
+    }
+
+  </div>
+</div>

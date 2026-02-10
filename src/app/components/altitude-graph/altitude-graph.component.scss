@@ -1,0 +1,120 @@
+/* ---------- LAYOUT ---------- */
+
+.chart-layout {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  width: 100%;
+  min-width: 0; // 🔥 voorkomt overflow in flex parents
+}
+
+/* ---------- Y AXIS ---------- */
+
+.y-axis {
+  position: relative;
+  width: 40px;
+  height: 100%;   
+}
+
+.y-label {
+  position: absolute;
+  right: 6px;
+
+  transform: translateY(50%);
+  line-height: 1;
+  height: 0;
+  display: flex;
+  align-items: center;
+  font-size: 11px;
+  color: rgba(220,230,255,0.6);
+  white-space: nowrap;
+}
+
+
+/* ---------- CHART ---------- */
+
+.chart-area {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+
+  aspect-ratio: 5 / 1.4;
+
+  @media (max-width: 700px) {
+    aspect-ratio: 5 / 1.8;
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+}
+
+/* ---------- X AXIS ---------- */
+
+.x-axis {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -18px;
+  height: 16px;
+  font-size: 11px;
+  color: rgba(220,230,255,0.65);
+  pointer-events: none;
+}
+
+.x-label {
+  position: absolute;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+/* ---------- GRID & CURVE ---------- */
+
+.grid { stroke: rgba(255,255,255,0.05); }
+
+.area { fill: url(#areaGradient); }
+
+.curve {
+  fill: none;
+  stroke: #7c96ff;
+  stroke-width: 2.2;
+}
+
+/* ---------- HORIZON ---------- */
+
+.horizon {
+  stroke: rgba(255,255,255,0.18);
+  stroke-dasharray: 4 4;
+}
+
+/* ---------- NOW ---------- */
+
+.now-line { stroke: rgba(255,209,102,0.7); stroke-width: 2; }
+.now-dot { fill: #ffd166; stroke: #fff3b0; }
+
+/* ---------- HOVER ---------- */
+
+.hover-line { stroke: rgba(124,150,255,0.35); stroke-dasharray: 3 3; }
+.hover-dot { fill: #7c96ff; }
+
+/* ---------- TOOLTIP ---------- */
+
+.tooltip {
+  position: absolute;
+  transform: translate(12px, -50%);
+  pointer-events: none;
+
+  background: rgba(10,14,30,0.95);
+  border: 1px solid rgba(120,150,255,0.25);
+  backdrop-filter: blur(6px);
+
+  padding: 6px 10px;
+  border-radius: 8px;
+
+  font-size: 12px;
+  color: #e3e9ff;
+  white-space: nowrap;
+
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}

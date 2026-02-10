@@ -2,7 +2,7 @@ import { Injectable, computed, inject, signal } from '@angular/core';
 import { LocationService } from './location.service';
 import { ForecastContextService } from './forecast-context.service';
 import { MessierJson, MessierObject } from '../models/messier.model';
-import { Observer, Horizon } from 'astronomy-engine';
+import { Observer, Horizon, AstroTime, RotateVector, Rotation_EQJ_EQD, SphereFromVector, VectorFromSphere, Rotation_EQD_EQJ, InverseRotation, HourAngle, Refraction, Rotation_ECL_HOR, Rotation_EQJ_HOR, SiderealTime, Body } from 'astronomy-engine';
 import { MessierTimeService } from './messier-time.service';
 
 @Injectable({ providedIn: 'root' })
@@ -80,7 +80,9 @@ export class MessierService {
     const lon = this.location.selected()!.lon;
     const date = this.dateTime();
 
+    console.log("lat", lat, "lon", lon)
     const observer = new Observer(+lat, +lon, 0);
+    console.log(observer)
 
     const diffFilter = this.difficultyFilter();
     const seasonFilter = this.seasonFilter();
@@ -94,13 +96,18 @@ export class MessierService {
         const raDeg = this.raToDegrees(m.rightAscension);
         const decDeg = this.decToDegrees(m.declination);
 
-        const hor = Horizon(date, observer, raDeg, decDeg);
+        const time = new AstroTime(date);
+        const sphereJ2000 = { lon: raDeg, lat: decDeg, dist: 1.0 };
+        const vecJ2000 = VectorFromSphere(sphereJ2000, time);
+        const rot_EQJ_HOR = Rotation_EQJ_HOR(time, observer);
+        const vec_hor = RotateVector(rot_EQJ_HOR, vecJ2000);
+        const sphere_hor = SphereFromVector(vec_hor);
 
         return {
           ...m,
           raDeg,
           decDeg,
-          altitude: hor.altitude
+          altitude: sphere_hor.lat
         };
       })
 

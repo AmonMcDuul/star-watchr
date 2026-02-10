@@ -44,8 +44,16 @@
     <div class="dso-info-card">
       <h3>Description</h3>
       <p>
-        {{ dso.name }} — {{ dso.type }} located in {{ dso.constellation }}.
-        Distance ~{{ dso.distance }} ly. Apparent size {{ dso.size }}.
+        The {{ dso.name }} is a {{ dso.type.toLowerCase() }} in the constellation
+        {{ dso.constellation }}, located about {{ dso.distance | number }} light-years
+        from Earth. With an apparent size of {{ dso.size }} and a magnitude of
+        {{ dso.magnitude }}, it is best observed during {{ dso.viewingSeason.toLowerCase() }}.
+      </p>
+
+      <p>
+        Under dark skies, this object is considered
+        <strong>{{ dso.viewingDifficulty }}</strong>
+        to observe with small amateur telescopes.
       </p>
 
       <dl class="meta-grid">
@@ -54,6 +62,7 @@
         <div><dt>Distance</dt><dd>{{ dso.distance }} ly</dd></div>
         <div><dt>Apparent size</dt><dd>{{ dso.size }}</dd></div>
         <div><dt>Best season</dt><dd>{{ dso.viewingSeason }}</dd></div>
+        <div><dt>magnitude</dt><dd>{{ dso.magnitude }}</dd></div>
       </dl>
     </div>
 

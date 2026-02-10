@@ -103,16 +103,16 @@
             <img [src]="m.image" [alt]="m.name" />
 
             <div class="info">
-              <strong>M{{ m.messierNumber }} – {{ m.name }}</strong>
+              <strong>M{{ m.messierNumber }} – {{ m.name }}</strong><br>
               <span>{{ m.type }}</span>
-              <span>Mag {{ m.magnitude }}</span>
-              <span>{{ m.constellation }}</span>
+              <span>&nbsp;- {{ m.constellation }}</span>
             </div>
 
             @if (selected() === m.messierNumber) {
               <div class="details">
                 <div>NGC: {{ m.NGC }}</div>
                 <div>Type: {{ m.type }}</div>
+                <div>Mag: {{ m.magnitude }}</div>
                 <div>Distance: {{ m.distance }} ly</div>
                 <div>Size: {{ m.size }}</div>
                 <div>Difficulty: {{ m.viewingDifficulty }}</div>
