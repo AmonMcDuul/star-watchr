@@ -1,13 +1,11 @@
-/* ---------- LAYOUT ---------- */
 
 .chart-layout {
   display: grid;
   grid-template-columns: 40px 1fr;
   width: 100%;
-  min-width: 0; // 🔥 voorkomt overflow in flex parents
+  min-width: 0; 
 }
 
-/* ---------- Y AXIS ---------- */
 
 .y-axis {
   position: relative;
@@ -30,7 +28,6 @@
 }
 
 
-/* ---------- CHART ---------- */
 
 .chart-area {
   position: relative;
@@ -50,7 +47,6 @@
   }
 }
 
-/* ---------- X AXIS ---------- */
 
 .x-axis {
   position: absolute;
@@ -69,7 +65,6 @@
   white-space: nowrap;
 }
 
-/* ---------- GRID & CURVE ---------- */
 
 .grid { stroke: rgba(255,255,255,0.05); }
 
@@ -81,24 +76,20 @@
   stroke-width: 2.2;
 }
 
-/* ---------- HORIZON ---------- */
 
 .horizon {
   stroke: rgba(255,255,255,0.18);
   stroke-dasharray: 4 4;
 }
 
-/* ---------- NOW ---------- */
 
 .now-line { stroke: rgba(255,209,102,0.7); stroke-width: 2; }
 .now-dot { fill: #ffd166; stroke: #fff3b0; }
 
-/* ---------- HOVER ---------- */
 
 .hover-line { stroke: rgba(124,150,255,0.35); stroke-dasharray: 3 3; }
 .hover-dot { fill: #7c96ff; }
 
-/* ---------- TOOLTIP ---------- */
 
 .tooltip {
   position: absolute;
