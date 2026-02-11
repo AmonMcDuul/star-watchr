@@ -191,3 +191,69 @@
     letter-spacing: 0.05em;
   }
 }
+
+@media (max-width: 345px) {
+
+  .hero {
+    padding: 2rem 0.75rem 1.6rem;
+
+    h1 {
+      font-size: 1.45rem;  
+      letter-spacing: 0.2px;
+    }
+
+    p {
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+  }
+
+  .about {
+    padding-bottom: 2.2rem;
+  }
+
+  .content {
+    padding: 0 0.75rem;
+    gap: 1rem;
+  }
+
+  .card {
+    padding: 1.1rem;
+    border-radius: 12px;
+
+    h2 {
+      font-size: 1rem;
+    }
+
+    p {
+      font-size: 0.85rem;
+      line-height: 1.55;
+    }
+  }
+
+  .feature {
+    padding: 0.75rem;
+    border-radius: 12px;
+
+    h3 {
+      font-size: 0.92rem;
+    }
+
+    p {
+      font-size: 0.82rem;
+    }
+  }
+
+  .card.quote {
+    padding: 1.1rem 0.75rem;
+
+    blockquote {
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+
+    .quote-author {
+      font-size: 0.75rem;
+    }
+  }
+}

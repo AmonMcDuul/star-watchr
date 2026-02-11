@@ -348,7 +348,6 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Mobile fine-tuning */
 @media (max-width: 480px) {
   .legend-toggle {
     font-size: 0.75rem;
@@ -356,5 +355,70 @@
 
   .legend-calc-content p {
     font-size: 0.72rem;
+  }
+}
+
+@media (max-width: 345px) {
+
+  .matrix-legend {
+    padding: 0.6rem;
+    font-size: 0.68rem;
+    border-radius: 10px;
+  }
+
+  .matrix-legend h2 {
+    font-size: 0.85rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .legend-columns {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .legend-left,
+  .legend-right {
+    min-width: 0; 
+  }
+
+  .legend-row {
+    gap: 0.35rem;
+  }
+
+  .legend-item {
+    min-width: auto;
+    font-size: 0.68rem;
+    gap: 0.25rem;
+  }
+
+  .dot { width: 12px; height: 12px; }
+  .bar.trans { width: 28px; height: 5px; }
+  .cell { width: 16px; height: 12px; }
+
+  .moon-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .legend-explanation {
+    font-size: 0.65rem;
+    margin-top: 0.6rem;
+    padding-top: 0.5rem;
+  }
+
+  .legend-explanation h3 {
+    font-size: 0.8rem;
+  }
+
+  .legend-explanation p {
+    font-size: 0.66rem;
+  }
+
+  .legend-toggle {
+    font-size: 0.7rem;
+  }
+
+  .legend-calc-content p {
+    font-size: 0.66rem;
   }
 }

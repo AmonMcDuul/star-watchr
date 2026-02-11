@@ -96,3 +96,30 @@
     height: 16px;
   }
 }
+
+@media (max-width: 345px) {
+
+  .astro-times {
+    padding: 0.5rem;
+    font-size: 0.68rem;
+    border-radius: 10px;
+  }
+
+  .astro-times h2 {
+    font-size: 0.85rem;
+    margin: 0.5rem 0 0.35rem;
+  }
+
+  .planet-name {
+    gap: 4px;
+  }
+
+  .planet-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .astro-grid .full {
+    margin-top: 0.2rem;
+  }
+}
