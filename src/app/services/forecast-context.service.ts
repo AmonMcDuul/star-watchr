@@ -180,7 +180,7 @@ private overlapsMoon(
       const hor = Horizon(date, observer, equ.ra, equ.dec);
   
       if (hor.altitude > 0 && p.isAboveHorizonNow) {
-        visible.push(p.planet.toLowerCase());
+        visible.push(p.planet);
       }
     }
     this.planetCache.set(key, visible);
