@@ -292,12 +292,16 @@ h2 {
   border: 1px solid rgba(255,255,255,0.1);
 }
 .cell.astro-night {
-  background: rgba(140, 40, 53, 0); 
+  // background: rgba(140, 122, 40, 0.1); 
+  background: linear-gradient(to top, rgba(140, 122, 40, 0.3), rgba(140, 132, 75, 0.05));
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.1); 
 }
+
 .cell.astro-night-partial {
-  background: linear-gradient(to top, rgba(140,40,53,0.4), rgba(140,40,53,0.15));
+  background: linear-gradient(to top, rgba(140,40,53,0.4), rgba(140,40,53,0.05));
     border-radius: 3px;
-    border: 1px solid rgba(255,255,255,0.05); 
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
 .cell.moon-bar {

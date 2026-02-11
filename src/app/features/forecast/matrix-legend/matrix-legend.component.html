@@ -62,9 +62,30 @@
         <div class="legend-row">
           <div class="legend-item"><span class="cell astro-night"></span><span>Full darkness</span></div>
           <div class="legend-item"><span class="cell astro-night-partial"></span><span>Partial darkness</span></div>
+          <div class="legend-item"><span class="cell no-astro-night"></span><span>No darkness</span></div>
         </div>
       </div>
 
+      <!-- Moon -->
+      <div class="legend-section">
+        <h3>Moon</h3>
+        <div class="legend-row">
+          <div class="legend-item">
+            <img
+              class="moon-icon"
+              [src]="'assets/img/nomoon.png'"
+              alt="No moon"
+            />
+           <span>Moon is under horizon</span></div>
+        </div>
+          <div class="legend-item">
+            <img
+              class="moon-icon"
+              [src]="'assets/img/' + context.moonPhaseLabel() + '.png'"
+              alt="Moon phase"
+            />
+           <span>Moon is above horizon</span></div>
+      </div>
     </div>
   </div>
 

@@ -204,6 +204,7 @@
 
 .astro-night { background: linear-gradient(to top, rgba(140, 40, 53, 0.7), rgba(140,40,53,0.05)); }
 .astro-night-partial { background: linear-gradient(to top, rgba(140,40,53,0.4), rgba(140,40,53,0.15)); }
+.no-astro-night { background: linear-gradient(to top, rgba(140, 122, 40, 0.3), rgba(140, 132, 75, 0.05)); }
 
 .moon-bar { background: linear-gradient(
     to top,
@@ -215,6 +216,12 @@
     rgba(242, 243, 248, 0.02),
     rgba(242, 243, 248, 0.08)
   ); }
+
+  .moon-icon {
+    width: 25px;
+    height: 25px;
+    object-fit: contain;
+  }
 
 @media (max-width: 768px) {
   .matrix-legend {
