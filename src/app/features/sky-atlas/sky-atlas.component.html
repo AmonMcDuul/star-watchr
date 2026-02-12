@@ -1,37 +1,36 @@
-<!-- sky-atlas.component.html -->
 <div class="ui">
   <button 
     (click)="toggleConstellations()" 
     [class.active]="uiState.showConstellations">
-    <span class="icon">⚡</span> Constellations
+    Constellations
   </button>
   <button 
     (click)="toggleConstellationNames()"
     [class.active]="uiState.showConstellationNames">
-    <span class="icon">📝</span> Const. Names
+    Const. Names
   </button>
   <button 
     (click)="toggleStarNames()"
     [class.active]="uiState.showStarNames">
-    <span class="icon">⭐</span> Star Names
+    Star Names
   </button>
   <button 
     (click)="toggleMessier()"
     [class.active]="uiState.showMessier">
-    <span class="icon">🔵</span> Messier
+     Messier
   </button>
   <button 
     (click)="toggleMessierNames()"
     [class.active]="uiState.showMessierNames">
-    <span class="icon">🏷️</span> Messier Names
+     Messier Names
   </button>
   <button 
     (click)="toggleGrid()"
     [class.active]="uiState.showGrid">
-    <span class="icon">🔲</span> Grid
+     Grid
   </button>
   <button (click)="resetView()">
-    <span class="icon">🎯</span> Reset
+     Reset
   </button>
 </div>
 

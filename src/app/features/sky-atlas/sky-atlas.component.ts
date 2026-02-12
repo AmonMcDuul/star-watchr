@@ -1,4 +1,3 @@
-// sky-atlas.component.ts
 import {
   Component,
   ElementRef,
