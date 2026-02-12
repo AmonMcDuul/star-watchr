@@ -1,0 +1,54 @@
+<!-- sky-atlas.component.html -->
+<div class="ui">
+  <button 
+    (click)="toggleConstellations()" 
+    [class.active]="uiState.showConstellations">
+    <span class="icon">⚡</span> Constellations
+  </button>
+  <button 
+    (click)="toggleConstellationNames()"
+    [class.active]="uiState.showConstellationNames">
+    <span class="icon">📝</span> Const. Names
+  </button>
+  <button 
+    (click)="toggleStarNames()"
+    [class.active]="uiState.showStarNames">
+    <span class="icon">⭐</span> Star Names
+  </button>
+  <button 
+    (click)="toggleMessier()"
+    [class.active]="uiState.showMessier">
+    <span class="icon">🔵</span> Messier
+  </button>
+  <button 
+    (click)="toggleMessierNames()"
+    [class.active]="uiState.showMessierNames">
+    <span class="icon">🏷️</span> Messier Names
+  </button>
+  <button 
+    (click)="toggleGrid()"
+    [class.active]="uiState.showGrid">
+    <span class="icon">🔲</span> Grid
+  </button>
+  <button (click)="resetView()">
+    <span class="icon">🎯</span> Reset
+  </button>
+</div>
+
+<div class="controls-info">
+  <div class="shortcut-title">⌨️ Keyboard Shortcuts</div>
+  <div class="shortcut-grid">
+    <span><kbd>G</kbd> Grid</span>
+    <span><kbd>C</kbd> Constellations</span>
+    <span><kbd>N</kbd> Const. Names</span>
+    <span><kbd>S</kbd> Star Names</span>
+    <span><kbd>M</kbd> Messier</span>
+    <span><kbd>R</kbd> / <kbd>ESC</kbd> Reset</span>
+  </div>
+  <div class="zoom-info">
+    <span class="hint">🖱️ Scroll om in/uit te zoomen • Slepen om rond te kijken</span>
+    <span class="hint">📍 Je staat in het centrum van de hemelbol</span>
+  </div>
+</div>
+
+<canvas #canvas></canvas>

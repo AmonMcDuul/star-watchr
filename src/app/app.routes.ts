@@ -61,11 +61,16 @@ export const routes: Routes = [
         'Have a question, idea, bug report or feedback about StarWatchr? Get in touch — we’d love to hear from you.'
     }
   },
-{
-  path: 'dso/:id',
-  loadComponent: () =>
-    import('./features/dso-details/dso-detail.component')
-      .then(m => m.DsoDetailComponent)
-},
+  {
+    path: 'dso/:id',
+    loadComponent: () =>
+      import('./features/dso-details/dso-detail.component')
+        .then(m => m.DsoDetailComponent)
+  },
+  {
+    path: 'sky-atlas',
+    loadComponent: () => import('./features/sky-atlas/sky-atlas.component')
+      .then(m => m.SkyAtlasComponent)
+  },
   { path: '**', redirectTo: '' }
 ];
