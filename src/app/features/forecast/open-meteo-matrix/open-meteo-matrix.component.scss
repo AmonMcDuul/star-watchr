@@ -288,18 +288,19 @@ h2 {
 
 .cell.astro-hack {
   background: linear-gradient(to top, rgba(140, 40, 53, 0.7), rgba(140,40,53,0.05));
+  background: linear-gradient(to top, rgba(57, 15, 20, 0.7), rgba(140,40,53,0.05));
   border-radius: 3px;
   border: 1px solid rgba(255,255,255,0.1);
 }
 .cell.astro-night {
   // background: rgba(140, 122, 40, 0.1); 
-  background: linear-gradient(to top, rgba(140, 122, 40, 0.3), rgba(140, 132, 75, 0.05));
+  background: linear-gradient(to top, rgba(179, 164, 100, 0.3), rgba(140, 132, 75, 0.05));
   border-radius: 3px;
   border: 1px solid rgba(255, 255, 255, 0.1); 
 }
 
 .cell.astro-night-partial {
-  background: linear-gradient(to top, rgba(140,40,53,0.4), rgba(140,40,53,0.05));
+  background: linear-gradient(to top, rgba(138, 95, 63, 0.4), rgba(140,40,53,0.05));
     border-radius: 3px;
     border: 1px solid rgba(255,255,255,0.1);
 }
