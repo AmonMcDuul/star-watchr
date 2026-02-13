@@ -304,6 +304,7 @@ h2 {
     border: 1px solid rgba(255,255,255,0.1);
 }
 
+
 .cell.moon-bar {
   background: linear-gradient(
     to top,
@@ -441,6 +442,35 @@ h2 {
 .desktop-only {
   display: flex;
 }
+
+.cell {
+  position: relative;
+}
+
+/* 00:00 — begin nieuwe dag */
+.cell.next-day-start::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -1px;
+  bottom: -1px;
+  width: 2px;
+  background: rgba(220, 70, 70, 0.9);
+  pointer-events: none;
+}
+
+/* 23:00 — einde dag (subtiel) */
+.cell.next-day-end::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: -1px;
+  bottom: -1px;
+  width: 1px;
+  background: rgba(220, 70, 70, 0.25);
+  pointer-events: none;
+}
+
 
 @media (max-width: 1150px) {
   .desktop-only {

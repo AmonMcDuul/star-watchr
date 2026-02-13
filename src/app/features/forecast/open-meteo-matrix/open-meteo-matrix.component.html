@@ -117,7 +117,8 @@
   <div class="row header hint">
     <div class="label">Time </div>
     @for (c of cardsToShow(); track c.time) {
-      <div class="cell time head" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
+      <div class="cell time head"   [class.next-day-start]="c.isMidnight"
+  [class.next-day-end]="c.isEndOfDay" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
      (mouseleave)="onHover(null, null)">{{ c.time | date:'HH:mm' }}h</div>
     }
   </div>
@@ -133,7 +134,8 @@
   <!-- <div class="row hint">
     <div class="label">Total Cloud</div>
     @for (c of cardsToShow(); track c.timepoint) {
-      <div class="cell" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
+      <div class="cell"   [class.next-day-start]="c.isMidnight"
+  [class.next-day-end]="c.isEndOfDay"  (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
      (mouseleave)="onHover(null, null)">
         <span
           class="dot cloud"
@@ -154,7 +156,8 @@
     <div class="row hint">
     <div class="label">High cloud</div>
     @for (c of cardsToShow(); track c.timepoint) {
-      <div class="cell"
+      <div class="cell"   [class.next-day-start]="c.isMidnight"
+  [class.next-day-end]="c.isEndOfDay" 
           (touchstart)="onMobileHover(c, $event)"
           (mouseenter)="onHover(c, $event)"
           (mouseleave)="onHover(null, null)">
@@ -177,7 +180,8 @@
     <div class="row hint">
     <div class="label">Mid cloud</div>
     @for (c of cardsToShow(); track c.timepoint) {
-      <div class="cell"
+      <div class="cell"   [class.next-day-start]="c.isMidnight"
+  [class.next-day-end]="c.isEndOfDay" 
           (touchstart)="onMobileHover(c, $event)"
           (mouseenter)="onHover(c, $event)"
           (mouseleave)="onHover(null, null)">
@@ -200,7 +204,8 @@
     <div class="row hint">
     <div class="label">Low cloud</div>
     @for (c of cardsToShow(); track c.timepoint) {
-      <div class="cell"
+      <div class="cell"   [class.next-day-start]="c.isMidnight"
+  [class.next-day-end]="c.isEndOfDay" 
           (touchstart)="onMobileHover(c, $event)"
           (mouseenter)="onHover(c, $event)"
           (mouseleave)="onHover(null, null)">
@@ -223,7 +228,8 @@
   <!-- <div class="row hint">
     <div class="label">Cloud Score</div>
     @for (c of cardsToShow(); track c.timepoint) {
-      <div class="cell"
+      <div class="cell"   [class.next-day-start]="c.isMidnight"
+  [class.next-day-end]="c.isEndOfDay" 
           (touchstart)="onMobileHover(c, $event)"
           (mouseenter)="onHover(c, $event)"
           (mouseleave)="onHover(null, null)">
@@ -246,7 +252,8 @@
   <div class="row hint">
     <div class="label">Seeing</div>
     @for (c of cardsToShow(); track c.timepoint) {
-      <div class="cell" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
+      <div class="cell"   [class.next-day-start]="c.isMidnight"
+  [class.next-day-end]="c.isEndOfDay"  (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
      (mouseleave)="onHover(null, null)">
         <span class="dot seeing s{{ c.seeing }}"></span>
       </div>
@@ -257,7 +264,8 @@
   <div class="row hint">
     <div class="label">Transparency</div>
     @for (c of cardsToShow(); track c.timepoint) {
-      <div class="cell" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
+      <div class="cell"   [class.next-day-start]="c.isMidnight"
+  [class.next-day-end]="c.isEndOfDay"  (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
      (mouseleave)="onHover(null, null)">
         <span
           class="bar trans"
@@ -273,7 +281,8 @@
   <div class="row hint">
     <div class="label">Temp</div>
     @for (c of cardsToShow(); track c.timepoint) {
-      <div class="cell temp" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
+      <div class="cell temp"   [class.next-day-start]="c.isMidnight"
+  [class.next-day-end]="c.isEndOfDay" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
      (mouseleave)="onHover(null, null)">{{ c.temperature }}°</div>
     }
   </div>
@@ -284,6 +293,8 @@
     @for (c of cardsToShow(); track c.timepoint) {
       <div
         class="cell moon-cell"
+          [class.next-day-start]="c.isMidnight"
+  [class.next-day-end]="c.isEndOfDay"
         (touchstart)="onMobileHover(c, $event)"
         (mouseenter)="onHover(c, $event)"
         (mouseleave)="onHover(null, null)"
@@ -318,6 +329,8 @@
     @for (c of cardsToShow(); track c.timepoint) {
       <div
         class="cell planet-cell"
+          [class.next-day-start]="c.isMidnight"
+  [class.next-day-end]="c.isEndOfDay"
         [title]="context.planetsVisibleAt(c.time).join(', ')"
         (touchstart)="onMobileHover(c, $event)"
         (mouseenter)="onHover(c, $event)"
@@ -343,10 +356,11 @@
     <div class="label">Darkness</div>
     @for (c of cardsToShow(); track c.timepoint) {
       <div
-        class="cell astro-hack" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
+        class="cell astro-hack"   [class.next-day-start]="c.isMidnight"
+  [class.next-day-end]="c.isEndOfDay" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
      (mouseleave)="onHover(null, null)"
-        [class.astro-night]="context.isAstroNight(c.time) === 'full'"
-        [class.astro-night-partial]="context.isAstroNight(c.time) === 'partial'">
+     [class.astro-night]="context.isAstroNight(c.time) === 'full'"
+     [class.astro-night-partial]="context.isAstroNight(c.time) === 'partial'">
         &nbsp;
       </div>
     }

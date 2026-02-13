@@ -43,11 +43,22 @@ export class OpenMeteoMatrixComponent implements OnInit {
 
   private readonly PX_PER_HOUR = 60; 
 
+  readonly cardsWithFlags = computed(() => {
+    return this.weatherApi.cards().map(c => {
+      const d = new Date(c.time);
+
+      return {
+        ...c,
+        isMidnight: d.getHours() === 0,
+        isEndOfDay: d.getHours() === 23,
+      };
+    });
+  });
 
   readonly pointsCount = signal(24);
 
   cardsToShow = computed(() => {
-    const cards = this.weatherApi.cards();
+    const cards = this.cardsWithFlags();
     const { stepHours, windowHours } = this.time.window();
     const offset = this.time.offsetHours();
 
