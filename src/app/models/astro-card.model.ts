@@ -17,4 +17,7 @@ export interface AstroCard {
   temperature: number;
   windDir: string;
   windSpeed: number;
+
+  dewPoint: number;
+  relativeHum: number;
 }

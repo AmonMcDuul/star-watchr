@@ -70,24 +70,29 @@ export class OpenMeteoMatrixComponent implements OnInit {
   });
   
   constructor() {
-    const media = window.matchMedia('(max-width: 1150px)');
-    const mediaSmaller = window.matchMedia('(max-width: 350px)');
+    const MIN_WIDTH = 350;
+    const MAX_WIDTH = 1600;
+
+    const MIN_POINTS = 6;
+    const MAX_POINTS = 24;
 
     const update = () => {
-      if (mediaSmaller.matches) {
-        this.pointsCount.set(6);
-      } else if (media.matches) {
-        this.pointsCount.set(7);
-      } else {
-        this.pointsCount.set(24);
-      }
+      const w = window.innerWidth;
+
+      const clamped = Math.min(Math.max(w, MIN_WIDTH), MAX_WIDTH);
+
+      const ratio = (clamped - MIN_WIDTH) / (MAX_WIDTH - MIN_WIDTH);
+
+      const points =
+        MIN_POINTS + ratio * (MAX_POINTS - MIN_POINTS);
+
+      this.pointsCount.set(Math.round(points));
     };
 
     update();
-
-    media.addEventListener('change', update);
-    mediaSmaller.addEventListener('change', update);
+    window.addEventListener('resize', update);
   }
+
 
   ngOnInit() {
     this.time.mode.set('hourly');

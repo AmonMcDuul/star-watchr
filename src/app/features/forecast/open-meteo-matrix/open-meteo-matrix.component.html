@@ -51,7 +51,7 @@
         <!-- <button (click)="time.reset(); time.shift(144)" [class.active]="isActiveDay(6)">{{ dayPlus(6) }}</button> -->
       </div>
     </div>
-    <div class="matrix-controls">
+    <!-- <div class="matrix-controls">
       <div class="matrix-controls desktop-only">
         <button
           class="toggle-btn"
@@ -67,7 +67,7 @@
           24h
         </button>
       </div>
-    </div>
+    </div> -->
     <div class="matrix-controls">
       <div class="matrix-controls color-menu-wrapper drag-hint-color" (clickOutside)="closeColorMenu()">
         <button
@@ -119,7 +119,7 @@
     @for (c of cardsToShow(); track c.time) {
       <div class="cell time head"   [class.next-day-start]="c.isMidnight"
   [class.next-day-end]="c.isEndOfDay" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
-     (mouseleave)="onHover(null, null)">{{ c.time | date:'HH:mm' }}h</div>
+     (mouseleave)="onHover(null, null)">{{ c.time | date:'HH:mm' }}</div>
     }
   </div>
   <!-- <div class="row header">
@@ -277,16 +277,6 @@
     }
   </div>
 
-  <!-- temperature -->
-  <div class="row hint">
-    <div class="label">Temp</div>
-    @for (c of cardsToShow(); track c.timepoint) {
-      <div class="cell temp"   [class.next-day-start]="c.isMidnight"
-  [class.next-day-end]="c.isEndOfDay" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
-     (mouseleave)="onHover(null, null)">{{ c.temperature }}°</div>
-    }
-  </div>
-
   <!-- Moon -->
   <div class="row hint">
     <div class="label">Moon</div>
@@ -365,6 +355,36 @@
       </div>
     }
   </div>
+
+    <!-- temperature -->
+  <div class="row hint">
+    <div class="label">Temp</div>
+    @for (c of cardsToShow(); track c.timepoint) {
+      <div class="cell temp"   [class.next-day-start]="c.isMidnight"
+  [class.next-day-end]="c.isEndOfDay" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
+     (mouseleave)="onHover(null, null)">{{ c.temperature }}°C</div>
+    }
+  </div>
+
+    <!-- temperature -->
+  <div class="row hint">
+    <div class="label">Dewpoint</div>
+    @for (c of cardsToShow(); track c.timepoint) {
+      <div class="cell temp"   [class.next-day-start]="c.isMidnight"
+  [class.next-day-end]="c.isEndOfDay" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
+     (mouseleave)="onHover(null, null)">{{ c.dewPoint }}°C</div>
+    }
+  </div>
+
+    <!-- temperature -->
+  <div class="row hint">
+    <div class="label">Humidity</div>
+    @for (c of cardsToShow(); track c.timepoint) {
+      <div class="cell temp"   [class.next-day-start]="c.isMidnight"
+  [class.next-day-end]="c.isEndOfDay" (touchstart)="onMobileHover(c, $event)" (mouseenter)="onHover(c, $event)"
+     (mouseleave)="onHover(null, null)">{{ c.relativeHum }}%</div>
+    }
+  </div>
   
     <!-- DSO messiers -->
   <br><br>
@@ -416,26 +436,34 @@
       <span class="label">Transparency:</span>
       <span class="value">{{ hoverCard().transparency }}/3</span>
     </div>
-
-    <div class="tooltip-row">
-      <span class="label">Temp:</span>
-      <span class="value temp">{{ hoverCard().temperature }} °C</span>
-    </div>
-
+<!-- 
     <div class="tooltip-row">
       <span class="label">Wind:</span>
       <span class="value">{{ hoverCard().windSpeed }} m/s {{ hoverCard().windDir }}</span>
-    </div>
-
+    </div> -->
+    
     <div class="tooltip-row">
       <span class="label">Moon phase:</span>
       <span class="value moon">{{ context.moonIllumMatrix(hoverCard().time) }}</span>
     </div>
     @if(context.isAstroNight(hoverCard().time) !== "full"){
-    <div class="tooltip-row">
-      <span class="label">Planets:</span>
-      <span class="value planets">{{ context.planetsVisibleAt(hoverCard().time).join(', ') }}</span>
-    </div>    
+      <div class="tooltip-row">
+        <span class="label">Planets:</span>
+        <span class="value planets">{{ context.planetsVisibleAt(hoverCard().time).join(', ') }}</span>
+      </div>    
+
+      <div class="tooltip-row">
+        <span class="label">Temp:</span>
+        <span class="value temp">{{ hoverCard().temperature }}°C</span>
+      </div>
+      <div class="tooltip-row">
+        <span class="label">Dewpoint:</span>
+        <span class="value temp">{{ hoverCard().dewPoint}}°C</span>
+      </div>
+      <div class="tooltip-row">
+        <span class="label">Himidity:</span>
+        <span class="value temp">{{ hoverCard().relativeHum }}%</span>
+      </div>
   }
   </div>
 }

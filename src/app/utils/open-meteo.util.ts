@@ -67,7 +67,9 @@ export function mapOpenMeteoToAstroCards(api: any): AstroCard[] {
         windDir: getHourlyVar(api, ['winddirection_10m','wind_direction_10m'], i),
 
         score: calculateScore({ cloudcover: astroCloud, transparency, seeing }),
-        cloudLabel: ''
+        cloudLabel: '',
+        dewPoint: dew,
+        relativeHum: rh,
       };
 
       return card;
