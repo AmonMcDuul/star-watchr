@@ -569,17 +569,19 @@ h2 {
   to { transform: rotate(360deg); }
 }
 
+@media (max-width: 900px) {
+  .matrix-tooltip {
+    position: static;
+    margin-top: 0.75rem;
+    pointer-events: auto;
+  }
+}
+
 @media (max-width: 768px) {
   .matrix {
     margin: 10px;
     padding: 0.75rem;
     touch-action: pan-y;
-  }
-
-  .matrix-tooltip {
-    position: static;
-    margin-top: 0.75rem;
-    pointer-events: auto;
   }
 
   .planet-icon {
