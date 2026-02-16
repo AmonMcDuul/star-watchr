@@ -569,7 +569,11 @@ h2 {
   to { transform: rotate(360deg); }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
+  .matrix {
+    touch-action: pan-y;
+  }
+  
   .matrix-tooltip {
     position: static;
     margin-top: 0.75rem;

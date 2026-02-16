@@ -34,6 +34,9 @@ export class OpenMeteoMatrixComponent implements OnInit {
   tooltipY = 0;
   mobileTooltipVisible = false;
 
+  private startY = 0;
+  private horizontalDrag = false;
+
   private startX = 0;
   private startOffset = 0;
   private dragging = false;
@@ -141,7 +144,6 @@ export class OpenMeteoMatrixComponent implements OnInit {
   }
 
   onMobileHover(c: any, event: TouchEvent) {
-    event.preventDefault();
     if (this.hoverCard() === c && this.mobileTooltipVisible) {
       this.hoverCard.set(null);
       this.mobileTooltipVisible = false;
@@ -154,12 +156,14 @@ export class OpenMeteoMatrixComponent implements OnInit {
     const rect = (event.target as HTMLElement)
       .closest('.matrix')
       ?.getBoundingClientRect();
+
     if (rect) {
       const t = event.touches[0];
       this.tooltipX = t.clientX - rect.left + 10;
       this.tooltipY = t.clientY - rect.top + 10;
     }
   }
+
 
   @HostListener('document:touchstart', ['$event'])
   onDocumentTouch(event: TouchEvent) {
@@ -170,29 +174,48 @@ export class OpenMeteoMatrixComponent implements OnInit {
     }
   }
 
-  onPointerStart(x: number) {
+  onPointerStart(x: number, y?: number) {
     this.startX = x;
+    this.startY = y ?? 0;
     this.startOffset = this.time.offsetHours();
     this.dragging = true;
+    this.horizontalDrag = false;
   }
 
-  onPointerMove(x: number) {
+
+  onPointerMove(x: number, y?: number) {
     if (!this.dragging) return;
 
     const dx = x - this.startX;
-    const deltaHours = -dx / this.PX_PER_HOUR;
+    const dy = (y ?? 0) - this.startY;
 
+    if (!this.horizontalDrag) {
+      if (Math.abs(dy) > Math.abs(dx)) {
+        this.dragging = false;
+        return;
+      }
+
+      if (Math.abs(dx) > 10) {
+        this.horizontalDrag = true;
+        this.isDragging.set(true);
+      } else {
+        return;
+      }
+    }
+
+    const deltaHours = -dx / this.PX_PER_HOUR;
     const step = this.time.window().stepHours;
+
     const maxOffset =
       this.weatherApi.cards().length * step -
       this.time.window().windowHours;
 
     let next = this.startOffset + deltaHours;
-
     next = Math.max(0, Math.min(maxOffset, next));
 
     this.time.setOffset(next);
   }
+
 
   onPointerEnd() {
     if (!this.dragging) return;

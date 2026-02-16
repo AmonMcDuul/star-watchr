@@ -23,8 +23,9 @@
 <div class="matrix" [class.loading-active]="weatherApi.loading()"
   [class.dragging]="isDragging()"
   (mousedown)="onMouseDown($event)"
-  (touchstart)="onPointerStart($event.touches[0].clientX)"
-  (touchmove)="onPointerMove($event.touches[0].clientX)"
+  (touchstart)="onPointerStart($event.touches[0].clientX, $event.touches[0].clientY)"
+  (touchmove)="onPointerMove($event.touches[0].clientX, $event.touches[0].clientY)"
+
   (touchend)="onPointerEnd()"
   [class.mode-standard]="ui.colorMode() === 'standard'"
   [class.mode-deuteranopia]="ui.colorMode() === 'deuteranopia'"
