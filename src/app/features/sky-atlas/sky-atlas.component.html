@@ -1,38 +1,101 @@
 <div class="ui">
   <button 
     (click)="toggleConstellations()" 
-    [class.active]="uiState.showConstellations">
+    [class.active]="showConstellations()">
     Constellations
   </button>
   <button 
     (click)="toggleConstellationNames()"
-    [class.active]="uiState.showConstellationNames">
+    [class.active]="showConstellationNames()">
     Const. Names
   </button>
   <button 
     (click)="toggleStarNames()"
-    [class.active]="uiState.showStarNames">
+    [class.active]="showStarNames()">
     Star Names
   </button>
   <button 
     (click)="toggleMessier()"
-    [class.active]="uiState.showMessier">
-     Messier
+    [class.active]="showMessier()">
+    Messier
   </button>
   <button 
     (click)="toggleMessierNames()"
-    [class.active]="uiState.showMessierNames">
-     Messier Names
+    [class.active]="showMessierNames()">
+    Messier Names
   </button>
   <button 
     (click)="toggleGrid()"
-    [class.active]="uiState.showGrid">
-     Grid
+    [class.active]="showGrid()">
+    Grid
+  </button>
+  <button 
+    (click)="toggleNightMode()"
+    [class.active]="nightMode()">
+    Night
+  </button>
+  <button 
+    (click)="toggleSearch()"
+    [class.active]="showSearch()">
+    Search
   </button>
   <button (click)="resetView()">
-     Reset
+    Reset
   </button>
 </div>
+
+<!-- Search Bar -->
+@if (showSearch()) {
+  <div class="search-bar">
+    <input 
+      type="text" 
+      placeholder="Search stars or Messier objects..." 
+      [(ngModel)]="searchQuery"
+      (input)="onSearch(searchQuery)"
+      autofocus>
+    @if (showSearchResults) {
+      <div class="search-results">
+        @for (result of searchResults; track result.name) {
+          <div class="search-result" (click)="selectSearchResult(result)">
+            <span class="result-name">{{ result.name }}</span>
+            @if (result.mag) {
+              <span class="result-mag">mag {{ result.mag | number:'1.1f' }}</span>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+}
+
+<!-- Hover Tooltip -->
+@if (hoverTooltipContent(); as tooltip) {
+  <div class="tooltip" [style.left.px]="hoverTooltipPosition().x" [style.top.px]="hoverTooltipPosition().y">
+    {{ tooltip }}
+  </div>
+}
+
+<!-- Info Panel -->
+@if (showInfoPanel() && infoPanelContent(); as content) {
+  <div class="info-panel" [style.left.px]="infoPanelPosition().x" [style.top.px]="infoPanelPosition().y">
+    <div class="info-header">
+      <h3>M{{ content.messierNumber }} – {{ content.name }}</h3>
+      <button class="close-btn" (click)="hideInfoPanel()">✕</button>
+    </div>
+    <div class="info-content">
+      <div><strong>Type:</strong> {{ content.type }}</div>
+      <div><strong>NGC:</strong> {{ content.NGC }}</div>
+      <div><strong>Magnitude:</strong> {{ content.magnitude }}</div>
+      <div><strong>Constellation:</strong> {{ content.constellation }}</div>
+      <div><strong>Distance:</strong> {{ content.distance }} ly</div>
+      <div><strong>Size:</strong> {{ content.size }}</div>
+      <div><strong>Difficulty:</strong> {{ content.viewingDifficulty }}</div>
+      <button class="details-btn" (click)="goToMessierDetails(content)">
+        View Details →
+      </button>
+    </div>
+  </div>
+}
 
 <div class="controls-info">
   <div class="shortcut-title">Keyboard Shortcuts</div>
@@ -42,11 +105,14 @@
     <span><kbd>N</kbd> Const. Names</span>
     <span><kbd>S</kbd> Star Names</span>
     <span><kbd>M</kbd> Messier</span>
+    <span><kbd>L</kbd> Night Mode</span>
+    <span><kbd>/</kbd> Search</span>
     <span><kbd>R</kbd> / <kbd>ESC</kbd> Reset</span>
   </div>
   <div class="zoom-info">
-    <span class="hint">Scroll om in/uit te zoomen • Slepen om rond te kijken</span>
-    <span class="hint">Je staat in het centrum van de hemelbol</span>
+    <span class="hint">Scroll / pinch to zoom • Drag to look around>&nbsp;</span>
+    <span class="hint">You are at the center of the celestial sphere>&nbsp;</span>
+    <span class="hint">Hover over Messier objects for name • Click for details</span>
   </div>
 </div>
 
