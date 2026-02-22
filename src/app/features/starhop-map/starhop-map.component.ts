@@ -47,6 +47,9 @@ export class StarhopMapComponent
   rotationAngle = 0;
   lockNorthUp = false;
 
+  //setting iets
+  private initView = false;
+
   // Gezichtsveldradius (graden)
   private readonly radiusDeg = 30;
 
@@ -65,12 +68,19 @@ export class StarhopMapComponent
 
   // Projectie (wordt opnieuw aangemaakt bij render)
   private projection: any;
+  
+  // Huidige zoom transform opslaan
+  private currentZoomTransform = d3.zoomIdentity;
+  
+  // D3 zoom behavior instance
+  private zoomBehavior: any;
 
   ngAfterViewInit() {
     this.ready = true;
     this.starCatalog.setStarDensity('normal');
     this.initSvg();
     this.initResizeObserver();
+    this.initView = true;
     this.tryRender();
   }
 
@@ -95,36 +105,42 @@ export class StarhopMapComponent
 
   // ---------------- INIT ----------------
 
-  private initSvg() {
-    const svgEl = this.svgRef.nativeElement;
-    svgEl.style.touchAction = 'none';
+private initSvg() {
+  const svgEl = this.svgRef.nativeElement;
+  svgEl.style.touchAction = 'none';
 
-    this.svg = d3.select(svgEl);
+  this.svg = d3.select(svgEl);
 
-    this.root = this.svg.append('g');
-    this.zoomLayer = this.root.append('g');
+  this.root = this.svg.append('g');
+  // VERWIJDER DE TRANSLATE - de zoomLayer krijgt de center translate
+  this.zoomLayer = this.root.append('g');
 
-    const zoom = d3.zoom<SVGSVGElement, unknown>()
-      .scaleExtent([0.3, 8])
-      .on('zoom', (e) => {
-        const k = e.transform.k;
-        this.zoomLayer.attr('transform', e.transform.toString());
-        
-        this.labelLayer.selectAll<SVGTextElement, unknown>('text')
-          .attr('font-size', function(this: SVGTextElement) {
-            const element = d3.select(this);
-            const className = element.attr('class');
-            
-            if (className?.includes('star-label')) return `${11 / k}px`;
-            if (className?.includes('constellation-name')) return `${12 / k}px`;
-            if (className?.includes('messier-label')) return `${11 / k}px`;
-            return `${11 / k}px`;
-          })
-          .attr('opacity', Math.min(1, Math.max(0.3, k / 2)));
-      });
+  this.zoomBehavior = d3.zoom<SVGSVGElement, unknown>()
+    .scaleExtent([0.3, 8])
+    .on('zoom', (e) => {
+      this.currentZoomTransform = e.transform;
+      this.zoomLayer.attr('transform', e.transform.toString());
+      
+      const k = e.transform.k;
+      
+      this.labelLayer.selectAll<SVGTextElement, unknown>('text')
+        .attr('font-size', function(this: SVGTextElement) {
+          const element = d3.select(this);
+          const className = element.attr('class');
+          
+          if (className?.includes('star-label')) return `${11 / k}px`;
+          if (className?.includes('constellation-name')) return `${12 / k}px`;
+          if (className?.includes('messier-label')) return `${11 / k}px`;
+          return `${11 / k}px`;
+        })
+        .attr('opacity', Math.min(1, Math.max(0.3, k / 2)));
+    });
 
-    this.svg.call(zoom as any);
-  }
+  this.svg.call(this.zoomBehavior as any);
+  
+  // Synchroniseer currentZoomTransform met de werkelijke transform
+  this.currentZoomTransform = d3.zoomTransform(svgEl);
+}
 
   private initResizeObserver() {
     this.resizeObserver = new ResizeObserver(() => {
@@ -146,8 +162,7 @@ export class StarhopMapComponent
     const height = Math.max(300, rect.height);
 
     this.svg.attr('viewBox', `0 0 ${width} ${height}`);
-    this.root.attr('transform', `translate(${width / 2},${height / 2})`);
-
+    
     // Projectie opnieuw aanmaken, gecentreerd op (ra, dec)
     this.projection = d3.geoStereographic()
       .center([this.ra, this.dec])
@@ -186,6 +201,8 @@ export class StarhopMapComponent
       this.drawConstellations(constellations);
     }
 
+    this.applyViewTransform();
+
     // Messier‑objecten (binnen de radius)
     if (this.showMessier) {
       this.drawMessier(messiers);
@@ -199,8 +216,45 @@ export class StarhopMapComponent
     // Legenda
     this.drawMagnitudeLegend(width, height);
 
-    // Transformatie voor rotatie/spiegeling (alleen voor symbolen en lijnen)
-    this.applyViewTransform();
+    
+    // **BELANGRIJK**: Pas de zoom transform toe NA het tekenen van alle elementen
+    if(this.initView){
+      this.restoreZoomTransform(width, height);
+      this.initView = false;
+    }
+  }
+
+  /**
+   * Herstel de zoom transform met de juiste center translate
+   */
+  private restoreZoomTransform(width: number, height: number) {
+    // Maak een nieuwe transform met de huidige schaal, maar met de center translate
+    const centerTransform = d3.zoomIdentity
+      .translate(width / 2, height / 2)
+      .scale(this.currentZoomTransform.k)
+      .translate(this.currentZoomTransform.x / this.currentZoomTransform.k, 
+                 this.currentZoomTransform.y / this.currentZoomTransform.k);
+    
+    // Pas toe op zoomLayer
+    this.zoomLayer.attr('transform', centerTransform.toString());
+    
+    // Update de D3 zoom state
+    const svgNode = this.svgRef.nativeElement;
+    
+    // Alleen updaten als het nodig is (voorkom oneindige loop)
+    const currentState = d3.zoomTransform(svgNode);
+    if (currentState.k !== centerTransform.k || 
+        currentState.x !== centerTransform.x || 
+        currentState.y !== centerTransform.y) {
+      
+      // Gebruik een timeout om recursie te voorkomen
+      setTimeout(() => {
+        d3.select(svgNode).call(
+          this.zoomBehavior.transform,
+          centerTransform
+        );
+      }, 0);
+    }
   }
 
   // ---------------- PROJECTIEHULP ----------------
@@ -216,7 +270,6 @@ export class StarhopMapComponent
     if (this.mirrored) transform += ' scale(-1,1)';
     if (this.rotationAngle !== 0) transform += ` rotate(${this.rotationAngle})`;
     this.rotateLayer.attr('transform', transform);
-    // labelLayer blijft ongetransformeerd; we plaatsen labels handmatig via transformPoint
   }
 
   // ---------------- HANDMATIGE POSITIEBEREKENING (voor labels) ----------------
@@ -280,13 +333,13 @@ export class StarhopMapComponent
     return Math.max(0.4, 1 - (star.mag - 1) * 0.1);
   }
 
-  // ---------------- STERLABELS (handmatige transformatie) ----------------
+  // ---------------- STERLABELS ----------------
 
   private drawStarLabels(stars: Star[]) {
     const labels = stars.filter(s => s.mag < 4 && s.name);
     labels.forEach(s => {
       const [px, py] = this.project(s.ra, s.dec);
-      const [tx, ty] = this.transformPoint(px + 6, py - 6); // offset in originele ruimte
+      const [tx, ty] = this.transformPoint(px + 6, py - 6);
       this.labelLayer.append('text')
         .attr('class', 'star-label')
         .attr('x', tx)
@@ -303,7 +356,7 @@ export class StarhopMapComponent
   // ---------------- CONSTELLATIES ----------------
 
   private drawConstellations(list: Constellation[]) {
-    // Lijnen (in rotateLayer, worden getransformeerd)
+    // Lijnen
     const lineLayer = this.rotateLayer.append('g').attr('class', 'constellation-lines');
     list.forEach(c => {
       c.lines.forEach(l => {
@@ -321,7 +374,7 @@ export class StarhopMapComponent
       });
     });
 
-    // Namen (handmatige transformatie)
+    // Namen
     list.forEach(c => {
       const points: [number, number][] = [];
       c.lines.forEach(l => {
@@ -359,7 +412,7 @@ export class StarhopMapComponent
       return distance <= this.radiusDeg * 1.2;
     });
 
-    // Symbolen (in rotateLayer, worden getransformeerd)
+    // Symbolen
     const messierLayer = this.rotateLayer.append('g').attr('class', 'messier-layer');
     filtered.forEach(m => {
       const ra = this.raToDeg(m.rightAscension);
@@ -389,7 +442,7 @@ export class StarhopMapComponent
       }).on('pointerleave', () => this.hideTooltip());
     });
 
-    // Labels (handmatige transformatie)
+    // Labels
     filtered.forEach(m => {
       const ra = this.raToDeg(m.rightAscension);
       const dec = this.decToDeg(m.declination);
@@ -456,7 +509,7 @@ export class StarhopMapComponent
   // ---------------- RASTER ----------------
 
   private drawGrid(width: number, height: number) {
-    const step = 5; // graden
+    const step = 5;
     const lines: [number, number][][] = [];
 
     for (let ra = 0; ra < 360; ra += step) {
@@ -520,13 +573,6 @@ export class StarhopMapComponent
     });
   }
 
-  // ---------------- LABEL DOORZICHTIGHEID BIJ ZOOM ----------------
-
-  private updateLabelOpacity(scale: number) {
-    this.labelLayer.selectAll('text')
-      .attr('opacity', Math.min(1, Math.max(0.3, scale / 2)));
-  }
-
   // ---------------- TOOLTIP ----------------
 
   private showStarTooltip(e: PointerEvent, s: Star) {
@@ -545,12 +591,20 @@ export class StarhopMapComponent
   }
 
   // helper
-
   private getSizeFactor(): number {
     const width = window.innerWidth;
-    if (width < 600) return 0.15;  // mobiel (kleiner dan 600px)
-    if (width < 1024) return 0.35; // tablet
-    return 1.0;                   // desktop
+    if (width < 600) return 0.15;
+    if (width < 1024) return 0.35;
+    return 1.0;
+  }
+
+  private initZoomLocation(){
+    this.currentZoomTransform = d3.zoomIdentity;
+    const svgNode = this.svgRef.nativeElement;
+    d3.select(svgNode).call(
+      this.zoomBehavior.transform,
+      d3.zoomIdentity
+    );
   }
 
   // ---------------- CONTROLES ----------------
@@ -568,6 +622,13 @@ export class StarhopMapComponent
 
   resetView() {
     this.rotationAngle = 0;
+    // this.mirrored = true;
+    // this.showConstellations = true;
+    // this.showGrid = true;
+    
+    // Reset zoom
+    this.initZoomLocation();
+    this.initView = true;
     this.render();
   }
 }
