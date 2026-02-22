@@ -254,7 +254,8 @@ export class StarhopMapComponent
 
   private starSize(mag: number): number {
     const base = Math.max(0.8, 2.5 * (6.5 - Math.min(mag, 6.5)));
-    return Math.min(8, base);
+    const factor = this.getSizeFactor();
+    return Math.min(8, base * factor);
   }
 
   private starColor(star: Star): string {
@@ -527,6 +528,15 @@ export class StarhopMapComponent
 
   private hideTooltip() {
     this.tooltipRef.nativeElement.style.display = 'none';
+  }
+
+  //
+
+  private getSizeFactor(): number {
+    const width = window.innerWidth;
+    if (width < 600) return 0.5;  // mobiel (kleiner dan 600px)
+    if (width < 1024) return 0.7; // tablet
+    return 1.0;                   // desktop
   }
 
   // ---------------- CONTROLES ----------------
