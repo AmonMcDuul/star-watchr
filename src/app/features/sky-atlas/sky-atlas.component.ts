@@ -131,6 +131,7 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
 
   private targetFov = 60;
   private zoomAnimationFrame: number | null = null;
+  
 
   // =====================================================
   // LIFECYCLE
@@ -477,53 +478,44 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  private handleDoubleClick(x: number, y: number) {
-    // Bepaal waar de gebruiker klikte in 3D ruimte
-    const rect = this.canvasRef.nativeElement.getBoundingClientRect();
-    const mouseX = ((x - rect.left) / rect.width) * 2 - 1;
-    const mouseY = -((y - rect.top) / rect.height) * 2 + 1;
-    
-    // Gebruik raycaster om te kijken of we op een Messier object klikken
-    if (this.showMessier()) {
-      this.mouse.x = mouseX;
-      this.mouse.y = mouseY;
-      this.raycaster.setFromCamera(this.mouse, this.camera);
-      
-      const sprites = this.messierSprites.map(m => m.sprite);
-      const intersects = this.raycaster.intersectObjects(sprites);
-      
-      if (intersects.length > 0) {
-        const hitSprite = intersects[0].object as THREE.Sprite;
-        const messierData = this.messierSprites.find(m => m.sprite === hitSprite);
-        
-        if (messierData) {
-          // Toon info panel bij double-click op Messier object
-          this.infoPanelContent.set(messierData.object);
-          this.infoPanelPosition.set({ x, y });
-          this.showInfoPanel.set(true);
-          this.cdr.detectChanges();
-          
-          // Zoom verder in op Messier object (factor 0.3 = nog meer zoom)
-          this.zoomToPoint(messierData.position, 0.3);
-          return;
-        }
+private handleDoubleClick(x: number, y: number) {
+  const rect = this.canvasRef.nativeElement.getBoundingClientRect();
+  const mouseX = ((x - rect.left) / rect.width) * 2 - 1;
+  const mouseY = -((y - rect.top) / rect.height) * 2 + 1;
+
+  // Check op Messier object (ongewijzigd)
+  if (this.showMessier()) {
+    this.mouse.x = mouseX;
+    this.mouse.y = mouseY;
+    this.raycaster.setFromCamera(this.mouse, this.camera);
+    const sprites = this.messierSprites.map(m => m.sprite);
+    const intersects = this.raycaster.intersectObjects(sprites);
+    if (intersects.length > 0) {
+      const hitSprite = intersects[0].object as THREE.Sprite;
+      const messierData = this.messierSprites.find(m => m.sprite === hitSprite);
+      if (messierData) {
+        this.infoPanelContent.set(messierData.object);
+        this.infoPanelPosition.set({ x, y });
+        this.showInfoPanel.set(true);
+        this.cdr.detectChanges();
+        this.zoomToPoint(messierData.position, 0.3);
+        return;
       }
     }
-    
-    // Bereken het punt op de hemelbol waar geklikt werd
-    const raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(new THREE.Vector2(mouseX, mouseY), this.camera);
-    
-    // We snijden met een denkbeeldige bol met straal 90 (hemelbol)
-    const sphere = new THREE.Sphere(new THREE.Vector3(0, 0, 0), 90);
-    const intersectionPoint = new THREE.Vector3();
-    const hasIntersection = raycaster.ray.intersectSphere(sphere, intersectionPoint);
-    
-    if (hasIntersection) {
-      // Zoom in op het berekende punt (factor 0.4 voor algemene zoom)
-      this.zoomToPoint(intersectionPoint, 0.4);
-    }
   }
+
+  // Gebruik een eenheidsbol (straal 1) voor de raycast
+  const raycaster = new THREE.Raycaster();
+  raycaster.setFromCamera(new THREE.Vector2(mouseX, mouseY), this.camera);
+  const sphere = new THREE.Sphere(new THREE.Vector3(0, 0, 0), 1);
+  const intersectionPoint = new THREE.Vector3();
+  const hasIntersection = raycaster.ray.intersectSphere(sphere, intersectionPoint);
+
+  if (hasIntersection) {
+    // intersectionPoint is nu al een genormaliseerde richting (lengte 1)
+    this.zoomToPoint(intersectionPoint, 0.4);
+  }
+}
 
   private zoomToPoint(targetPoint: THREE.Vector3, zoomFactor: number = 0.4) {
     // Als er al een animatie loopt, stop die dan

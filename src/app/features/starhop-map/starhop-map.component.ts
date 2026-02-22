@@ -28,40 +28,43 @@ export class StarhopMapComponent
   @ViewChild('svg') svgRef!: ElementRef<SVGSVGElement>;
   @ViewChild('tooltip') tooltipRef!: ElementRef<HTMLDivElement>;
 
-  @Input() ra!: number;
-  @Input() dec!: number;
+  @Input() ra!: number;          // centrum rechte klimming (graden)
+  @Input() dec!: number;          // centrum declinatie (graden)
 
   public starCatalog = inject(StarCatalogService);
   private catalog = inject(StarCatalogService);
   private zone = inject(NgZone);
   private messier = inject(MessierService);
 
+  // UI-instellingen
   showMessier = true;
-
   showFov = true;
   fovArcMin = 60;
-  
   showNames = false;
   showConstellations = true;
   showGrid = true;
-
   mirrored = true;
   rotationAngle = 0;
   lockNorthUp = false;
 
+  // Gezichtsveldradius (graden)
   private readonly radiusDeg = 30;
+
   private ready = false;
 
+  // D3‑selecties
   private svg!: d3.Selection<SVGSVGElement, unknown, null, undefined>;
   private root!: d3.Selection<SVGGElement, unknown, null, undefined>;
   private zoomLayer!: d3.Selection<SVGGElement, unknown, null, undefined>;
-
   private rotateLayer!: d3.Selection<SVGGElement, unknown, null, undefined>;
   private labelLayer!: d3.Selection<SVGGElement, unknown, null, undefined>;
   private overlayLayer!: d3.Selection<SVGGElement, unknown, null, undefined>;
 
   private resizeObserver!: ResizeObserver;
   private raf = 0;
+
+  // Projectie (wordt opnieuw aangemaakt bij render)
+  private projection: any;
 
   ngAfterViewInit() {
     this.ready = true;
@@ -93,7 +96,6 @@ export class StarhopMapComponent
   // ---------------- INIT ----------------
 
   private initSvg() {
-
     const svgEl = this.svgRef.nativeElement;
     svgEl.style.touchAction = 'none';
 
@@ -113,22 +115,18 @@ export class StarhopMapComponent
   }
 
   private initResizeObserver() {
-
     this.resizeObserver = new ResizeObserver(() => {
       cancelAnimationFrame(this.raf);
-
       this.raf = requestAnimationFrame(() => {
         this.zone.run(() => this.render());
       });
     });
-
     this.resizeObserver.observe(this.svgRef.nativeElement.parentElement!);
   }
 
   // ---------------- RENDER ----------------
 
   private render() {
-
     const el = this.svgRef.nativeElement;
     const rect = el.getBoundingClientRect();
 
@@ -138,231 +136,193 @@ export class StarhopMapComponent
     this.svg.attr('viewBox', `0 0 ${width} ${height}`);
     this.root.attr('transform', `translate(${width / 2},${height / 2})`);
 
+    // Projectie opnieuw aanmaken, gecentreerd op (ra, dec)
+    this.projection = d3.geoStereographic()
+      .center([this.ra, this.dec])
+      .translate([0, 0])
+      .scale(width / (2 * this.radiusDeg) * 180 / Math.PI);
+
+    // Lagen leegmaken
     this.zoomLayer.selectAll('*').remove();
 
     this.rotateLayer = this.zoomLayer.append('g');
     this.labelLayer = this.zoomLayer.append('g');
     this.overlayLayer = this.zoomLayer.append('g');
 
-    const project = this.createProjector(width);
-
+    // Data ophalen
     const visibleRadius = this.radiusDeg * 1.6;
 
-    const stars =
-      this.catalog.getStarsNear(this.ra, this.dec, visibleRadius);
+    const stars = this.catalog.getStarsNear(this.ra, this.dec, visibleRadius);
+    const constellations = this.catalog.getConstellationsInView(this.ra, this.dec, visibleRadius);
+    const messiers = this.messier.all();
 
-    const constellations =
-      this.catalog.getConstellationsInView(this.ra, this.dec, visibleRadius);
-
-    const messiers = this.messier.visible();
-
+    // Raster
     if (this.showGrid) {
-      this.drawGrid(width);
+      this.drawGrid(width, height);
     }
 
-    if (this.showConstellations) {
-      this.drawConstellations(project, constellations);
-    }
+    // Sterren
+    this.drawStars(stars);
 
-    this.drawStars(project, stars);
-
+    // Sterrennamen (alleen als showNames aan staat)
     if (this.showNames) {
-      this.drawStarLabels(project, stars);
+      this.drawStarLabels(stars);
     }
 
-    // this.drawTarget();
-    // this.drawReferenceCircles(width);
-    this.drawMagnitudeLegend(width, height);
+    // Constellatielijnen en -namen
+    if (this.showConstellations) {
+      this.drawConstellations(constellations);
+    }
 
+    // Messier‑objecten (binnen de radius)
     if (this.showMessier) {
-      this.drawMessier(project, messiers);
+      this.drawMessier(messiers);
     }
 
+    // Gezichtsveld van telescoop
     if (this.showFov) {
       this.drawTelescopeFov(width);
     }
 
-    this.applyViewTransform();
+    // Legenda
+    this.drawMagnitudeLegend(width, height);
 
+    // Transformatie voor rotatie/spiegeling (alleen voor symbolen en lijnen)
+    this.applyViewTransform();
   }
 
-  // ---------------- TRANSFORM ----------------
+  // ---------------- PROJECTIEHULP ----------------
+
+  private project(ra: number, dec: number): [number, number] {
+    return this.projection([ra, dec]) || [0, 0];
+  }
+
+  // ---------------- TRANSFORMATIE (voor symbolen) ----------------
 
   private applyViewTransform() {
-
-    let t = '';
-
-    if (this.mirrored) t += ' scale(-1,1)';
-    if (this.rotationAngle !== 0) t += ` rotate(${this.rotationAngle})`;
-
-    this.rotateLayer.attr('transform', t);
+    let transform = '';
+    if (this.mirrored) transform += ' scale(-1,1)';
+    if (this.rotationAngle !== 0) transform += ` rotate(${this.rotationAngle})`;
+    this.rotateLayer.attr('transform', transform);
+    // labelLayer blijft ongetransformeerd; we plaatsen labels handmatig via transformPoint
   }
 
-  // ---------------- PROJECTION ----------------
+  // ---------------- HANDMATIGE POSITIEBEREKENING (voor labels) ----------------
 
-  private createProjector(width: number) {
-
-    const scale = width / (2 * this.radiusDeg);
-    const cosDec = Math.cos(this.dec * Math.PI / 180);
-
-    return (ra: number, dec: number) => {
-
-      let dra = ra - this.ra;
-      if (dra > 180) dra -= 360;
-      if (dra < -180) dra += 360;
-
-      return {
-        x: dra * cosDec * scale,
-        y: -(dec - this.dec) * scale
-      };
-    };
+  private transformPoint(x: number, y: number): [number, number] {
+    let xp = x;
+    let yp = y;
+    if (this.mirrored) {
+      xp = -xp;
+    }
+    if (this.rotationAngle !== 0) {
+      const rad = this.rotationAngle * Math.PI / 180;
+      const xr = xp * Math.cos(rad) - yp * Math.sin(rad);
+      const yr = xp * Math.sin(rad) + yp * Math.cos(rad);
+      xp = xr;
+      yp = yr;
+    }
+    return [xp, yp];
   }
 
-  // ---------------- STARS ----------------
+  // ---------------- STERREN ----------------
 
-  private drawStars(project: any, stars: Star[]) {
-
+  private drawStars(stars: Star[]) {
     const nodes = this.rotateLayer.selectAll('circle.star')
       .data(stars)
       .enter()
       .append('circle')
       .attr('class', 'star')
-      .attr('cx', d => project(d.ra, d.dec).x)
-      .attr('cy', d => project(d.ra, d.dec).y)
-      .attr('r', d => Math.max(0.7, 2 * (8 - Math.min(d.mag, 7)) / 3))
-      .attr('fill', d => d.mag < 1 ? '#ffffcc' : d.mag < 3 ? '#ffe8a0' : '#a0a8cc')
-      .attr('opacity', d => Math.max(0.35, 1 - (d.mag - 1) * 0.1));
+      .attr('cx', d => this.project(d.ra, d.dec)[0])
+      .attr('cy', d => this.project(d.ra, d.dec)[1])
+      .attr('r', d => this.starSize(d.mag))
+      .attr('fill', d => this.starColor(d))
+      .attr('opacity', d => this.starOpacity(d))
+      .attr('data-name', d => d.name || '');
 
-    // subtle twinkle
-    nodes
-      .transition()
+    nodes.transition()
       .duration(2000 + Math.random() * 3000)
       .ease(d3.easeSinInOut)
-      .attr('opacity', d => Math.max(0.45, 1 - (d.mag - 1) * 0.1))
+      .attr('opacity', d => this.starOpacity(d) * 1.2)
       .transition()
       .duration(2000)
-      .attr('opacity', d => Math.max(0.35, 1 - (d.mag - 1) * 0.1));
+      .attr('opacity', d => this.starOpacity(d));
 
-    nodes
-      .on('pointerenter', (e, d) => this.showStarTooltip(e, d))
-      .on('pointerleave', () => this.hideTooltip());
+    nodes.on('pointerenter', (e, d) => this.showStarTooltip(e, d))
+         .on('pointerleave', () => this.hideTooltip());
   }
 
-  // ---------------- LABELS (SCREEN SPACE) ----------------
-
-  private drawStarLabels(project: any, stars: Star[]) {
-
-    const rad = this.rotationAngle * Math.PI / 180;
-    const cos = Math.cos(rad);
-    const sin = Math.sin(rad);
-
-    this.labelLayer.selectAll('text.star-label')
-      .data(stars.filter(s => s.mag < 3 && s.name))
-      .enter()
-      .append('text')
-      .attr('class', 'star-label')
-      .attr('x', d => {
-
-        const p = project(d.ra, d.dec);
-
-        // rotate position only (NOT glyph)
-        const rx = p.x * cos - p.y * sin;
-        const ry = p.x * sin + p.y * cos;
-
-        const mx = this.mirrored ? -rx : rx;
-
-        return mx + 6;
-      })
-      .attr('y', d => {
-
-        const p = project(d.ra, d.dec);
-
-        const rx = p.x * cos - p.y * sin;
-        const ry = p.x * sin + p.y * cos;
-
-        return ry - 6;
-      })
-      .attr('fill', '#ffcc66')
-      .attr('font-size', '11px')
-      .attr('dominant-baseline', 'middle')
-      .attr('text-anchor', 'start')
-      .style('pointer-events', 'none')
-      .text(d => d.name!);
+  private starSize(mag: number): number {
+    const base = Math.max(0.8, 2.5 * (6.5 - Math.min(mag, 6.5)));
+    return Math.min(8, base);
   }
 
-  private updateLabelOpacity(scale: number) {
-
-    this.labelLayer
-      .selectAll<SVGTextElement, unknown>('text.star-label')
-      .attr('opacity', Math.min(1, Math.max(0.3, scale / 2)));
+  private starColor(star: Star): string {
+    if (star.mag < 1) return '#ffffcc';
+    if (star.mag < 3) return '#ffe8a0';
+    return '#a0a8cc';
   }
 
-// ---------------- CONSTELLATIONS ----------------
+  private starOpacity(star: Star): number {
+    return Math.max(0.4, 1 - (star.mag - 1) * 0.1);
+  }
 
-private drawConstellations(project: any, list: Constellation[]) {
+  // ---------------- STERLABELS (handmatige transformatie) ----------------
 
-  // Bereken rotatie waarden eenmalig (net zoals in drawStarLabels)
-  const rad = this.rotationAngle * Math.PI / 180;
-  const cos = Math.cos(rad);
-  const sin = Math.sin(rad);
+  private drawStarLabels(stars: Star[]) {
+    const labels = stars.filter(s => s.mag < 4 && s.name);
+    labels.forEach(s => {
+      const [px, py] = this.project(s.ra, s.dec);
+      const [tx, ty] = this.transformPoint(px + 6, py - 6); // offset in originele ruimte
+      this.labelLayer.append('text')
+        .attr('class', 'star-label')
+        .attr('x', tx)
+        .attr('y', ty)
+        .attr('fill', '#ffcc66')
+        .attr('font-size', '11px')
+        .attr('dominant-baseline', 'middle')
+        .attr('text-anchor', 'start')
+        .style('pointer-events', 'none')
+        .text(s.name!);
+    });
+  }
 
-  // Lijnen gaan naar rotateLayer
-  const lineLayer = this.rotateLayer
-    .append('g')
-    .attr('class', 'constellation-layer');
+  // ---------------- CONSTELLATIES ----------------
 
-  list.forEach(c => {
-
-    const group = lineLayer
-      .append('g')
-      .attr('class', 'constellation-group');
-
-    const labelPoints: { x:number; y:number }[] = [];
-
-    c.lines.forEach(l => {
-
-      const a = project(l.from.ra, l.from.dec);
-      const b = project(l.to.ra, l.to.dec);
-
-      labelPoints.push(a, b);
-
-      group.append('line')
-        .attr('x1', a.x)
-        .attr('y1', a.y)
-        .attr('x2', b.x)
-        .attr('y2', b.y)
-        .attr('stroke', '#64a0ff')
-        .attr('stroke-width', 1.4)
-        .attr('stroke-opacity', 0.8)
-        .attr('stroke-linecap', 'round');
+  private drawConstellations(list: Constellation[]) {
+    // Lijnen (in rotateLayer, worden getransformeerd)
+    const lineLayer = this.rotateLayer.append('g').attr('class', 'constellation-lines');
+    list.forEach(c => {
+      c.lines.forEach(l => {
+        const from = this.project(l.from.ra, l.from.dec);
+        const to = this.project(l.to.ra, l.to.dec);
+        lineLayer.append('line')
+          .attr('x1', from[0])
+          .attr('y1', from[1])
+          .attr('x2', to[0])
+          .attr('y2', to[1])
+          .attr('stroke', '#64a0ff')
+          .attr('stroke-width', 1.4)
+          .attr('stroke-opacity', 0.8)
+          .attr('stroke-linecap', 'round');
+      });
     });
 
-    if (labelPoints.length) {
-
-      const center = labelPoints.reduce(
-        (s, p) => ({ x: s.x + p.x, y: s.y + p.y }),
-        { x: 0, y: 0 }
-      );
-
-      center.x /= labelPoints.length;
-      center.y /= labelPoints.length;
-
-      // TEXT gaat naar labelLayer met EXACT DEZELFDE logica als drawStarLabels
+    // Namen (handmatige transformatie)
+    list.forEach(c => {
+      const points: [number, number][] = [];
+      c.lines.forEach(l => {
+        points.push(this.project(l.from.ra, l.from.dec));
+        points.push(this.project(l.to.ra, l.to.dec));
+      });
+      if (points.length === 0) return;
+      const sum = points.reduce((acc, p) => [acc[0] + p[0], acc[1] + p[1]], [0, 0]);
+      const center: [number, number] = [sum[0] / points.length, sum[1] / points.length];
+      const [tx, ty] = this.transformPoint(center[0], center[1] - 8);
       this.labelLayer.append('text')
-        .attr('class', 'constellation-label')
-        .attr('x', () => {
-          // rotate position only (NOT glyph) - ZELFDE als drawStarLabels
-          const rx = center.x * cos - center.y * sin;
-          const mx = this.mirrored ? -rx : rx;
-          return mx;
-        })
-        .attr('y', () => {
-          // ZELFDE als drawStarLabels
-          const rx = center.x * cos - center.y * sin;
-          const ry = center.x * sin + center.y * cos;
-          return ry - 10; // Net iets boven het midden
-        })
-        .attr('text-anchor', 'middle') // Middel i.p.v. start
+        .attr('x', tx)
+        .attr('y', ty)
+        .attr('text-anchor', 'middle')
         .attr('dominant-baseline', 'middle')
         .attr('fill', '#64a0ff')
         .attr('font-size', '12px')
@@ -371,194 +331,195 @@ private drawConstellations(project: any, list: Constellation[]) {
         .attr('stroke-width', 3)
         .style('pointer-events', 'none')
         .text(c.name);
-    }
-  });
-}
-
-  // ---------------- GRID ----------------
-
-  private drawGrid(width:number) {
-
-    const step = width / (2 * this.radiusDeg) * 5;
-
-    for (let i=-3;i<=3;i++) {
-
-      this.overlayLayer.append('line')
-        .attr('x1', -width)
-        .attr('x2', width)
-        .attr('y1', i * step)
-        .attr('y2', i * step)
-        .attr('stroke','rgba(255,255,255,.05)');
-    }
-  }
-
-  // ---------------- HUD ----------------
-
-  private drawTarget() {
-
-    const g = this.rotateLayer.append('g');
-
-    g.append('circle')
-      .attr('r', 4)
-      .attr('fill', 'none')
-      .attr('stroke', '#ff3366');
-
-    g.append('line')
-      .attr('x1', -7).attr('x2', 7)
-      .attr('stroke', '#ff336651');
-
-    g.append('line')
-      .attr('y1', -7).attr('y2', 7)
-      .attr('stroke', '#ff336651');
-  }
-
-  private drawReferenceCircles(width: number) {
-
-    [5, 10, 15].forEach(d => {
-
-      const r = d * (width / (2 * this.radiusDeg));
-
-      this.rotateLayer.append('circle')
-        .attr('r', r)
-        .attr('fill', 'none')
-        .attr('stroke', 'rgba(255,255,255,.15)');
     });
   }
 
-  private drawMagnitudeLegend(w:number,h:number) {
+  // ---------------- MESSIER OBJECTEN ----------------
 
+  private drawMessier(list: any[]) {
+    // Filter op afstand
+    const filtered = list.filter(m => {
+      const ra = this.raToDeg(m.rightAscension);
+      const dec = this.decToDeg(m.declination);
+      const distance = this.angularDistance(this.ra, this.dec, ra, dec);
+      return distance <= this.radiusDeg * 1.2;
+    });
+
+    // Symbolen (in rotateLayer, worden getransformeerd)
+    const messierLayer = this.rotateLayer.append('g').attr('class', 'messier-layer');
+    filtered.forEach(m => {
+      const ra = this.raToDeg(m.rightAscension);
+      const dec = this.decToDeg(m.declination);
+      const pos = this.project(ra, dec);
+      if (Math.abs(pos[0]) > 1000 || Math.abs(pos[1]) > 1000) return;
+
+      const g = messierLayer.append('g')
+        .attr('transform', `translate(${pos[0]},${pos[1]})`);
+      g.append('path')
+        .attr('d', this.messierSymbol(m.type))
+        .attr('fill', 'none')
+        .attr('stroke', '#00ffaa')
+        .attr('stroke-width', 1.4);
+
+      // Tooltip
+      g.on('pointerenter', (e) => {
+        const el = this.tooltipRef.nativeElement;
+        el.innerHTML = `
+          <strong>M${m.messierNumber} — ${m.name}</strong><br>
+          ${m.type}<br>
+          Mag ${m.magnitude}
+        `;
+        el.style.display = 'block';
+        el.style.left = e.clientX + 12 + 'px';
+        el.style.top = e.clientY - 24 + 'px';
+      }).on('pointerleave', () => this.hideTooltip());
+    });
+
+    // Labels (handmatige transformatie)
+    filtered.forEach(m => {
+      const ra = this.raToDeg(m.rightAscension);
+      const dec = this.decToDeg(m.declination);
+      const pos = this.project(ra, dec);
+      if (Math.abs(pos[0]) > 1000 || Math.abs(pos[1]) > 1000) return;
+      const [tx, ty] = this.transformPoint(pos[0], pos[1] - 10);
+      this.labelLayer.append('text')
+        .attr('x', tx)
+        .attr('y', ty)
+        .attr('text-anchor', 'middle')
+        .attr('dominant-baseline', 'middle')
+        .attr('fill', '#00ffaa')
+        .attr('font-size', '11px')
+        .attr('paint-order', 'stroke')
+        .attr('stroke', 'rgba(0,0,0,.7)')
+        .attr('stroke-width', 3)
+        .style('pointer-events', 'none')
+        .text(`M${m.messierNumber}`);
+    });
+  }
+
+  private messierSymbol(type: string | null): string {
+    const t = (type ?? '').toLowerCase();
+    const size = 70;
+    switch (t) {
+      case 'spiral galaxy':
+      case 'elliptical galaxy':
+      case 'irregular galaxy':
+        return d3.symbol().type(d3.symbolDiamond2).size(size)()!;
+      case 'globular cluster':
+        return d3.symbol().type(d3.symbolCircle).size(size)()!;
+      case 'open cluster':
+        return d3.symbol().type(d3.symbolTriangle).size(size)()!;
+      case 'planetary nebula':
+        return d3.symbol().type(d3.symbolDiamond).size(size)()!;
+      default:
+        return d3.symbol().type(d3.symbolSquare).size(size)()!;
+    }
+  }
+
+  // ---------------- HULPMIDDELEN ----------------
+
+  private raToDeg(ra: string): number {
+    const parts = ra.split(':').map(Number);
+    return (parts[0] + parts[1] / 60 + parts[2] / 3600) * 15;
+  }
+
+  private decToDeg(dec: string): number {
+    const sign = dec.startsWith('-') ? -1 : 1;
+    const parts = dec.replace(/[+-]/, '').split(':').map(Number);
+    return sign * (parts[0] + parts[1] / 60 + parts[2] / 3600);
+  }
+
+  private angularDistance(ra1: number, dec1: number, ra2: number, dec2: number): number {
+    const dRA = (ra1 - ra2) * Math.PI / 180;
+    const dDec = (dec1 - dec2) * Math.PI / 180;
+    const a = Math.sin(dDec / 2) ** 2 +
+              Math.cos(dec1 * Math.PI / 180) * Math.cos(dec2 * Math.PI / 180) *
+              Math.sin(dRA / 2) ** 2;
+    return 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)) * 180 / Math.PI;
+  }
+
+  // ---------------- RASTER ----------------
+
+  private drawGrid(width: number, height: number) {
+    const step = 5; // graden
+    const lines: [number, number][][] = [];
+
+    for (let ra = 0; ra < 360; ra += step) {
+      const points: [number, number][] = [];
+      for (let dec = -90; dec <= 90; dec += 2) {
+        points.push(this.project(ra, dec));
+      }
+      lines.push(points);
+    }
+
+    for (let dec = -80; dec <= 80; dec += step) {
+      const points: [number, number][] = [];
+      for (let ra = 0; ra <= 360; ra += 2) {
+        points.push(this.project(ra, dec));
+      }
+      lines.push(points);
+    }
+
+    const gridGroup = this.overlayLayer.append('g').attr('class', 'grid');
+    lines.forEach(points => {
+      const line = d3.line().x(d => d[0]).y(d => d[1]);
+      gridGroup.append('path')
+        .attr('d', line(points as any))
+        .attr('stroke', 'rgba(255,255,255,0.05)')
+        .attr('fill', 'none');
+    });
+  }
+
+  // ---------------- GEZICHTSVELD ----------------
+
+  private drawTelescopeFov(width: number) {
+    const scale = width / (2 * this.radiusDeg);
+    const radiusPx = (this.fovArcMin / 60) * scale;
+    this.rotateLayer.append('circle')
+      .attr('r', radiusPx)
+      .attr('fill', 'none')
+      .attr('stroke', '#ffcc00')
+      .attr('stroke-width', 1.4)
+      .attr('stroke-dasharray', '6 4');
+  }
+
+  // ---------------- LEGENDA ----------------
+
+  private drawMagnitudeLegend(width: number, height: number) {
     const g = this.overlayLayer.append('g')
-      .attr('transform', `translate(${w/2-120},${-h/2+30})`);
+      .attr('transform', `translate(${width/2 - 120},${-height/2 + 30})`);
 
-    [1,3,5].forEach((m,i)=>{
-
+    [1, 3, 5].forEach((mag, i) => {
       g.append('circle')
-        .attr('cx',0)
-        .attr('cy',i*18)
-        .attr('r',Math.max(1,4-m/1.5))
-        .attr('fill','#ffe8a0');
+        .attr('cx', 0)
+        .attr('cy', i * 18)
+        .attr('r', this.starSize(mag) * 0.8)
+        .attr('fill', '#ffe8a0');
 
       g.append('text')
-        .attr('x',10)
-        .attr('y',i*18+4)
-        .attr('fill','#ccc')
-        .attr('font-size','10px')
-        .text(`Mag ${m}`);
+        .attr('x', 10)
+        .attr('y', i * 18 + 4)
+        .attr('fill', '#ccc')
+        .attr('font-size', '10px')
+        .text(`Mag ${mag}`);
     });
   }
 
-  // Messiers
-private drawMessier(project: any, list: any[]) {
+  // ---------------- LABEL DOORZICHTIGHEID BIJ ZOOM ----------------
 
-  // Symbolen gaan naar rotateLayer
-  const layer = this.rotateLayer.append('g')
-    .attr('class', 'messier-layer');
-
-  const nodes = layer.selectAll('g.messier')
-    .data(list)
-    .enter()
-    .append('g')
-    .attr('class', 'messier')
-    .attr('transform', d => {
-      const p = project(d.raDeg, d.decDeg);
-      // Alleen de positie transformeren, GEEN spiegeling voor de iconen zelf
-      // De hele laag wordt later gespiegeld via applyViewTransform()
-      return `translate(${p.x},${p.y})`;
-    });
-
-  nodes.append('path')
-    .attr('d', d => {
-      const size = 70;
-      switch (d.type.toLowerCase()) {
-        case 'spiral galaxy':
-        case 'elliptical galaxy':
-        case 'irregular galaxy':
-          return d3.symbol().type(d3.symbolDiamond2).size(size)();
-        case 'globular cluster':
-          return d3.symbol().type(d3.symbolCircle).size(size)();
-        case 'open cluster':
-          return d3.symbol().type(d3.symbolTriangle).size(size)();
-        case 'planetary nebula':
-          return d3.symbol().type(d3.symbolDiamond).size(size)();
-        default:
-          return d3.symbol().type(d3.symbolSquare).size(size)();
-      }
-    })
-    .attr('fill', 'none')
-    .attr('stroke', '#00ffaa')
-    .attr('stroke-width', 1.4);
-
-  // Labels gaan naar labelLayer (gescheiden van iconen)
-  list.forEach(d => {
-    const p = project(d.raDeg, d.decDeg);
-    
-    // Bereken positie voor label (met spiegeling)
-    const rad = this.rotationAngle * Math.PI / 180;
-    const cos = Math.cos(rad);
-    const sin = Math.sin(rad);
-    
-    const rx = p.x * cos - p.y * sin;
-    const ry = p.x * sin + p.y * cos;
-    const mx = this.mirrored ? -rx : rx;
-
-    this.labelLayer.append('text')
-      .attr('class', 'messier-label')
-      .attr('x', mx)
-      .attr('y', ry - 10)
-      .attr('text-anchor', 'middle')
-      .attr('dominant-baseline', 'middle')
-      .attr('fill', '#00ffaa')
-      .attr('font-size', '11px')
-      .attr('paint-order', 'stroke')
-      .attr('stroke', 'rgba(0,0,0,.7)')
-      .attr('stroke-width', 3)
-      .style('pointer-events', 'none')
-      .text(`M${d.messierNumber}`);
-  });
-
-  nodes
-    .on('pointerenter', (e, d) => {
-      const el = this.tooltipRef.nativeElement;
-      el.innerHTML = `
-        <strong>M${d.messierNumber} — ${d.name}</strong><br>
-        ${d.type}<br>
-        Mag ${d.magnitude}
-      `;
-      el.style.display = 'block';
-      el.style.left = e.clientX + 12 + 'px';
-      el.style.top = e.clientY - 24 + 'px';
-    })
-    .on('pointerleave', () => this.hideTooltip());
-}
-
- // Telescope
- private drawTelescopeFov(width:number) {
-
-  const scale = width / (2 * this.radiusDeg);
-
-  const radiusPx =
-    (this.fovArcMin / 60) * scale;
-
-  this.rotateLayer.append('circle')
-    .attr('r', radiusPx)
-    .attr('fill','none')
-    .attr('stroke','#ffcc00')
-    .attr('stroke-width',1.4)
-    .attr('stroke-dasharray','6 4');
-}
-
+  private updateLabelOpacity(scale: number) {
+    this.labelLayer.selectAll('text')
+      .attr('opacity', Math.min(1, Math.max(0.3, scale / 2)));
+  }
 
   // ---------------- TOOLTIP ----------------
 
   private showStarTooltip(e: PointerEvent, s: Star) {
-
     const el = this.tooltipRef.nativeElement;
-
     el.innerHTML = `
       <strong>${s.name ?? 'Star'}</strong><br>
       Mag ${s.mag.toFixed(2)}
     `;
-
     el.style.display = 'block';
     el.style.left = e.clientX + 30 + 'px';
     el.style.top = e.clientY - 24 + 'px';
@@ -568,7 +529,7 @@ private drawMessier(project: any, list: any[]) {
     this.tooltipRef.nativeElement.style.display = 'none';
   }
 
-  // ---------------- CONTROLS ----------------
+  // ---------------- CONTROLES ----------------
 
   toggleNames() { this.showNames = !this.showNames; this.render(); }
   toggleConstellations() { this.showConstellations = !this.showConstellations; this.render(); }
@@ -582,13 +543,10 @@ private drawMessier(project: any, list: any[]) {
   rotateTo(a: number) { this.rotationAngle = a; this.render(); }
 
   resetView() {
-
     this.rotationAngle = 0;
     this.mirrored = true;
     this.showConstellations = true;
     this.showGrid = true;
-
     this.render();
   }
-
 }
