@@ -179,15 +179,15 @@ export class StarCatalogService {
 
     switch(level) {
       case 'sparse':
-        this.maxMagnitude.set(5.0);
+        this.maxMagnitude.set(4.0);
         break;
 
       case 'normal':
-        this.maxMagnitude.set(6.0);
+        this.maxMagnitude.set(5.0);
         break;
 
       case 'dense':
-        this.maxMagnitude.set(7.0);
+        this.maxMagnitude.set(6.0);
         break;
 
       case 'all':

@@ -530,12 +530,12 @@ export class StarhopMapComponent
     this.tooltipRef.nativeElement.style.display = 'none';
   }
 
-  //
+  // helper
 
   private getSizeFactor(): number {
     const width = window.innerWidth;
-    if (width < 600) return 0.3;  // mobiel (kleiner dan 600px)
-    if (width < 1024) return 0.5; // tablet
+    if (width < 600) return 0.15;  // mobiel (kleiner dan 600px)
+    if (width < 1024) return 0.35; // tablet
     return 1.0;                   // desktop
   }
 
