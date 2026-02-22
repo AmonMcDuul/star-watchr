@@ -106,9 +106,21 @@ export class StarhopMapComponent
 
     const zoom = d3.zoom<SVGSVGElement, unknown>()
       .scaleExtent([0.3, 8])
-      .on('zoom', e => {
+      .on('zoom', (e) => {
+        const k = e.transform.k;
         this.zoomLayer.attr('transform', e.transform.toString());
-        this.updateLabelOpacity(e.transform.k);
+        
+        this.labelLayer.selectAll<SVGTextElement, unknown>('text')
+          .attr('font-size', function(this: SVGTextElement) {
+            const element = d3.select(this);
+            const className = element.attr('class');
+            
+            if (className?.includes('star-label')) return `${11 / k}px`;
+            if (className?.includes('constellation-name')) return `${12 / k}px`;
+            if (className?.includes('messier-label')) return `${11 / k}px`;
+            return `${11 / k}px`;
+          })
+          .attr('opacity', Math.min(1, Math.max(0.3, k / 2)));
       });
 
     this.svg.call(zoom as any);
@@ -321,6 +333,7 @@ export class StarhopMapComponent
       const center: [number, number] = [sum[0] / points.length, sum[1] / points.length];
       const [tx, ty] = this.transformPoint(center[0], center[1] - 8);
       this.labelLayer.append('text')
+        .attr('class', 'constellation-name')
         .attr('x', tx)
         .attr('y', ty)
         .attr('text-anchor', 'middle')
@@ -384,6 +397,7 @@ export class StarhopMapComponent
       if (Math.abs(pos[0]) > 1000 || Math.abs(pos[1]) > 1000) return;
       const [tx, ty] = this.transformPoint(pos[0], pos[1] - 10);
       this.labelLayer.append('text')
+        .attr('class', 'messier-label')
         .attr('x', tx)
         .attr('y', ty)
         .attr('text-anchor', 'middle')
