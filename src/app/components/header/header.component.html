@@ -32,7 +32,7 @@
 <div class="mobile-menu" [class.open]="menuOpen">
   <a routerLink="/" (click)="closeMenu()">Forecast</a>
   <a routerLink="/dso-forecast" (click)="closeMenu()">DSO</a>
-  <a routerLink="/sky-atlas">Atlas</a>
+  <a routerLink="/sky-atlas" (click)="closeMenu()">Atlas</a>
   <a routerLink="/apod" (click)="closeMenu()">Apod</a>
   <!-- <a routerLink="/alerts" (click)="closeMenu()">Alerts</a> -->
   <a routerLink="/about" (click)="closeMenu()">About</a>

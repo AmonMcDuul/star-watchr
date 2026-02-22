@@ -83,6 +83,7 @@
       <button class="close-btn" (click)="hideInfoPanel()">✕</button>
     </div>
     <div class="info-content">
+      <img [src]="content.image" [alt]="content.name" />
       <div><strong>Type:</strong> {{ content.type }}</div>
       <div><strong>NGC:</strong> {{ content.NGC }}</div>
       <div><strong>Magnitude:</strong> {{ content.magnitude }}</div>

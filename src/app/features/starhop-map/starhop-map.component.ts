@@ -568,9 +568,6 @@ export class StarhopMapComponent
 
   resetView() {
     this.rotationAngle = 0;
-    this.mirrored = true;
-    this.showConstellations = true;
-    this.showGrid = true;
     this.render();
   }
 }
