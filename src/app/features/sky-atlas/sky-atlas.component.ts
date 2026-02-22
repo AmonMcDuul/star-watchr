@@ -121,6 +121,16 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
   searchResults: any[] = [];
   showSearchResults = false;
 
+  // Double click/tap handling
+  private lastClickTime = 0;
+  private clickTimeout: any;
+  private readonly DOUBLE_CLICK_DELAY = 300;
+  private lastTapTime = 0;
+  private lastTapPosition = { x: 0, y: 0 };
+  private readonly DOUBLE_TAP_DELAY = 300;
+
+  private targetFov = 60;
+
   // =====================================================
   // LIFECYCLE
   // =====================================================
@@ -298,10 +308,9 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
   private onMouseWheel = (event: WheelEvent) => {
     event.preventDefault();
     
-    const zoomSpeed = this.camera.fov < 30 ? 0.03 : 0.06;
-    this.camera.fov += event.deltaY * 0.01 * zoomSpeed * 60;
-    this.camera.fov = THREE.MathUtils.clamp(this.camera.fov, 5.0, 120);
-    this.camera.updateProjectionMatrix();
+    const zoomSpeed = this.targetFov < 30 ? 0.03 : 0.06;
+    this.targetFov += event.deltaY * 0.01 * zoomSpeed * 60;
+    this.targetFov = THREE.MathUtils.clamp(this.targetFov, 5.0, 120);
     
     this.updateLabelSizes();
   };
@@ -320,34 +329,104 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
     }
   };
 
+  // private onTouchMove = (event: TouchEvent) => {
+  //   if (event.touches.length === 2) {
+  //     event.preventDefault();
+      
+  //     const dx = event.touches[0].clientX - event.touches[1].clientX;
+  //     const dy = event.touches[0].clientY - event.touches[1].clientY;
+  //     const distance = Math.sqrt(dx * dx + dy * dy);
+      
+  //     const zoomFactor = this.touchStartDistance / distance;
+  //     this.targetFov = THREE.MathUtils.clamp(
+  //       this.initialFov * zoomFactor,
+  //       5.0,
+  //       120
+  //     );
+      
+  //     this.updateLabelSizes();
+  //   }
+  // };
+
   private onTouchMove = (event: TouchEvent) => {
     if (event.touches.length === 2) {
       event.preventDefault();
       
+      // Bereken het middenpunt van de twee touches (focus punt)
+      const midX = (event.touches[0].clientX + event.touches[1].clientX) / 2;
+      const midY = (event.touches[0].clientY + event.touches[1].clientY) / 2;
+      
+      // Bepaal dit punt in 3D
+      const rect = this.canvasRef.nativeElement.getBoundingClientRect();
+      const mouseX = ((midX - rect.left) / rect.width) * 2 - 1;
+      const mouseY = -((midY - rect.top) / rect.height) * 2 + 1;
+      
+      const raycaster = new THREE.Raycaster();
+      raycaster.setFromCamera(new THREE.Vector2(mouseX, mouseY), this.camera);
+      
+      const sphere = new THREE.Sphere(new THREE.Vector3(0, 0, 0), 90);
+      const intersectionPoint = new THREE.Vector3();
+      const hasIntersection = raycaster.ray.intersectSphere(sphere, intersectionPoint);
+      
+      // Bereken zoom factor
       const dx = event.touches[0].clientX - event.touches[1].clientX;
       const dy = event.touches[0].clientY - event.touches[1].clientY;
       const distance = Math.sqrt(dx * dx + dy * dy);
       
+      const oldTargetFov = this.targetFov;
       const zoomFactor = this.touchStartDistance / distance;
-      this.camera.fov = THREE.MathUtils.clamp(
+      this.targetFov = THREE.MathUtils.clamp(
         this.initialFov * zoomFactor,
-        5.0,
+        2.0, // 2.0 voor extremere zoom
         120
       );
       
-      this.camera.updateProjectionMatrix();
+      // Als we inzoemen en we hebben een intersection point, beweeg target er naartoe
+      if (distance < this.touchStartDistance && hasIntersection) { // Inzoomen
+        const zoomFactor = oldTargetFov / this.targetFov;
+        const moveFactor = Math.min(0.5, (zoomFactor - 1) * 2);
+        
+        const newTarget = this.controls.target.clone().lerp(intersectionPoint, moveFactor);
+        this.controls.target.copy(newTarget);
+      } else if (distance > this.touchStartDistance && hasIntersection) { // Uitzoomen
+        const zoomFactor = this.targetFov / oldTargetFov;
+        const moveFactor = Math.min(0.3, (1 - zoomFactor) * 2);
+        
+        const centerPoint = new THREE.Vector3(0, 0, 1);
+        const newTarget = this.controls.target.clone().lerp(centerPoint, moveFactor);
+        this.controls.target.copy(newTarget);
+      }
+      
       this.updateLabelSizes();
     }
   };
 
   private onTouchEnd = (event: TouchEvent) => {
-    if (event.touches.length === 0 && Date.now() - this.touchStartTime < 300) {
-      const dx = Math.abs(event.changedTouches[0].clientX - this.touchStartPos.x);
-      const dy = Math.abs(event.changedTouches[0].clientY - this.touchStartPos.y);
+    const currentTime = Date.now();
+    
+    if (event.touches.length === 0 && event.changedTouches.length === 1) {
+      const touch = event.changedTouches[0];
+      const timeSinceLastTap = currentTime - this.lastTapTime;
+      const dx = Math.abs(touch.clientX - this.lastTapPosition.x);
+      const dy = Math.abs(touch.clientY - this.lastTapPosition.y);
       
-      if (dx < 10 && dy < 10) {
-        this.handleClick(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
+      // Check voor double tap (binnen 300ms en binnen 30px van vorige tap)
+      if (timeSinceLastTap < this.DOUBLE_TAP_DELAY && dx < 30 && dy < 30) {
+        // Double tap detected
+        this.handleDoubleClick(touch.clientX, touch.clientY);
+      } else if (currentTime - this.touchStartTime < 300) {
+        // Single tap, check of het een tap was (geen swipe)
+        const tapDx = Math.abs(touch.clientX - this.touchStartPos.x);
+        const tapDy = Math.abs(touch.clientY - this.touchStartPos.y);
+        
+        if (tapDx < 10 && tapDy < 10) {
+          this.handleClick(touch.clientX, touch.clientY);
+        }
       }
+      
+      this.lastTapTime = currentTime;
+      this.lastTapPosition.x = touch.clientX;
+      this.lastTapPosition.y = touch.clientY;
     }
   };
 
@@ -358,7 +437,24 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
   };
 
   private onClick = (event: MouseEvent) => {
-    this.handleClick(event.clientX, event.clientY);
+    const timeSinceLastClick = Date.now() - this.lastClickTime;
+    
+    if (timeSinceLastClick < this.DOUBLE_CLICK_DELAY) {
+      // Double click detected
+      if (this.clickTimeout) {
+        clearTimeout(this.clickTimeout);
+        this.clickTimeout = null;
+      }
+      this.handleDoubleClick(event.clientX, event.clientY);
+    } else {
+      // Wacht op mogelijke double click
+      this.clickTimeout = setTimeout(() => {
+        this.handleClick(event.clientX, event.clientY);
+        this.clickTimeout = null;
+      }, this.DOUBLE_CLICK_DELAY);
+    }
+    
+    this.lastClickTime = Date.now();
   };
 
   // =====================================================
@@ -431,6 +527,94 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
         this.cdr.detectChanges(); // Ensure update
       }
     }
+  }
+
+  private handleDoubleClick(x: number, y: number) {
+    // Bepaal waar de gebruiker klikte in 3D ruimte
+    const rect = this.canvasRef.nativeElement.getBoundingClientRect();
+    const mouseX = ((x - rect.left) / rect.width) * 2 - 1;
+    const mouseY = -((y - rect.top) / rect.height) * 2 + 1;
+    
+    // Gebruik raycaster om te kijken of we op een Messier object klikken
+    if (this.showMessier()) {
+      this.mouse.x = mouseX;
+      this.mouse.y = mouseY;
+      this.raycaster.setFromCamera(this.mouse, this.camera);
+      
+      const sprites = this.messierSprites.map(m => m.sprite);
+      const intersects = this.raycaster.intersectObjects(sprites);
+      
+      if (intersects.length > 0) {
+        const hitSprite = intersects[0].object as THREE.Sprite;
+        const messierData = this.messierSprites.find(m => m.sprite === hitSprite);
+        
+        if (messierData) {
+          // Toon info panel bij double-click op Messier object
+          this.infoPanelContent.set(messierData.object);
+          this.infoPanelPosition.set({ x, y });
+          this.showInfoPanel.set(true);
+          this.cdr.detectChanges();
+          
+          // Zoom verder in op Messier object (factor 0.3 = nog meer zoom)
+          this.zoomToPoint(messierData.position, 0.3);
+          return;
+        }
+      }
+    }
+    
+    // Bereken het punt op de hemelbol waar geklikt werd
+    const raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(new THREE.Vector2(mouseX, mouseY), this.camera);
+    
+    // We snijden met een denkbeeldige bol met straal 90 (hemelbol)
+    const sphere = new THREE.Sphere(new THREE.Vector3(0, 0, 0), 90);
+    const intersectionPoint = new THREE.Vector3();
+    const hasIntersection = raycaster.ray.intersectSphere(sphere, intersectionPoint);
+    
+    if (hasIntersection) {
+      // Zoom in op het berekende punt (factor 0.4 voor algemene zoom)
+      this.zoomToPoint(intersectionPoint, 0.4);
+    }
+  }
+
+  private zoomToPoint(targetPoint: THREE.Vector3, zoomFactor: number = 0.4) {
+    // Bewaar startwaarden voor animatie
+    const startTarget = this.controls.target.clone();
+    const startFov = this.targetFov;
+    const endFov = Math.max(2.0, startFov * zoomFactor); // Veel verder inzoomen (tot 2 graden)
+    
+    // Start tijd voor animatie
+    const startTime = performance.now();
+    const duration = 600; // ms - iets langer voor vloeiendere beweging
+    
+    const animateStep = () => {
+      const now = performance.now();
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Ease-out curve voor vloeiende beweging
+      const easeProgress = 1 - Math.pow(1 - progress, 3);
+      
+      // Interpoleer target positie
+      const currentTarget = new THREE.Vector3().lerpVectors(
+        startTarget, 
+        targetPoint, 
+        easeProgress
+      );
+      this.controls.target.copy(currentTarget);
+      
+      // Interpoleer FOV
+      this.targetFov = startFov + (endFov - startFov) * easeProgress;
+      
+      // Update labels tijdens animatie
+      this.updateLabelSizes();
+      
+      if (progress < 1) {
+        requestAnimationFrame(animateStep);
+      }
+    };
+    
+    requestAnimationFrame(animateStep);
   }
 
   hideInfoPanel() {
@@ -993,7 +1177,8 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
     this.camera.position.set(0, 0, 0);
     this.camera.lookAt(0, 0, 1);
     this.controls.target.set(0, 0, 1);
-    this.camera.fov = 60;  
+    this.targetFov = 60;
+    this.camera.fov = 60;
     this.camera.updateProjectionMatrix();
     this.controls.update();
     this.updateLabelSizes();
@@ -1054,6 +1239,13 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
 
   private animate = () => {
     this.frameId = requestAnimationFrame(this.animate);
+    
+    // Smooth zoom interpolatie voor alle zoom acties
+    if (Math.abs(this.camera.fov - this.targetFov) > 0.01) {
+      this.camera.fov += (this.targetFov - this.camera.fov) * 0.1;
+      this.camera.updateProjectionMatrix();
+    }
+    
     this.controls.update();
     this.composer.render();
   };
