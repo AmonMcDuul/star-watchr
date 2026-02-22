@@ -130,6 +130,7 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
   private readonly DOUBLE_TAP_DELAY = 300;
 
   private targetFov = 60;
+  private zoomAnimationFrame: number | null = null;
 
   // =====================================================
   // LIFECYCLE
@@ -524,23 +525,55 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-private zoomToPoint(targetPoint: THREE.Vector3, zoomFactor: number = 0.4) {
-  const newDir = targetPoint.clone().normalize();
-  console.log('zoomToPoint: new direction', newDir.toArray());
-  
-  const wasDampingEnabled = this.controls.enableDamping;
-  this.controls.enableDamping = false;
-  this.controls.target.copy(newDir);
-  this.controls.update();
-  this.targetFov = Math.max(2.0, this.targetFov * zoomFactor);
-  
-  if (wasDampingEnabled) {
-    setTimeout(() => {
-      this.controls.enableDamping = true;
-      console.log('Damping re-enabled');
-    }, 100);
+  private zoomToPoint(targetPoint: THREE.Vector3, zoomFactor: number = 0.4) {
+    // Als er al een animatie loopt, stop die dan
+    if (this.zoomAnimationFrame !== null) {
+      cancelAnimationFrame(this.zoomAnimationFrame);
+      this.zoomAnimationFrame = null;
+    }
+
+    const startDir = this.controls.target.clone().normalize();
+    const endDir = targetPoint.clone().normalize();
+    const startFov = this.targetFov;
+    const endFov = Math.max(2.0, startFov * zoomFactor);
+
+    // Damping uitschakelen voor de duur van de animatie
+    const wasDampingEnabled = this.controls.enableDamping;
+    this.controls.enableDamping = false;
+
+    const startTime = performance.now();
+    const duration = 600; // milliseconden
+
+    const animateStep = () => {
+      const now = performance.now();
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Ease-out curve voor natuurlijke beweging
+      const easeProgress = 1 - Math.pow(1 - progress, 3);
+
+      // Interpoleer de richting (lerp + normalize blijft op de bol)
+      const currentDir = new THREE.Vector3().lerpVectors(startDir, endDir, easeProgress).normalize();
+      this.controls.target.copy(currentDir);
+
+      // Interpoleer FOV (wordt door de animate loop soepel doorgevoerd)
+      this.targetFov = startFov + (endFov - startFov) * easeProgress;
+
+      // Labels updaten tijdens animatie
+      this.updateLabelSizes();
+
+      if (progress < 1) {
+        this.zoomAnimationFrame = requestAnimationFrame(animateStep);
+      } else {
+        // Animatie klaar, damping herstellen
+        this.controls.enableDamping = wasDampingEnabled;
+        this.zoomAnimationFrame = null;
+      }
+    };
+
+    // Start de animatie
+    this.zoomAnimationFrame = requestAnimationFrame(animateStep);
   }
-}
 
   hideInfoPanel() {
     this.showInfoPanel.set(false);
