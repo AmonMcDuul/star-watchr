@@ -329,73 +329,20 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
     }
   };
 
-  // private onTouchMove = (event: TouchEvent) => {
-  //   if (event.touches.length === 2) {
-  //     event.preventDefault();
-      
-  //     const dx = event.touches[0].clientX - event.touches[1].clientX;
-  //     const dy = event.touches[0].clientY - event.touches[1].clientY;
-  //     const distance = Math.sqrt(dx * dx + dy * dy);
-      
-  //     const zoomFactor = this.touchStartDistance / distance;
-  //     this.targetFov = THREE.MathUtils.clamp(
-  //       this.initialFov * zoomFactor,
-  //       5.0,
-  //       120
-  //     );
-      
-  //     this.updateLabelSizes();
-  //   }
-  // };
-
   private onTouchMove = (event: TouchEvent) => {
     if (event.touches.length === 2) {
       event.preventDefault();
       
-      // Bereken het middenpunt van de twee touches (focus punt)
-      const midX = (event.touches[0].clientX + event.touches[1].clientX) / 2;
-      const midY = (event.touches[0].clientY + event.touches[1].clientY) / 2;
-      
-      // Bepaal dit punt in 3D
-      const rect = this.canvasRef.nativeElement.getBoundingClientRect();
-      const mouseX = ((midX - rect.left) / rect.width) * 2 - 1;
-      const mouseY = -((midY - rect.top) / rect.height) * 2 + 1;
-      
-      const raycaster = new THREE.Raycaster();
-      raycaster.setFromCamera(new THREE.Vector2(mouseX, mouseY), this.camera);
-      
-      const sphere = new THREE.Sphere(new THREE.Vector3(0, 0, 0), 90);
-      const intersectionPoint = new THREE.Vector3();
-      const hasIntersection = raycaster.ray.intersectSphere(sphere, intersectionPoint);
-      
-      // Bereken zoom factor
       const dx = event.touches[0].clientX - event.touches[1].clientX;
       const dy = event.touches[0].clientY - event.touches[1].clientY;
       const distance = Math.sqrt(dx * dx + dy * dy);
       
-      const oldTargetFov = this.targetFov;
       const zoomFactor = this.touchStartDistance / distance;
       this.targetFov = THREE.MathUtils.clamp(
         this.initialFov * zoomFactor,
-        2.0, // 2.0 voor extremere zoom
+        5.0,
         120
       );
-      
-      // Als we inzoemen en we hebben een intersection point, beweeg target er naartoe
-      if (distance < this.touchStartDistance && hasIntersection) { // Inzoomen
-        const zoomFactor = oldTargetFov / this.targetFov;
-        const moveFactor = Math.min(0.5, (zoomFactor - 1) * 2);
-        
-        const newTarget = this.controls.target.clone().lerp(intersectionPoint, moveFactor);
-        this.controls.target.copy(newTarget);
-      } else if (distance > this.touchStartDistance && hasIntersection) { // Uitzoomen
-        const zoomFactor = this.targetFov / oldTargetFov;
-        const moveFactor = Math.min(0.3, (1 - zoomFactor) * 2);
-        
-        const centerPoint = new THREE.Vector3(0, 0, 1);
-        const newTarget = this.controls.target.clone().lerp(centerPoint, moveFactor);
-        this.controls.target.copy(newTarget);
-      }
       
       this.updateLabelSizes();
     }
@@ -577,45 +524,23 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  private zoomToPoint(targetPoint: THREE.Vector3, zoomFactor: number = 0.4) {
-    // Bewaar startwaarden voor animatie
-    const startTarget = this.controls.target.clone();
-    const startFov = this.targetFov;
-    const endFov = Math.max(2.0, startFov * zoomFactor); // Veel verder inzoomen (tot 2 graden)
-    
-    // Start tijd voor animatie
-    const startTime = performance.now();
-    const duration = 600; // ms - iets langer voor vloeiendere beweging
-    
-    const animateStep = () => {
-      const now = performance.now();
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      
-      // Ease-out curve voor vloeiende beweging
-      const easeProgress = 1 - Math.pow(1 - progress, 3);
-      
-      // Interpoleer target positie
-      const currentTarget = new THREE.Vector3().lerpVectors(
-        startTarget, 
-        targetPoint, 
-        easeProgress
-      );
-      this.controls.target.copy(currentTarget);
-      
-      // Interpoleer FOV
-      this.targetFov = startFov + (endFov - startFov) * easeProgress;
-      
-      // Update labels tijdens animatie
-      this.updateLabelSizes();
-      
-      if (progress < 1) {
-        requestAnimationFrame(animateStep);
-      }
-    };
-    
-    requestAnimationFrame(animateStep);
+private zoomToPoint(targetPoint: THREE.Vector3, zoomFactor: number = 0.4) {
+  const newDir = targetPoint.clone().normalize();
+  console.log('zoomToPoint: new direction', newDir.toArray());
+  
+  const wasDampingEnabled = this.controls.enableDamping;
+  this.controls.enableDamping = false;
+  this.controls.target.copy(newDir);
+  this.controls.update();
+  this.targetFov = Math.max(2.0, this.targetFov * zoomFactor);
+  
+  if (wasDampingEnabled) {
+    setTimeout(() => {
+      this.controls.enableDamping = true;
+      console.log('Damping re-enabled');
+    }, 100);
   }
+}
 
   hideInfoPanel() {
     this.showInfoPanel.set(false);
