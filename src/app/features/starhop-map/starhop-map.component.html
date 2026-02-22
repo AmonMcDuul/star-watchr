@@ -43,9 +43,9 @@
       </button> -->
     </div>
     
-    <button (click)="starCatalog.setStarDensity('sparse'); resetView();" class="control-btn">Sparse</button>
-    <button (click)="starCatalog.setStarDensity('normal'); resetView();" class="control-btn">Normal</button>
-    <button (click)="starCatalog.setStarDensity('dense'); resetView();" class="control-btn">Dense</button>
+    <button (click)="starCatalog.setStarDensity('sparse'); resetView(true);" class="control-btn">Sparse</button>
+    <button (click)="starCatalog.setStarDensity('normal'); resetView(true);" class="control-btn">Normal</button>
+    <button (click)="starCatalog.setStarDensity('dense'); resetView(true);" class="control-btn">Dense</button>
     <button (click)="resetView()" class="control-btn reset">
       Reset
     </button>

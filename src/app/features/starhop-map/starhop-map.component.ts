@@ -620,15 +620,17 @@ private initSvg() {
   rotateRight() { this.rotationAngle += 15; this.render(); }
   rotateTo(a: number) { this.rotationAngle = a; this.render(); }
 
-  resetView() {
+  resetView(changeView: boolean = false) {
     this.rotationAngle = 0;
     // this.mirrored = true;
     // this.showConstellations = true;
     // this.showGrid = true;
     
     // Reset zoom
-    this.initZoomLocation();
-    this.initView = true;
+    if(!changeView){
+      this.initZoomLocation();
+      this.initView = true;
+    }
     this.render();
   }
 }
