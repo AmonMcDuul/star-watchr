@@ -485,7 +485,7 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
     
     stars.forEach(star => {
       const pos = this.raDecToXYZ(star.ra, star.dec, 100);
-      const color = this.magnitudeToColor(star.mag);
+      const color = this.bvToColor(star.ci);
       
       positions.push(pos.x, pos.y, pos.z);
       colors.push(color.r, color.g, color.b);
@@ -745,14 +745,19 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
     return center.divideScalar(count);
   }
 
-  private magnitudeToColor(mag: number): THREE.Color {
-    if (mag < -0.5) return new THREE.Color('#fffaf0');
-    if (mag < 0.5) return new THREE.Color('#fff4e0');
-    if (mag < 1.5) return new THREE.Color('#ffefd0');
-    if (mag < 2.5) return new THREE.Color('#ffe8c0');
-    if (mag < 3.5) return new THREE.Color('#ffdfb0');
-    if (mag < 4.5) return new THREE.Color('#f0d8b0');
-    return new THREE.Color('#e0e0f0');
+  private bvToColor(bv?: number): THREE.Color {
+
+    if (bv == null || isNaN(bv)) {
+      return new THREE.Color(0xffffff);
+    }
+
+    const t = Math.max(-0.4, Math.min(2.0, bv));
+
+    if (t < 0.0)  return new THREE.Color('#9bbcff'); // blauw
+    if (t < 0.4)  return new THREE.Color('#cdd9ff'); // blauw-wit
+    if (t < 0.8)  return new THREE.Color('#fff4ea'); // wit-geel
+    if (t < 1.2)  return new THREE.Color('#ffd2a1'); // oranje
+    return new THREE.Color('#ffb56c');               // rood
   }
 
   private raToDeg(ra: string): number {

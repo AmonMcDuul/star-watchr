@@ -1,6 +1,9 @@
 export interface Star {
-  ra: number;   
-  dec: number;  
+  hip?: number;
+  ra: number;
+  dec: number;
   mag: number;
-  name: string;
+  ci?: number;
+  con?: string;
+  name?: string;
 }

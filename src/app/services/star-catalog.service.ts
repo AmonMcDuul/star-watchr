@@ -3,6 +3,7 @@ import { Star } from '../models/star.model';
 import { Constellation, ConstellationLine } from '../models/constellation.model';
 import { STAR_ALIASES } from '../../assets/data/star-aliases.data';
 import { CONSTELLATION_DEFS } from '../../assets/data/constellations.data';
+import { CONSTELLATION_NAME_MAP } from '../utils/constellation-name-map';
 
 @Injectable({ providedIn: 'root' })
 export class StarCatalogService {
@@ -10,27 +11,30 @@ export class StarCatalogService {
   private constellationCache: Constellation[] | null = null;
 
   private nameIndex = new Map<string, Star>();
-  readonly maxMagnitude = signal(5.0);
+  readonly maxMagnitude = signal(9.0);
   readonly loading = signal(false);
+  private constellationLines: any = null;
 
+  async load() {
 
-async load() {
+    if (this.raw()) return;
 
-  if (this.raw()) return;
+    this.loading.set(true);
 
-  this.loading.set(true);
+    const res = await fetch('/assets/data/stars-mag7.json');
+    const stars: Star[] = await res.json();
 
-  const res = await fetch('/assets/data/stars-mag6.json');
-  const stars: Star[] = await res.json();
+    this.raw.set(stars);
 
-  this.raw.set(stars);
+    const constRes = await fetch('/assets/data/constellation-lines.json');
+    this.constellationLines = await constRes.json();
 
-  this.buildNameIndex(stars);
+    // this.buildNameIndex(stars);
 
-  this.constellationCache = null;
+    // this.constellationCache = null;
 
-  this.loading.set(false);
-}
+    this.loading.set(false);
+  }
 
 
   private buildNameIndex(stars: Star[]) {
@@ -68,57 +72,77 @@ async load() {
   }
 
 
-  private buildConstellations(): Constellation[] {
-    if (!this.raw()) {
-      return [];
-    }
+  // private buildConstellations(): Constellation[] {
+  //   if (!this.raw()) {
+  //     return [];
+  //   }
 
-    const result: Constellation[] = [];
-    let missing = 0;
+  //   const result: Constellation[] = [];
+  //   let missing = 0;
 
-    CONSTELLATION_DEFS.forEach(def => {
+  //   CONSTELLATION_DEFS.forEach(def => {
 
-      const lines: ConstellationLine[] = [];
+  //     const lines: ConstellationLine[] = [];
 
-      def.connections.forEach(([a,b]) => {
+  //     def.connections.forEach(([a,b]) => {
 
-        const s1 = this.findStarByName(a);
-        const s2 = this.findStarByName(b);
+  //       const s1 = this.findStarByName(a);
+  //       const s2 = this.findStarByName(b);
 
-        if (!s1 || !s2) {
-          missing++;
-          return;
-        }
+  //       if (!s1 || !s2) {
+  //         missing++;
+  //         return;
+  //       }
 
-        lines.push({
-          from:{ra:s1.ra,dec:s1.dec},
-          to:{ra:s2.ra,dec:s2.dec}
-        });
+  //       lines.push({
+  //         from:{ra:s1.ra,dec:s1.dec},
+  //         to:{ra:s2.ra,dec:s2.dec}
+  //       });
 
-      });
+  //     });
 
-      if (lines.length) {
-        result.push({
-          name:def.name,
-          abbreviation:def.abbreviation,
-          lines
-        });
-      }
+  //     if (lines.length) {
+  //       result.push({
+  //         name:def.name,
+  //         abbreviation:def.abbreviation,
+  //         lines
+  //       });
+  //     }
 
-    });
+  //   });
 
-    return result;
-  }
+  //   return result;
+  // }
+
+  // getConstellations(): Constellation[] {
+
+  //   if (!this.raw()) return [];
+
+  //   if (!this.constellationCache) {
+  //     this.constellationCache = this.buildConstellations();
+  //   }
+
+  //   return this.constellationCache;
+  // }
 
   getConstellations(): Constellation[] {
 
-    if (!this.raw()) return [];
+    if (!this.constellationLines) return [];
 
-    if (!this.constellationCache) {
-      this.constellationCache = this.buildConstellations();
-    }
+    return Object.entries(this.constellationLines).map(([abbr, lines]) => ({
+      name: CONSTELLATION_NAME_MAP[abbr] ?? abbr,
+      abbreviation: abbr,
+      lines: lines as ConstellationLine[]
+    }));
+  }
 
-    return this.constellationCache;
+  getConstellationList(): { abbr: string; name: string }[] {
+    return Object.keys(CONSTELLATION_NAME_MAP)
+      .map(abbr => ({
+        abbr,
+        name: CONSTELLATION_NAME_MAP[abbr]
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name));
   }
 
   getConstellationsInView(
