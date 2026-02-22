@@ -175,19 +175,23 @@ export class StarCatalogService {
     );
   }
 
-  setStarDensity(level: 'sparse' | 'normal' | 'dense') {
+  setStarDensity(level: 'sparse' | 'normal' | 'dense' | 'all') {
 
     switch(level) {
       case 'sparse':
-        this.maxMagnitude.set(4.0);
-        break;
-
-      case 'normal':
         this.maxMagnitude.set(5.0);
         break;
 
-      case 'dense':
+      case 'normal':
         this.maxMagnitude.set(6.0);
+        break;
+
+      case 'dense':
+        this.maxMagnitude.set(7.0);
+        break;
+
+      case 'all':
+        this.maxMagnitude.set(10.0);
         break;
     }
   }

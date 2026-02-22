@@ -65,6 +65,7 @@ export class StarhopMapComponent
 
   ngAfterViewInit() {
     this.ready = true;
+    this.starCatalog.setStarDensity('normal');
     this.initSvg();
     this.initResizeObserver();
     this.tryRender();

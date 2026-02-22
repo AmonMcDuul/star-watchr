@@ -70,6 +70,7 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
   private constellationLineGroup = new THREE.Group();
   private constellationNameGroup = new THREE.Group();
   private messierGroup = new THREE.Group();
+  private messierLabel = new THREE.Group();
   private labelGroup = new THREE.Group();
   private gridGroup = new THREE.Group();
   private highlightGroup = new THREE.Group();
@@ -125,6 +126,7 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
   // =====================================================
 
   async ngAfterViewInit() {
+    this.catalog.setStarDensity('all');
     await this.catalog.load();
     await this.messierService.load();
 
@@ -134,6 +136,7 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
     this.buildSky();
     // Milky Way verwijderd (veroorzaakte vreemde vierkantjes)
     this.animate();
+    this.toggleMessierNames(); //stomme oplossing om niet te tonen bij init
   }
 
   ngOnDestroy() {
@@ -258,6 +261,7 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
       this.constellationLineGroup,
       this.constellationNameGroup,
       this.messierGroup,
+      this.messierLabel,
       this.labelGroup,
       this.gridGroup
     );
@@ -392,7 +396,7 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
         
         // Show tooltip
         this.hoverTooltipContent.set(`M${messierData.object.messierNumber}: ${messierData.object.name}`);
-        this.hoverTooltipPosition.set({ x, y });
+        this.hoverTooltipPosition.set({ x , y });
       }
     } else if (this.hoveredMessier) {
       // No hover, reset
@@ -459,6 +463,7 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
       this.constellationLineGroup, 
       this.constellationNameGroup,
       this.messierGroup, 
+      this.messierLabel,
       this.labelGroup, 
       this.gridGroup,
       this.highlightGroup
@@ -604,7 +609,7 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
       const labelText = `M${obj.messierNumber}`;
       const label = this.createLabel(labelText, '#88ff88', 16, 40);
       label.position.copy(pos.clone().multiplyScalar(1.03));
-      this.labelGroup.add(label);
+      this.messierLabel.add(label);
       
       this.messierSprites.push({
         object: obj,
@@ -680,12 +685,14 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
     }
     
     // Messier labels
-    this.messierSprites.forEach(m => {
-      const label = this.createLabel(`M${m.object.messierNumber}`, '#88ff88', 16, 40);
-      label.position.copy(m.position.clone().multiplyScalar(1.03));
-      this.labelGroup.add(label);
-      m.label = label;
-    });
+    if(this.showMessierNames()){
+      this.messierSprites.forEach(m => {
+        const label = this.createLabel(`M${m.object.messierNumber}`, '#88ff88', 16, 40);
+        label.position.copy(m.position.clone().multiplyScalar(1.03));
+        this.messierLabel.add(label);
+        m.label = label;
+      });
+    }
     
     // Sterrennamen (alleen heldere sterren)
     if (this.showStarNames()) {
@@ -705,6 +712,15 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
     const zoomFactor = Math.max(0.5, Math.min(2.0, 60 / this.camera.fov));
     
     this.labelGroup.children.forEach(child => {
+      if (child instanceof THREE.Sprite && child.userData['baseWidth']) {
+        child.scale.set(
+          child.userData['baseWidth'] * zoomFactor,
+          child.userData['baseHeight'] * zoomFactor,
+          1
+        );
+      }
+    });
+    this.messierLabel.children.forEach(child => {
       if (child instanceof THREE.Sprite && child.userData['baseWidth']) {
         child.scale.set(
           child.userData['baseWidth'] * zoomFactor,
@@ -949,11 +965,11 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
   toggleMessier() {
     this.showMessier.update(v => !v);
     this.messierGroup.visible = this.showMessier();
-    this.messierSprites.forEach(m => m.label.visible = this.showMessier() && this.showMessierNames());
   }
 
   toggleMessierNames() {
     this.showMessierNames.update(v => !v);
+    this.messierLabel.visible = this.showMessierNames();
     this.messierSprites.forEach(m => m.label.visible = this.showMessierNames());
   }
 
@@ -987,50 +1003,50 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
   // KEYBOARD SHORTCUTS
   // =====================================================
 
-  @HostListener('window:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
-    const key = event.key.toLowerCase();
+  // @HostListener('window:keydown', ['$event'])
+  // handleKeyboardEvent(event: KeyboardEvent) {
+  //   const key = event.key.toLowerCase();
     
-    switch(key) {
-      case 'g':
-        event.preventDefault();
-        this.toggleGrid();
-        break;
-      case 'c':
-        event.preventDefault();
-        this.toggleConstellations();
-        break;
-      case 'n':
-        event.preventDefault();
-        this.toggleConstellationNames();
-        break;
-      case 's':
-        event.preventDefault();
-        this.toggleStarNames();
-        break;
-      case 'm':
-        event.preventDefault();
-        this.toggleMessier();
-        break;
-      case 'r':
-      case 'escape':
-        event.preventDefault();
-        this.resetView();
-        break;
-      case '/':
-        event.preventDefault();
-        this.toggleSearch();
-        break;
-      case 'l':
-        event.preventDefault();
-        this.toggleNightMode();
-        break;
-    }
+  //   switch(key) {
+  //     case 'g':
+  //       event.preventDefault();
+  //       this.toggleGrid();
+  //       break;
+  //     case 'c':
+  //       event.preventDefault();
+  //       this.toggleConstellations();
+  //       break;
+  //     case 'n':
+  //       event.preventDefault();
+  //       this.toggleConstellationNames();
+  //       break;
+  //     case 's':
+  //       event.preventDefault();
+  //       this.toggleStarNames();
+  //       break;
+  //     case 'm':
+  //       event.preventDefault();
+  //       this.toggleMessier();
+  //       break;
+  //     case 'r':
+  //     case 'escape':
+  //       event.preventDefault();
+  //       this.resetView();
+  //       break;
+  //     case '/':
+  //       event.preventDefault();
+  //       this.toggleSearch();
+  //       break;
+  //     case 'l':
+  //       event.preventDefault();
+  //       this.toggleNightMode();
+  //       break;
+  //   }
     
-    if (event.key === 'Escape' && this.showInfoPanel()) {
-      this.hideInfoPanel();
-    }
-  }
+  //   if (event.key === 'Escape' && this.showInfoPanel()) {
+  //     this.hideInfoPanel();
+  //   }
+  // }
 
   // =====================================================
   // ANIMATIE LOOP
