@@ -140,7 +140,6 @@
   position: absolute;
   z-index: 70;
 
-  width: min(92vw, 340px);
   max-width: 50vw;
 
   padding: 14px;
@@ -264,8 +263,8 @@
   }
 
   .info-panel {
-    width: min(360px, 80vw);
-    max-width: 50vw;
+    // width: min(360px, 80vw);
+    // max-width: 50vw;
   }
 
   .info-panel img {
@@ -291,8 +290,8 @@
   }
 
   .info-panel {
-    width: 320px;
-    max-width: 50vw;
+    // width: 320px;
+    // max-width: 50vw;
   }
 
   .info-panel img {

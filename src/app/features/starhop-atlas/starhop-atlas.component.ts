@@ -110,6 +110,19 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
   // ===== ZOOM HELPERS =====
   private touchStartDistance = 0;
   private initialFov = 60;
+  private touchStartTime = 0;
+  private touchStartPos = { x: 0, y: 0 };
+  
+  // ===== DOUBLE TAP HANDLING =====
+  private lastTapTime = 0;
+  private lastTapPosition = { x: 0, y: 0 };
+  private readonly DOUBLE_TAP_DELAY = 300;
+  private readonly DOUBLE_TAP_MAX_DIST = 30;
+  
+  // ===== ZOOM ANIMATION =====
+  private zoomAnimationFrame: number | null = null;
+  private readonly MIN_FOV = 0.5;  // Minimum zoom (most zoomed in)
+  private readonly MAX_FOV = 60;   // Maximum zoom (most zoomed out)
 
   // ===== HOVER STATE =====
   private hoveredMessier: MessierSpriteData | null = null;
@@ -144,6 +157,9 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
 
   ngOnDestroy(): void {
     cancelAnimationFrame(this.frameId);
+    if (this.zoomAnimationFrame) {
+      cancelAnimationFrame(this.zoomAnimationFrame);
+    }
     this.renderer?.dispose();
     this.composer?.dispose();
     this.resizeObserver?.disconnect();
@@ -280,7 +296,8 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
     this.renderer.toneMappingExposure = 1.0;
 
     this.scene = new THREE.Scene();
-this.scene.background = new THREE.Color(0x0c1445);
+    this.scene.background = new THREE.Color(0x0c1445);
+    
     this.camera = new THREE.PerspectiveCamera(
       this.targetFov,
       canvas.clientWidth / canvas.clientHeight,
@@ -291,11 +308,13 @@ this.scene.background = new THREE.Color(0x0c1445);
     this.camera.lookAt(0, 0, 1);
 
     this.controls = new OrbitControls(this.camera, canvas);
-    this.controls.enableZoom = false;
+    this.controls.enableZoom = false; // We handle zoom manually
     this.controls.enablePan = false;
     this.controls.enableDamping = true;
     this.controls.dampingFactor = 0.05;
-    this.controls.rotateSpeed = 0.3;
+    this.controls.rotateSpeed = 0.2; // Slower rotation for mobile
+    // this.controls.keyboardSpeed = 0.2;
+    // this.controls.mouseRotateSpeed = 0.3;
     this.controls.target.set(0, 0, 1);
 
     this.scene.add(this.skySphere);
@@ -337,9 +356,12 @@ this.scene.background = new THREE.Color(0x0c1445);
 
   private onWheel = (event: WheelEvent) => {
     event.preventDefault();
-    const delta = event.deltaY * 0.01;
-    this.targetFov += delta;
-    this.targetFov = THREE.MathUtils.clamp(this.targetFov, 1.0, 60.0);
+    
+    const zoomSpeed = this.targetFov < 10 ? 0.02 : 0.04;
+    this.targetFov += event.deltaY * 0.01 * zoomSpeed * 60;
+    this.targetFov = THREE.MathUtils.clamp(this.targetFov, this.MIN_FOV, this.MAX_FOV);
+    
+    this.updateLabelSizes();
   };
 
   private onTouchStart = (event: TouchEvent) => {
@@ -349,21 +371,64 @@ this.scene.background = new THREE.Color(0x0c1445);
       const dy = event.touches[0].clientY - event.touches[1].clientY;
       this.touchStartDistance = Math.sqrt(dx * dx + dy * dy);
       this.initialFov = this.camera.fov;
+    } else if (event.touches.length === 1) {
+      this.touchStartTime = Date.now();
+      this.touchStartPos.x = event.touches[0].clientX;
+      this.touchStartPos.y = event.touches[0].clientY;
     }
   };
 
   private onTouchMove = (event: TouchEvent) => {
     if (event.touches.length === 2) {
       event.preventDefault();
+      
       const dx = event.touches[0].clientX - event.touches[1].clientX;
       const dy = event.touches[0].clientY - event.touches[1].clientY;
       const distance = Math.sqrt(dx * dx + dy * dy);
-      const zoomFactor = this.touchStartDistance / distance;
-      this.targetFov = THREE.MathUtils.clamp(this.initialFov * zoomFactor, 1.0, 60.0);
+      
+      // More controlled zoom factor for mobile
+      const zoomSensitivity = 0.8;
+      const zoomFactor = 1 + ((this.touchStartDistance / distance) - 1) * zoomSensitivity;
+      this.targetFov = THREE.MathUtils.clamp(
+        this.initialFov * zoomFactor,
+        this.MIN_FOV,
+        this.MAX_FOV
+      );
+      
+      this.updateLabelSizes();
     }
   };
 
-  private onTouchEnd = () => {};
+  private onTouchEnd = (event: TouchEvent) => {
+    const currentTime = Date.now();
+    
+    if (event.touches.length === 0 && event.changedTouches.length === 1) {
+      const touch = event.changedTouches[0];
+      const timeSinceLastTap = currentTime - this.lastTapTime;
+      const dx = Math.abs(touch.clientX - this.lastTapPosition.x);
+      const dy = Math.abs(touch.clientY - this.lastTapPosition.y);
+      
+      // Check for double tap
+      if (timeSinceLastTap < this.DOUBLE_TAP_DELAY && 
+          dx < this.DOUBLE_TAP_MAX_DIST && 
+          dy < this.DOUBLE_TAP_MAX_DIST) {
+        // Double tap detected
+        this.handleDoubleClick(touch.clientX, touch.clientY);
+      } else if (currentTime - this.touchStartTime < 300) {
+        // Single tap, check if it was a tap (no significant movement)
+        const tapDx = Math.abs(touch.clientX - this.touchStartPos.x);
+        const tapDy = Math.abs(touch.clientY - this.touchStartPos.y);
+        
+        if (tapDx < 10 && tapDy < 10) {
+          this.handleClick(touch.clientX, touch.clientY);
+        }
+      }
+      
+      this.lastTapTime = currentTime;
+      this.lastTapPosition.x = touch.clientX;
+      this.lastTapPosition.y = touch.clientY;
+    }
+  };
 
   // ===== MOUSE MOVE =====
   private onMouseMove = (event: MouseEvent) => {
@@ -385,7 +450,6 @@ this.scene.background = new THREE.Color(0x0c1445);
 
     this.raycaster.setFromCamera(this.mouse, this.camera);
     
-    // Only check Messier sprites
     const sprites = this.messierSprites.map(m => m.sprite);
     const intersects = this.raycaster.intersectObjects(sprites);
 
@@ -394,22 +458,18 @@ this.scene.background = new THREE.Color(0x0c1445);
       const messierData = this.messierSprites.find(m => m.sprite === hitSprite);
       
       if (messierData) {
-        // If this is a different object than the current hover
         if (this.hoveredMessier !== messierData) {
-          // Reset previous hover if exists
           if (this.hoveredMessier) {
             this.hoveredMessier.sprite.material.map = this.messierTexture;
             this.hoveredMessier.sprite.material.needsUpdate = true;
             this.hoveredMessier.sprite.scale.set(3.0, 3.0, 1);
           }
           
-          // Set new hover
           this.hoveredMessier = messierData;
           this.hoveredMessier.sprite.material.map = this.messierHoverTexture;
           this.hoveredMessier.sprite.material.needsUpdate = true;
           this.hoveredMessier.sprite.scale.set(4.5, 4.5, 1);
           
-          // Show tooltip
           this.hoverTooltipContent = `M${messierData.object.messierNumber}: ${messierData.object.name}`;
           this.hoverTooltipPosition = {
             x: x - rect.left,
@@ -419,7 +479,6 @@ this.scene.background = new THREE.Color(0x0c1445);
         }
       }
     } else if (this.hoveredMessier) {
-      // No intersection, reset hover
       this.hoveredMessier.sprite.material.map = this.messierTexture;
       this.hoveredMessier.sprite.material.needsUpdate = true;
       this.hoveredMessier.sprite.scale.set(3.0, 3.0, 1);
@@ -448,31 +507,108 @@ this.scene.background = new THREE.Color(0x0c1445);
       
       if (messierData) {
         this.infoPanelContent = messierData.object;
-const localX = x - rect.left;
-const localY = y - rect.top;
+        const localX = x - rect.left;
+        const localY = y - rect.top;
 
-const container = this.canvasRef.nativeElement.parentElement!;
-const maxWidth = container.clientWidth;
-const maxHeight = container.clientHeight;
+        const container = this.canvasRef.nativeElement.parentElement!;
+        const maxWidth = container.clientWidth;
+        const maxHeight = container.clientHeight;
 
-// Schat paneelafmeting (of meet later via ViewChild)
-const panelWidth = 260;
-const panelHeight = 320;
+        const panelWidth = 260;
+        const panelHeight = 320;
 
-// Clamp X
-let clampedX = Math.max(panelWidth / 2, Math.min(localX, maxWidth - panelWidth / 2));
+        let clampedX = Math.max(panelWidth / 2, Math.min(localX, maxWidth - panelWidth / 2));
+        let clampedY = Math.max(panelHeight + 60, localY);
 
-// Clamp Y (zorg dat hij niet boven de container uitkomt)
-let clampedY = Math.max(panelHeight + 60, localY);
-
-this.infoPanelPosition = {
-  x: clampedX,
-  y: clampedY
-};
+        this.infoPanelPosition = {
+          x: clampedX,
+          y: clampedY
+        };
         this.showInfoPanel = true;
         this.cdr.detectChanges();
       }
     }
+  }
+
+  // ===== DOUBLE CLICK/TAP HANDLING =====
+  private handleDoubleClick(x: number, y: number) {
+    const rect = this.canvasRef.nativeElement.getBoundingClientRect();
+    const mouseX = ((x - rect.left) / rect.width) * 2 - 1;
+    const mouseY = -((y - rect.top) / rect.height) * 2 + 1;
+
+    // First check if we clicked on a Messier object
+    if (this.showMessier) {
+      this.mouse.x = mouseX;
+      this.mouse.y = mouseY;
+      this.raycaster.setFromCamera(this.mouse, this.camera);
+      const sprites = this.messierSprites.map(m => m.sprite);
+      const intersects = this.raycaster.intersectObjects(sprites);
+      
+      if (intersects.length > 0) {
+        const hitSprite = intersects[0].object as THREE.Sprite;
+        const messierData = this.messierSprites.find(m => m.sprite === hitSprite);
+        if (messierData) {
+          this.infoPanelContent = messierData.object;
+          this.infoPanelPosition = { x, y };
+          this.showInfoPanel = true;
+          this.cdr.detectChanges();
+          this.zoomToPoint(messierData.position, 0.3); // Zoom in to 30% of current FOV
+          return;
+        }
+      }
+    }
+
+    // If no Messier object clicked, zoom to the point on the sphere
+    const raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(new THREE.Vector2(mouseX, mouseY), this.camera);
+    const sphere = new THREE.Sphere(new THREE.Vector3(0, 0, 0), 1);
+    const intersectionPoint = new THREE.Vector3();
+    const hasIntersection = raycaster.ray.intersectSphere(sphere, intersectionPoint);
+
+    if (hasIntersection) {
+      this.zoomToPoint(intersectionPoint, 0.4); // Zoom in to 40% of current FOV
+    }
+  }
+
+  private zoomToPoint(targetPoint: THREE.Vector3, zoomFactor: number = 0.4) {
+    if (this.zoomAnimationFrame !== null) {
+      cancelAnimationFrame(this.zoomAnimationFrame);
+      this.zoomAnimationFrame = null;
+    }
+
+    const startDir = this.controls.target.clone().normalize();
+    const endDir = targetPoint.clone().normalize();
+    const startFov = this.targetFov;
+    const endFov = Math.max(this.MIN_FOV, Math.min(this.MAX_FOV, startFov * zoomFactor));
+
+    const wasDampingEnabled = this.controls.enableDamping;
+    this.controls.enableDamping = false;
+
+    const startTime = performance.now();
+    const duration = 600; // milliseconds
+
+    const animateStep = () => {
+      const now = performance.now();
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      const easeProgress = 1 - Math.pow(1 - progress, 3);
+
+      const currentDir = new THREE.Vector3().lerpVectors(startDir, endDir, easeProgress).normalize();
+      this.controls.target.copy(currentDir);
+
+      this.targetFov = startFov + (endFov - startFov) * easeProgress;
+      this.updateLabelSizes();
+
+      if (progress < 1) {
+        this.zoomAnimationFrame = requestAnimationFrame(animateStep);
+      } else {
+        this.controls.enableDamping = wasDampingEnabled;
+        this.zoomAnimationFrame = null;
+      }
+    };
+
+    this.zoomAnimationFrame = requestAnimationFrame(animateStep);
   }
 
   hideInfoPanel() {
@@ -482,7 +618,6 @@ this.infoPanelPosition = {
 
   goToMessierDetails(m: any) {
     this.messierService.selectMessierByNumber(m.messierNumber);
-    // this.router.navigate(['/dso', 'M' + m.messierNumber]);
     window.location.href = `/dso/M${m.messierNumber}`; //temp reload fix
     this.hideInfoPanel();
   }
@@ -508,7 +643,7 @@ this.infoPanelPosition = {
 
   // ===== STARS =====
   private createStars(): void {
-    const allStars = this.catalog.getStarsNear(this.ra, this.dec, 40);
+    const allStars = this.catalog.getStarsNear(this.ra, this.dec, 30);
     const positions: number[] = [];
     const colors: number[] = [];
     const sizes: number[] = [];
@@ -604,64 +739,48 @@ this.infoPanelPosition = {
     });
   }
 
-// ===== MESSIER OBJECTS =====
-private createMessierObjects(): void {
-  const allMessier = this.messierService.all();
-  // Increase radius to show more Messier objects around the target
-  // With FOV=3°, we want to see objects within ~5-10° for context
-  const radius = 10; // Show objects within 10° of center
-  
-  console.log(`Looking for Messier objects within ${radius}° of (${this.ra}, ${this.dec})`);
-  
-  allMessier.forEach(obj => {
-    const ra = this.raToDeg(obj.rightAscension);
-    const dec = this.decToDeg(obj.declination);
-    const distance = this.angularDistance(this.ra, this.dec, ra, dec);
+  // ===== MESSIER OBJECTS =====
+  private createMessierObjects(): void {
+    const allMessier = this.messierService.all();
+    const radius = 20; // Show objects within 10° of center
     
-    if (distance > radius) return;
+    console.log(`Looking for Messier objects within ${radius}° of (${this.ra}, ${this.dec})`);
     
-    console.log(`Found M${obj.messierNumber} at distance ${distance.toFixed(2)}°`);
-    
-    // Place on sphere surface
-    const pos = this.raDecToXYZ(ra, dec, 99);
+    allMessier.forEach(obj => {
+      const ra = this.raToDeg(obj.rightAscension);
+      const dec = this.decToDeg(obj.declination);
+      const distance = this.angularDistance(this.ra, this.dec, ra, dec);
+      
+      if (distance > radius) return;
+      
+      console.log(`Found M${obj.messierNumber} at distance ${distance.toFixed(2)}°`);
+      
+      const pos = this.raDecToXYZ(ra, dec, 99);
 
-    // Create sprite
-    const spriteMat = new THREE.SpriteMaterial({ 
-      map: this.messierTexture, 
-      transparent: true,
-      depthTest: true,
-      depthWrite: false,
-      blending: THREE.NormalBlending
+      const spriteMat = new THREE.SpriteMaterial({ 
+        map: this.messierTexture, 
+        transparent: true,
+        depthTest: true,
+        depthWrite: false,
+        blending: THREE.NormalBlending
+      });
+      
+      const sprite = new THREE.Sprite(spriteMat);
+      sprite.position.copy(pos);
+      sprite.scale.set(4.0, 4.0, 1);
+      sprite.frustumCulled = false;
+      sprite.matrixAutoUpdate = true;
+      
+      this.messierGroup.add(sprite);
+
+      this.messierSprites.push({
+        object: obj,
+        sprite,
+        position: pos,
+        label: null as any
+      });
     });
-    
-    const sprite = new THREE.Sprite(spriteMat);
-    sprite.position.copy(pos);
-    sprite.scale.set(4.0, 4.0, 1);
-    sprite.frustumCulled = false;
-    sprite.matrixAutoUpdate = true;
-    
-this.messierGroup.add(sprite);
-
-this.messierSprites.push({
-  object: obj,
-  sprite,
-  position: pos,
-  label: null as any
-});
-    // Create label
-    // const label = this.createLabel(`M${obj.messierNumber}`, '#ffaa44', 28, 16);
-    // label.position.copy(pos.clone().multiplyScalar(1.03));
-    // this.messierLabelGroup.add(label);
-
-    // this.messierSprites.push({
-    //   object: obj,
-    //   sprite,
-    //   position: pos,
-    //   label
-    // });
-  });
-  
-}
+  }
 
   // ===== GRID =====
   private createGrid(): void {
@@ -721,7 +840,6 @@ this.messierSprites.push({
     this.constellationLineGroup.visible = this.showConstellations;
     this.constellationNameGroup.visible = this.showConstellations;
     this.messierGroup.visible = this.showMessier;
-    // this.messierLabelGroup.visible = this.showMessier;
     this.gridGroup.visible = true;
     this.skySphere.scale.x = this.mirrored ? -1 : 1;
   }
@@ -740,11 +858,23 @@ this.messierSprites.push({
 
   // ===== PUBLIC METHODS FOR TEMPLATE =====
   resetView(): void {
+    if (this.zoomAnimationFrame) {
+      cancelAnimationFrame(this.zoomAnimationFrame);
+      this.zoomAnimationFrame = null;
+    }
+    
     this.centerOnTarget();
     this.showInfoPanel = false;
-    this.targetFov = this.fovDegrees;
+    
     const targetDir = this.raDecToXYZ(this.ra, this.dec, 1).normalize();
     this.controls.target.copy(targetDir);
+    this.camera.position.set(0, 0, 0);
+    this.camera.lookAt(targetDir);
+    this.targetFov = this.fovDegrees;
+    this.camera.fov = this.targetFov;
+    this.camera.updateProjectionMatrix();
+    this.controls.update();
+    this.updateLabelSizes();
   }
 
   toggleMirror(): void {
@@ -892,7 +1022,6 @@ this.messierSprites.push({
     
     ctx.fillStyle = color;
     ctx.fillText(text, canvas.width / 2, canvas.height / 2);
-    
     
     ctx.globalAlpha = 1.0;
     ctx.shadowBlur = 0;
