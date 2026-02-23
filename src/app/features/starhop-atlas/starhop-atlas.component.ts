@@ -394,59 +394,72 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
     }
   };
 
-  private onTouchMove = (event: TouchEvent) => {
-    if (event.touches.length === 2) {
-      event.preventDefault();
-      
-      const dx = event.touches[0].clientX - event.touches[1].clientX;
-      const dy = event.touches[0].clientY - event.touches[1].clientY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      
-      const zoomSensitivity = 0.8;
-      const zoomFactor = 1 + ((this.touchStartDistance / distance) - 1) * zoomSensitivity;
-      this.targetFov = THREE.MathUtils.clamp(
-        this.initialFov * zoomFactor,
-        this.MIN_FOV,
-        this.MAX_FOV
-      );
-      
-      this.updateLabelSizes();
-    }
-  };
+private onTouchMove = (event: TouchEvent) => {
+  if (event.touches.length === 2) {
+    event.preventDefault();
+    
+    // Als we aan het zoemen zijn, verwerk alleen de zoom
+    const dx = event.touches[0].clientX - event.touches[1].clientX;
+    const dy = event.touches[0].clientY - event.touches[1].clientY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    
+    const zoomSensitivity = 0.8;
+    const zoomFactor = 1 + ((this.touchStartDistance / distance) - 1) * zoomSensitivity;
+    this.targetFov = THREE.MathUtils.clamp(
+      this.initialFov * zoomFactor,
+      this.MIN_FOV,
+      this.MAX_FOV
+    );
+    
+    this.updateLabelSizes();
+  } else if (event.touches.length === 1 && this.isZooming) {
+    // Als we aan het zoemen waren en nu maar 1 vinger, negeer dan beweging
+    event.preventDefault();
+  }
+};
 
-  private onTouchEnd = (event: TouchEvent) => {
-    if (event.touches.length < 2) {
+private onTouchEnd = (event: TouchEvent) => {
+  // Als we aan het zoomen waren, blokkeer dan eventuele beweging
+  if (this.isZooming) {
+    event.preventDefault();
+    
+    // Voorkom dat een enkele touch na het zoomen wordt gezien als drag
+    if (event.touches.length === 0) {
       this.isZooming = false;
       this.controls.enableRotate = true;
-    }
-    const currentTime = Date.now();
-    if (event.touches.length === 0 && event.changedTouches.length === 1) {
-      const touch = event.changedTouches[0];
-      const timeSinceLastTap = currentTime - this.lastTapTime;
-      const dx = Math.abs(touch.clientX - this.lastTapPosition.x);
-      const dy = Math.abs(touch.clientY - this.lastTapPosition.y);
       
-      // Check for double tap
-      if (timeSinceLastTap < this.DOUBLE_TAP_DELAY && 
-          dx < this.DOUBLE_TAP_MAX_DIST && 
-          dy < this.DOUBLE_TAP_MAX_DIST) {
-        // Double tap detected
-        this.handleDoubleClick(touch.clientX, touch.clientY);
-      } else if (currentTime - this.touchStartTime < 300) {
-        // Single tap, check if it was a tap (no significant movement)
-        const tapDx = Math.abs(touch.clientX - this.touchStartPos.x);
-        const tapDy = Math.abs(touch.clientY - this.touchStartPos.y);
-        
-        if (tapDx < 10 && tapDy < 10) {
-          this.handleClick(touch.clientX, touch.clientY);
-        }
-      }
-      
-      this.lastTapTime = currentTime;
-      this.lastTapPosition.x = touch.clientX;
-      this.lastTapPosition.y = touch.clientY;
+      // Reset touch start positie zodat een per ongeluk touch niet wordt geregistreerd
+      this.touchStartPos.x = 0;
+      this.touchStartPos.y = 0;
+      this.touchStartTime = 0;
     }
-  };
+    return; // Stop hier, verwerk geen clicks/double taps
+  }
+  
+  // Alleen clicks/double taps verwerken als we niet aan het zoomen waren
+  const currentTime = Date.now();
+  
+  if (event.touches.length === 0 && event.changedTouches.length === 1 && !this.isZooming) {
+    const touch = event.changedTouches[0];
+    const timeSinceLastTap = currentTime - this.lastTapTime;
+    const dx = Math.abs(touch.clientX - this.lastTapPosition.x);
+    const dy = Math.abs(touch.clientY - this.lastTapPosition.y);
+    
+    if (timeSinceLastTap < this.DOUBLE_TAP_DELAY && 
+        dx < this.DOUBLE_TAP_MAX_DIST && 
+        dy < this.DOUBLE_TAP_MAX_DIST) {
+      this.handleDoubleClick(touch.clientX, touch.clientY);
+    } else if (currentTime - this.touchStartTime < 300 && 
+               Math.abs(touch.clientX - this.touchStartPos.x) < 10 && 
+               Math.abs(touch.clientY - this.touchStartPos.y) < 10) {
+      this.handleClick(touch.clientX, touch.clientY);
+    }
+    
+    this.lastTapTime = currentTime;
+    this.lastTapPosition.x = touch.clientX;
+    this.lastTapPosition.y = touch.clientY;
+  }
+};
 
   // ===== MOUSE MOVE =====
   private onMouseMove = (event: MouseEvent) => {
