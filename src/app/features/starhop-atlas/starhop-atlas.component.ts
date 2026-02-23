@@ -743,6 +743,7 @@ this.messierSprites.push({
   // ===== PUBLIC METHODS FOR TEMPLATE =====
   resetView(): void {
     this.centerOnTarget();
+    this.showInfoPanel = false;
     this.targetFov = this.fovDegrees;
     const targetDir = this.raDecToXYZ(this.ra, this.dec, 1).normalize();
     this.controls.target.copy(targetDir);
