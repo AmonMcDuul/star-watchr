@@ -314,7 +314,7 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
     this.controls.enablePan = false;
     this.controls.enableDamping = true;
     this.controls.dampingFactor = 0.05;
-    this.controls.rotateSpeed = 0.2; // Slower rotation for mobile
+    this.controls.rotateSpeed = -0.2; // Slower rotation for mobile
     // this.controls.keyboardSpeed = 0.2;
     // this.controls.mouseRotateSpeed = 0.3;
     this.controls.target.set(0, 0, 1);
