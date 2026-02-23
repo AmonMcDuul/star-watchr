@@ -131,7 +131,8 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
 
   private targetFov = 60;
   private zoomAnimationFrame: number | null = null;
-  
+  private isZooming = false;
+  private zoomTimeout: any;
 
   // =====================================================
   // LIFECYCLE
@@ -307,77 +308,89 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
   // ZOOM HANDLING
   // =====================================================
 
-  private onMouseWheel = (event: WheelEvent) => {
+private onMouseWheel = (event: WheelEvent) => {
+  event.preventDefault();
+  
+  if (!this.isZooming) {
+    this.isZooming = true;
+    this.controls.enableRotate = false;
+  }
+  
+  const zoomSpeed = this.targetFov < 30 ? 0.03 : 0.06;
+  this.targetFov += event.deltaY * 0.01 * zoomSpeed * 60;
+  this.targetFov = THREE.MathUtils.clamp(this.targetFov, 5.0, 120);
+  
+  this.updateLabelSizes();
+  
+  // Reset na 200ms geen wheel actie
+  clearTimeout(this.zoomTimeout);
+  this.zoomTimeout = setTimeout(() => {
+    this.isZooming = false;
+    this.controls.enableRotate = true;
+  }, 200);
+};
+
+private onTouchStart = (event: TouchEvent) => {
+  if (event.touches.length === 2) {
     event.preventDefault();
     
-    const zoomSpeed = this.targetFov < 30 ? 0.03 : 0.06;
-    this.targetFov += event.deltaY * 0.01 * zoomSpeed * 60;
-    this.targetFov = THREE.MathUtils.clamp(this.targetFov, 5.0, 120);
+    // Blokkeer rotatie tijdens zoomen
+    this.isZooming = true;
+    this.controls.enableRotate = false;
     
-    this.updateLabelSizes();
-  };
+    const dx = event.touches[0].clientX - event.touches[1].clientX;
+    const dy = event.touches[0].clientY - event.touches[1].clientY;
+    this.touchStartDistance = Math.sqrt(dx * dx + dy * dy);
+    this.initialFov = this.camera.fov;
+  } else if (event.touches.length === 1) {
+    this.touchStartTime = Date.now();
+    this.touchStartPos.x = event.touches[0].clientX;
+    this.touchStartPos.y = event.touches[0].clientY;
+  }
+};
 
-  private onTouchStart = (event: TouchEvent) => {
-    if (event.touches.length === 2) {
-      event.preventDefault();
-      const dx = event.touches[0].clientX - event.touches[1].clientX;
-      const dy = event.touches[0].clientY - event.touches[1].clientY;
-      this.touchStartDistance = Math.sqrt(dx * dx + dy * dy);
-      this.initialFov = this.camera.fov;
-    } else if (event.touches.length === 1) {
-      this.touchStartTime = Date.now();
-      this.touchStartPos.x = event.touches[0].clientX;
-      this.touchStartPos.y = event.touches[0].clientY;
-    }
-  };
-
-  private onTouchMove = (event: TouchEvent) => {
-    if (event.touches.length === 2) {
-      event.preventDefault();
-      
-      const dx = event.touches[0].clientX - event.touches[1].clientX;
-      const dy = event.touches[0].clientY - event.touches[1].clientY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      
-      const zoomFactor = this.touchStartDistance / distance;
-      this.targetFov = THREE.MathUtils.clamp(
-        this.initialFov * zoomFactor,
-        5.0,
-        120
-      );
-      
-      this.updateLabelSizes();
-    }
-  };
-
-  private onTouchEnd = (event: TouchEvent) => {
-    const currentTime = Date.now();
+private onTouchEnd = (event: TouchEvent) => {
+  // Als we aan het zoomen waren
+  if (this.isZooming) {
+    event.preventDefault();
     
-    if (event.touches.length === 0 && event.changedTouches.length === 1) {
-      const touch = event.changedTouches[0];
-      const timeSinceLastTap = currentTime - this.lastTapTime;
-      const dx = Math.abs(touch.clientX - this.lastTapPosition.x);
-      const dy = Math.abs(touch.clientY - this.lastTapPosition.y);
+    setTimeout(() => {
+      this.isZooming = false;
+      this.controls.enableRotate = true;
       
-      // Check voor double tap (binnen 300ms en binnen 30px van vorige tap)
-      if (timeSinceLastTap < this.DOUBLE_TAP_DELAY && dx < 30 && dy < 30) {
-        // Double tap detected
-        this.handleDoubleClick(touch.clientX, touch.clientY);
-      } else if (currentTime - this.touchStartTime < 300) {
-        // Single tap, check of het een tap was (geen swipe)
-        const tapDx = Math.abs(touch.clientX - this.touchStartPos.x);
-        const tapDy = Math.abs(touch.clientY - this.touchStartPos.y);
-        
-        if (tapDx < 10 && tapDy < 10) {
-          this.handleClick(touch.clientX, touch.clientY);
-        }
+      // Reset touch start positie
+      this.touchStartPos.x = 0;
+      this.touchStartPos.y = 0;
+      this.touchStartTime = 0;
+    }, 100);
+    
+    return; // Stop hier, verwerk geen clicks/double taps
+  }
+  
+  const currentTime = Date.now();
+  
+  if (event.touches.length === 0 && event.changedTouches.length === 1 && !this.isZooming) {
+    const touch = event.changedTouches[0];
+    const timeSinceLastTap = currentTime - this.lastTapTime;
+    const dx = Math.abs(touch.clientX - this.lastTapPosition.x);
+    const dy = Math.abs(touch.clientY - this.lastTapPosition.y);
+    
+    if (timeSinceLastTap < this.DOUBLE_TAP_DELAY && dx < 30 && dy < 30) {
+      this.handleDoubleClick(touch.clientX, touch.clientY);
+    } else if (currentTime - this.touchStartTime < 300) {
+      const tapDx = Math.abs(touch.clientX - this.touchStartPos.x);
+      const tapDy = Math.abs(touch.clientY - this.touchStartPos.y);
+      
+      if (tapDx < 10 && tapDy < 10) {
+        this.handleClick(touch.clientX, touch.clientY);
       }
-      
-      this.lastTapTime = currentTime;
-      this.lastTapPosition.x = touch.clientX;
-      this.lastTapPosition.y = touch.clientY;
     }
-  };
+    
+    this.lastTapTime = currentTime;
+    this.lastTapPosition.x = touch.clientX;
+    this.lastTapPosition.y = touch.clientY;
+  }
+};
 
   private onMouseMove = (event: MouseEvent) => {
     this.mousePos.x = event.clientX;
