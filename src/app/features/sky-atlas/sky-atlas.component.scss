@@ -280,3 +280,64 @@ img {
     display: none;
   }
 }
+
+/* =========================================
+   UI – responsive overlay fix
+   ========================================= */
+
+.ui {
+  top: 16px;
+  left: 16px;
+
+  display: flex;
+  flex-wrap: wrap;            
+  gap: 6px;
+
+  max-width: calc(100vw - 32px);
+}
+
+.ui button {
+  flex: 0 1 auto;
+  white-space: nowrap;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .ui {
+    gap: 5px;
+  }
+
+  .ui button {
+    font-size: .65rem;
+    padding: 5px 10px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+  .ui {
+    left: 50%;
+    transform: translateX(-50%);
+    justify-content: center;
+    max-width: 95vw;
+  }
+
+  .ui button {
+    font-size: .6rem;
+    padding: 5px 8px;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+
+  .ui {
+    gap: 4px;
+  }
+
+  .ui button {
+    font-size: .55rem;
+    padding: 4px 6px;
+  }
+}
