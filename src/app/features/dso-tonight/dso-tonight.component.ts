@@ -29,6 +29,17 @@ export class DsoTonightComponent implements OnInit {
     this.messier.load();
   }
   
+  difficultyLevel(diff: string): number {
+    switch (diff) {
+      case 'Very Easy': return 1;
+      case 'Easy': return 2;
+      case 'Moderate': return 3;
+      case 'Hard': return 4;
+      case 'Very Hard': return 5;
+      default: return 0;
+    }
+  }
+
   select(n: number) {
     this.selected.update(v => v === n ? null : n);
   }

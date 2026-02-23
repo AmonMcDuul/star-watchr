@@ -215,3 +215,181 @@
     letter-spacing: 0.04em;
   }
 }
+
+
+/* =========================================
+   GLOBAL ATMOSPHERE (safe, non-layout)
+   ========================================= */
+
+.dso-page {
+  position: relative;
+}
+
+.dso-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(120,150,255,.07), transparent 45%),
+    radial-gradient(circle at 85% 70%, rgba(120,150,255,.05), transparent 50%);
+  z-index: 0;
+}
+
+/* =========================================
+   HEADER – More depth, zero layout shift
+   ========================================= */
+
+.dso-header {
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding-bottom: 22px;
+  margin-bottom: 52px;
+}
+
+.header-left h1 {
+  background: linear-gradient(90deg,#ffffff,#b8c8ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.object-name {
+  opacity: .55;
+}
+
+/* subtle glow accent */
+.header-meta .value {
+  color: #cfd8ff;
+}
+
+.meta-item {
+  transition: transform .2s ease, opacity .2s ease;
+}
+
+.meta-item:hover {
+  transform: translateY(-2px);
+  opacity: 1;
+}
+
+/* =========================================
+   PANELS – premium glass effect
+   ========================================= */
+
+.panel {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(18,24,40,.95),
+      rgba(12,16,28,.95)
+    );
+
+  border-radius: 14px;
+  border: 1px solid rgba(120,150,255,0.12);
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.02),
+    0 14px 36px rgba(0,0,0,.55);
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+.panel:hover {
+  transform: translateY(-3px);
+  border-color: rgba(140,170,255,.35);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.03),
+    0 18px 48px rgba(40,60,120,.45);
+}
+
+/* =========================================
+   PANEL TITLES – cleaner hierarchy
+   ========================================= */
+
+.panel-title {
+  letter-spacing: .22em;
+  font-weight: 600;
+  color: #9fb0ff;
+  opacity: .7;
+}
+
+/* =========================================
+   STARHOP & MAP FRAMES
+   ========================================= */
+
+.starhop-panel,
+.aladin-panel {
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.starhop-panel app-starhop-atlas,
+.aladin-panel app-aladin-map {
+  border-radius: 10px;
+}
+
+/* =========================================
+   IMAGE PANEL – cinematic feel
+   ========================================= */
+
+.image-panel img {
+  transition: transform .5s ease, filter .4s ease;
+}
+
+.image-panel:hover img {
+  transform: scale(1.03);
+  filter: contrast(1.05) brightness(1.05);
+}
+
+/* =========================================
+   DESCRIPTION TEXT
+   ========================================= */
+
+.panel p {
+  line-height: 1.65;
+  opacity: .9;
+}
+
+/* =========================================
+   DATA GRID – stronger visual separation
+   ========================================= */
+
+.data-grid div {
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+
+.data-grid div:last-child {
+  border-bottom: none;
+}
+
+.data-grid dd {
+  color: #ffffff;
+}
+
+/* =========================================
+   BACK BUTTON – refined interaction
+   ========================================= */
+
+.back-btn {
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    border-color .2s ease;
+}
+
+.back-btn:hover {
+  transform: translateX(-2px);
+  box-shadow: 0 0 12px rgba(120,150,255,.4);
+}
+
+/* =========================================
+   LOADING STATE
+   ========================================= */
+
+.loading {
+  font-size: .85rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}

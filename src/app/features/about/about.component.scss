@@ -257,3 +257,197 @@
     }
   }
 }
+
+/* =========================================
+   Kosmische achtergrondlaag (zelfde stijl)
+   ========================================= */
+
+:host::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* =========================================
+   HERO – dramatischer maar veilig
+   ========================================= */
+
+.hero h1 {
+  background: linear-gradient(90deg,#ffffff,#b8c8ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  opacity: .85;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* subtiele divider glow */
+.hero::after {
+  content: "";
+  display: block;
+  margin: 2.5rem auto 0;
+  width: 120px;
+  height: 1px;
+  background: linear-gradient(90deg,transparent,#6f8cff,transparent);
+  opacity: .4;
+}
+
+/* =========================================
+   Cards – premium glass feel
+   ========================================= */
+
+.card {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(16,22,40,.95),
+      rgba(10,14,28,.95)
+    );
+
+  border: 1px solid rgba(120,150,255,.14);
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.02),
+    0 18px 45px rgba(0,0,0,.45);
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(140,170,255,.4);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.03),
+    0 22px 60px rgba(60,90,180,.45);
+}
+
+/* =========================================
+   Section Titles
+   ========================================= */
+
+.card h2 {
+  letter-spacing: .04em;
+  color: #cfd8ff;
+}
+
+/* =========================================
+   Features – elevate but same layout
+   ========================================= */
+
+.feature {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(14,20,38,.9),
+      rgba(10,14,28,.9)
+    );
+
+  border: 1px solid rgba(120,150,255,.12);
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+.feature:hover {
+  transform: translateY(-3px);
+  border-color: rgba(140,170,255,.35);
+  box-shadow: 0 16px 40px rgba(60,90,180,.35);
+}
+
+.feature h3 {
+  color: #9fb0ff;
+  letter-spacing: .03em;
+}
+
+/* =========================================
+   Links styling (API section)
+   ========================================= */
+
+.card a {
+  color: #9fb0ff;
+  text-decoration: none;
+  position: relative;
+  transition: color .2s ease;
+}
+
+.card a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0%;
+  height: 1px;
+  background: #8fb6ff;
+  transition: width .25s ease;
+}
+
+.card a:hover {
+  color: #ffffff;
+}
+
+.card a:hover::after {
+  width: 100%;
+}
+
+/* =========================================
+   Quote – cinematic accent
+   ========================================= */
+
+.card.quote {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20,26,50,.9),
+      rgba(12,18,34,.9)
+    );
+
+  border: 1px solid rgba(120,150,255,.2);
+}
+
+.card.quote blockquote {
+  font-size: 1.15rem;
+  color: #ffffff;
+}
+
+.card.quote .quote-author {
+  color: #9fb0ff;
+  opacity: .75;
+}
+
+/* =========================================
+   Subtle final card glow
+   ========================================= */
+
+.card.subtle {
+  border: 1px solid rgba(120,150,255,.18);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(18,24,44,.9),
+      rgba(10,14,30,.7)
+    );
+}
+
+/* =========================================
+   Smooth entrance (safe)
+   ========================================= */
+
+.card {
+  animation: aboutFadeIn .4s ease both;
+}
+
+@keyframes aboutFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}

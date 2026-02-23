@@ -8,10 +8,28 @@
   </div>
 }
 @else {
-
-  <div class="time">
-    <h2>{{ time.dateTime() | date:'EEEE MMM dd yyyy HH:mm' }}</h2>
+  <div class="night-summary">
+    <div class="summary-item">
+      <strong>{{ time.dateTime() | date:'EEEE MMM dd yyyy HH:mm' }}</strong>
+    </div>
+  <div class="summary-item">
+    <span class="label">Visible Objects</span>
+    <strong>{{ messier.visible().length }}</strong>
   </div>
+
+  <div class="summary-item">
+    <span class="label">Altitude Filter</span>
+    <strong>{{ messier.altitudeFilter() }}°+</strong>
+  </div>
+
+  <div class="summary-item">
+    <span class="label">Difficulty</span>
+    <strong>
+      {{ messier.difficultyFilter() || 'All' }}
+    </strong>
+  </div>
+</div>
+
 
   <div class="matrix-controls-row">
     <div class="matrix-controls">
@@ -84,6 +102,8 @@
     <button (click)="mapSize = 'large'" [class.active]="mapSize === 'large'">Large</button>
   </div>
 
+
+
   <div class="grid-wrapper"
        [class.compact]="mapSize === 'compact'"
        [class.normal]="mapSize === 'normal'"
@@ -102,6 +122,11 @@
 
             <img [src]="m.image" [alt]="m.name" />
 
+            <div class="altitude-bar">
+              <div class="fill"
+                  [style.width.%]="m.altitude">
+              </div>
+            </div>
             <div class="info">
               <strong>M{{ m.messierNumber }} – {{ m.name }}</strong><br>
               <span>{{ m.type }}</span>
