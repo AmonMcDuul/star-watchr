@@ -276,7 +276,6 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
     const hlCtx = hlCanvas.getContext('2d')!;
 
     hlCtx.clearRect(0, 0, 128, 128);
-
     hlCtx.strokeStyle = 'rgba(255, 60, 60, 0.9)';
     hlCtx.lineWidth = 4;
     hlCtx.setLineDash([10, 8]); // dashed line
@@ -284,7 +283,6 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
     hlCtx.beginPath();
     hlCtx.arc(64, 64, 40, 0, Math.PI * 2);
     hlCtx.stroke();
-
     this.highlightTexture = new THREE.CanvasTexture(hlCanvas);
   }
 
@@ -857,8 +855,11 @@ private onTouchEnd = (event: TouchEvent) => {
 
     const spriteMat = new THREE.SpriteMaterial({
       map: this.highlightTexture,
-      transparent: true,
-      blending: THREE.AdditiveBlending
+      transparent: true,             
+      depthWrite: false,             
+      depthTest: true,               
+      blending: THREE.AdditiveBlending,
+      alphaTest: 0.01                
     });
     const sprite = new THREE.Sprite(spriteMat);
     sprite.position.copy(this.targetPosition);
