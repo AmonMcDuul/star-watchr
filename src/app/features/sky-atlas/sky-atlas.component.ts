@@ -349,6 +349,28 @@ private onTouchStart = (event: TouchEvent) => {
   }
 };
 
+private onTouchMove = (event: TouchEvent) => {
+  if (event.touches.length === 2) {
+    event.preventDefault();
+    
+    const dx = event.touches[0].clientX - event.touches[1].clientX;
+    const dy = event.touches[0].clientY - event.touches[1].clientY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    
+    const zoomFactor = this.touchStartDistance / distance;
+    this.targetFov = THREE.MathUtils.clamp(
+      this.initialFov * zoomFactor,
+      5.0,
+      120
+    );
+    
+    this.updateLabelSizes();
+  } else if (event.touches.length === 1 && this.isZooming) {
+    // Als we aan het zoemen waren en nu maar 1 vinger, negeer dan beweging
+    event.preventDefault();
+  }
+};
+
 private onTouchEnd = (event: TouchEvent) => {
   // Als we aan het zoomen waren
   if (this.isZooming) {
