@@ -119,11 +119,7 @@ header {
 .mobile-menu {
   position: fixed;
   inset: 0;
-  background: radial-gradient(
-    ellipse at top,
-    rgba(20, 30, 80, 0.95),
-    rgba(0, 0, 0, 0.98)
-  );
+  background: #0a0f1a;
   backdrop-filter: blur(8px);
 
   display: flex;
