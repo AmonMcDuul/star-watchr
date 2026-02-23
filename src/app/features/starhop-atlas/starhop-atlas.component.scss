@@ -95,6 +95,30 @@
   justify-content: center;
 }
 
+.zoom-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(5, 7, 15, 0.95);
+  border-bottom: 1px solid #1f2942;
+
+  .zoom-label {
+    color: #a0a8cc;
+    font-size: 0.8rem;
+    min-width: 70px;
+  }
+
+  .zoom-slider {
+    flex: 1;
+    height: 4px;
+    background: #1a233a;
+    border-radius: 2px;
+    accent-color: #6f8cff;
+    cursor: pointer;
+  }
+}
+
 /* ===============================
    CANVAS
 ================================= */

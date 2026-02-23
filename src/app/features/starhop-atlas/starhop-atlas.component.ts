@@ -104,7 +104,7 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
 
   // ===== ANIMATION =====
   private frameId = 0;
-  private targetFov: number;
+  targetFov: number;
   private resizeObserver!: ResizeObserver;
 
   // ===== ZOOM HELPERS =====
