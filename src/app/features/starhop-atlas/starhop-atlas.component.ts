@@ -212,7 +212,7 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
     gradient.addColorStop(0, 'rgba(255,255,255,1)');
     gradient.addColorStop(0.4, 'rgba(255,255,200,0.9)');
     gradient.addColorStop(0.8, 'rgba(200,180,100,0.3)');
-    gradient.addColorStop(1, 'rgba(255,255,255,0)');
+    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
     starCtx.fillStyle = gradient;
     starCtx.fillRect(0, 0, 128, 128);
     this.starTexture = new THREE.CanvasTexture(starCanvas);
@@ -273,7 +273,6 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
   // ===== THREE INIT =====
   private initThree(): void {
     const canvas = this.canvasRef.nativeElement;
-
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
     this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
     this.renderer.setSize(canvas.clientWidth, canvas.clientHeight);
@@ -281,8 +280,7 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
     this.renderer.toneMappingExposure = 1.0;
 
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0x03030a);
-
+this.scene.background = new THREE.Color(0x0c1445);
     this.camera = new THREE.PerspectiveCamera(
       this.targetFov,
       canvas.clientWidth / canvas.clientHeight,
