@@ -41,7 +41,7 @@
   @if (showInfoPanel && infoPanelContent) {
     <div class="info-panel" [style.left.px]="infoPanelPosition.x" [style.top.px]="infoPanelPosition.y">
       <div class="info-header">
-        <h3 (click)="goToMessierDetails(infoPanelContent)">M{{ infoPanelContent.messierNumber }} – {{ infoPanelContent.name }}</h3>
+        <h3>M{{ infoPanelContent.messierNumber }} – {{ infoPanelContent.name }}</h3>
         <button class="close-btn" (click)="hideInfoPanel()">✕</button>
       </div>
       <div class="info-content">

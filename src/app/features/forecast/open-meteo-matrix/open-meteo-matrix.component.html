@@ -35,23 +35,18 @@
   <br>
 
   <div class="matrix-controls-row">
-    <div class="matrix-controls">
       <div class="matrix-controls">
         <button (click)="time.shift(-time.window().stepHours)">◀</button>
         <button (click)="time.reset()">Now</button>
         <button (click)="time.shift(time.window().stepHours)" [disabled]="nextDisabled">▶</button>
       </div>
-    </div>
-    <div class="matrix-controls">
       <div class="matrix-controls">
         <button (click)="time.reset(); time.shift(24)"  [class.active]="isActiveDay(1)">{{ dayPlus(1) }}</button>
         <button (click)="time.reset(); time.shift(48)"  [class.active]="isActiveDay(2)">{{ dayPlus(2) }}</button>
         <button (click)="time.reset(); time.shift(72)"  [class.active]="isActiveDay(3)">{{ dayPlus(3) }}</button>
         <button (click)="time.reset(); time.shift(96)"  [class.active]="isActiveDay(4)">{{ dayPlus(4) }}</button>
         <button (click)="time.reset(); time.shift(120)" [class.active]="isActiveDay(5)">{{ dayPlus(5) }}</button>
-        <!-- <button (click)="time.reset(); time.shift(144)" [class.active]="isActiveDay(6)">{{ dayPlus(6) }}</button> -->
       </div>
-    </div>
     <!-- <div class="matrix-controls">
       <div class="matrix-controls desktop-only">
         <button

@@ -1,6 +1,5 @@
 <div class="dso-page" *ngIf="dso() as dso; else loadingTpl">
 
-  <!-- HEADER -->
   <div class="dso-header">
     <div class="header-left">
       <button class="back-btn" (click)="goBack()">← Overview</button>
@@ -26,7 +25,6 @@
     </div>
   </div>
 
-  <!-- ROW 1 -->
   <div class="grid two-thirds">
 
     <div class="panel starhop-panel">
@@ -56,7 +54,6 @@
 
   </div>
 
-  <!-- ROW 2 -->
   <div class="grid one-thirds">
 
     <div class="panel info-panel">
@@ -85,7 +82,21 @@
         <div><dt>Magnitude</dt><dd>{{ dso.magnitude }}</dd></div>
       </dl>
     </div>
+    <div class="panel info-panel">
+    <!-- <div class="panel dso-lower"> -->
+      <div class="panel-title">Altitude Profile (24h)</div>
+      <app-altitude-graph
+        [raDeg]="raDeg()"
+        [decDeg]="decDeg()"
+        [lat]="lat()"
+        [lon]="lon()"
+        [date]="time.dateTime()">
+      </app-altitude-graph>
+    </div>
+  <!-- </div> -->
+  </div>
 
+  <div class="grid">
     <div class="panel aladin-panel">
       <div class="panel-title">Live Sky</div>
       <app-aladin-map
@@ -95,21 +106,6 @@
         [showConstellations]="showConstellations"
         [showConstellationLabels]="showConstellationLabels">
       </app-aladin-map>
-    </div>
-
-  </div>
-
-  <!-- ROW 3 -->
-  <div class="grid">
-    <div class="panel dso-lower">
-      <div class="panel-title">Altitude Profile (24h)</div>
-      <app-altitude-graph
-        [raDeg]="raDeg()"
-        [decDeg]="decDeg()"
-        [lat]="lat()"
-        [lon]="lon()"
-        [date]="time.dateTime()">
-      </app-altitude-graph>
     </div>
   </div>
 

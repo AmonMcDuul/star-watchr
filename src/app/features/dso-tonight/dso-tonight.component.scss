@@ -10,6 +10,7 @@
     rgba(20,24,44,0.95),
     rgba(10,12,26,0.95)
   );
+  
   border-radius: 16px;
   padding: 2.4rem 2.6rem;
   max-width: 440px;
@@ -198,11 +199,8 @@
 }
 
 .messier-card {
-  background: linear-gradient(
-    180deg,
-    rgba(11,16,32,0.95),
-    rgba(6,8,18,0.95)
-  );
+  background: #0000003d;
+
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid rgba(120,150,255,0.14);

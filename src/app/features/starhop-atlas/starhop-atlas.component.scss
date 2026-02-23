@@ -137,27 +137,33 @@
 ================================= */
 
 .info-panel {
-  position: absolute;
-  z-index: 70;
+  position: fixed;
+  top: 50%;
+  left: 50%;
 
-  max-width: 50vw;
+  transform: translate(-50%, -50%);
 
-  padding: 14px;
+  z-index: 1000;
+
+  min-width: 240px;
+  padding: 16px 16px 14px;
+
   border-radius: 14px;
+  border: 1px solid rgba(120,140,255,0.25);
 
-  border: 1px solid rgba(120, 140, 255, 0.25);
   background: linear-gradient(
     180deg,
-    rgba(20, 24, 44, 0.96),
-    rgba(10, 12, 26, 0.96)
+    rgba(20,24,44,0.95),
+    rgba(10,12,26,0.95)
   );
 
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.04),
-    0 16px 40px rgba(0, 0, 0, 0.8);
+    0 0 0 1px rgba(255,255,255,0.04),
+    0 16px 40px rgba(0,0,0,0.8);
 
-  transform: translate(-50%, -100%);
-  animation: fadeIn 0.18s ease;
+  margin-top: -18px;
+
+  animation: fadeInCard 0.18s ease;
 }
 
 /* Header */
@@ -171,7 +177,6 @@
     font-size: 0.85rem;
     font-weight: 600;
     color: #9fb0ff;
-    cursor: pointer;
   }
 
   .close-btn {
@@ -316,4 +321,9 @@
     opacity: 1;
     transform: translate(-50%, -100%);
   }
+}
+
+@keyframes fadeInCard {
+  from { opacity: 0; scale: .95; }
+  to   { opacity: 1; scale: 1; }
 }
