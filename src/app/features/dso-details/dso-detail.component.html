@@ -29,12 +29,29 @@
         </app-aladin-map>
       </div>
 
-      <div class="map-card">
+      <!-- <div class="map-card">
         <div class="map-title">Star hop</div>
         <app-starhop-map
           [ra]="raDeg()"
           [dec]="decDeg()">
         </app-starhop-map>
+      </div> -->
+      <div class="map-card">
+        <div class="map-title">Star hop</div>
+          <app-starhop-atlas
+            [ra]="raDeg()"
+            [dec]="decDeg()"
+            [targetName]="'M' + dso.messierNumber"
+            [fovDegrees]="10"
+            [showConstellations]="showConstellations"
+            [showConstellationNames]="showConstellationLabels"
+            [showMessier]="showOtherDsos"
+            [showMessierNames]="true"
+            [showStarNames]="false"
+            [showGrid]="false"
+            [mirrored]="false"
+            [starDensity]="'normal'">
+          </app-starhop-atlas>
       </div>
 
     </div>

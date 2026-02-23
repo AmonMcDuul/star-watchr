@@ -11,6 +11,8 @@ import { MessierTimeService } from '../../services/messier-time.service';
 import { AladinMapComponent } from '../../components/star-map/aladin-map.component';
 import { AltitudeGraphComponent } from '../../components/altitude-graph/altitude-graph.component';
 import { StarhopMapComponent } from '../starhop-map/starhop-map.component';
+import { StarhopAtlasComponent } from '../starhop-atlas/starhop-atlas.component';
+
 
 type SurveyKey = 'dss-color' | 'dss-red' | '2mass';
 
@@ -22,7 +24,8 @@ type SurveyKey = 'dss-color' | 'dss-red' | '2mass';
     FormsModule,
     AladinMapComponent,
     AltitudeGraphComponent,
-    StarhopMapComponent
+    StarhopMapComponent,
+    StarhopAtlasComponent
   ],
   templateUrl: './dso-detail.component.html',
   styleUrls: ['./dso-detail.component.scss']

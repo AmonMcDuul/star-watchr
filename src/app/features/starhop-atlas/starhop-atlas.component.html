@@ -1,0 +1,62 @@
+<div class="starhop-atlas-container">
+  <!-- Control bar - text buttons like starhop-map -->
+  <div class="control-bar">
+    <div class="control-row">
+      <!-- <button (click)="toggleMirror()" [class.active]="mirrored" class="control-btn">Mirror</button> -->
+      <!-- <button (click)="toggleGrid()" [class.active]="showGrid" class="control-btn">Grid</button> -->
+      <button (click)="toggleConstellations()" [class.active]="showConstellations" class="control-btn">Constellations</button>
+      <button (click)="toggleMessier()" [class.active]="showMessier" class="control-btn">Messier</button>
+      <!-- <button (click)="toggleConstellationNames()" [class.active]="showConstellationNames" class="control-btn">Const. Names</button> -->
+    <!-- </div>
+    
+    <div class="control-row"> -->
+      <!-- <button (click)="toggleStarNames()" [class.active]="showStarNames" class="control-btn">Star Names</button> -->
+      <!-- <button (click)="toggleMessierNames()" [class.active]="showMessierNames" class="control-btn">Messier Names</button> -->
+    <!-- </div>
+    
+    <div class="control-row"> -->
+      <!-- <div class="rotation-group">
+        <button (click)="rotateLeft()" class="control-btn rotate">↶ 15°</button>
+        <button (click)="rotateRight()" class="control-btn rotate">15° ↷</button>
+      </div> -->
+      
+      <div class="density-group">
+        <button (click)="setDensity('sparse')" [class.active]="starDensity === 'sparse'" class="control-btn">Sparse</button>
+        <button (click)="setDensity('normal')" [class.active]="starDensity === 'normal'" class="control-btn">Normal</button>
+        <button (click)="setDensity('dense')" [class.active]="starDensity === 'dense'" class="control-btn">Dense</button>
+      </div>
+      
+      <button (click)="resetView()" class="control-btn reset">Reset</button>
+    </div>
+  </div>
+  <!-- Hover Tooltip -->
+  @if (hoverTooltipContent) {
+    <div class="tooltip" [style.left.px]="hoverTooltipPosition.x" [style.top.px]="hoverTooltipPosition.y">
+      {{ hoverTooltipContent }}
+    </div>
+  }
+
+  <!-- Info Panel -->
+  @if (showInfoPanel && infoPanelContent) {
+    <div class="info-panel" [style.left.px]="infoPanelPosition.x" [style.top.px]="infoPanelPosition.y">
+      <div class="info-header">
+        <h3 (click)="goToMessierDetails(infoPanelContent)">M{{ infoPanelContent.messierNumber }} – {{ infoPanelContent.name }}</h3>
+        <button class="close-btn" (click)="hideInfoPanel()">✕</button>
+      </div>
+      <div class="info-content">
+        <img [src]="infoPanelContent.image" [alt]="infoPanelContent.name" />
+        <div><strong>Type:</strong> {{ infoPanelContent.type }}</div>
+        <div><strong>Magnitude:</strong> {{ infoPanelContent.magnitude }}</div>
+        <div><strong>Constellation:</strong> {{ infoPanelContent.constellation }}</div>
+        <div><strong>Distance:</strong> {{ infoPanelContent.distance }} ly</div>
+        <div><strong>Size:</strong> {{ infoPanelContent.size }}</div>
+        <button class="details-btn" (click)="goToMessierDetails(infoPanelContent)">
+          View Details →
+        </button>
+      </div>
+    </div>
+  }
+  
+  <!-- Canvas fills remaining space -->
+  <canvas #canvas class="starhop-canvas"></canvas>
+</div>
