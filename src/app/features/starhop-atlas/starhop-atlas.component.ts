@@ -112,6 +112,8 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
   private initialFov = 60;
   private touchStartTime = 0;
   private touchStartPos = { x: 0, y: 0 };
+  private isZooming = false;
+  private zoomTimeout: any;
   
   // ===== DOUBLE TAP HANDLING =====
   private lastTapTime = 0;
@@ -357,16 +359,30 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
   private onWheel = (event: WheelEvent) => {
     event.preventDefault();
     
+    if (!this.isZooming) {
+      this.isZooming = true;
+      this.controls.enableRotate = false;
+    }
+    
     const zoomSpeed = this.targetFov < 10 ? 0.02 : 0.04;
     this.targetFov += event.deltaY * 0.01 * zoomSpeed * 60;
     this.targetFov = THREE.MathUtils.clamp(this.targetFov, this.MIN_FOV, this.MAX_FOV);
     
     this.updateLabelSizes();
+    clearTimeout(this.zoomTimeout);
+        this.zoomTimeout = setTimeout(() => {
+        this.isZooming = false;
+        this.controls.enableRotate = true;
+      }, 200);
   };
 
   private onTouchStart = (event: TouchEvent) => {
     if (event.touches.length === 2) {
       event.preventDefault();
+      
+      this.isZooming = true;
+      this.controls.enableRotate = false;
+      
       const dx = event.touches[0].clientX - event.touches[1].clientX;
       const dy = event.touches[0].clientY - event.touches[1].clientY;
       this.touchStartDistance = Math.sqrt(dx * dx + dy * dy);
@@ -386,7 +402,6 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
       const dy = event.touches[0].clientY - event.touches[1].clientY;
       const distance = Math.sqrt(dx * dx + dy * dy);
       
-      // More controlled zoom factor for mobile
       const zoomSensitivity = 0.8;
       const zoomFactor = 1 + ((this.touchStartDistance / distance) - 1) * zoomSensitivity;
       this.targetFov = THREE.MathUtils.clamp(
@@ -400,8 +415,11 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
   };
 
   private onTouchEnd = (event: TouchEvent) => {
+    if (event.touches.length < 2) {
+      this.isZooming = false;
+      this.controls.enableRotate = true;
+    }
     const currentTime = Date.now();
-    
     if (event.touches.length === 0 && event.changedTouches.length === 1) {
       const touch = event.changedTouches[0];
       const timeSinceLastTap = currentTime - this.lastTapTime;
