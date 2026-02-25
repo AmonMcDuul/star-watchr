@@ -897,7 +897,8 @@ private onTouchEnd = (event: TouchEvent) => {
     
     this.centerOnTarget();
     this.showInfoPanel = false;
-    
+    this.camera.up.set(0, 1, 0);
+    this.rotationAngle = 0;
     const targetDir = this.raDecToXYZ(this.ra, this.dec, 1).normalize();
     this.controls.target.copy(targetDir);
     this.camera.position.set(0, 0, 0);
@@ -947,29 +948,34 @@ private onTouchEnd = (event: TouchEvent) => {
     this.gridGroup.visible = this.showGrid;
   }
 
-  rotateLeft(): void {
-    const angle = THREE.MathUtils.degToRad(15);
-    const target = this.controls.target.clone();
-    const rotated = new THREE.Vector3(
-      target.x * Math.cos(angle) + target.z * Math.sin(angle),
-      target.y,
-      -target.x * Math.sin(angle) + target.z * Math.cos(angle)
-    );
-    this.controls.target.copy(rotated);
-    this.camera.lookAt(rotated);
-  }
+rotateLeft(): void {
+  this.rotateField(15);
+}
 
-  rotateRight(): void {
-    const angle = THREE.MathUtils.degToRad(-15);
-    const target = this.controls.target.clone();
-    const rotated = new THREE.Vector3(
-      target.x * Math.cos(angle) + target.z * Math.sin(angle),
-      target.y,
-      -target.x * Math.sin(angle) + target.z * Math.cos(angle)
-    );
-    this.controls.target.copy(rotated);
-    this.camera.lookAt(rotated);
-  }
+rotateRight(): void {
+  this.rotateField(-15);
+}
+
+private rotateField(degrees: number): void {
+  if (!this.camera || !this.controls) return;
+
+  this.rotationAngle += degrees;
+  const angle = THREE.MathUtils.degToRad(degrees);
+
+  // Kijkrichting (camera -> target)
+  const viewDir = new THREE.Vector3()
+    .subVectors(this.controls.target, this.camera.position)
+    .normalize();
+
+  // Quaternion rond kijk-as
+  const q = new THREE.Quaternion().setFromAxisAngle(viewDir, angle);
+
+  // Rotate camera up vector
+  this.camera.up.applyQuaternion(q);
+  this.camera.updateProjectionMatrix();
+  // Force controls update
+  this.controls.update();
+}
 
   setDensity(density: 'sparse' | 'normal' | 'dense'): void {
     this.starDensity = density;
