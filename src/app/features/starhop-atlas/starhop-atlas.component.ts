@@ -972,6 +972,7 @@ private onTouchEnd = (event: TouchEvent) => {
 
     // Toepassen op skySphere
     this.skySphere.quaternion.premultiply(q);
+    this.skySphere.quaternion.normalize();
   }
 
   setDensity(density: 'sparse' | 'normal' | 'dense'): void {
