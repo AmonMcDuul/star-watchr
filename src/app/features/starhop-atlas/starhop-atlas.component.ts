@@ -948,34 +948,31 @@ private onTouchEnd = (event: TouchEvent) => {
     this.gridGroup.visible = this.showGrid;
   }
 
-rotateLeft(): void {
-  this.rotateField(15);
-}
+  rotateLeft(): void {
+    this.rotateField(15);
+  }
 
-rotateRight(): void {
-  this.rotateField(-15);
-}
+  rotateRight(): void {
+    this.rotateField(-15);
+  }
 
-private rotateField(degrees: number): void {
-  if (!this.camera || !this.controls) return;
+  private rotateField(degrees: number): void {
+    if (!this.camera || !this.controls) return;
 
-  this.rotationAngle += degrees;
-  const angle = THREE.MathUtils.degToRad(degrees);
+    const angle = THREE.MathUtils.degToRad(degrees);
+    this.rotationAngle += degrees;
 
-  // Kijkrichting (camera -> target)
-  const viewDir = new THREE.Vector3()
-    .subVectors(this.controls.target, this.camera.position)
-    .normalize();
+    // View direction bepalen
+    const viewDir = new THREE.Vector3()
+      .subVectors(this.controls.target, this.camera.position)
+      .normalize();
 
-  // Quaternion rond kijk-as
-  const q = new THREE.Quaternion().setFromAxisAngle(viewDir, angle);
+    // Quaternion rond huidige kijk-as
+    const q = new THREE.Quaternion().setFromAxisAngle(viewDir, angle);
 
-  // Rotate camera up vector
-  this.camera.up.applyQuaternion(q);
-  this.camera.updateProjectionMatrix();
-  // Force controls update
-  this.controls.update();
-}
+    // Toepassen op skySphere
+    this.skySphere.quaternion.premultiply(q);
+  }
 
   setDensity(density: 'sparse' | 'normal' | 'dense'): void {
     this.starDensity = density;
