@@ -949,11 +949,11 @@ private onTouchEnd = (event: TouchEvent) => {
   }
 
   rotateLeft(): void {
-    this.rotateField(15);
+    this.rotateField(-15);
   }
 
   rotateRight(): void {
-    this.rotateField(-15);
+    this.rotateField(15);
   }
 
   private rotateField(degrees: number): void {
