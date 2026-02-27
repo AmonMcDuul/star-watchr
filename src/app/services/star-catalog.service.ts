@@ -21,7 +21,7 @@ export class StarCatalogService {
 
     this.loading.set(true);
 
-    const res = await fetch('/assets/data/stars-mag7.json');
+    const res = await fetch('/assets/data/stars-mag8.json');
     const stars: Star[] = await res.json();
 
     this.raw.set(stars);
@@ -179,15 +179,15 @@ export class StarCatalogService {
 
     switch(level) {
       case 'sparse':
-        this.maxMagnitude.set(4.0);
-        break;
-
-      case 'normal':
         this.maxMagnitude.set(5.0);
         break;
 
+      case 'normal':
+        this.maxMagnitude.set(6.5);
+        break;
+
       case 'dense':
-        this.maxMagnitude.set(6.0);
+        this.maxMagnitude.set(8.0);
         break;
 
       case 'all':
