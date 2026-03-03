@@ -24,9 +24,20 @@ export class DsoTonightComponent implements OnInit {
   readonly selected = signal<number | null>(null);
   mapSize: 'compact' | 'normal' | 'large' = 'normal';
 
+  get catalog() {
+    return this.messier.activeCatalog();
+  }
 
   ngOnInit() {
     this.messier.load();
+    this.messier.loadCaldwell();
+  }
+
+  setCatalog(type: 'M' | 'C') {
+    if (this.messier.activeCatalog() === type) return;
+
+    this.messier.activeCatalog.set(type);
+    this.selected.set(null);
   }
   
   difficultyLevel(diff: string): number {
@@ -62,7 +73,7 @@ export class DsoTonightComponent implements OnInit {
   
   goToDso(m: MessierObject) {
     this.messier.selectMessierByNumber(m.messierNumber);
-    this.router.navigate(['/dso', 'M' + m.messierNumber]);
+    this.router.navigate(['/dso', this.catalog + m.messierNumber]);
   }
 
   setDifficulty(v:

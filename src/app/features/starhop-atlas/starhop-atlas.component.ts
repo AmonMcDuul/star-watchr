@@ -773,16 +773,12 @@ private onTouchEnd = (event: TouchEvent) => {
     const allMessier = this.messierService.all();
     const radius = 20; // Show objects within 10° of center
     
-    console.log(`Looking for Messier objects within ${radius}° of (${this.ra}, ${this.dec})`);
-    
     allMessier.forEach(obj => {
       const ra = this.raToDeg(obj.rightAscension);
       const dec = this.decToDeg(obj.declination);
       const distance = this.angularDistance(this.ra, this.dec, ra, dec);
       
       if (distance > radius) return;
-      
-      console.log(`Found M${obj.messierNumber} at distance ${distance.toFixed(2)}°`);
       
       const pos = this.raDecToXYZ(ra, dec, 99);
 

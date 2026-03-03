@@ -4,7 +4,7 @@
     <div class="header-left">
       <button class="back-btn" (click)="goBack()">← Overview</button>
       <h1>
-        M{{ dso.messierNumber }}
+        {{ catalog }}{{ dso.messierNumber }}
         <span class="object-name">{{ dso.name }}</span>
       </h1>
     </div>
@@ -32,7 +32,7 @@
       <app-starhop-atlas
         [ra]="raDeg()"
         [dec]="decDeg()"
-        [targetName]="'M' + dso.messierNumber"
+        [targetName]="catalog + dso.messierNumber"
         [fovDegrees]="10"
         [showConstellations]="showConstellations"
         [showConstellationNames]="showConstellationLabels"
@@ -47,7 +47,8 @@
 
     <div class="panel image-panel">
       <div class="panel-title">Imaging Reference</div>
-      <img [src]="dso.image" [alt]="dso.name" />
+      <img [src]="dso.image" [alt]="dso.name" loading="lazy"
+  decoding="async"/>
     </div>
 
 

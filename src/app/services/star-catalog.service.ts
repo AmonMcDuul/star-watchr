@@ -29,40 +29,8 @@ export class StarCatalogService {
     const constRes = await fetch('/assets/data/constellation-lines.json');
     this.constellationLines = await constRes.json();
 
-    // this.buildNameIndex(stars);
-
-    // this.constellationCache = null;
-
     this.loading.set(false);
   }
-
-
-  private buildNameIndex(stars: Star[]) {
-
-    this.nameIndex.clear();
-
-    const reverseAlias = new Map<string,string>();
-
-    Object.entries(STAR_ALIASES).forEach(([proper,bayer])=>{
-      reverseAlias.set(bayer.toLowerCase(), proper.toLowerCase());
-    });
-
-    stars.forEach(s => {
-
-      if (!s.name) return;
-
-      const base = s.name.toLowerCase().trim();
-
-      this.nameIndex.set(base, s);
-
-      const proper = reverseAlias.get(base);
-      if (proper) {
-        this.nameIndex.set(proper, s);
-      }
-
-    });
-  }
-
 
   findStarByName(name: string): Star | null {
 
@@ -70,60 +38,6 @@ export class StarCatalogService {
 
     return this.nameIndex.get(key) ?? null;
   }
-
-
-  // private buildConstellations(): Constellation[] {
-  //   if (!this.raw()) {
-  //     return [];
-  //   }
-
-  //   const result: Constellation[] = [];
-  //   let missing = 0;
-
-  //   CONSTELLATION_DEFS.forEach(def => {
-
-  //     const lines: ConstellationLine[] = [];
-
-  //     def.connections.forEach(([a,b]) => {
-
-  //       const s1 = this.findStarByName(a);
-  //       const s2 = this.findStarByName(b);
-
-  //       if (!s1 || !s2) {
-  //         missing++;
-  //         return;
-  //       }
-
-  //       lines.push({
-  //         from:{ra:s1.ra,dec:s1.dec},
-  //         to:{ra:s2.ra,dec:s2.dec}
-  //       });
-
-  //     });
-
-  //     if (lines.length) {
-  //       result.push({
-  //         name:def.name,
-  //         abbreviation:def.abbreviation,
-  //         lines
-  //       });
-  //     }
-
-  //   });
-
-  //   return result;
-  // }
-
-  // getConstellations(): Constellation[] {
-
-  //   if (!this.raw()) return [];
-
-  //   if (!this.constellationCache) {
-  //     this.constellationCache = this.buildConstellations();
-  //   }
-
-  //   return this.constellationCache;
-  // }
 
   getConstellations(): Constellation[] {
 

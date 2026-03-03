@@ -97,6 +97,18 @@
   </div>
 
   <div class="map-size-controls">
+    <button 
+      (click)="setCatalog('M')" 
+      [class.active]="catalog === 'M'">
+      Messier
+    </button>
+
+    <button 
+      (click)="setCatalog('C')" 
+      [class.active]="catalog === 'C'">
+      Caldwell
+    </button>
+  -
     <button (click)="mapSize = 'compact'" [class.active]="mapSize === 'compact'">Compact</button>
     <button (click)="mapSize = 'normal'" [class.active]="mapSize === 'normal'">Normal</button>
     <button (click)="mapSize = 'large'" [class.active]="mapSize === 'large'">Large</button>
@@ -110,7 +122,9 @@
        [class.large]="mapSize === 'large'">
 
     @if (messier.loading()) {
-      <p class="muted">Messier-objecten laden…</p>
+      <p class="muted">
+        {{ catalog === 'M' ? 'Messier-objecten laden…' : 'Caldwell-objecten laden…' }}
+      </p>
     }
 
     @if (!messier.loading()) {
@@ -120,7 +134,8 @@
                    [class.active]="selected() === m.messierNumber"
                    (click)="select(m.messierNumber)">
 
-            <img [src]="m.image" [alt]="m.name" />
+            <img [src]="m.image" [alt]="m.name" loading="lazy"
+  decoding="async" />
 
             <div class="altitude-bar">
               <div class="fill"
@@ -128,7 +143,7 @@
               </div>
             </div>
             <div class="info">
-              <strong>M{{ m.messierNumber }} – {{ m.name }}</strong><br>
+              <strong>{{ catalog }}{{ m.messierNumber }} – {{ m.name }}</strong><br>
               <span>{{ m.type }}</span>
               <span>&nbsp;- {{ m.constellation }}</span>
             </div>

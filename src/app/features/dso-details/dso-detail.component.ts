@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnDestroy } from '@angular/core';
+import { Component, computed, inject, OnDestroy, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -17,7 +17,6 @@ type SurveyKey = 'dss-color' | 'dss-red' | '2mass';
 
 @Component({
   selector: 'app-dso-detail',
-  standalone: true,
   imports: [
     CommonModule,
     FormsModule,
@@ -46,6 +45,9 @@ export class DsoDetailComponent implements OnDestroy {
   showOtherDsos = false;
 
   selectedSurvey: SurveyKey = 'dss-color';
+  get catalog() {
+    return this.messier.activeCatalog();
+  }
 
   readonly raDeg = computed(() =>
     this.dso() ? this.raToDegrees(this.dso()!.rightAscension) : 0
@@ -67,31 +69,27 @@ export class DsoDetailComponent implements OnDestroy {
 
   constructor() {
     const id = this.route.snapshot.paramMap.get('id');
+
     if (!id) {
       this.router.navigateByUrl('/');
       return;
     }
 
-    this.messier.load().then(() => {
-      const parsed = parseInt(id.replace(/[^\d]/g, ''), 10);
+    const upper = id.toUpperCase();
+    const prefix = upper.startsWith('C') ? 'C' : 'M';
 
-      let target: MessierObject | undefined;
+    this.messier.activeCatalog.set(prefix);
 
-      if (!isNaN(parsed)) {
-        target = this.messier.getByNumber(parsed);
-      } else {
-        target = this.messier
-          .all()
-          .find(m => m.name.toLowerCase() === id.toLowerCase());
-      }
+    const parsed = parseInt(upper.replace(/[^\d]/g, ''), 10);
 
-      if (!target) {
-        this.router.navigateByUrl('/');
-        return;
-      }
+    const target = this.messier.getByNumber(parsed);
 
-      this.messier.selectedMessier.set(target);
-    });
+    if (!target) {
+      this.router.navigateByUrl('/');
+      return;
+    }
+
+    this.messier.selectedMessier.set(target);
   }
 
   ngOnDestroy(): void {

@@ -24,40 +24,65 @@ export class MessierService {
   readonly altitudeFilter = 
     signal<number>(15);
 
-  private raw = signal<MessierJson | null>(null);
+  private messierRaw = signal<MessierJson | null>(null);
+  private caldwellRaw = signal<MessierJson | null>(null);
+
   readonly loading = signal(false);
 
   readonly selectedMessier = signal<MessierObject | null>(null);
-
+  readonly activeCatalog = signal<'M' | 'C'>('M');
+  
   async load() {
-    if (this.raw()) return;
+    if (this.messierRaw()) return;
     this.loading.set(true);
     const res = await fetch('/assets/data/messier.json');
-    this.raw.set(await res.json());
+    this.messierRaw.set(await res.json());
+    this.loading.set(false);
+  }
+  async loadCaldwell() {
+    if (this.caldwellRaw()) return;
+    this.loading.set(true);
+    const res = await fetch('/assets/data/caldwell.json');
+    this.caldwellRaw.set(await res.json());
     this.loading.set(false);
   }
 
-  selectMessierByNumber(n: number | string | null) {
-    if (!this.raw() || n == null) {
+  selectMessierByNumber(id: number | string | null) {
+    if (id == null) {
       this.selectedMessier.set(null);
       return;
     }
 
-    const num = typeof n === 'string' && n.toLowerCase().startsWith('m') ? parseInt(n.slice(1)) : Number(n);
-    const found = Object.values(this.raw()!.data).find(m => m.messierNumber === num || (`M${m.messierNumber}`).toLowerCase() === String(n).toLowerCase());
+    const str = String(id).toUpperCase();
+
+    const found = this.all().find(m => {
+      const prefix = this.activeCatalog();
+      return `${prefix}${m.messierNumber}` === str
+        || m.messierNumber === Number(id);
+    });
+
     this.selectedMessier.set(found ?? null);
   }
 
   getByNumber(n: number) {
-    if (!this.raw()) return undefined;
-    return Object.values(this.raw()!.data).find(m => m.messierNumber === n);
+    return this.all().find(m => m.messierNumber === n);
   }
 
   readonly dateTime = computed(() => this.time.dateTime());
 
-  readonly all = computed<MessierObject[]>(() =>
-    this.raw() ? Object.values(this.raw()!.data) : []
-  );
+  readonly all = computed<MessierObject[]>(() => {
+    const catalog = this.activeCatalog();
+
+    if (catalog === 'M') {
+      return this.messierRaw()
+        ? Object.values(this.messierRaw()!.data)
+        : [];
+    }
+
+    return this.caldwellRaw()
+      ? Object.values(this.caldwellRaw()!.data)
+      : [];
+  });
 
   readonly availableConstellations = computed(() => {
     const set = new Set<string>();
@@ -80,9 +105,7 @@ export class MessierService {
     const lon = this.location.selected()!.lon;
     const date = this.dateTime();
 
-    console.log("lat", lat, "lon", lon)
     const observer = new Observer(+lat, +lon, 0);
-    console.log(observer)
 
     const diffFilter = this.difficultyFilter();
     const seasonFilter = this.seasonFilter();
