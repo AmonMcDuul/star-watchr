@@ -17,7 +17,7 @@
   <button 
     (click)="toggleMessier()"
     [class.active]="showMessier()">
-    Messier
+    DSO's
   </button>
   <!-- <button 
     (click)="toggleMessierNames()"
@@ -74,7 +74,7 @@
 @if (showInfoPanel() && infoPanelContent(); as content) {
   <div class="info-panel">
     <div class="info-header">
-      <h3>M{{ content.messierNumber }} – {{ content.name }}</h3>
+      <h3>{{ content.code }}{{ content.messierNumber }} – {{ content.name }}</h3>
       <button class="close-btn" (click)="hideInfoPanel()">✕</button>
     </div>
     <div class="info-content">

@@ -47,25 +47,32 @@ export class MessierService {
     this.loading.set(false);
   }
 
-  selectMessierByNumber(id: number | string | null) {
-    if (id == null) {
-      this.selectedMessier.set(null);
-      return;
-    }
-
-    const str = String(id).toUpperCase();
-
-    const found = this.all().find(m => {
-      const prefix = this.activeCatalog();
-      return `${prefix}${m.messierNumber}` === str
-        || m.messierNumber === Number(id);
-    });
-
-    this.selectedMessier.set(found ?? null);
+  selectMessierByNumberAndCode(code: string, id: number | string | null) {
+    this.selectedMessier.set(
+      this.findByCodeAndNumber(code, id)
+    );
   }
 
-  getByNumber(n: number) {
-    return this.all().find(m => m.messierNumber === n);
+  getByNumberAndCode(c: string, n: number) {
+    return this.findByCodeAndNumber(c, n);
+  }
+
+  private findByCodeAndNumber(code: string, id: number | string | null) {
+    if (id == null) return null;
+
+    const normalizedCode = code.toUpperCase();
+    const normalizedNumber = Number(id);
+    const normalizedFull = `${normalizedCode}${normalizedNumber}`;
+
+    return this.realAll().find(m => {
+      const objectCode = m.code;
+      const objectNumber = m.messierNumber;
+
+      return (
+        (objectCode === normalizedCode && objectNumber === normalizedNumber) ||
+        `${objectCode}${objectNumber}` === normalizedFull
+      );
+    }) ?? null;
   }
 
   readonly dateTime = computed(() => this.time.dateTime());
@@ -82,6 +89,18 @@ export class MessierService {
     return this.caldwellRaw()
       ? Object.values(this.caldwellRaw()!.data)
       : [];
+  });
+
+  readonly realAll = computed<MessierObject[]>(() => {
+    const messier = this.messierRaw()
+      ? Object.values(this.messierRaw()!.data)
+      : [];
+
+    const caldwell = this.caldwellRaw()
+      ? Object.values(this.caldwellRaw()!.data)
+      : [];
+
+    return [...messier, ...caldwell];
   });
 
   readonly availableConstellations = computed(() => {

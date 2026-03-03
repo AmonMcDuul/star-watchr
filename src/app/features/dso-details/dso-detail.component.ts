@@ -16,6 +16,7 @@ import { StarhopAtlasComponent } from '../starhop-atlas/starhop-atlas.component'
 type SurveyKey = 'dss-color' | 'dss-red' | '2mass';
 
 @Component({
+  standalone: true,
   selector: 'app-dso-detail',
   imports: [
     CommonModule,
@@ -45,9 +46,6 @@ export class DsoDetailComponent implements OnDestroy {
   showOtherDsos = false;
 
   selectedSurvey: SurveyKey = 'dss-color';
-  get catalog() {
-    return this.messier.activeCatalog();
-  }
 
   readonly raDeg = computed(() =>
     this.dso() ? this.raToDegrees(this.dso()!.rightAscension) : 0
@@ -69,27 +67,25 @@ export class DsoDetailComponent implements OnDestroy {
 
   constructor() {
     const id = this.route.snapshot.paramMap.get('id');
-
     if (!id) {
       this.router.navigateByUrl('/');
       return;
     }
 
-    const upper = id.toUpperCase();
-    const prefix = upper.startsWith('C') ? 'C' : 'M';
+    this.messier.load().then(() => {
+      const parsed = parseInt(id.replace(/[^\d]/g, ''), 10);
+      const prefix = id.charAt(0).toUpperCase();
 
-    this.messier.activeCatalog.set(prefix);
+      let target: MessierObject | null;
+      target = this.messier.getByNumberAndCode(prefix, parsed);
 
-    const parsed = parseInt(upper.replace(/[^\d]/g, ''), 10);
+      if (!target) {
+        this.router.navigateByUrl('/');
+        return;
+      }
 
-    const target = this.messier.getByNumber(parsed);
-
-    if (!target) {
-      this.router.navigateByUrl('/');
-      return;
-    }
-
-    this.messier.selectedMessier.set(target);
+      this.messier.selectedMessier.set(target);
+    });
   }
 
   ngOnDestroy(): void {

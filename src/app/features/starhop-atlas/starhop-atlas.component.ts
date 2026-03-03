@@ -146,7 +146,7 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
 
   async ngAfterViewInit() {
     this.catalog.setStarDensity(this.starDensity);
-    await Promise.all([this.catalog.load(), this.messierService.load()]);
+    await Promise.all([this.catalog.load(), this.messierService.load(), this.messierService.loadCaldwell()]);
     this.createTextures();
     this.initThree();
     this.initPostProcessing();
@@ -180,6 +180,7 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
     let rebuild = false;
     if (changes['ra'] || changes['dec']) {
       this.centerOnTarget();
+      this.buildSky();
     }
     if (changes['fovDegrees'] && !changes['fovDegrees'].firstChange) {
       this.targetFov = this.fovDegrees;
@@ -498,8 +499,8 @@ private onTouchEnd = (event: TouchEvent) => {
           this.hoveredMessier.sprite.material.map = this.messierHoverTexture;
           this.hoveredMessier.sprite.material.needsUpdate = true;
           this.hoveredMessier.sprite.scale.set(4.5, 4.5, 1);
-          
-          this.hoverTooltipContent = `M${messierData.object.messierNumber}: ${messierData.object.name}`;
+          console.log(messierData)
+          this.hoverTooltipContent = `${messierData.object.code}${messierData.object.messierNumber}: ${messierData.object.name}`;
           this.hoverTooltipPosition = {
             x: x - rect.left,
             y: y - rect.top
@@ -646,8 +647,9 @@ private onTouchEnd = (event: TouchEvent) => {
   }
 
   goToMessierDetails(m: any) {
-    this.messierService.selectMessierByNumber(m.messierNumber);
-    window.location.href = `/dso/M${m.messierNumber}`; //temp reload fix
+    this.messierService.selectMessierByNumberAndCode(m.code, m.messierNumber);
+    // window.location.href = `/dso/${m.code}${m.messierNumber}`; //temp reload fix
+    this.router.navigate(['/dso', `${m.code}${m.messierNumber}`]);
     this.hideInfoPanel();
   }
 
@@ -770,7 +772,7 @@ private onTouchEnd = (event: TouchEvent) => {
 
   // ===== MESSIER OBJECTS =====
   private createMessierObjects(): void {
-    const allMessier = this.messierService.all();
+    const allMessier = this.messierService.realAll();
     const radius = 20; // Show objects within 10° of center
     
     allMessier.forEach(obj => {
@@ -840,8 +842,8 @@ private onTouchEnd = (event: TouchEvent) => {
 
   // ===== TARGET HIGHLIGHT =====
   private createTargetHighlight(): void {
-    const targetObj = this.messierService.all().find(m =>
-      `M${m.messierNumber}` === this.targetName || m.name === this.targetName
+    const targetObj = this.messierService.realAll().find(m =>
+      `${m.code}${m.messierNumber}` === this.targetName
     );
     if (!targetObj) return;
 

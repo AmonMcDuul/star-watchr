@@ -8,6 +8,7 @@
   "catalog": "Messier",
   "data": {
     "M1": {
+      "code": "M",
       "messierNumber": 1,
       "name": "Crab Nebula",
       "alternateNames": [],
@@ -24,6 +25,7 @@
       "image": "https://osricdienda.com/messier-api/images/M1.jpg"
     },
     "M2": {
+      "code": "M",
       "messierNumber": 2,
       "name": "NGC 7089",
       "alternateNames": [],
@@ -40,6 +42,7 @@
       "image": "https://osricdienda.com/messier-api/images/M2.jpg"
     },
     "M3": {
+      "code": "M",
       "messierNumber": 3,
       "name": "NGC 5272",
       "alternateNames": [],
@@ -56,6 +59,7 @@
       "image": "https://osricdienda.com/messier-api/images/M3.jpg"
     },
     "M4": {
+      "code": "M",
       "messierNumber": 4,
       "name": "NGC 6121",
       "alternateNames": [],
@@ -72,6 +76,7 @@
       "image": "https://osricdienda.com/messier-api/images/M4.jpg"
     },
     "M5": {
+      "code": "M",
       "messierNumber": 5,
       "name": "NGC 5904",
       "alternateNames": [],
@@ -88,6 +93,7 @@
       "image": "https://osricdienda.com/messier-api/images/M5.jpg"
     },
     "M6": {
+      "code": "M",
       "messierNumber": 6,
       "name": "Butterfly Cluster",
       "alternateNames": [],
@@ -104,6 +110,7 @@
       "image": "https://osricdienda.com/messier-api/images/M6.jpg"
     },
     "M7": {
+      "code": "M",
       "messierNumber": 7,
       "name": "Ptolemy's Cluster",
       "alternateNames": [],
@@ -120,6 +127,7 @@
       "image": "https://osricdienda.com/messier-api/images/M7.jpg"
     },
     "M8": {
+      "code": "M",
       "messierNumber": 8,
       "name": "Lagoon Nebula",
       "alternateNames": [],
@@ -136,6 +144,7 @@
       "image": "https://osricdienda.com/messier-api/images/M8.jpg"
     },
     "M9": {
+      "code": "M",
       "messierNumber": 9,
       "name": "NGC 6333",
       "alternateNames": [],
@@ -152,6 +161,7 @@
       "image": "https://osricdienda.com/messier-api/images/M9.jpg"
     },
     "M10": {
+      "code": "M",
       "messierNumber": 10,
       "name": "NGC 6254",
       "alternateNames": [],
@@ -168,6 +178,7 @@
       "image": "https://osricdienda.com/messier-api/images/M10.jpg"
     },
     "M11": {
+      "code": "M",
       "messierNumber": 11,
       "name": "Wild Duck Cluster",
       "alternateNames": [],
@@ -184,6 +195,7 @@
       "image": "https://osricdienda.com/messier-api/images/M11.jpg"
     },
     "M12": {
+      "code": "M",
       "messierNumber": 12,
       "name": "NGC 6218",
       "alternateNames": [],
@@ -200,6 +212,7 @@
       "image": "https://osricdienda.com/messier-api/images/M12.jpg"
     },
     "M13": {
+      "code": "M",
       "messierNumber": 13,
       "name": "Hercules Globular Cluster",
       "alternateNames": [],
@@ -216,6 +229,7 @@
       "image": "https://osricdienda.com/messier-api/images/M13.jpg"
     },
     "M14": {
+      "code": "M",
       "messierNumber": 14,
       "name": "NGC 6402",
       "alternateNames": [],
@@ -232,6 +246,7 @@
       "image": "https://osricdienda.com/messier-api/images/M14.jpg"
     },
     "M15": {
+      "code": "M",
       "messierNumber": 15,
       "name": "NGC 7078",
       "alternateNames": [],
@@ -248,6 +263,7 @@
       "image": "https://osricdienda.com/messier-api/images/M15.jpg"
     },
     "M16": {
+      "code": "M",
       "messierNumber": 16,
       "name": "Eagle Nebula Cluster",
       "alternateNames": [],
@@ -264,6 +280,7 @@
       "image": "https://osricdienda.com/messier-api/images/M16.jpg"
     },
     "M17": {
+      "code": "M",
       "messierNumber": 17,
       "name": "Omega Nebula",
       "alternateNames": [
@@ -283,6 +300,7 @@
       "image": "https://osricdienda.com/messier-api/images/M17.jpg"
     },
     "M18": {
+      "code": "M",
       "messierNumber": 18,
       "name": "NGC 6613",
       "alternateNames": [],
@@ -299,6 +317,7 @@
       "image": "https://osricdienda.com/messier-api/images/M18.jpg"
     },
     "M19": {
+      "code": "M",
       "messierNumber": 19,
       "name": "NGC 6273",
       "alternateNames": [],
@@ -315,6 +334,7 @@
       "image": "https://osricdienda.com/messier-api/images/M19.jpg"
     },
     "M20": {
+      "code": "M",
       "messierNumber": 20,
       "name": "Trifid Nebula",
       "alternateNames": [],
@@ -331,6 +351,7 @@
       "image": "https://osricdienda.com/messier-api/images/M20.jpg"
     },
     "M21": {
+      "code": "M",
       "messierNumber": 21,
       "name": "NGC 6531",
       "alternateNames": [],
@@ -347,6 +368,7 @@
       "image": "https://osricdienda.com/messier-api/images/M21.jpg"
     },
     "M22": {
+      "code": "M",
       "messierNumber": 22,
       "name": "NGC 6656",
       "alternateNames": [],
@@ -363,6 +385,7 @@
       "image": "https://osricdienda.com/messier-api/images/M22.jpg"
     },
     "M23": {
+      "code": "M",
       "messierNumber": 23,
       "name": "NGC 6494",
       "alternateNames": [],
@@ -379,6 +402,7 @@
       "image": "https://osricdienda.com/messier-api/images/M23.jpg"
     },
     "M24": {
+      "code": "M",
       "messierNumber": 24,
       "name": "Milky Way Patch",
       "alternateNames": [],
@@ -395,6 +419,7 @@
       "image": "https://osricdienda.com/messier-api/images/M24.jpg"
     },
     "M25": {
+      "code": "M",
       "messierNumber": 25,
       "name": "IC 4725",
       "alternateNames": [],
@@ -411,6 +436,7 @@
       "image": "https://osricdienda.com/messier-api/images/M25.jpg"
     },
     "M26": {
+      "code": "M",
       "messierNumber": 26,
       "name": "NGC 6694",
       "alternateNames": [],
@@ -427,6 +453,7 @@
       "image": "https://osricdienda.com/messier-api/images/M26.jpg"
     },
     "M27": {
+      "code": "M",
       "messierNumber": 27,
       "name": "Dumbbell Nebula",
       "alternateNames": [],
@@ -443,6 +470,7 @@
       "image": "https://osricdienda.com/messier-api/images/M27.jpg"
     },
     "M28": {
+      "code": "M",
       "messierNumber": 28,
       "name": "NGC 6626",
       "alternateNames": [],
@@ -459,6 +487,7 @@
       "image": "https://osricdienda.com/messier-api/images/M28.jpg"
     },
     "M29": {
+      "code": "M",
       "messierNumber": 29,
       "name": "NGC 6913",
       "alternateNames": [],
@@ -475,6 +504,7 @@
       "image": "https://osricdienda.com/messier-api/images/M29.jpg"
     },
     "M30": {
+      "code": "M",
       "messierNumber": 30,
       "name": "NGC 7099",
       "alternateNames": [],
@@ -491,6 +521,7 @@
       "image": "https://osricdienda.com/messier-api/images/M30.jpg"
     },
     "M31": {
+      "code": "M",
       "messierNumber": 31,
       "name": "Andromeda Galaxy",
       "alternateNames": [],
@@ -507,6 +538,7 @@
       "image": "https://osricdienda.com/messier-api/images/M31.jpg"
     },
     "M32": {
+      "code": "M",
       "messierNumber": 32,
       "name": "Satellite of M31",
       "alternateNames": [],
@@ -523,6 +555,7 @@
       "image": "https://osricdienda.com/messier-api/images/M32.jpg"
     },
     "M33": {
+      "code": "M",
       "messierNumber": 33,
       "name": "Triangulum Galaxy",
       "alternateNames": [],
@@ -539,6 +572,7 @@
       "image": "https://osricdienda.com/messier-api/images/M33.jpg"
     },
     "M34": {
+      "code": "M",
       "messierNumber": 34,
       "name": "NGC 1039",
       "alternateNames": [],
@@ -555,6 +589,7 @@
       "image": "https://osricdienda.com/messier-api/images/M34.jpg"
     },
     "M35": {
+      "code": "M",
       "messierNumber": 35,
       "name": "NGC 2168",
       "alternateNames": [],
@@ -571,6 +606,7 @@
       "image": "https://osricdienda.com/messier-api/images/M35.jpg"
     },
     "M36": {
+      "code": "M",
       "messierNumber": 36,
       "name": "NGC 1960",
       "alternateNames": [],
@@ -587,6 +623,7 @@
       "image": "https://osricdienda.com/messier-api/images/M36.jpg"
     },
     "M37": {
+      "code": "M",
       "messierNumber": 37,
       "name": "NGC 2099",
       "alternateNames": [],
@@ -603,6 +640,7 @@
       "image": "https://osricdienda.com/messier-api/images/M37.jpg"
     },
     "M38": {
+      "code": "M",
       "messierNumber": 38,
       "name": "NGC 1912",
       "alternateNames": [],
@@ -619,6 +657,7 @@
       "image": "https://osricdienda.com/messier-api/images/M38.jpg"
     },
     "M39": {
+      "code": "M",
       "messierNumber": 39,
       "name": "NGC 7092",
       "alternateNames": [],
@@ -635,6 +674,7 @@
       "image": "https://osricdienda.com/messier-api/images/M39.jpg"
     },
     "M40": {
+      "code": "M",
       "messierNumber": 40,
       "name": "Winecke 4",
       "alternateNames": [],
@@ -650,6 +690,7 @@
       "image": "https://osricdienda.com/messier-api/images/M40.jpg"
     },
     "M41": {
+      "code": "M",
       "messierNumber": 41,
       "name": "NGC 2287",
       "alternateNames": [],
@@ -666,6 +707,7 @@
       "image": "https://osricdienda.com/messier-api/images/M41.jpg"
     },
     "M42": {
+      "code": "M",
       "messierNumber": 42,
       "name": "Orion Nebula",
       "alternateNames": [],
@@ -682,6 +724,7 @@
       "image": "https://osricdienda.com/messier-api/images/M42.jpg"
     },
     "M43": {
+      "code": "M",
       "messierNumber": 43,
       "name": "de Mairan's Nebula",
       "alternateNames": [],
@@ -698,6 +741,7 @@
       "image": "https://osricdienda.com/messier-api/images/M43.jpg"
     },
     "M44": {
+      "code": "M",
       "messierNumber": 44,
       "name": "Beehive Cluster",
       "alternateNames": [
@@ -716,6 +760,7 @@
       "image": "https://osricdienda.com/messier-api/images/M44.jpg"
     },
     "M45": {
+      "code": "M",
       "messierNumber": 45,
       "name": "Pleiades",
       "alternateNames": [
@@ -734,6 +779,7 @@
       "image": "https://osricdienda.com/messier-api/images/M45.jpg"
     },
     "M46": {
+      "code": "M",
       "messierNumber": 46,
       "name": "NGC 2437",
       "alternateNames": [],
@@ -750,6 +796,7 @@
       "image": "https://osricdienda.com/messier-api/images/M46.jpg"
     },
     "M47": {
+      "code": "M",
       "messierNumber": 47,
       "name": "NGC 2422",
       "alternateNames": [],
@@ -766,6 +813,7 @@
       "image": "https://osricdienda.com/messier-api/images/M47.jpg"
     },
     "M48": {
+      "code": "M",
       "messierNumber": 48,
       "name": "NGC 2548",
       "alternateNames": [],
@@ -782,6 +830,7 @@
       "image": "https://osricdienda.com/messier-api/images/M48.jpg"
     },
     "M49": {
+      "code": "M",
       "messierNumber": 49,
       "name": "NGC 4472",
       "alternateNames": [],
@@ -798,6 +847,7 @@
       "image": "https://osricdienda.com/messier-api/images/M49.jpg"
     },
     "M50": {
+      "code": "M",
       "messierNumber": 50,
       "name": "NGC 2323",
       "alternateNames": [],
@@ -814,6 +864,7 @@
       "image": "https://osricdienda.com/messier-api/images/M50.jpg"
     },
     "M51": {
+      "code": "M",
       "messierNumber": 51,
       "name": "Whirlpool Galaxy",
       "alternateNames": [],
@@ -830,6 +881,7 @@
       "image": "https://osricdienda.com/messier-api/images/M51.jpg"
     },
     "M52": {
+      "code": "M",
       "messierNumber": 52,
       "name": "NGC 7654",
       "alternateNames": [],
@@ -846,6 +898,7 @@
       "image": "https://osricdienda.com/messier-api/images/M52.jpg"
     },
     "M53": {
+      "code": "M",
       "messierNumber": 53,
       "name": "NGC 5024",
       "alternateNames": [],
@@ -862,6 +915,7 @@
       "image": "https://osricdienda.com/messier-api/images/M53.jpg"
     },
     "M54": {
+      "code": "M",
       "messierNumber": 54,
       "name": "NGC 6715",
       "alternateNames": [],
@@ -878,6 +932,7 @@
       "image": "https://osricdienda.com/messier-api/images/M54.jpg"
     },
     "M55": {
+      "code": "M",
       "messierNumber": 55,
       "name": "NGC 6809",
       "alternateNames": [],
@@ -894,6 +949,7 @@
       "image": "https://osricdienda.com/messier-api/images/M55.jpg"
     },
     "M56": {
+      "code": "M",
       "messierNumber": 56,
       "name": "NGC 6779",
       "alternateNames": [],
@@ -910,6 +966,7 @@
       "image": "https://osricdienda.com/messier-api/images/M56.jpg"
     },
     "M57": {
+      "code": "M",
       "messierNumber": 57,
       "name": "Ring Nebula",
       "alternateNames": [],
@@ -926,6 +983,7 @@
       "image": "https://osricdienda.com/messier-api/images/M57.jpg"
     },
     "M58": {
+      "code": "M",
       "messierNumber": 58,
       "name": "NGC 4579",
       "alternateNames": [],
@@ -942,6 +1000,7 @@
       "image": "https://osricdienda.com/messier-api/images/M58.jpg"
     },
     "M59": {
+      "code": "M",
       "messierNumber": 59,
       "name": "NGC 4621",
       "alternateNames": [],
@@ -958,6 +1017,7 @@
       "image": "https://osricdienda.com/messier-api/images/M59.jpg"
     },
     "M60": {
+      "code": "M",
       "messierNumber": 60,
       "name": "NGC 4649",
       "alternateNames": [],
@@ -974,6 +1034,7 @@
       "image": "https://osricdienda.com/messier-api/images/M60.jpg"
     },
     "M61": {
+      "code": "M",
       "messierNumber": 61,
       "name": "NGC 4303",
       "alternateNames": [],
@@ -990,6 +1051,7 @@
       "image": "https://osricdienda.com/messier-api/images/M61.jpg"
     },
     "M62": {
+      "code": "M",
       "messierNumber": 62,
       "name": "NGC 6266",
       "alternateNames": [],
@@ -1006,6 +1068,7 @@
       "image": "https://osricdienda.com/messier-api/images/M62.jpg"
     },
     "M63": {
+      "code": "M",
       "messierNumber": 63,
       "name": "Sunflower Galaxy",
       "alternateNames": [],
@@ -1022,6 +1085,7 @@
       "image": "https://osricdienda.com/messier-api/images/M63.jpg"
     },
     "M64": {
+      "code": "M",
       "messierNumber": 64,
       "name": "Blackeye Galaxy",
       "alternateNames": [],
@@ -1038,6 +1102,7 @@
       "image": "https://osricdienda.com/messier-api/images/M64.jpg"
     },
     "M65": {
+      "code": "M",
       "messierNumber": 65,
       "name": "NGC 3623",
       "alternateNames": [],
@@ -1054,6 +1119,7 @@
       "image": "https://osricdienda.com/messier-api/images/M65.jpg"
     },
     "M66": {
+      "code": "M",
       "messierNumber": 66,
       "name": "NGC 3627",
       "alternateNames": [],
@@ -1070,6 +1136,7 @@
       "image": "https://osricdienda.com/messier-api/images/M66.jpg"
     },
     "M67": {
+      "code": "M",
       "messierNumber": 67,
       "name": "NGC 2682",
       "alternateNames": [],
@@ -1086,6 +1153,7 @@
       "image": "https://osricdienda.com/messier-api/images/M67.jpg"
     },
     "M68": {
+      "code": "M",
       "messierNumber": 68,
       "name": "NGC 4590",
       "alternateNames": [],
@@ -1102,6 +1170,7 @@
       "image": "https://osricdienda.com/messier-api/images/M68.jpg"
     },
     "M69": {
+      "code": "M",
       "messierNumber": 69,
       "name": "NGC 6637",
       "alternateNames": [],
@@ -1118,6 +1187,7 @@
       "image": "https://osricdienda.com/messier-api/images/M69.jpg"
     },
     "M70": {
+      "code": "M",
       "messierNumber": 70,
       "name": "NGC 6681",
       "alternateNames": [],
@@ -1134,6 +1204,7 @@
       "image": "https://osricdienda.com/messier-api/images/M70.jpg"
     },
     "M71": {
+      "code": "M",
       "messierNumber": 71,
       "name": "NGC 6838",
       "alternateNames": [],
@@ -1150,6 +1221,7 @@
       "image": "https://osricdienda.com/messier-api/images/M71.jpg"
     },
     "M72": {
+      "code": "M",
       "messierNumber": 72,
       "name": "NGC 6981",
       "alternateNames": [],
@@ -1166,6 +1238,7 @@
       "image": "https://osricdienda.com/messier-api/images/M72.jpg"
     },
     "M73": {
+      "code": "M",
       "messierNumber": 73,
       "name": "Group of 4 stars",
       "alternateNames": [],
@@ -1182,6 +1255,7 @@
       "image": "https://osricdienda.com/messier-api/images/M73.jpg"
     },
     "M74": {
+      "code": "M",
       "messierNumber": 74,
       "name": "NGC 628",
       "alternateNames": [],
@@ -1198,6 +1272,7 @@
       "image": "https://osricdienda.com/messier-api/images/M74.jpg"
     },
     "M75": {
+      "code": "M",
       "messierNumber": 75,
       "name": "NGC 6864",
       "alternateNames": [],
@@ -1214,6 +1289,7 @@
       "image": "https://osricdienda.com/messier-api/images/M75.jpg"
     },
     "M76": {
+      "code": "M",
       "messierNumber": 76,
       "name": "Little Dumbbell Nebula",
       "alternateNames": [
@@ -1233,6 +1309,7 @@
       "image": "https://osricdienda.com/messier-api/images/M76.jpg"
     },
     "M77": {
+      "code": "M",
       "messierNumber": 77,
       "name": "Cetus A",
       "alternateNames": [],
@@ -1249,6 +1326,7 @@
       "image": "https://osricdienda.com/messier-api/images/M77.jpg"
     },
     "M78": {
+      "code": "M",
       "messierNumber": 78,
       "name": "NGC 2068",
       "alternateNames": [],
@@ -1265,6 +1343,7 @@
       "image": "https://osricdienda.com/messier-api/images/M78.jpg"
     },
     "M79": {
+      "code": "M",
       "messierNumber": 79,
       "name": "NGC 1904",
       "alternateNames": [],
@@ -1281,6 +1360,7 @@
       "image": "https://osricdienda.com/messier-api/images/M79.jpg"
     },
     "M80": {
+      "code": "M",
       "messierNumber": 80,
       "name": "NGC 6093",
       "alternateNames": [],
@@ -1297,6 +1377,7 @@
       "image": "https://osricdienda.com/messier-api/images/M80.jpg"
     },
     "M81": {
+      "code": "M",
       "messierNumber": 81,
       "name": "Bode's Galaxy",
       "alternateNames": [],
@@ -1313,6 +1394,7 @@
       "image": "https://osricdienda.com/messier-api/images/M81.jpg"
     },
     "M82": {
+      "code": "M",
       "messierNumber": 82,
       "name": "Cigar Galaxy",
       "alternateNames": [],
@@ -1329,6 +1411,7 @@
       "image": "https://osricdienda.com/messier-api/images/M82.jpg"
     },
     "M83": {
+      "code": "M",
       "messierNumber": 83,
       "name": "Southern Pinwheel Galaxy",
       "alternateNames": [],
@@ -1345,6 +1428,7 @@
       "image": "https://osricdienda.com/messier-api/images/M83.jpg"
     },
     "M84": {
+      "code": "M",
       "messierNumber": 84,
       "name": "NGC 4374",
       "alternateNames": [],
@@ -1361,6 +1445,7 @@
       "image": "https://osricdienda.com/messier-api/images/M84.jpg"
     },
     "M85": {
+      "code": "M",
       "messierNumber": 85,
       "name": "NGC 4382",
       "alternateNames": [],
@@ -1377,6 +1462,7 @@
       "image": "https://osricdienda.com/messier-api/images/M85.jpg"
     },
     "M86": {
+      "code": "M",
       "messierNumber": 86,
       "name": "NGC 4406",
       "alternateNames": [],
@@ -1393,6 +1479,7 @@
       "image": "https://osricdienda.com/messier-api/images/M86.jpg"
     },
     "M87": {
+      "code": "M",
       "messierNumber": 87,
       "name": "Virgo A",
       "alternateNames": [],
@@ -1409,6 +1496,7 @@
       "image": "https://osricdienda.com/messier-api/images/M87.jpg"
     },
     "M88": {
+      "code": "M",
       "messierNumber": 88,
       "name": "NGC 4501",
       "alternateNames": [],
@@ -1425,6 +1513,7 @@
       "image": "https://osricdienda.com/messier-api/images/M88.jpg"
     },
     "M89": {
+      "code": "M",
       "messierNumber": 89,
       "name": "NGC 4552",
       "alternateNames": [],
@@ -1441,6 +1530,7 @@
       "image": "https://osricdienda.com/messier-api/images/M89.jpg"
     },
     "M90": {
+      "code": "M",
       "messierNumber": 90,
       "name": "NGC 4569",
       "alternateNames": [],
@@ -1457,6 +1547,7 @@
       "image": "https://osricdienda.com/messier-api/images/M90.jpg"
     },
     "M91": {
+      "code": "M",
       "messierNumber": 91,
       "name": "NGC 4548",
       "alternateNames": [],
@@ -1473,6 +1564,7 @@
       "image": "https://osricdienda.com/messier-api/images/M91.jpg"
     },
     "M92": {
+      "code": "M",
       "messierNumber": 92,
       "name": "NGC 6341",
       "alternateNames": [],
@@ -1489,6 +1581,7 @@
       "image": "https://osricdienda.com/messier-api/images/M92.jpg"
     },
     "M93": {
+      "code": "M",
       "messierNumber": 93,
       "name": "NGC 2447",
       "alternateNames": [],
@@ -1505,6 +1598,7 @@
       "image": "https://osricdienda.com/messier-api/images/M93.jpg"
     },
     "M94": {
+      "code": "M",
       "messierNumber": 94,
       "name": "NGC 4736",
       "alternateNames": [],
@@ -1521,6 +1615,7 @@
       "image": "https://osricdienda.com/messier-api/images/M94.jpg"
     },
     "M95": {
+      "code": "M",
       "messierNumber": 95,
       "name": "NGC 3351",
       "alternateNames": [],
@@ -1537,6 +1632,7 @@
       "image": "https://osricdienda.com/messier-api/images/M95.jpg"
     },
     "M96": {
+      "code": "M",
       "messierNumber": 96,
       "name": "NGC 3368",
       "alternateNames": [],
@@ -1553,6 +1649,7 @@
       "image": "https://osricdienda.com/messier-api/images/M96.jpg"
     },
     "M97": {
+      "code": "M",
       "messierNumber": 97,
       "name": "Owl Nebula",
       "alternateNames": [],
@@ -1569,6 +1666,7 @@
       "image": "https://osricdienda.com/messier-api/images/M97.jpg"
     },
     "M98": {
+      "code": "M",
       "messierNumber": 98,
       "name": "NGC 4192",
       "alternateNames": [],
@@ -1585,6 +1683,7 @@
       "image": "https://osricdienda.com/messier-api/images/M98.jpg"
     },
     "M99": {
+      "code": "M",
       "messierNumber": 99,
       "name": "NGC 4254",
       "alternateNames": [],
@@ -1601,6 +1700,7 @@
       "image": "https://osricdienda.com/messier-api/images/M99.jpg"
     },
     "M100": {
+      "code": "M",
       "messierNumber": 100,
       "name": "NGC 4321",
       "alternateNames": [],
@@ -1617,6 +1717,7 @@
       "image": "https://osricdienda.com/messier-api/images/M100.jpg"
     },
     "M101": {
+      "code": "M",
       "messierNumber": 101,
       "name": "Pinwheel Galaxy",
       "alternateNames": [],
@@ -1633,6 +1734,7 @@
       "image": "https://osricdienda.com/messier-api/images/M101.jpg"
     },
     "M102": {
+      "code": "M",
       "messierNumber": 102,
       "name": "Spindle Galaxy",
       "alternateNames": [],
@@ -1649,6 +1751,7 @@
       "image": "https://osricdienda.com/messier-api/images/M102.jpg"
     },
     "M103": {
+      "code": "M",
       "messierNumber": 103,
       "name": "NGC 581",
       "alternateNames": [],
@@ -1665,6 +1768,7 @@
       "image": "https://osricdienda.com/messier-api/images/M103.jpg"
     },
     "M104": {
+      "code": "M",
       "messierNumber": 104,
       "name": "Sombrero Galaxy",
       "alternateNames": [],
@@ -1681,6 +1785,7 @@
       "image": "https://osricdienda.com/messier-api/images/M104.jpg"
     },
     "M105": {
+      "code": "M",
       "messierNumber": 105,
       "name": "NGC 3379",
       "alternateNames": [],
@@ -1697,6 +1802,7 @@
       "image": "https://osricdienda.com/messier-api/images/M105.jpg"
     },
     "M106": {
+      "code": "M",
       "messierNumber": 106,
       "name": "NGC 4258",
       "alternateNames": [],
@@ -1713,6 +1819,7 @@
       "image": "https://osricdienda.com/messier-api/images/M106.jpg"
     },
     "M107": {
+      "code": "M",
       "messierNumber": 107,
       "name": "NGC 6171",
       "alternateNames": [],
@@ -1729,6 +1836,7 @@
       "image": "https://osricdienda.com/messier-api/images/M107.jpg"
     },
     "M108": {
+      "code": "M",
       "messierNumber": 108,
       "name": "NGC 3556",
       "alternateNames": [],
@@ -1745,6 +1853,7 @@
       "image": "https://osricdienda.com/messier-api/images/M108.jpg"
     },
     "M109": {
+      "code": "M",
       "messierNumber": 109,
       "name": "NGC 3992",
       "alternateNames": [],
@@ -1761,6 +1870,7 @@
       "image": "https://osricdienda.com/messier-api/images/M109.jpg"
     },
     "M110": {
+      "code": "M",
       "messierNumber": 110,
       "name": "Satellite of M31",
       "alternateNames": [],

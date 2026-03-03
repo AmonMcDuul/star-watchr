@@ -2,6 +2,7 @@
   "catalog": "Caldwell",
   "data": [
     {
+      "code": "C",
       "messierNumber": 1,
       "name": "Polarissima Cluster",
       "NGC": "NGC 188",
@@ -19,6 +20,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/1/10/Integrated_Flux_Nebula_Surrounding_Polaris_-_Kush_Chandaria.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 2,
       "name": "Bow-Tie Nebula",
       "NGC": "NGC 40",
@@ -36,6 +38,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/1/1d/NGC_40_Ps1.png"
     },
     {
+      "code": "C",
       "messierNumber": 3,
       "name": "NGC 4236",
       "NGC": "NGC 4236",
@@ -53,6 +56,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/c/ce/NGC_4236_by_Matt_Smith.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 4,
       "name": "Iris Nebula",
       "NGC": "NGC 7023",
@@ -70,6 +74,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Iris_Nebula_-_NGC_7023_-_Caldwell_4.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 5,
       "name": "IC 342",
       "NGC": "IC 342",
@@ -87,6 +92,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Euclid%E2%80%99s_view_of_spiral_galaxy_IC_342_ESA25170723.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 6,
       "name": "Cat's Eye Nebula",
       "NGC": "NGC 6543",
@@ -104,6 +110,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/5/5a/NGC6543.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 7,
       "name": "NGC 2403",
       "NGC": "NGC 2403",
@@ -121,6 +128,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/1/1c/NGC2403-Subaru-HST-L.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 8,
       "name": "NGC 559",
       "NGC": "NGC 559",
@@ -138,6 +146,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/6/61/NGC_559_PanSTARRS.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 9,
       "name": "Cave Nebula",
       "NGC": "Sh2-155",
@@ -155,6 +164,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/d/d8/CaveHunterWilson.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 10,
       "name": "NGC 663",
       "NGC": "NGC 663",
@@ -172,6 +182,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/1/12/NGC663HunterWilson.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 11,
       "name": "Bubble Nebula",
       "NGC": "NGC 7635",
@@ -189,6 +200,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/f/f1/The_Bubble_Nebula_-_NGC_7635_-_Heic1608a.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 12,
       "name": "Fireworks Galaxy",
       "NGC": "NGC 6946",
@@ -206,6 +218,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/8/89/Fireworks_Galaxy.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 13,
       "name": "Owl Cluster",
       "NGC": "NGC 457",
@@ -223,6 +236,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/8/8d/BGC_457Cluster.png"
     },
     {
+      "code": "C",
       "messierNumber": 14,
       "name": "Double Cluster",
       "NGC": "NGC 869/884",
@@ -240,6 +254,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/c/c9/Double_Cluster.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 15,
       "name": "Blinking Planetary Nebula",
       "NGC": "NGC 6826",
@@ -257,6 +272,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/8/83/NGC_6826HSTFull.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 16,
       "name": "NGC 7243",
       "NGC": "NGC 7243",
@@ -274,6 +290,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/2/2d/NGC_7243_.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 17,
       "name": "NGC 147",
       "NGC": "NGC 147",
@@ -291,6 +308,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/3/34/Caldwell_17_%2850290241446%29.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 18,
       "name": "NGC 185",
       "NGC": "NGC 185",
@@ -308,6 +326,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Caldwell_18_%2850289818793%29.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 19,
       "name": "Cocoon Nebula",
       "NGC": "IC 5146",
@@ -325,6 +344,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Ic5146s.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 20,
       "name": "North America Nebula",
       "NGC": "NGC 7000",
@@ -342,6 +362,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/e/e8/North_America_2007_09_08-14.jpg"
     }    ,
     {
+      "code": "C",
       "messierNumber": 21,
       "name": "NGC 4449",
       "NGC": "NGC 4449",
@@ -359,6 +380,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/c/c1/Starburst_in_NGC_4449_%28captured_by_the_Hubble_Space_Telescope%29.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 22,
       "name": "Copeland's Blue Snowball",
       "NGC": "NGC 7662",
@@ -376,6 +398,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/7/7e/NGC_7662_%22Blue_Snowball%22.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 23,
       "name": "NGC 891",
       "NGC": "NGC 891",
@@ -393,6 +416,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/f/f9/NGC891HunterWilson.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 24,
       "name": "Perseus A",
       "NGC": "NGC 1275",
@@ -410,6 +434,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/0/0a/NGC_1275_Hubble.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 25,
       "name": "Intergalactic Wanderer",
       "NGC": "NGC 2419",
@@ -427,6 +452,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/f/f7/Caldwell_25.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 26,
       "name": "NGC 4244",
       "NGC": "NGC 4244",
@@ -444,6 +470,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/f/fa/NGC4244.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 27,
       "name": "Crescent Nebula",
       "NGC": "NGC 6888",
@@ -461,6 +488,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/c/c3/NGC_6888.png"
     },
     {
+      "code": "C",
       "messierNumber": 28,
       "name": "NGC 752",
       "NGC": "NGC 752",
@@ -478,6 +506,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/4/4a/NGC_752.png"
     },
     {
+      "code": "C",
       "messierNumber": 29,
       "name": "NGC 5005",
       "NGC": "NGC 5005",
@@ -495,6 +524,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Caldwell_29_%2850191857313%29.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 30,
       "name": "NGC 7331",
       "NGC": "NGC 7331",
@@ -512,6 +542,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/a/a1/NGC_7331_Acquired_with_the_Schulman_Telescope_at_the_Mount_Lemmon_SkyCenter.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 31,
       "name": "Flaming Star Nebula",
       "NGC": "IC 405",
@@ -529,6 +560,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/2/22/Flaming_Star_Nebula%2C_IC_405.png"
     },
     {
+      "code": "C",
       "messierNumber": 32,
       "name": "Whale Galaxy",
       "NGC": "NGC 4631",
@@ -546,6 +578,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/6/67/NGC_4631_HST.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 33,
       "name": "East Veil Nebula",
       "NGC": "NGC 6992",
@@ -563,6 +596,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/6/6e/Veil_Nebula_-_NGC6960.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 34,
       "name": "West Veil Nebula",
       "NGC": "NGC 6960",
@@ -580,6 +614,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/6/6e/Veil_Nebula_-_NGC6960.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 35,
       "name": "NGC 4889",
       "NGC": "NGC 4889",
@@ -597,6 +632,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/4/43/Caldwell_35.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 36,
       "name": "NGC 4559",
       "NGC": "NGC 4559",
@@ -614,6 +650,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/3/3b/NGC4559_-_SDSS_DR14_%28panorama%29.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 37,
       "name": "NGC 6885",
       "NGC": "NGC 6885",
@@ -631,6 +668,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/1/16/NGC_6885.png"
     },
     {
+      "code": "C",
       "messierNumber": 38,
       "name": "Needle Galaxy",
       "NGC": "NGC 4565",
@@ -648,6 +686,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/2/2c/Needle_Galaxy_4565.jpeg"
     },
     {
+      "code": "C",
       "messierNumber": 39,
       "name": "Eskimo Nebula",
       "NGC": "NGC 2392",
@@ -665,6 +704,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/1/16/Ngc2392.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 40,
       "name": "NGC 3626",
       "NGC": "NGC 3626",
@@ -682,6 +722,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/9/9f/NGC3626_-_SDSS_DR14.jpg"
     }    ,
     {
+      "code": "C",
       "messierNumber": 41,
       "name": "Hyades",
       "NGC": "Melotte 25",
@@ -699,6 +740,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Hyades_cluster.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 42,
       "name": "NGC 7006",
       "NGC": "NGC 7006",
@@ -716,6 +758,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/4/41/Caldwell_42.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 43,
       "name": "NGC 7814",
       "NGC": "NGC 7814",
@@ -733,6 +776,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/b/b9/N7814s.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 44,
       "name": "Superman Galaxy",
       "NGC": "NGC 7479",
@@ -750,6 +794,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/8/8d/Caldwell_44.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 45,
       "name": "NGC 5248",
       "NGC": "NGC 5248",
@@ -767,6 +812,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/e/ee/N5248s.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 46,
       "name": "Hubble's Variable Nebula",
       "NGC": "NGC 2261",
@@ -784,6 +830,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Hubble%27s_Variable_Nebula_-_NGC_2261.png"
     },
     {
+      "code": "C",
       "messierNumber": 47,
       "name": "NGC 6934",
       "NGC": "NGC 6934",
@@ -801,6 +848,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/2/20/NGC_6934_Hubble_WikiSky.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 48,
       "name": "NGC 2775",
       "NGC": "NGC 2775",
@@ -818,6 +866,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/0/06/Spiral%2C_elliptical_or_neither%3F_%28potw2538a%29.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 49,
       "name": "Rosette Nebula",
       "NGC": "NGC 2237",
@@ -835,6 +884,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/a/a8/SHO_Final_with_copyright.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 50,
       "name": "NGC 2244",
       "NGC": "NGC 2244",
@@ -852,6 +902,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/4/44/Rosette_Nebula_in_Monoceros.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 51,
       "name": "IC 1613",
       "NGC": "IC 1613",
@@ -869,6 +920,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Dwarf_galaxy_IC_1613.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 52,
       "name": "NGC 4697",
       "NGC": "NGC 4697",
@@ -886,6 +938,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/0/08/NGC_4697_HST_10003_R850_B475.png"
     },
     {
+      "code": "C",
       "messierNumber": 53,
       "name": "Spindle Galaxy",
       "NGC": "NGC 3115",
@@ -903,6 +956,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/3/3e/NGC_3115.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 54,
       "name": "NGC 2506",
       "NGC": "NGC 2506",
@@ -920,6 +974,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/5/5b/NGC_2506_composite.png"
     },
     {
+      "code": "C",
       "messierNumber": 55,
       "name": "Saturn Nebula",
       "NGC": "NGC 7009",
@@ -937,6 +992,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/c/c9/MUSE_image_of_the_Saturn_Nebula.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 56,
       "name": "Skull Nebula",
       "NGC": "NGC 246",
@@ -954,6 +1010,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/6/6b/NGC_246.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 57,
       "name": "Barnard's Galaxy",
       "NGC": "NGC 6822",
@@ -971,6 +1028,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/e/ee/Barnard%27s_Galaxy.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 58,
       "name": "Caroline's Cluster",
       "NGC": "NGC 2360",
@@ -988,6 +1046,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/b/b3/NGC2360_-_SDSS_DR14_%28panorama%29.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 59,
       "name": "Ghost of Jupiter",
       "NGC": "NGC 3242",
@@ -1005,6 +1064,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/1/14/NGC_3242_%22Ghost_of_Jupiter%22.png"
     },
     {
+      "code": "C",
       "messierNumber": 60,
       "name": "Antennae Galaxies",
       "NGC": "NGC 4038",
@@ -1022,6 +1082,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/3/30/Antennae_Galaxies_reloaded.jpg"
     }    ,
     {
+      "code": "C",
       "messierNumber": 61,
       "name": "Antennae Galaxies",
       "NGC": "NGC 4039",
@@ -1039,6 +1100,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/3/30/Antennae_Galaxies_reloaded.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 62,
       "name": "NGC 247",
       "NGC": "NGC 247",
@@ -1056,6 +1118,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/a/a8/Wide_Field_Imager_view_of_the_spiral_galaxy_NGC_247.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 63,
       "name": "Helix Nebula",
       "NGC": "NGC 7293",
@@ -1073,6 +1136,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/b/b1/NGC7293_%282004%29.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 64,
       "name": "Tau Canis Majoris Cluster",
       "NGC": "NGC 2362",
@@ -1090,6 +1154,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/8/87/NGC_2362.png"
     },
     {
+      "code": "C",
       "messierNumber": 65,
       "name": "Sculptor Galaxy",
       "NGC": "NGC 253",
@@ -1107,6 +1172,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/7/7b/NGC_253_-_Sculptor.png"
     },
     {
+      "code": "C",
       "messierNumber": 66,
       "name": "NGC 5694",
       "NGC": "NGC 5694",
@@ -1124,6 +1190,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/4/4d/NGC_5694.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 67,
       "name": "NGC 1097",
       "NGC": "NGC 1097",
@@ -1141,6 +1208,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/5/59/NGC1097_-_ESO_-_eso0438d.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 68,
       "name": "R Coronae Australis Nebula",
       "NGC": "NGC 6729",
@@ -1158,6 +1226,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/7/78/R_Coronae_Australis_region.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 69,
       "name": "Bug Nebula",
       "NGC": "NGC 6302",
@@ -1175,6 +1244,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/1/1c/NGC_6302_Hubble_2009.full.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 70,
       "name": "NGC 300",
       "NGC": "NGC 300",
@@ -1192,6 +1262,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/4/4b/View_of_the_southern_spiral_NGC_300.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 71,
       "name": "NGC 2477",
       "NGC": "NGC 2477",
@@ -1209,6 +1280,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/4/47/NGC2477.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 72,
       "name": "NGC 55",
       "NGC": "NGC 55",
@@ -1226,6 +1298,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/5/54/Irregular_Galaxy_NGC_55_%28ESO_0914a%29.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 73,
       "name": "NGC 1851",
       "NGC": "NGC 1851",
@@ -1243,6 +1316,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/8/88/Caldwell_73_%2850291856937%29.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 74,
       "name": "Eight-Burst Nebula",
       "NGC": "NGC 3132",
@@ -1260,6 +1334,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/2/29/Southern_Ring_Nebula_%28NIRCam_Image%29.png"
     },
     {
+      "code": "C",
       "messierNumber": 75,
       "name": "NGC 6124",
       "NGC": "NGC 6124",
@@ -1277,6 +1352,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/d/de/NGC_6124_DECaPS_DR2.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 76,
       "name": "NGC 6231",
       "NGC": "NGC 6231",
@@ -1294,6 +1370,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/b/b1/NGC_6231_crop.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 77,
       "name": "Centaurus A",
       "NGC": "NGC 5128",
@@ -1311,6 +1388,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/d/d2/ESO_Centaurus_A_LABOCA.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 78,
       "name": "NGC 6541",
       "NGC": "NGC 6541",
@@ -1328,6 +1406,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Caldwell_78_%2850291821361%29.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 79,
       "name": "NGC 3201",
       "NGC": "NGC 3201",
@@ -1345,6 +1424,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/4/40/NGC_3201_Hubble_WikiSky.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 80,
       "name": "Omega Centauri",
       "NGC": "NGC 5139",
@@ -1362,6 +1442,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/0/09/Omega_Centauri_Stars.png"
     }    ,
     {
+      "code": "C",
       "messierNumber": 81,
       "name": "NGC 6352",
       "NGC": "NGC 6352",
@@ -1379,6 +1460,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/5/51/NGC_6352.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 82,
       "name": "NGC 6193",
       "NGC": "NGC 6193",
@@ -1396,6 +1478,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/3/3b/Rgb-ngc6193.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 83,
       "name": "NGC 4945",
       "NGC": "NGC 4945",
@@ -1413,6 +1496,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/d/df/Spiral_Galaxy_NGC_4945.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 84,
       "name": "NGC 5286",
       "NGC": "NGC 5286",
@@ -1430,6 +1514,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/d/d9/NGC_5286_hlsp_acsggct_hst_acs-wfc_R606_hst_13297_B336.png"
     },
     {
+      "code": "C",
       "messierNumber": 85,
       "name": "Omicron Velorum Cluster",
       "NGC": "IC 2391",
@@ -1447,6 +1532,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/5/52/O_Velorum_Cluster_iTelescope.png"
     },
     {
+      "code": "C",
       "messierNumber": 86,
       "name": "NGC 6397",
       "NGC": "NGC 6397",
@@ -1464,6 +1550,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/9/99/P0321a.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 87,
       "name": "NGC 1261",
       "NGC": "NGC 1261",
@@ -1481,6 +1568,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Ngc_1261.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 88,
       "name": "NGC 5823",
       "NGC": "NGC 5823",
@@ -1498,6 +1586,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/0/0d/NGC_5823_DECaPS_DR2.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 89,
       "name": "S Normae Cluster",
       "NGC": "NGC 6087",
@@ -1515,6 +1604,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/2/28/NGC_6087_full.png"
     },
     {
+      "code": "C",
       "messierNumber": 90,
       "name": "NGC 2867",
       "NGC": "NGC 2867",
@@ -1532,6 +1622,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/c/cd/NGC_2867.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 91,
       "name": "Wishing Well Cluster",
       "NGC": "NGC 3532",
@@ -1549,6 +1640,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Eso1439a.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 92,
       "name": "Carina Nebula",
       "NGC": "NGC 3372",
@@ -1566,6 +1658,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Carina_Nebula_by_Harel_Boren_%28151851961%2C_modified%29.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 93,
       "name": "NGC 6752",
       "NGC": "NGC 6752",
@@ -1583,6 +1676,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/7/76/NGC_6752_Hubble_WikiSky.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 94,
       "name": "Jewel Box",
       "NGC": "NGC 4755",
@@ -1600,6 +1694,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/c/c3/A_Snapshot_of_the_Jewel_Box_cluster_with_the_ESO_VLT.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 95,
       "name": "NGC 6025",
       "NGC": "NGC 6025",
@@ -1617,6 +1712,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/e/e8/NGC_6025_DECaPS_DR2.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 96,
       "name": "NGC 2516",
       "NGC": "NGC 2516",
@@ -1634,6 +1730,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/8/87/NGC_2516.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 97,
       "name": "NGC 3766",
       "NGC": "NGC 3766",
@@ -1651,6 +1748,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/0/02/Star_cluster_NGC_3766.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 98,
       "name": "NGC 4609",
       "NGC": "NGC 4609",
@@ -1668,6 +1766,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/5/52/NGC_4609_large.png"
     },
     {
+      "code": "C",
       "messierNumber": 99,
       "name": "Coalsack Nebula",
       "NGC": "Coalsack",
@@ -1685,6 +1784,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Part_of_the_Coalsack_Nebula.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 100,
       "name": "Lambda Centauri Nebula",
       "NGC": "IC 2944",
@@ -1702,6 +1802,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/9/9d/The_Very_Large_Telescope_Snaps_a_Stellar_Nursery_and_Celebrates_Fifteen_Years_of_Operations.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 101,
       "name": "NGC 6744",
       "NGC": "NGC 6744",
@@ -1719,6 +1820,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Wide_Field_Imager_view_of_a_Milky_Way_look-alike_NGC_6744.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 102,
       "name": "Theta Carinae Cluster",
       "NGC": "IC 2602",
@@ -1736,6 +1838,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/b/b8/The_Southern_Pleiades_%28IC_2602%29.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 103,
       "name": "Tarantula Nebula",
       "NGC": "NGC 2070",
@@ -1753,6 +1856,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/b/b9/NGC_2070_ESO.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 104,
       "name": "NGC 362",
       "NGC": "NGC 362",
@@ -1770,6 +1874,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/4/40/GALEX_image_of_NGC_362.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 105,
       "name": "NGC 4833",
       "NGC": "NGC 4833",
@@ -1787,6 +1892,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/d/db/A_sky_full_of_stars_NGC_4833.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 106,
       "name": "47 Tucanae",
       "NGC": "NGC 104",
@@ -1804,6 +1910,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Heic1510a.tif/lossy-page1-1280px-Heic1510a.tif.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 107,
       "name": "NGC 6101",
       "NGC": "NGC 6101",
@@ -1821,6 +1928,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/1/16/NGC_6101.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 108,
       "name": "NGC 4372",
       "NGC": "NGC 4372",
@@ -1838,6 +1946,7 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/5/5e/NGC_4372_2MASS.jpg"
     },
     {
+      "code": "C",
       "messierNumber": 109,
       "name": "NGC 3195",
       "NGC": "NGC 3195",

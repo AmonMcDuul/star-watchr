@@ -1,4 +1,5 @@
 export interface MessierObject {
+  code: string;
   messierNumber: number;
   name: string;
   alternateNames?: string[];

@@ -142,6 +142,7 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
     this.catalog.setStarDensity('all');
     await this.catalog.load();
     await this.messierService.load();
+    await this.messierService.loadCaldwell();
 
     this.createTextures();
     this.initThree();
@@ -366,7 +367,6 @@ private onTouchMove = (event: TouchEvent) => {
     
     this.updateLabelSizes();
   } else if (event.touches.length === 1 && this.isZooming) {
-    // Als we aan het zoemen waren en nu maar 1 vinger, negeer dan beweging
     event.preventDefault();
   }
 };
@@ -475,7 +475,7 @@ private onTouchEnd = (event: TouchEvent) => {
         this.hoveredMessier.sprite.material.needsUpdate = true;
         
         // Show tooltip
-        this.hoverTooltipContent.set(`M${messierData.object.messierNumber}: ${messierData.object.name}`);
+        this.hoverTooltipContent.set(`${messierData.object.code}${messierData.object.messierNumber}: ${messierData.object.name}`);
         this.hoverTooltipPosition.set({ x , y });
       }
     } else if (this.hoveredMessier) {
@@ -518,7 +518,6 @@ private handleDoubleClick(x: number, y: number) {
   const mouseX = ((x - rect.left) / rect.width) * 2 - 1;
   const mouseY = -((y - rect.top) / rect.height) * 2 + 1;
 
-  // Check op Messier object (ongewijzigd)
   if (this.showMessier()) {
     this.mouse.x = mouseX;
     this.mouse.y = mouseY;
@@ -608,8 +607,8 @@ private handleDoubleClick(x: number, y: number) {
   }
 
   goToMessierDetails(m: any) {
-    this.messierService.selectMessierByNumber(m.messierNumber);
-    this.router.navigate(['/dso', 'M' + m.messierNumber]);
+    this.messierService.selectMessierByNumberAndCode(m.code, m.messierNumber);
+    this.router.navigate(['/dso', m.code + m.messierNumber]);
     this.hideInfoPanel();
   }
 
@@ -763,7 +762,7 @@ private handleDoubleClick(x: number, y: number) {
   // =====================================================
 
   private createMessierObjects() {
-    this.messierService.all().forEach((obj, index) => {
+    this.messierService.realAll().forEach((obj, index) => {
       const ra = this.raToDeg(obj.rightAscension);
       const dec = this.decToDeg(obj.declination);
       const pos = this.raDecToXYZ(ra, dec, 99);
@@ -775,7 +774,7 @@ private handleDoubleClick(x: number, y: number) {
       this.messierGroup.add(sprite);
       
       // Label – kleiner, maar goed leesbaar
-      const labelText = `M${obj.messierNumber}`;
+      const labelText = `${obj.code}${obj.messierNumber}`;
       const label = this.createLabel(labelText, '#88ff88', 16, 40);
       label.position.copy(pos.clone().multiplyScalar(1.03));
       this.messierLabel.add(label);
@@ -1066,13 +1065,13 @@ private handleDoubleClick(x: number, y: number) {
     this.messierSprites
       .filter(m => 
         m.object.name.toLowerCase().includes(query.toLowerCase()) ||
-        `M${m.object.messierNumber}`.toLowerCase().includes(query.toLowerCase())
+        `${m.object.code}${m.object.messierNumber}`.toLowerCase().includes(query.toLowerCase())
       )
       .slice(0, 5)
       .forEach(m => {
         results.push({
           type: 'messier',
-          name: `M${m.object.messierNumber}: ${m.object.name}`,
+          name: `${m.object.code}${m.object.messierNumber}: ${m.object.name}`,
           object: m.object
         });
       });

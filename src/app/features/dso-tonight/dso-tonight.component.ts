@@ -72,7 +72,7 @@ export class DsoTonightComponent implements OnInit {
   }
   
   goToDso(m: MessierObject) {
-    this.messier.selectMessierByNumber(m.messierNumber);
+    this.messier.selectMessierByNumberAndCode(m.code, m.messierNumber);
     this.router.navigate(['/dso', this.catalog + m.messierNumber]);
   }
 

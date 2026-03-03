@@ -5,7 +5,7 @@
       <!-- <button (click)="toggleMirror()" [class.active]="mirrored" class="control-btn">Mirror</button> -->
       <!-- <button (click)="toggleGrid()" [class.active]="showGrid" class="control-btn">Grid</button> -->
       <button (click)="toggleConstellations()" [class.active]="showConstellations" class="control-btn">Constellations</button>
-      <button (click)="toggleMessier()" [class.active]="showMessier" class="control-btn">Messier</button>
+      <button (click)="toggleMessier()" [class.active]="showMessier" class="control-btn">DSO's</button>
       <!-- <button (click)="toggleConstellationNames()" [class.active]="showConstellationNames" class="control-btn">Const. Names</button> -->
     <!-- </div>
     
@@ -41,7 +41,7 @@
   @if (showInfoPanel && infoPanelContent) {
     <div class="info-panel" [style.left.px]="infoPanelPosition.x" [style.top.px]="infoPanelPosition.y">
       <div class="info-header">
-        <h3>M{{ infoPanelContent.messierNumber }} – {{ infoPanelContent.name }}</h3>
+        <h3>{{ infoPanelContent.code }}{{ infoPanelContent.messierNumber }} – {{ infoPanelContent.name }}</h3>
         <button class="close-btn" (click)="hideInfoPanel()">✕</button>
       </div>
       <div class="info-content">
