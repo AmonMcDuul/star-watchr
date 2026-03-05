@@ -291,6 +291,7 @@ h2 {
   border-radius: 3px;
   border: 1px solid rgba(255,255,255,0.1);
 }
+
 .cell.astro-night {
   // background: rgba(140, 122, 40, 0.1); 
   background: linear-gradient(to top, rgba(179, 164, 100, 0.3), rgba(140, 132, 75, 0.05));
@@ -718,4 +719,17 @@ h2 {
   .empty-card {
     padding: 1.6rem 1.4rem;
   }
+}
+
+.cell.hover-col {
+background: rgba(120,150,255,0.08);
+}
+
+.head:nth-child(even) {
+  background: rgba(120,140,255,0.06);
+}
+
+.row .cell:not(.astro-hack):nth-child(even) {
+  background: rgba(255,255,255,0.015);
+  // background: rgba(120,140,255,0.03);
 }
