@@ -47,61 +47,6 @@
         <button (click)="time.reset(); time.shift(96)"  [class.active]="isActiveDay(4)">{{ dayPlus(4) }}</button>
         <button (click)="time.reset(); time.shift(120)" [class.active]="isActiveDay(5)">{{ dayPlus(5) }}</button>
       </div>
-    <!-- <div class="matrix-controls">
-      <div class="matrix-controls desktop-only">
-        <button
-          class="toggle-btn"
-          [class.active]="pointsCount() === 8"
-          (click)="pointsCount.set(8)">
-          8h
-        </button>
-
-        <button
-          class="toggle-btn"
-          [class.active]="pointsCount() === 24"
-          (click)="pointsCount.set(24)">
-          24h
-        </button>
-      </div>
-    </div> -->
-    <div class="matrix-controls">
-      <div class="matrix-controls color-menu-wrapper drag-hint-color" (clickOutside)="closeColorMenu()">
-        <button
-          class="icon-btn"
-          (click)="toggleColorMenu($event)"
-          title="Color accessibility modes">
-          Colors
-        </button>
-
-        @if (colorMenuOpen()) {
-          <div class="color-menu">
-            <button
-              [class.active]="ui.colorMode() === 'standard'"
-              (click)="setColorMode('standard')">
-              Standard
-            </button>
-
-            <button
-              [class.active]="ui.colorMode() === 'deuteranopia'"
-              (click)="setColorMode('deuteranopia')">
-              Deuteranopia
-            </button>
-
-            <button
-              [class.active]="ui.colorMode() === 'protanopia'"
-              (click)="setColorMode('protanopia')">
-              Protanopia
-            </button>
-
-            <button
-              [class.active]="ui.colorMode() === 'tritanopia'"
-              (click)="setColorMode('tritanopia')">
-              Tritanopia
-            </button>
-          </div>
-        }
-      </div>
-    </div>
 
     <div class="drag-hint">
       ⇆ DRAG
@@ -394,6 +339,42 @@
       <a routerLink="/sky-atlas">
         Atlas
       </a>
+    </div>
+      <div class="matrix-controls" (clickOutside)="closeColorMenu()">
+        <button
+          class="icon-btn"
+          (click)="toggleColorMenu($event)"
+          title="Color accessibility modes">
+          Colors
+        </button>
+
+        @if (colorMenuOpen()) {
+          <div class="color-menu">
+            <button
+              [class.active]="ui.colorMode() === 'standard'"
+              (click)="setColorMode('standard')">
+              Standard
+            </button>
+
+            <button
+              [class.active]="ui.colorMode() === 'deuteranopia'"
+              (click)="setColorMode('deuteranopia')">
+              Deuteranopia
+            </button>
+
+            <button
+              [class.active]="ui.colorMode() === 'protanopia'"
+              (click)="setColorMode('protanopia')">
+              Protanopia
+            </button>
+
+            <button
+              [class.active]="ui.colorMode() === 'tritanopia'"
+              (click)="setColorMode('tritanopia')">
+              Tritanopia
+            </button>
+          </div>
+        }
     </div>
   <div>
 
