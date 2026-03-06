@@ -154,9 +154,11 @@ private initSvg() {
       if (this.isBrowser) {
       cancelAnimationFrame(this.raf);
       }
+      if (this.isBrowser) {
       this.raf = requestAnimationFrame(() => {
         this.zone.run(() => this.render());
       });
+    }
     });
     this.resizeObserver.observe(this.svgRef.nativeElement.parentElement!);
   }

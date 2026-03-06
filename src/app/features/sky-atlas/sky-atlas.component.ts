@@ -596,7 +596,9 @@ private handleDoubleClick(x: number, y: number) {
       this.updateLabelSizes();
 
       if (progress < 1) {
+        if (this.isBrowser) {
         this.zoomAnimationFrame = requestAnimationFrame(animateStep);
+        }
       } else {
         // Animatie klaar, damping herstellen
         this.controls.enableDamping = wasDampingEnabled;
@@ -605,7 +607,9 @@ private handleDoubleClick(x: number, y: number) {
     };
 
     // Start de animatie
+    if (this.isBrowser) {
     this.zoomAnimationFrame = requestAnimationFrame(animateStep);
+    }
   }
 
   hideInfoPanel() {
@@ -1229,7 +1233,9 @@ private handleDoubleClick(x: number, y: number) {
   // =====================================================
 
   private animate = () => {
+    if (this.isBrowser) {
     this.frameId = requestAnimationFrame(this.animate);
+    }
     
     // Smooth zoom interpolatie voor alle zoom acties
     if (Math.abs(this.camera.fov - this.targetFov) > 0.01) {

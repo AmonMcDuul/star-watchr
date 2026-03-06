@@ -644,14 +644,17 @@ private onTouchEnd = (event: TouchEvent) => {
       this.updateLabelSizes();
 
       if (progress < 1) {
+        if (this.isBrowser) {
         this.zoomAnimationFrame = requestAnimationFrame(animateStep);
+        }
       } else {
         this.controls.enableDamping = wasDampingEnabled;
         this.zoomAnimationFrame = null;
       }
     };
-
+if (this.isBrowser) {
     this.zoomAnimationFrame = requestAnimationFrame(animateStep);
+}
   }
 
   hideInfoPanel() {
@@ -1128,7 +1131,9 @@ private onTouchEnd = (event: TouchEvent) => {
   }
 
   private animate = () => {
+    if (this.isBrowser) {
     this.frameId = requestAnimationFrame(this.animate);
+    }
 
     if (Math.abs(this.camera.fov - this.targetFov) > 0.01) {
       this.camera.fov += (this.targetFov - this.camera.fov) * 0.1;
