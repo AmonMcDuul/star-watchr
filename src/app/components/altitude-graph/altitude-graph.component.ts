@@ -1,11 +1,13 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import {
   Component,
   Input,
   OnChanges,
   SimpleChanges,
   ElementRef,
-  ViewChild
+  ViewChild,
+  inject,
+  PLATFORM_ID
 } from '@angular/core';
 import {
   Observer,
@@ -64,16 +66,19 @@ export class AltitudeGraphComponent implements OnChanges {
         clientY: number;
       }
     | null = null;
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   constructor() {
     this.checkTouchDevice();
   }
 
   private checkTouchDevice() {
-    this.isTouchDevice =
-      'ontouchstart' in window ||
-      navigator.maxTouchPoints > 0 ||
-      (navigator as any).msMaxTouchPoints > 0;
+    if (this.isBrowser) {
+      this.isTouchDevice =
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0 ||
+        (navigator as any).msMaxTouchPoints > 0;
+    }
   }
 
   ngOnChanges(_: SimpleChanges): void {

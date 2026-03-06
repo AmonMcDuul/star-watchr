@@ -1093,6 +1093,7 @@ private handleDoubleClick(x: number, y: number) {
   }
 
   selectSearchResult(result: any) {
+    if (!this.isBrowser) return;
     this.showSearchResults = false;
     this.searchQuery = '';
     this.showSearch.set(false);

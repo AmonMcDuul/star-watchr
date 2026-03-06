@@ -603,6 +603,8 @@ private initSvg() {
 
   // helper
   private getSizeFactor(): number {
+    if (!this.isBrowser) return 1.0;
+
     const width = window.innerWidth;
     if (width < 600) return 0.15;
     if (width < 1024) return 0.35;
