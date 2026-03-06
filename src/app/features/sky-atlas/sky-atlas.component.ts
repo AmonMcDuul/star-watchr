@@ -160,8 +160,8 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
     if (this.isBrowser) {
     cancelAnimationFrame(this.frameId);
     }
-    this.renderer.dispose();
-    this.composer.dispose();
+    this.renderer?.dispose();
+    this.composer?.dispose();
     this.canvasRef.nativeElement.removeEventListener('wheel', this.onMouseWheel);
     this.canvasRef.nativeElement.removeEventListener('touchstart', this.onTouchStart);
     this.canvasRef.nativeElement.removeEventListener('touchmove', this.onTouchMove);
