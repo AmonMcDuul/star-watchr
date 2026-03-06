@@ -4,8 +4,12 @@ import {
   ViewChild,
   ElementRef,
   Input,
-  OnDestroy
+  OnDestroy,
+  inject,
+  PLATFORM_ID
 } from '@angular/core';
+
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-aladin-map',
@@ -33,64 +37,75 @@ export class AladinMapComponent implements AfterViewInit, OnDestroy {
   @Input() showConstellations = true;
   @Input() showConstellationLabels = false;
 
+  private platformId = inject(PLATFORM_ID);
+  private isBrowser = isPlatformBrowser(this.platformId);
+
   private aladin: any;
   private scriptLoaded = false;
   private isInitializing = false;
 
   ngAfterViewInit(): void {
-    // Wacht een beetje zodat de view volledig is gerenderd
-    setTimeout(() => {
-      this.initAladin();
-    }, 100);
+
+    if (!this.isBrowser) return;
+
+    this.initAladin();
   }
 
   ngOnDestroy(): void {
-    // Cleanup
-    if (this.aladin) {
-      // Verwijder event listeners en cleanup
-      this.aladin = null;
+
+    if (this.aladin?.destroy) {
+      this.aladin.destroy();
     }
+
+    this.aladin = null;
   }
 
   private async initAladin(): Promise<void> {
+
+    if (!this.isBrowser) return;
+
     if (this.isInitializing) return;
     this.isInitializing = true;
 
     try {
-      // Stap 1: Laad Aladin Lite script als het niet al geladen is
+
       await this.loadAladinScript();
-      
-      // Stap 2: Wacht tot A beschikbaar is
       await this.waitForAladin();
-      
-      // Stap 3: Initialiseer Aladin
       this.initializeAladin();
-      
+
     } catch (error) {
+
       console.error('Failed to initialize Aladin Lite:', error);
-      // Fallback: probeer het opnieuw na een seconde
+
       setTimeout(() => {
         this.isInitializing = false;
         this.initAladin();
       }, 1000);
+
     }
   }
 
   private loadAladinScript(): Promise<void> {
+
     return new Promise((resolve, reject) => {
-      // Als script al geladen is
-      if (document.querySelector('script[src*="aladin"]')) {
+
+      if (!this.isBrowser) {
+        resolve();
+        return;
+      }
+
+      if (document.querySelector('#aladin-lite-script')) {
         this.scriptLoaded = true;
         resolve();
         return;
       }
 
       const script = document.createElement('script');
+
       script.src = 'https://aladin.u-strasbg.fr/AladinLite/api/v3/latest/aladin.js';
       script.type = 'text/javascript';
       script.charset = 'utf-8';
       script.async = true;
-      script.defer = false;
       script.id = 'aladin-lite-script';
 
       script.onload = () => {
@@ -102,19 +117,27 @@ export class AladinMapComponent implements AfterViewInit, OnDestroy {
         reject(new Error('Failed to load Aladin Lite script'));
       };
 
-      // Voeg script toe aan het einde van body voor betere compatibiliteit
       document.body.appendChild(script);
     });
   }
 
   private waitForAladin(): Promise<void> {
+
     return new Promise((resolve, reject) => {
-      const timeout = 10000; // 10 seconden timeout
+
+      if (!this.isBrowser) {
+        resolve();
+        return;
+      }
+
+      const timeout = 10000;
       const startTime = Date.now();
 
       const check = () => {
-        // Controleer op zowel A als Aladin (sommige versies gebruiken Aladin ipv A)
-        if ((window as any).A || (window as any).Aladin) {
+
+        const globalRef: any = globalThis;
+
+        if (globalRef.A || globalRef.Aladin) {
           resolve();
           return;
         }
@@ -132,22 +155,22 @@ export class AladinMapComponent implements AfterViewInit, OnDestroy {
   }
 
   private initializeAladin(): void {
+
     try {
-      // Gebruik A of Aladin, afhankelijk van wat beschikbaar is
-      const Aladin = (window as any).A || (window as any).Aladin;
-      
+
+      const globalRef: any = globalThis;
+      const Aladin = globalRef.A || globalRef.Aladin;
+
       if (!Aladin) {
-        throw new Error('Aladin not found on window object');
+        throw new Error('Aladin not found on global scope');
       }
 
-      // Verwijder bestaande Aladin instantie als die er is
-      if (this.aladin && this.aladin.destroy) {
+      if (this.aladin?.destroy) {
         this.aladin.destroy();
       }
 
-      // Initialiseer Aladin
       this.aladin = Aladin.aladin(this.container.nativeElement, {
-        survey: 'https://skies.esac.esa.int/DSSColor', 
+        survey: 'https://skies.esac.esa.int/DSSColor',
         target: `${this.raDeg} ${this.decDeg}`,
         fov: this.fov,
         showReticle: true,
@@ -162,7 +185,6 @@ export class AladinMapComponent implements AfterViewInit, OnDestroy {
         showCatalog: false
       });
 
-      // Target marker
       const cat = Aladin.catalog({
         name: 'Target',
         color: '#ffd479',
@@ -176,10 +198,12 @@ export class AladinMapComponent implements AfterViewInit, OnDestroy {
       this.aladin.addCatalog(cat);
 
       this.isInitializing = false;
-      
+
     } catch (error) {
+
       this.isInitializing = false;
       throw error;
+
     }
   }
 }
