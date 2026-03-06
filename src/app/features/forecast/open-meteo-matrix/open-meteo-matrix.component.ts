@@ -232,7 +232,7 @@ export class OpenMeteoMatrixComponent implements OnInit {
     this.time.setOffset(snapped);
   }
 
-  onMouseDown(event: MouseEvent) {\
+  onMouseDown(event: MouseEvent) {
     if (!isPlatformBrowser(this.platformId)) return;
     event.preventDefault();
     this.onPointerStart(event.clientX);
