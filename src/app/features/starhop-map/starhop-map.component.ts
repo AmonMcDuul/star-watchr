@@ -8,7 +8,8 @@ import {
   SimpleChanges,
   inject,
   NgZone,
-  OnDestroy
+  OnDestroy,
+  PLATFORM_ID
 } from '@angular/core';
 
 import * as d3 from 'd3';
@@ -16,6 +17,7 @@ import { StarCatalogService } from '../../services/star-catalog.service';
 import { Star } from '../../models/star.model';
 import { Constellation } from '../../models/constellation.model';
 import { MessierService } from '../../services/messier.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-starhop-map',
@@ -75,6 +77,9 @@ export class StarhopMapComponent
   // D3 zoom behavior instance
   private zoomBehavior: any;
 
+
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+
   ngAfterViewInit() {
     this.ready = true;
     this.starCatalog.setStarDensity('normal');
@@ -86,7 +91,9 @@ export class StarhopMapComponent
 
   ngOnDestroy() {
     this.resizeObserver?.disconnect();
+    if (this.isBrowser) {
     cancelAnimationFrame(this.raf);
+    }
   }
 
   ngOnChanges(_: SimpleChanges) {
@@ -144,7 +151,9 @@ private initSvg() {
 
   private initResizeObserver() {
     this.resizeObserver = new ResizeObserver(() => {
+      if (this.isBrowser) {
       cancelAnimationFrame(this.raf);
+      }
       this.raf = requestAnimationFrame(() => {
         this.zone.run(() => this.render());
       });

@@ -7,13 +7,14 @@ import {
   inject,
   HostListener,
   signal,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  PLATFORM_ID
 } from '@angular/core';
 
 import * as THREE from 'three';
 import { StarCatalogService } from '../../services/star-catalog.service';
 import { MessierService } from '../../services/messier.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -134,6 +135,8 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
   private isZooming = false;
   private zoomTimeout: any;
 
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+  
   // =====================================================
   // LIFECYCLE
   // =====================================================
@@ -154,7 +157,9 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (this.isBrowser) {
     cancelAnimationFrame(this.frameId);
+    }
     this.renderer.dispose();
     this.composer.dispose();
     this.canvasRef.nativeElement.removeEventListener('wheel', this.onMouseWheel);
@@ -554,7 +559,9 @@ private handleDoubleClick(x: number, y: number) {
   private zoomToPoint(targetPoint: THREE.Vector3, zoomFactor: number = 0.4) {
     // Als er al een animatie loopt, stop die dan
     if (this.zoomAnimationFrame !== null) {
+      if (this.isBrowser) {
       cancelAnimationFrame(this.zoomAnimationFrame);
+      }
       this.zoomAnimationFrame = null;
     }
 

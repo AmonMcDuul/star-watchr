@@ -9,9 +9,10 @@ import {
   SimpleChanges,
   inject,
   ChangeDetectorRef,
-  NgZone
+  NgZone,
+  PLATFORM_ID
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as THREE from 'three';
@@ -140,6 +141,12 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
   // ===== ROTATION STATE =====
   private rotationAngle = 0; // degrees
 
+
+
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+
+
+  
   constructor() {
     this.targetFov = this.fovDegrees;
   }
@@ -158,9 +165,13 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
   }
 
   ngOnDestroy(): void {
+    if (this.isBrowser) {
     cancelAnimationFrame(this.frameId);
+    }
     if (this.zoomAnimationFrame) {
+      if (this.isBrowser) {
       cancelAnimationFrame(this.zoomAnimationFrame);
+      }
     }
     this.renderer?.dispose();
     this.composer?.dispose();
@@ -602,7 +613,9 @@ private onTouchEnd = (event: TouchEvent) => {
 
   private zoomToPoint(targetPoint: THREE.Vector3, zoomFactor: number = 0.4) {
     if (this.zoomAnimationFrame !== null) {
+      if (this.isBrowser) {
       cancelAnimationFrame(this.zoomAnimationFrame);
+      }
       this.zoomAnimationFrame = null;
     }
 
@@ -889,7 +902,9 @@ private onTouchEnd = (event: TouchEvent) => {
   // ===== PUBLIC METHODS FOR TEMPLATE =====
   resetView(): void {
     if (this.zoomAnimationFrame) {
+      if (this.isBrowser) {
       cancelAnimationFrame(this.zoomAnimationFrame);
+      }
       this.zoomAnimationFrame = null;
     }
     
