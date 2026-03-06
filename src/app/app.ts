@@ -1,10 +1,11 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "./components/header/header.component";
 import { FooterComponent } from "./components/footer/footer.component";
 import { filter } from 'rxjs';
 import { SeoService } from './services/seo.service';
 import { AnalyticsService } from './services/analytics.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,7 @@ export class App {
   private seo = inject(SeoService);
   private analytics = inject(AnalyticsService);
   private lastPath?: string;
-
+  private platformId = inject(PLATFORM_ID);
   protected readonly title = signal('StarWatchr');
 
   constructor() {
@@ -32,7 +33,7 @@ export class App {
         if (data?.['title'] && data?.['description']) {
           this.seo.update(data['title'], data['description']);
         }
-        if (location.hostname !== 'localhost'){
+        if (isPlatformBrowser(this.platformId) && location.hostname !== 'localhost'){
           const path = e.urlAfterRedirects.split('?')[0].replace(/\/+$/, '') || '/';;
           if (path !== this.lastPath) {
             this.lastPath = path;

@@ -11,7 +11,8 @@ import { MessierTimeService } from '../../services/messier-time.service';
 import { AladinMapComponent } from '../../components/star-map/aladin-map.component';
 import { AltitudeGraphComponent } from '../../components/altitude-graph/altitude-graph.component';
 import { StarhopAtlasComponent } from '../starhop-atlas/starhop-atlas.component';
-
+import { SeoService } from '../../services/seo.service';
+import  { DSO_CATALOG } from '../../../assets/data/dso-catalog';
 
 type SurveyKey = 'dss-color' | 'dss-red' | '2mass';
 
@@ -36,11 +37,13 @@ export class DsoDetailComponent implements OnDestroy {
 
   readonly location = inject(LocationService);
   readonly time = inject(MessierTimeService);
+  readonly seo = inject(SeoService);
 
   readonly dso = computed<MessierObject | null>(() =>
     this.messier.selectedMessier()
   );
 
+  dsoCatalog: any;
   showConstellations = true;
   showConstellationLabels = false;
   showOtherDsos = false;
@@ -86,6 +89,26 @@ export class DsoDetailComponent implements OnDestroy {
 
       this.messier.selectedMessier.set(target);
     });
+  }
+
+  ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id')?.toLowerCase();
+
+    const dsoCatalog = DSO_CATALOG.find(d => d.id === id);
+    if (!dsoCatalog) return;
+
+    const title = `${dsoCatalog.name} (${dsoCatalog.id.toUpperCase()}) – StarWatchr`;
+
+    const description =
+      `${dsoCatalog.name} in ${dsoCatalog.constellation}. ` +
+      `Magnitude ${dsoCatalog.magnitude}. Viewing season: ${dsoCatalog.viewingSeason}.`;
+
+    this.seo.update(
+      title,
+      description,
+      `/dso/${dsoCatalog.id}`,
+      dsoCatalog.image
+    );
   }
 
   ngOnDestroy(): void {

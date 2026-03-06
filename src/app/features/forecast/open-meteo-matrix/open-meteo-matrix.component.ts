@@ -1,10 +1,11 @@
-import { CommonModule, formatDate } from '@angular/common';
+import { CommonModule, formatDate, isPlatformBrowser } from '@angular/common';
 import {
   Component,
   computed,
   HostListener,
   inject,
   OnInit,
+  PLATFORM_ID,
   signal,
 } from '@angular/core';
 import { OpenMeteoService } from '../../../services/open-meteo.service';
@@ -71,14 +72,16 @@ export class OpenMeteoMatrixComponent implements OnInit {
 
     return cards.slice(startIndex, startIndex + count);
   });
-  
+
+  private platformId = inject(PLATFORM_ID);
+
   constructor() {
     const MIN_WIDTH = 350;
     const MAX_WIDTH = 1600;
 
     const MIN_POINTS = 6;
     const MAX_POINTS = 24;
-
+    if (!isPlatformBrowser(this.platformId)) return;
     const update = () => {
       const w = window.innerWidth;
 

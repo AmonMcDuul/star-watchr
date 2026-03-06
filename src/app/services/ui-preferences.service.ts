@@ -1,4 +1,5 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 export type ColorMode =
   | 'standard'
@@ -8,6 +9,9 @@ export type ColorMode =
 
 @Injectable({ providedIn: 'root' })
 export class UiPreferencesService {
+
+  private platformId = inject(PLATFORM_ID);
+
   readonly colorMode = signal<ColorMode>('standard');
 
   toggleColorMode() {
@@ -19,18 +23,24 @@ export class UiPreferencesService {
 
   setColorMode(mode: ColorMode) {
     this.colorMode.set(mode);
-    localStorage.setItem('colorScheme', mode);
+
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('colorScheme', mode);
+    }
   }
 
   isColorMode(value: string): value is ColorMode {
-  return value === 'standard'
-      || value === 'deuteranopia'
-      || value === 'protanopia'
-      || value === 'tritanopia';
+    return value === 'standard'
+        || value === 'deuteranopia'
+        || value === 'protanopia'
+        || value === 'tritanopia';
   }
 
   loadFromStorage() {
+    if (!isPlatformBrowser(this.platformId)) return;
+
     const stored = localStorage.getItem('colorScheme');
+
     if (stored && this.isColorMode(stored)) {
       this.colorMode.set(stored);
     }

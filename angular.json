@@ -24,6 +24,9 @@
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "allowedCommonJsDependencies": [
+              "suncalc"
+            ],
             "assets": [
               "src/assets",
               {
@@ -33,15 +36,27 @@
             ],
             "styles": [
               "src/styles.scss"
-            ]
+            ],
+            "server": "src/main.server.ts",
+            "outputMode": "server",
+            "prerender": {
+              "routesFile": "src/prerender-routes.txt"
+            },
+            "security": {
+              "allowedHosts": []
+            },
+            "ssr": {
+              "entry": "src/server.ts"
+            }
           },
           "configurations": {
             "production": {
+            "outputMode": "static",
             "budgets": [
               {
                 "type": "initial",
-                "maximumWarning": "500kb",
-                "maximumError": "1mb"
+                "maximumWarning": "700kb",
+                "maximumError": "1.2mb"
               },
               {
                 "type": "anyComponentStyle",

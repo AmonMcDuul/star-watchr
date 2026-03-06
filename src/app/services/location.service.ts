@@ -1,10 +1,12 @@
-import { Injectable, signal, effect, inject } from '@angular/core';
+import { Injectable, signal, effect, inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LocationResult } from '../models/location-result.model';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class LocationService {
   private _http = inject(HttpClient);
+  private platformId = inject(PLATFORM_ID);
 
   private readonly _results = signal<LocationResult[]>([]);
   readonly results = this._results.asReadonly();
@@ -19,13 +21,15 @@ export class LocationService {
   constructor() {
     effect(() => {
       const selected = this._selected();
-      if (selected) {
+
+      if (selected && isPlatformBrowser(this.platformId)) {
         localStorage.setItem('lastLocation', JSON.stringify(selected));
       }
     });
 
     effect(() => {
       const query = this._query();
+
       if (!query || query.length < 2) {
         this._results.set([]);
         return;
@@ -44,7 +48,6 @@ export class LocationService {
     this._results.set([]);
   }
 
-  
   selectLocation(loc: LocationResult) {
     this._selected.set({
       display_name: loc.display_name,
@@ -52,13 +55,13 @@ export class LocationService {
       lon: loc.lon,
     });
   }
-  
+
   private fetch(query: string) {
     if (this.cache.has(query)) {
       this._results.set(this.cache.get(query)!);
       return;
     }
-  
+
     this._http.get<LocationResult[]>(
       'https://nominatim.openstreetmap.org/search',
       {
@@ -68,16 +71,16 @@ export class LocationService {
       const uniqueResults = results.filter((r, i, arr) =>
         arr.findIndex(x => x.display_name === r.display_name) === i
       );
-  
+
       this.cache.set(query, uniqueResults);
       this._results.set(uniqueResults);
-
     });
   }
-  
+
   private loadFromStorage(): LocationResult | null {
+    if (!isPlatformBrowser(this.platformId)) return null;
+
     const raw = localStorage.getItem('lastLocation');
     return raw ? JSON.parse(raw) : null;
   }
-
 }
