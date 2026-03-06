@@ -1,14 +1,33 @@
-import { Directive, ElementRef, EventEmitter, Output } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  EventEmitter,
+  Output,
+  Inject,
+  PLATFORM_ID,
+  OnDestroy
+} from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Directive({
   selector: '[clickOutside]',
   standalone: true
 })
-export class ClickOutsideDirective {
+export class ClickOutsideDirective implements OnDestroy {
+
   @Output() clickOutside = new EventEmitter<void>();
 
-  constructor(private el: ElementRef) {
-    document.addEventListener('click', this.onClick);
+  private isBrowser: boolean;
+
+  constructor(
+    private el: ElementRef,
+    @Inject(PLATFORM_ID) platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
+
+    if (this.isBrowser) {
+      document.addEventListener('click', this.onClick);
+    }
   }
 
   onClick = (event: MouseEvent) => {
@@ -18,6 +37,8 @@ export class ClickOutsideDirective {
   };
 
   ngOnDestroy() {
-    document.removeEventListener('click', this.onClick);
+    if (this.isBrowser) {
+      document.removeEventListener('click', this.onClick);
+    }
   }
 }

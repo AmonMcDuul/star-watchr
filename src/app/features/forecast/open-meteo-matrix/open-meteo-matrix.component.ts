@@ -75,34 +75,43 @@ export class OpenMeteoMatrixComponent implements OnInit {
 
   private platformId = inject(PLATFORM_ID);
 
-  constructor() {
-    const MIN_WIDTH = 350;
-    const MAX_WIDTH = 1600;
+  private resizeHandler?: () => void;
 
-    const MIN_POINTS = 6;
-    const MAX_POINTS = 24;
-    if (!isPlatformBrowser(this.platformId)) return;
-    const update = () => {
-      const w = window.innerWidth;
+constructor() {}
 
-      const clamped = Math.min(Math.max(w, MIN_WIDTH), MAX_WIDTH);
 
-      const ratio = (clamped - MIN_WIDTH) / (MAX_WIDTH - MIN_WIDTH);
+ngOnInit() {
+  this.time.mode.set('hourly');
 
-      const points =
-        MIN_POINTS + ratio * (MAX_POINTS - MIN_POINTS);
+  if (!isPlatformBrowser(this.platformId)) return;
 
-      this.pointsCount.set(Math.round(points));
-    };
+  const MIN_WIDTH = 350;
+  const MAX_WIDTH = 1600;
 
-    update();
-    window.addEventListener('resize', update);
+  const MIN_POINTS = 6;
+  const MAX_POINTS = 24;
+
+  this.resizeHandler = () => {
+    const w = window.innerWidth;
+
+    const clamped = Math.min(Math.max(w, MIN_WIDTH), MAX_WIDTH);
+
+    const ratio = (clamped - MIN_WIDTH) / (MAX_WIDTH - MIN_WIDTH);
+
+    const points = MIN_POINTS + ratio * (MAX_POINTS - MIN_POINTS);
+
+    this.pointsCount.set(Math.round(points));
+  };
+
+  this.resizeHandler();
+  window.addEventListener('resize', this.resizeHandler);
+}
+
+ngOnDestroy() {
+  if (this.resizeHandler && isPlatformBrowser(this.platformId)) {
+    window.removeEventListener('resize', this.resizeHandler);
   }
-
-
-  ngOnInit() {
-    this.time.mode.set('hourly');
-  }
+}
 
   dayPlus(days: number): string {
     const d = new Date(this.context.astroDateBase());
@@ -170,7 +179,11 @@ export class OpenMeteoMatrixComponent implements OnInit {
 
   @HostListener('document:touchstart', ['$event'])
   onDocumentTouch(event: TouchEvent) {
+
+    if (!isPlatformBrowser(this.platformId)) return;
+
     const matrix = document.querySelector('.matrix');
+
     if (!matrix?.contains(event.target as Node)) {
       this.hoverCard.set(null);
       this.mobileTooltipVisible = false;

@@ -152,8 +152,17 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
   }
 
   async ngAfterViewInit() {
+
+    if (!this.isBrowser) return;
+
     this.catalog.setStarDensity(this.starDensity);
-    await Promise.all([this.catalog.load(), this.messierService.load(), this.messierService.loadCaldwell()]);
+
+    await Promise.all([
+      this.catalog.load(),
+      this.messierService.load(),
+      this.messierService.loadCaldwell()
+    ]);
+
     this.createTextures();
     this.initThree();
     this.initPostProcessing();
@@ -214,9 +223,13 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
 
   // ===== RESIZE =====
   private setupResizeObserver(): void {
+
+    if (!this.isBrowser) return;
+
     this.resizeObserver = new ResizeObserver(() => {
       this.zone.run(() => this.onResize());
     });
+
     this.resizeObserver.observe(this.canvasRef.nativeElement.parentElement!);
   }
 

@@ -142,7 +142,11 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
   // =====================================================
 
   async ngAfterViewInit() {
+
+    if (!this.isBrowser) return;
+
     this.catalog.setStarDensity('all');
+
     await this.catalog.load();
     await this.messierService.load();
     await this.messierService.loadCaldwell();
@@ -151,23 +155,28 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
     this.initThree();
     this.initPostProcessing();
     this.buildSky();
-    // Milky Way verwijderd (veroorzaakte vreemde vierkantjes)
     this.animate();
-    this.toggleMessierNames(); //stomme oplossing om niet te tonen bij init
+
+    this.toggleMessierNames();
   }
 
   ngOnDestroy() {
-    if (this.isBrowser) {
+
+    if (!this.isBrowser) return;
+
     cancelAnimationFrame(this.frameId);
-    }
+
     this.renderer?.dispose();
     this.composer?.dispose();
-    this.canvasRef.nativeElement.removeEventListener('wheel', this.onMouseWheel);
-    this.canvasRef.nativeElement.removeEventListener('touchstart', this.onTouchStart);
-    this.canvasRef.nativeElement.removeEventListener('touchmove', this.onTouchMove);
-    this.canvasRef.nativeElement.removeEventListener('touchend', this.onTouchEnd);
-    this.canvasRef.nativeElement.removeEventListener('mousemove', this.onMouseMove);
-    this.canvasRef.nativeElement.removeEventListener('click', this.onClick);
+
+    const canvas = this.canvasRef.nativeElement;
+
+    canvas.removeEventListener('wheel', this.onMouseWheel);
+    canvas.removeEventListener('touchstart', this.onTouchStart);
+    canvas.removeEventListener('touchmove', this.onTouchMove);
+    canvas.removeEventListener('touchend', this.onTouchEnd);
+    canvas.removeEventListener('mousemove', this.onMouseMove);
+    canvas.removeEventListener('click', this.onClick);
   }
 
   // =====================================================
@@ -244,7 +253,7 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
       antialias: true,
       powerPreference: "high-performance"
     });
-    this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio ?? 1, 2));
     this.renderer.setSize(canvas.clientWidth, canvas.clientHeight);
     this.renderer.toneMapping = THREE.ReinhardToneMapping;
     this.renderer.toneMappingExposure = 1.0;
@@ -1110,7 +1119,12 @@ private handleDoubleClick(x: number, y: number) {
       this.controls.target.copy(pos);
       
       this.infoPanelContent.set(result.object);
-      this.infoPanelPosition.set({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
+      if (this.isBrowser) {
+        this.infoPanelPosition.set({
+          x: window.innerWidth / 2,
+          y: window.innerHeight / 2
+        });
+      }
       this.showInfoPanel.set(true);
     }
   }
@@ -1254,6 +1268,7 @@ private handleDoubleClick(x: number, y: number) {
 
   @HostListener('window:resize')
   onResize() {
+    if (!this.isBrowser) return;
     const canvas = this.canvasRef.nativeElement;
     const width = canvas.clientWidth;
     const height = canvas.clientHeight;

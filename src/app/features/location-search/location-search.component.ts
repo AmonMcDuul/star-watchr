@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import { LocationService } from '../../services/location.service';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { LocationResult } from '../../models/location-result.model';
 import { OpenMeteoService } from '../../services/open-meteo.service';
 
@@ -17,6 +17,7 @@ export class LocationSearchComponent implements OnInit {
   @ViewChild('wrapper') wrapper!: ElementRef<HTMLDivElement>;
   public location = inject(LocationService); 
   public openMeteoApi = inject(OpenMeteoService); 
+  private platformId = inject(PLATFORM_ID);
 
   query = '';
   searchActive = false;
@@ -41,25 +42,36 @@ export class LocationSearchComponent implements OnInit {
 
   activateSearch() {
     this.searchActive = true;
+
+    if (!isPlatformBrowser(this.platformId)) return;
+
     setTimeout(() => {
       const input = document.querySelector<HTMLInputElement>('input');
       input?.focus();
-    }, 0);
+    });
   }
-  
+
   deactivateSearch() {
     this.query = '';
     this.searchActive = false;
   }
 
     // fugly temp oplossing voor search bar weer weghalen
-    @HostListener('document:click', ['$event'])
-    clickOutside(event: MouseEvent) {
-      if(this.location.selected() == null){
-        return;
-      }
-      if (this.searchActive && this.wrapper && !this.wrapper.nativeElement.contains(event.target as Node)) {
-        this.deactivateSearch()
-      }
+  @HostListener('document:click', ['$event'])
+  clickOutside(event: MouseEvent) {
+
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    if (this.location.selected() == null) {
+      return;
     }
+
+    if (
+      this.searchActive &&
+      this.wrapper &&
+      !this.wrapper.nativeElement.contains(event.target as Node)
+    ) {
+      this.deactivateSearch();
+    }
+  }
 }
