@@ -200,27 +200,35 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
   ngOnChanges(changes: SimpleChanges): void {
     if (!this.camera) return;
 
-    let rebuild = false;
     if (changes['ra'] || changes['dec']) {
-      this.centerOnTarget();
+
       this.buildSky();
+
+      requestAnimationFrame(() => {
+        this.centerOnTarget();
+      });
+
     }
+
     if (changes['fovDegrees'] && !changes['fovDegrees'].firstChange) {
       this.targetFov = this.fovDegrees;
     }
+
     if (changes['starDensity']) {
       this.catalog.setStarDensity(this.starDensity);
-      rebuild = true;
-    }
-    if (changes['showConstellations'] || changes['showConstellationNames'] ||
-        changes['showMessier'] || changes['showMessierNames'] ||
-        changes['showStarNames'] || changes['showGrid'] ||
-        changes['mirrored']) {
-      this.updateVisibility();
-      if (changes['showStarNames']) rebuild = true;
-    }
-    if (rebuild) {
       this.buildSky();
+    }
+
+    if (
+      changes['showConstellations'] ||
+      changes['showConstellationNames'] ||
+      changes['showMessier'] ||
+      changes['showMessierNames'] ||
+      changes['showStarNames'] ||
+      changes['showGrid'] ||
+      changes['mirrored']
+    ) {
+      this.updateVisibility();
     }
   }
 
