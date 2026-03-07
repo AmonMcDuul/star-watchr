@@ -69,26 +69,33 @@ export class DsoDetailComponent implements OnDestroy {
   });
 
   constructor() {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (!id) {
-      this.router.navigateByUrl('/');
-      return;
-    }
 
-    this.messier.load().then(() => {
-      const parsed = parseInt(id.replace(/[^\d]/g, ''), 10);
-      const prefix = id.charAt(0).toUpperCase();
+    this.route.paramMap.subscribe(params => {
 
-      let target: MessierObject | null;
-      target = this.messier.getByNumberAndCode(prefix, parsed);
-
-      if (!target) {
+      const id = params.get('id');
+      if (!id) {
         this.router.navigateByUrl('/');
         return;
       }
 
-      this.messier.selectedMessier.set(target);
+      this.messier.load().then(() => {
+
+        const parsed = parseInt(id.replace(/[^\d]/g, ''), 10);
+        const prefix = id.charAt(0).toUpperCase();
+
+        const target = this.messier.getByNumberAndCode(prefix, parsed);
+
+        if (!target) {
+          this.router.navigateByUrl('/');
+          return;
+        }
+
+        this.messier.selectedMessier.set(target);
+
+      });
+
     });
+
   }
 
   ngOnInit() {

@@ -167,10 +167,13 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
     this.initThree();
     this.initPostProcessing();
     this.buildSky();
-    this.centerOnTarget();
     this.setupEventListeners();
     this.setupResizeObserver();
     this.animate();
+
+    requestAnimationFrame(() => {
+      this.centerOnTarget();
+    });
   }
 
   ngOnDestroy(): void {
