@@ -1,0 +1,124 @@
+.solar-system-page {
+  padding: 30px 20px;
+  color: #e2e8ff;
+}
+
+.solar-system-page h1{
+  background:none;
+  -webkit-text-fill-color:initial;
+}
+
+/* HEADER */
+
+h1 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+/* CATEGORY BUTTONS */
+
+.solar-tabs{
+  position:relative;
+  margin-bottom:24px;
+  border-radius:8px;
+}
+
+/* rows */
+
+.control-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.3rem;
+  align-items:center;
+  justify-content:center;
+}
+.control-btn{
+
+  background:#1a233a;
+  border:1px solid #2d3b5e;
+  color:#e8ecff;
+
+  padding:.25rem .45rem;
+  border-radius:6px;
+
+  cursor:pointer;
+
+  font-size:.6rem;
+  font-weight:500;
+
+  white-space:nowrap;
+  text-transform:uppercase;
+  letter-spacing:.3px;
+
+  transition:all .2s ease;
+
+}
+
+.control-btn:hover{
+  background:#2d3b5e;
+  border-color:#4a5f93;
+}
+
+.control-btn.active{
+  background:#3a4b7a;
+  border-color:#5d7bc4;
+  color:#ffcc66;
+}
+
+.control-row{
+  overflow-x:auto;
+  flex-wrap:nowrap;
+  justify-content:flex-start;
+}
+
+
+/* GRID */
+
+.solar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(230px,1fr));
+  gap: 18px;
+}
+
+/* CARDS */
+
+.solar-card {
+  display: block;
+
+  background: linear-gradient(180deg,#0b1020,#070a14);
+  border-radius: 14px;
+
+  border: 1px solid rgba(120,150,255,.18);
+
+  overflow: hidden;
+
+  text-decoration: none;
+
+  transition: .25s ease;
+}
+
+.solar-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 40px rgba(80,120,255,.25);
+}
+
+.solar-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: contain;
+}
+
+.card-info {
+  padding: 10px;
+  font-size: .75rem;
+  color: #cdd6f4;
+}
+
+.card-info strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.card-info span {
+  opacity: .7;
+}

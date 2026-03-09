@@ -306,6 +306,11 @@
       </a>
     </div>
     <div class="matrix-controls-dso">    
+      <a routerLink="/solar-system">
+        Solar System
+      </a>
+    </div>
+    <div class="matrix-controls-dso">    
       <a routerLink="/sky-atlas">
         Atlas
       </a>
@@ -354,11 +359,6 @@
     <div class="matrix-tooltip" [style.top.px]="tooltipY" [style.left.px]="tooltipX">
     <strong class="time">Time: {{ hoverCard().time | date:'HH:mm' }}</strong>
 
-    <!-- <div class="tooltip-row">
-      <span class="label">Total cloud:</span>
-      <span class="value">{{ hoverCard().cloudcover }}/9</span>
-    </div> -->
-
     <div class="tooltip-row">
       <span class="label">High cloud:</span>
       <span class="value">{{ hoverCard().highCloudCover }}/9</span>
@@ -374,11 +374,6 @@
       <span class="value">{{ hoverCard().lowCloudCover }}/9</span>
     </div>
 
-    <!-- <div class="tooltip-row">
-      <span class="label">Cloud score:</span>
-      <span class="value">{{ hoverCard().astroCloudcover }}/9</span>
-    </div> -->
-
     <div class="tooltip-row">
       <span class="label">Seeing:</span>
       <span class="value">{{ hoverCard().seeing }}/8</span>
@@ -388,11 +383,6 @@
       <span class="label">Transparency:</span>
       <span class="value">{{ hoverCard().transparency }}/3</span>
     </div>
-<!-- 
-    <div class="tooltip-row">
-      <span class="label">Wind:</span>
-      <span class="value">{{ hoverCard().windSpeed }} m/s {{ hoverCard().windDir }}</span>
-    </div> -->
     
     <div class="tooltip-row">
       <span class="label">Moon phase:</span>

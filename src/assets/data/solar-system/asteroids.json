@@ -1,0 +1,86 @@
+[
+  {
+    "id": "vesta",
+    "name": "Vesta",
+    "type": "asteroid",
+    "radiusKm": 262.7,
+    "diameterKm": 525.4,
+    "massKg": 2.59e20,
+    "gravity": 0.25,
+    "orbitalPeriodDays": 1325,
+    "summary": "Vesta is one of the largest bodies in the asteroid belt, with a differentiated interior and basaltic surface. Studied by NASA's Dawn mission.",
+    "image": "/assets/solar-system/asteroids/vesta.webp"
+  },
+  {
+    "id": "pallas",
+    "name": "Pallas",
+    "type": "asteroid",
+    "radiusKm": 256,
+    "diameterKm": 512,
+    "massKg": 2.04e20,
+    "gravity": 0.22,
+    "orbitalPeriodDays": 1686,
+    "summary": "Pallas is a large, inclined asteroid in the main belt and was the second asteroid discovered. It has a heavily cratered, primitive surface.",
+    "image": "/assets/solar-system/asteroids/pallas.webp"
+  },
+  {
+    "id": "hygiea",
+    "name": "Hygiea",
+    "type": "asteroid",
+    "radiusKm": 215,
+    "diameterKm": 430,
+    "massKg": 8.32e19,
+    "gravity": 0.12,
+    "orbitalPeriodDays": 2030,
+    "summary": "Hygiea is one of the largest asteroids and a dark, carbonaceous body; recent work suggests it may be nearly spherical.",
+    "image": "/assets/solar-system/asteroids/hygiea.webp"
+  },
+  {
+    "id": "eros",
+    "name": "433 Eros",
+    "type": "asteroid",
+    "radiusKm": 8.4,
+    "diameterKm": 16.8,
+    "massKg": 6.69e15,
+    "gravity": 0.0059,
+    "orbitalPeriodDays": 643,
+    "summary": "433 Eros is a near-Earth asteroid visited by the NEAR Shoemaker spacecraft; its surface shows boulders, regolith and a complex cratered history.",
+    "image": "/assets/solar-system/asteroids/eros.webp"
+  },
+  {
+    "id": "bennu",
+    "name": "101955 Bennu",
+    "type": "asteroid",
+    "radiusKm": 0.245,
+    "diameterKm": 0.49,
+    "massKg": 7.33e10,
+    "gravity": 7.9e-5,
+    "orbitalPeriodDays": 436,
+    "summary": "Bennu is a near-Earth carbonaceous asteroid studied by NASA's OSIRIS-REx mission; samples have been returned to Earth for laboratory analysis.",
+    "image": "/assets/solar-system/asteroids/bennu.webp"
+  },
+  {
+    "id": "itokawa",
+    "name": "25143 Itokawa",
+    "type": "asteroid",
+    "radiusKm": 0.16,
+    "diameterKm": 0.32,
+    "massKg": 3.51e10,
+    "gravity": 4e-5,
+    "orbitalPeriodDays": 523,
+    "summary": "Itokawa is a small, rubble-pile near-Earth asteroid visited by JAXA's Hayabusa mission; it is irregular in shape and composed of loose aggregates.",
+    "image": "/assets/solar-system/asteroids/itokawa.webp"
+  },
+  {
+    "id": "ceres",
+    "name": "Ceres",
+    "type": "asteroid",
+    "radiusKm": 473,
+    "diameterKm": 946,
+    "massKg": 9.39e20,
+    "gravity": 0.27,
+    "orbitalPeriodDays": 1680,
+    "summary": "Ceres is both the largest asteroid and a dwarf planet in the main belt. (Also listed in dwarf-planets.json for convenience.)",
+    "image": "/assets/solar-system/asteroids/ceres.webp"
+  }
+]

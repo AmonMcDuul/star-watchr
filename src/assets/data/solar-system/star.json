@@ -1,0 +1,17 @@
+{
+  "id": "sun",
+  "name": "Sol",
+  "type": "star",
+  "radiusKm": 696340,
+  "diameterKm": 1392680,
+  "massKg": 1.989e30,
+  "gravity": 274,
+  "orbitalPeriodDays": 0,
+  "spectralType": "G2V",
+  "ageBillionYears": 4.6,
+  "surfaceTemperatureC": 5500,
+  "coreTemperatureC": 15000000,
+  "luminosity": "1 L☉",
+  "summary": "The Sun is the star at the center of the Solar System and contains ≈99.86% of its mass. Nuclear fusion in its core converts hydrogen into helium, releasing energy that drives planetary climates, the heliosphere and supports life on Earth. It formed about 4.6 billion years ago and will evolve into a red giant in ~5 billion years.",
+  "image": "/assets/solar-system/star/sun.webp"
+}

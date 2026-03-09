@@ -1,0 +1,72 @@
+[
+  {
+    "id": "pluto",
+    "name": "Pluto",
+    "type": "dwarf planet",
+    "radiusKm": 1188.3,
+    "diameterKm": 2376.6,
+    "massKg": 1.309e22,
+    "gravity": 0.62,
+    "orbitalPeriodDays": 90560,
+    "semiMajorAxisAU": 39.48,
+    "numberOfMoons": 5,
+    "summary": "Pluto is a dwarf planet in the Kuiper Belt. Once classified as the ninth planet, it has a complex surface with nitrogen and methane ices, mountains, and a thin atmosphere. Its largest moon, Charon, is large enough that Pluto–Charon are often considered a binary system.",
+    "image": "/assets/solar-system/dwarf-planets/pluto.webp"
+  },
+  {
+    "id": "eris",
+    "name": "Eris",
+    "type": "dwarf planet",
+    "radiusKm": 1163,
+    "diameterKm": 2326,
+    "massKg": 1.66e22,
+    "gravity": 0.82,
+    "orbitalPeriodDays": 203830,
+    "semiMajorAxisAU": 67.7,
+    "numberOfMoons": 1,
+    "summary": "Eris is a massive scattered-disk object and one of the most massive known dwarf planets. Its discovery was a major driver in the redefinition of 'planet' by the IAU in 2006.",
+    "image": "/assets/solar-system/dwarf-planets/eris.webp"
+  },
+  {
+    "id": "haumea",
+    "name": "Haumea",
+    "type": "dwarf planet",
+    "radiusKm": 816,
+    "diameterKm": 1632,
+    "massKg": 4.0e21,
+    "gravity": 0.44,
+    "orbitalPeriodDays": 103410,
+    "semiMajorAxisAU": 43.2,
+    "numberOfMoons": 2,
+    "summary": "Haumea is a rapidly rotating, elongated dwarf planet in the Kuiper Belt, notable for its high spin rate and collisional family.",
+    "image": "/assets/solar-system/dwarf-planets/haumea.webp"
+  },
+  {
+    "id": "makemake",
+    "name": "Makemake",
+    "type": "dwarf planet",
+    "radiusKm": 715,
+    "diameterKm": 1430,
+    "massKg": 3.1e21,
+    "gravity": 0.5,
+    "orbitalPeriodDays": 111845,
+    "semiMajorAxisAU": 45.7,
+    "numberOfMoons": 1,
+    "summary": "Makemake is a bright Kuiper Belt object covered in methane ices. It has one small known moon and was discovered in 2005.",
+    "image": "/assets/solar-system/dwarf-planets/makemake.webp"
+  },
+  {
+    "id": "ceres",
+    "name": "Ceres",
+    "type": "dwarf planet",
+    "radiusKm": 473,
+    "diameterKm": 946,
+    "massKg": 9.39e20,
+    "gravity": 0.27,
+    "orbitalPeriodDays": 1680,
+    "semiMajorAxisAU": 2.77,
+    "numberOfMoons": 0,
+    "summary": "Ceres is the largest object in the asteroid belt and the only dwarf planet in the inner Solar System. Spacecraft observations show a differentiated interior and localized bright spots (salt deposits) on its surface.",
+    "image": "/assets/solar-system/dwarf-planets/ceres.webp"
+  }
+]

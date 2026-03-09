@@ -1,0 +1,211 @@
+<div class="solar-system-page">
+
+  <h1>Solar System</h1>
+
+  <div class="control-bar solar-tabs">
+    <div class="control-row">
+
+    <button
+        class="control-btn"
+        (click)="showAll()">
+        Show All
+    </button>
+
+    <button
+        class="control-btn"
+        (click)="showNone()">
+        Show None
+    </button>
+
+    </div>
+    <div class="control-row">
+
+      <button
+        class="control-btn"
+        (click)="toggleCategory('sun')"
+        [class.active]="activeCategories().has('sun')">
+        Sun
+      </button>
+
+      <button
+        class="control-btn"
+        (click)="toggleCategory('planets')"
+        [class.active]="activeCategories().has('planets')">
+        Planets
+      </button>
+
+      <button
+        class="control-btn"
+        (click)="toggleCategory('moons')"
+        [class.active]="activeCategories().has('moons')">
+        Moons
+      </button>
+
+      <button
+        class="control-btn"
+        (click)="toggleCategory('dwarf-planets')"
+        [class.active]="activeCategories().has('dwarf-planets')">
+        Dwarf Planets
+      </button>
+
+      <button
+        class="control-btn"
+        (click)="toggleCategory('asteroids')"
+        [class.active]="activeCategories().has('asteroids')">
+        Asteroids
+      </button>
+
+      <button
+        class="control-btn"
+        (click)="toggleCategory('comets')"
+        [class.active]="activeCategories().has('comets')">
+        Comets
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="solar-grid">
+
+    <!-- SUN -->
+
+    @if (activeCategories().has('sun')) {
+
+      @if (solar.sun(); as s) {
+
+        <a
+          class="solar-card"
+          [routerLink]="['/solar-system/sun', s.id]">
+
+          <img [src]="s.image" [alt]="s.name">
+
+          <div class="card-info">
+            <strong>{{ s.name }}</strong>
+            <span>Star</span>
+          </div>
+
+        </a>
+
+      }
+
+    }
+
+    <!-- PLANETS -->
+
+    @if (activeCategories().has('planets')) {
+
+      @for (p of solar.planets(); track p.id) {
+
+        <a
+          class="solar-card"
+          [routerLink]="['/solar-system/planets', p.id]">
+
+          <img [src]="p.image" [alt]="p.name">
+
+          <div class="card-info">
+            <strong>{{ p.name }}</strong>
+            <span>Planet</span>
+          </div>
+
+        </a>
+
+      }
+
+    }
+
+    <!-- MOONS -->
+
+    @if (activeCategories().has('moons')) {
+
+      @for (m of solar.moons(); track m.id) {
+
+        <a
+          class="solar-card"
+          [routerLink]="['/solar-system/moons', m.id]">
+
+          <img [src]="m.image" [alt]="m.name">
+
+          <div class="card-info">
+            <strong>{{ m.name }}</strong>
+            <span>Moon of {{ m.planet }}</span>
+          </div>
+
+        </a>
+
+      }
+
+    }
+
+    <!-- DWARF PLANETS -->
+
+    @if (activeCategories().has('dwarf-planets')) {
+
+      @for (d of solar.dwarfPlanets(); track d.id) {
+
+        <a
+          class="solar-card"
+          [routerLink]="['/solar-system/dwarf-planets', d.id]">
+
+          <img [src]="d.image" [alt]="d.name">
+
+          <div class="card-info">
+            <strong>{{ d.name }}</strong>
+            <span>Dwarf Planet</span>
+          </div>
+
+        </a>
+
+      }
+
+    }
+
+    <!-- ASTEROIDS -->
+
+    @if (activeCategories().has('asteroids')) {
+
+      @for (a of solar.asteroids(); track a.id) {
+
+        <a
+          class="solar-card"
+          [routerLink]="['/solar-system/asteroids', a.id]">
+
+          <img [src]="a.image" [alt]="a.name">
+
+          <div class="card-info">
+            <strong>{{ a.name }}</strong>
+            <span>Asteroid</span>
+          </div>
+
+        </a>
+
+      }
+
+    }
+
+    <!-- COMETS -->
+
+    @if (activeCategories().has('comets')) {
+
+      @for (c of solar.comets(); track c.id) {
+
+        <a
+          class="solar-card"
+          [routerLink]="['/solar-system/comets', c.id]">
+
+          <img [src]="c.image" [alt]="c.name">
+
+          <div class="card-info">
+            <strong>{{ c.name }}</strong>
+            <span>Comet</span>
+          </div>
+
+        </a>
+
+      }
+
+    }
+
+  </div>
+
+</div>

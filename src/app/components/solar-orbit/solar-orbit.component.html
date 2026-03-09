@@ -1,0 +1,19 @@
+<div class="orbit-container">
+
+  <div class="control-bar">
+
+    <div class="control-row">
+
+      <button class="control-btn" (click)="setTimeSpeed(0)">Pause</button>
+      <button class="control-btn" (click)="setTimeSpeed(1)">1×</button>
+      <button class="control-btn" (click)="setTimeSpeed(10)">10×</button>
+      <button class="control-btn" (click)="setTimeSpeed(100)">100×</button>
+      <button class="control-btn" (click)="setTimeSpeed(1000)">1000×</button>
+
+    </div>
+
+  </div>
+
+  <div #container class="viewer"></div>
+
+</div>

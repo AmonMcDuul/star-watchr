@@ -83,5 +83,32 @@ export const routes: Routes = [
         'Explore the night sky with the interactive sky atlas. Navigate constellations, stars and deep sky objects in real time.'
     }
   },
+  {
+    path: 'solar-system',
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./features/solar-system/solar-system.component')
+            .then(m => m.SolarSystemComponent),
+        data: {
+          title: 'Solar System Explorer – StarWatchr',
+          description:
+            'Explore the solar system with interactive 3D orbits and detailed information about the Sun, planets, moons, asteroids and comets.'
+        }
+      },
+      {
+        path: ':type/:id',
+        loadComponent: () =>
+          import('./features/solar-system-detail/solar-system-detail.component')
+            .then(m => m.SolarSystemDetailComponent),
+        data: {
+          title: 'Solar System Object – StarWatchr',
+          description:
+            'Detailed information about solar system objects including planets, moons, dwarf planets, asteroids and comets.'
+        }
+      }
+    ]
+  },
   { path: '**', redirectTo: '' }
 ];

@@ -1,0 +1,215 @@
+@if (object(); as o) {
+
+<div class="solar-page">
+
+  <!-- HEADER -->
+
+  <div class="solar-header">
+
+    <div class="header-top">
+      <button class="back-btn" routerLink="/solar-system">
+        ← Overview
+      </button>
+    </div>
+
+    <div class="control-row">
+      @for (b of mainBodies(); track b.id) {
+
+      <a
+        class="control-btn"
+        [routerLink]="['/solar-system', b.type === 'sun' ? 'sun' : 'planets', b.id]">
+
+        {{ b.name }}
+
+      </a>
+
+      }
+    </div>
+
+    <h1>
+      {{ o.name }}
+      <span class="object-type">{{ o.type }}</span>
+    </h1>
+
+  </div>
+
+
+  <!-- IMAGE + DATA -->
+
+  <div class="grid top-section">
+
+    <div class="panel image-panel">
+
+      <div class="panel-title">Imaging Reference</div>
+
+      <div class="image-wrapper">
+        <img
+          [src]="o.image"
+          [alt]="o.name"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+
+    </div>
+
+
+    <div class="panel info-panel">
+
+      <div class="panel-title">Object Data</div>
+
+      <p class="description">
+        {{ o.summary }}
+      </p>
+
+      <dl class="data-grid">
+
+        @if (o.radiusKm) {
+        <div>
+          <dt>Radius</dt>
+          <dd>{{ o.radiusKm }} km</dd>
+        </div>
+        }
+
+        @if (o.gravity) {
+        <div>
+          <dt>Gravity</dt>
+          <dd>{{ o.gravity }}</dd>
+        </div>
+        }
+
+        @if (o.orbitalPeriodDays) {
+        <div>
+          <dt>Orbital Period</dt>
+          <dd>{{ o.orbitalPeriodDays }} days</dd>
+        </div>
+        }
+
+      </dl>
+
+    </div>
+
+  </div>
+
+
+  <!-- ALTITUDE + RELATED -->
+  
+  <div class="grid middle-section">
+    
+    @if(o.type === 'sun' || o.type === 'planet'){
+    <div class="panel altitude-panel">
+      
+      <div class="panel-title">Altitude Profile (24h)</div>
+      
+      <app-altitude-graph
+        [raDeg]="raDeg()"
+        [decDeg]="decDeg()"
+        [lat]="+lat()"
+        [lon]="+lon()"
+        [date]="time.dateTime()">
+    </app-altitude-graph>
+    
+  </div>
+}
+  
+
+    <!-- RELATED OBJECTS -->
+
+<!-- MOONS OF PLANET -->
+
+@if (moons().length > 0) {
+
+<div class="panel related-panel">
+
+  <div class="panel-title">Moons</div>
+
+  <div class="related-grid">
+
+    @for (m of moons(); track m.id) {
+
+    <a
+      class="related-card"
+      [routerLink]="['/solar-system/moons', m.id]">
+
+      <img [src]="m.image">
+      <span>{{ m.name }}</span>
+
+    </a>
+
+    }
+
+  </div>
+
+</div>
+
+}
+
+
+<!-- PARENT PLANET -->
+
+@if (parentPlanet(); as p) {
+
+<div class="panel related-panel">
+
+  <div class="panel-title">Parent Planet</div>
+
+  <a
+    class="related-card parent"
+    [routerLink]="['/solar-system/planets', p.id]">
+
+    <img [src]="p.image">
+    <span>{{ p.name }}</span>
+
+  </a>
+</div>
+
+}
+
+@if (siblingMoons().length > 0) {
+  <div class="panel related-panel">
+  <div class="panel-title">
+    Other Moons of {{ parentPlanet()?.name }}
+  </div>
+
+  <div class="related-grid">
+
+    @for (m of siblingMoons(); track m.id) {
+
+    <a
+      class="related-card"
+      [routerLink]="['/solar-system/moons', m.id]">
+
+      <img [src]="m.image">
+      <span>{{ m.name }}</span>
+
+    </a>
+
+    }
+
+  </div>
+</div>
+
+}
+
+
+
+  </div>
+
+
+  <!-- ORBIT VIEWER -->
+
+  <div class="panel orbit-panel">
+
+    <div class="panel-title">Solar System Orbits</div>
+
+    <div class="orbit-frame">
+      <app-solar-orbit></app-solar-orbit>
+    </div>
+
+  </div>
+
+</div>
+
+}
+
+<br><br><br><br>
