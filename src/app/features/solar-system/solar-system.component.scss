@@ -1,111 +1,257 @@
 .solar-system-page {
-  padding: 30px 20px;
   color: #e2e8ff;
 }
 
-.solar-system-page h1{
-  background:none;
-  -webkit-text-fill-color:initial;
-}
-
-/* HEADER */
-
-h1 {
+.solar-system-page h1 {
+  background: none;
+  -webkit-text-fill-color: initial;
   font-size: 1.8rem;
   margin-bottom: 20px;
 }
 
-/* CATEGORY BUTTONS */
 
-.solar-tabs{
-  position:relative;
-  margin-bottom:24px;
-  border-radius:8px;
+/* =============================
+   NIGHT SUMMARY
+   ============================= */
+
+.night-summary {
+  margin: 8px 20px 0;
+
+  display: flex;
+  gap: 24px;
+
+  padding: 12px 16px;
+
+  border-radius: 14px;
+
+  background: #0000003d;
+  backdrop-filter: blur(8px);
+
+  border: 1px solid rgba(120,150,255,.15);
 }
 
-/* rows */
-
-.control-row{
-  display:flex;
-  flex-wrap:wrap;
-  gap:.3rem;
-  align-items:center;
-  justify-content:center;
-}
-.control-btn{
-
-  background:#1a233a;
-  border:1px solid #2d3b5e;
-  color:#e8ecff;
-
-  padding:.25rem .45rem;
-  border-radius:6px;
-
-  cursor:pointer;
-
-  font-size:.6rem;
-  font-weight:500;
-
-  white-space:nowrap;
-  text-transform:uppercase;
-  letter-spacing:.3px;
-
-  transition:all .2s ease;
-
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.control-btn:hover{
-  background:#2d3b5e;
-  border-color:#4a5f93;
+.summary-item .label {
+  font-size: .65rem;
+  text-transform: uppercase;
+  opacity: .6;
+  letter-spacing: .05em;
 }
 
-.control-btn.active{
-  background:#3a4b7a;
-  border-color:#5d7bc4;
-  color:#ffcc66;
+.summary-item strong {
+  font-size: .95rem;
+  color: #fff;
 }
 
-.control-row{
-  overflow-x:auto;
-  flex-wrap:nowrap;
-  justify-content:flex-start;
+/* =============================
+   RESPONSIVE
+   ============================= */
+
+@media (max-width: 768px) {
+
+  .night-summary {
+    gap: 16px;
+  }
+
+  .summary-item .label {
+    font-size: .55rem;
+  }
+
+  .summary-item strong {
+    font-size: .85rem;
+  }
+
+}
+
+@media (max-width: 360px) {
+
+  .night-summary {
+    gap: 12px;
+    padding: 10px 12px;
+  }
+
+  .summary-item .label {
+    font-size: .45rem;
+  }
+
+  .summary-item strong {
+    font-size: .65rem;
+  }
+
+}
+
+/* CONTROL ROW */
+
+.matrix-controls-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 12px 20px;
+}
+
+
+/* CONTROL BLOCK */
+
+.matrix-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 5px;
+  background: #0b1020;
+  align-items: center;
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.05),
+    0 0 20px rgba(100,150,255,0.15);
+}
+
+.matrix-controls button {
+  all: unset;
+  cursor: pointer;
+  white-space: nowrap;
+
+  padding: 8px 14px;
+
+  font-size: .75rem;
+  text-transform: uppercase;
+
+  color: #9fb0ff;
+
+  border-radius: 5px;
+
+  transition: all .25s ease;
+}
+
+.matrix-controls button:hover {
+  background: rgba(120,150,255,.12);
+}
+
+.matrix-controls button.active {
+  background: linear-gradient(135deg,#6f8cff,#8fb6ff);
+  color: #0b1020;
+  font-weight: 600;
+
+  box-shadow: 0 0 12px rgba(140,170,255,.6);
+}
+
+
+/* SIZE CONTROLS */
+
+.map-size-controls {
+  display: flex;
+  gap: 6px;
+  margin: 10px 20px;
+}
+
+.map-size-controls button {
+  all: unset;
+
+  cursor: pointer;
+
+  padding: 6px 14px;
+
+  font-size: .7rem;
+  font-weight: 700;
+
+  letter-spacing: .06em;
+  text-transform: uppercase;
+
+  color: #9fb0ff;
+
+  border-radius: 5px;
+
+  background: rgba(120,150,255,.08);
+
+  border: 1px solid rgba(120,150,255,.2);
+}
+
+.map-size-controls button.active {
+  background: linear-gradient(135deg,#6f8cff,#8fb6ff);
+  color: #0b1020;
 }
 
 
 /* GRID */
 
 .solar-grid {
+  margin: 20px;
   display: grid;
   grid-template-columns: repeat(auto-fill,minmax(230px,1fr));
-  gap: 18px;
+  gap: 16px;
 }
 
-/* CARDS */
+
+/* CARD */
 
 .solar-card {
+  position: relative;
+
   display: block;
 
   background: linear-gradient(180deg,#0b1020,#070a14);
-  border-radius: 14px;
+  backdrop-filter: blur(6px);
 
+  border-radius: 16px;
   border: 1px solid rgba(120,150,255,.18);
 
   overflow: hidden;
 
   text-decoration: none;
 
-  transition: .25s ease;
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+
+  animation: gridFadeIn .35s ease both;
 }
 
 .solar-card:hover {
   transform: translateY(-4px);
+  border-color: rgba(140,170,255,.4);
+
   box-shadow: 0 15px 40px rgba(80,120,255,.25);
+}
+
+.solar-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: radial-gradient(
+    circle at top,
+    rgba(120,150,255,.25),
+    transparent 70%
+  );
+
+  opacity: 0;
+
+  transition: opacity .3s ease;
+
+  pointer-events: none;
+}
+
+.solar-card:hover::before {
+  opacity: 1;
 }
 
 .solar-card img {
   width: 100%;
   height: 150px;
-  object-fit: contain;
+  object-fit: cover;
+
+  transition: transform .4s ease, filter .4s ease;
+}
+
+.solar-card:hover img {
+  transform: scale(1.04);
+  filter: contrast(1.05) brightness(1.05);
 }
 
 .card-info {
@@ -120,5 +266,48 @@ h1 {
 }
 
 .card-info span {
-  opacity: .7;
+  opacity: .75;
+  font-size: .7rem;
+}
+
+
+/* GRID SIZES */
+
+.grid-wrapper.compact .solar-grid {
+  grid-template-columns: repeat(auto-fill, minmax(170px,1fr));
+}
+
+.grid-wrapper.compact .solar-card img {
+  height: 110px;
+}
+
+.grid-wrapper.normal .solar-grid {
+  grid-template-columns: repeat(auto-fill, minmax(230px,1fr));
+}
+
+.grid-wrapper.normal .solar-card img {
+  height: 150px;
+}
+
+.grid-wrapper.large .solar-grid {
+  grid-template-columns: repeat(auto-fill, minmax(300px,1fr));
+}
+
+.grid-wrapper.large .solar-card img {
+  height: 200px;
+}
+
+
+/* GRID ANIMATION */
+
+@keyframes gridFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

@@ -2,8 +2,6 @@
 
 <div class="solar-page">
 
-  <!-- HEADER -->
-
   <div class="solar-header">
 
     <div class="header-top">
@@ -34,7 +32,7 @@
   </div>
 
 
-  <!-- IMAGE + DATA -->
+  <!-- TOP SECTION -->
 
   <div class="grid top-section">
 
@@ -92,106 +90,102 @@
   </div>
 
 
-  <!-- ALTITUDE + RELATED -->
-  
+  <!-- MIDDLE SECTION -->
+
   <div class="grid middle-section">
-    
+
     @if(o.type === 'sun' || o.type === 'planet'){
+
     <div class="panel altitude-panel">
-      
+
       <div class="panel-title">Altitude Profile (24h)</div>
-      
+
       <app-altitude-graph
         [raDeg]="raDeg()"
         [decDeg]="decDeg()"
         [lat]="+lat()"
         [lon]="+lon()"
         [date]="time.dateTime()">
-    </app-altitude-graph>
-    
-  </div>
-}
-  
+      </app-altitude-graph>
 
-    <!-- RELATED OBJECTS -->
-
-<!-- MOONS OF PLANET -->
-
-@if (moons().length > 0) {
-
-<div class="panel related-panel">
-
-  <div class="panel-title">Moons</div>
-
-  <div class="related-grid">
-
-    @for (m of moons(); track m.id) {
-
-    <a
-      class="related-card"
-      [routerLink]="['/solar-system/moons', m.id]">
-
-      <img [src]="m.image">
-      <span>{{ m.name }}</span>
-
-    </a>
+    </div>
 
     }
 
-  </div>
 
-</div>
+    @if (moons().length > 0) {
 
-}
+    <div class="panel related-panel">
 
+      <div class="panel-title">Moons</div>
 
-<!-- PARENT PLANET -->
+      <div class="related-grid">
 
-@if (parentPlanet(); as p) {
+        @for (m of moons(); track m.id) {
 
-<div class="panel related-panel">
+        <a class="related-card"
+           [routerLink]="['/solar-system/moons', m.id]">
 
-  <div class="panel-title">Parent Planet</div>
+          <img [src]="m.image">
+          <span>{{ m.name }}</span>
 
-  <a
-    class="related-card parent"
-    [routerLink]="['/solar-system/planets', p.id]">
+        </a>
 
-    <img [src]="p.image">
-    <span>{{ p.name }}</span>
+        }
 
-  </a>
-</div>
+      </div>
 
-}
-
-@if (siblingMoons().length > 0) {
-  <div class="panel related-panel">
-  <div class="panel-title">
-    Other Moons of {{ parentPlanet()?.name }}
-  </div>
-
-  <div class="related-grid">
-
-    @for (m of siblingMoons(); track m.id) {
-
-    <a
-      class="related-card"
-      [routerLink]="['/solar-system/moons', m.id]">
-
-      <img [src]="m.image">
-      <span>{{ m.name }}</span>
-
-    </a>
+    </div>
 
     }
 
-  </div>
-</div>
 
-}
+    @if (parentPlanet(); as p) {
+
+    <div class="panel related-panel">
+
+      <div class="panel-title">Parent Planet</div>
+
+      <a class="related-card parent"
+         [routerLink]="['/solar-system/planets', p.id]">
+
+        <img [src]="p.image">
+        <span>{{ p.name }}</span>
+
+      </a>
+
+    </div>
+
+    }
 
 
+    @if (siblingMoons().length > 0) {
+
+    <div class="panel related-panel">
+
+      <div class="panel-title">
+        Other Moons of {{ parentPlanet()?.name }}
+      </div>
+
+      <div class="related-grid">
+
+        @for (m of siblingMoons(); track m.id) {
+
+        <a class="related-card"
+           [routerLink]="['/solar-system/moons', m.id]">
+
+          <img [src]="m.image">
+          <span>{{ m.name }}</span>
+
+        </a>
+
+        }
+
+      </div>
+
+    </div>
+
+    }
 
   </div>
 
@@ -211,5 +205,3 @@
 </div>
 
 }
-
-<br><br><br><br>

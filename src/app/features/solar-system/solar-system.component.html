@@ -1,210 +1,190 @@
 <div class="solar-system-page">
 
-  <h1>Solar System</h1>
 
-  <div class="control-bar solar-tabs">
-    <div class="control-row">
+  <!-- SUMMARY -->
 
-    <button
-        class="control-btn"
-        (click)="showAll()">
-        Show All
-    </button>
+  <div class="night-summary">
 
-    <button
-        class="control-btn"
-        (click)="showNone()">
-        Show None
-    </button>
+    <div class="summary-item">
+      <span class="label">Sun</span>
+      <strong>1</strong>
+    </div>
+
+    <div class="summary-item">
+      <span class="label">Planets</span>
+      <strong>{{ solar.planets().length }}</strong>
+    </div>
+
+    <div class="summary-item">
+      <span class="label">Moons</span>
+      <strong>{{ solar.moons().length }}</strong>
+    </div>
+
+    <div class="summary-item">
+      <span class="label">Dwarf Planets</span>
+      <strong>{{ solar.dwarfPlanets().length }}</strong>
+    </div>
+
+    <div class="summary-item">
+      <span class="label">Asteroids</span>
+      <strong>{{ solar.asteroids().length }}</strong>
+    </div>
+
+    <div class="summary-item">
+      <span class="label">Comets</span>
+      <strong>{{ solar.comets().length }}</strong>
+    </div>
+
+  </div>
+
+  <!-- CATEGORY CONTROLS -->
+
+  <div class="matrix-controls-row">
+
+    <div class="matrix-controls">
+
+      <button (click)="showAll()">Show All</button>
+      <button (click)="showNone()">Show None</button>
 
     </div>
-    <div class="control-row">
 
-      <button
-        class="control-btn"
-        (click)="toggleCategory('sun')"
-        [class.active]="activeCategories().has('sun')">
-        Sun
-      </button>
+    <div class="matrix-controls">
 
-      <button
-        class="control-btn"
-        (click)="toggleCategory('planets')"
-        [class.active]="activeCategories().has('planets')">
-        Planets
-      </button>
-
-      <button
-        class="control-btn"
-        (click)="toggleCategory('moons')"
-        [class.active]="activeCategories().has('moons')">
-        Moons
-      </button>
-
-      <button
-        class="control-btn"
-        (click)="toggleCategory('dwarf-planets')"
-        [class.active]="activeCategories().has('dwarf-planets')">
-        Dwarf Planets
-      </button>
-
-      <button
-        class="control-btn"
-        (click)="toggleCategory('asteroids')"
-        [class.active]="activeCategories().has('asteroids')">
-        Asteroids
-      </button>
-
-      <button
-        class="control-btn"
-        (click)="toggleCategory('comets')"
-        [class.active]="activeCategories().has('comets')">
-        Comets
-      </button>
+      <button (click)="toggleCategory('sun')" [class.active]="activeCategories().has('sun')">Sun</button>
+      <button (click)="toggleCategory('planets')" [class.active]="activeCategories().has('planets')">Planets</button>
+      <button (click)="toggleCategory('moons')" [class.active]="activeCategories().has('moons')">Moons</button>
+      <button (click)="toggleCategory('dwarf-planets')" [class.active]="activeCategories().has('dwarf-planets')">Dwarf Planets</button>
+      <button (click)="toggleCategory('asteroids')" [class.active]="activeCategories().has('asteroids')">Asteroids</button>
+      <button (click)="toggleCategory('comets')" [class.active]="activeCategories().has('comets')">Comets</button>
 
     </div>
 
   </div>
 
-  <div class="solar-grid">
 
-    <!-- SUN -->
+  <!-- SIZE CONTROLS -->
 
-    @if (activeCategories().has('sun')) {
+  <div class="map-size-controls">
 
-      @if (solar.sun(); as s) {
+    <button (click)="mapSize='compact'" [class.active]="mapSize==='compact'">Compact</button>
+    <button (click)="mapSize='normal'" [class.active]="mapSize==='normal'">Normal</button>
+    <button (click)="mapSize='large'" [class.active]="mapSize==='large'">Large</button>
 
-        <a
-          class="solar-card"
-          [routerLink]="['/solar-system/sun', s.id]">
+  </div>
 
-          <img [src]="s.image" [alt]="s.name">
 
-          <div class="card-info">
-            <strong>{{ s.name }}</strong>
-            <span>Star</span>
-          </div>
+  <!-- GRID -->
 
-        </a>
+  <div class="grid-wrapper"
+       [class.compact]="mapSize==='compact'"
+       [class.normal]="mapSize==='normal'"
+       [class.large]="mapSize==='large'">
 
+    <div class="solar-grid">
+
+      @if (activeCategories().has('sun')) {
+        @if (solar.sun(); as s) {
+
+          <a class="solar-card" [routerLink]="['/solar-system/sun', s.id]">
+
+            <img [src]="s.image" [alt]="s.name">
+
+            <div class="card-info">
+              <strong>{{ s.name }}</strong>
+              <span>Star</span>
+            </div>
+
+          </a>
+
+        }
       }
 
-    }
+      @if (activeCategories().has('planets')) {
+        @for (p of solar.planets(); track p.id) {
 
-    <!-- PLANETS -->
+          <a class="solar-card" [routerLink]="['/solar-system/planets', p.id]">
 
-    @if (activeCategories().has('planets')) {
+            <img [src]="p.image" [alt]="p.name">
 
-      @for (p of solar.planets(); track p.id) {
+            <div class="card-info">
+              <strong>{{ p.name }}</strong>
+              <span>Planet</span>
+            </div>
 
-        <a
-          class="solar-card"
-          [routerLink]="['/solar-system/planets', p.id]">
+          </a>
 
-          <img [src]="p.image" [alt]="p.name">
-
-          <div class="card-info">
-            <strong>{{ p.name }}</strong>
-            <span>Planet</span>
-          </div>
-
-        </a>
-
+        }
       }
 
-    }
+      @if (activeCategories().has('moons')) {
+        @for (m of solar.moons(); track m.id) {
 
-    <!-- MOONS -->
+          <a class="solar-card" [routerLink]="['/solar-system/moons', m.id]">
 
-    @if (activeCategories().has('moons')) {
+            <img [src]="m.image" [alt]="m.name">
 
-      @for (m of solar.moons(); track m.id) {
+            <div class="card-info">
+              <strong>{{ m.name }}</strong>
+              <span>Moon of {{ m.planet }}</span>
+            </div>
 
-        <a
-          class="solar-card"
-          [routerLink]="['/solar-system/moons', m.id]">
+          </a>
 
-          <img [src]="m.image" [alt]="m.name">
-
-          <div class="card-info">
-            <strong>{{ m.name }}</strong>
-            <span>Moon of {{ m.planet }}</span>
-          </div>
-
-        </a>
-
+        }
       }
 
-    }
+      @if (activeCategories().has('dwarf-planets')) {
+        @for (d of solar.dwarfPlanets(); track d.id) {
 
-    <!-- DWARF PLANETS -->
+          <a class="solar-card" [routerLink]="['/solar-system/dwarf-planets', d.id]">
 
-    @if (activeCategories().has('dwarf-planets')) {
+            <img [src]="d.image" [alt]="d.name">
 
-      @for (d of solar.dwarfPlanets(); track d.id) {
+            <div class="card-info">
+              <strong>{{ d.name }}</strong>
+              <span>Dwarf Planet</span>
+            </div>
 
-        <a
-          class="solar-card"
-          [routerLink]="['/solar-system/dwarf-planets', d.id]">
+          </a>
 
-          <img [src]="d.image" [alt]="d.name">
-
-          <div class="card-info">
-            <strong>{{ d.name }}</strong>
-            <span>Dwarf Planet</span>
-          </div>
-
-        </a>
-
+        }
       }
 
-    }
+      @if (activeCategories().has('asteroids')) {
+        @for (a of solar.asteroids(); track a.id) {
 
-    <!-- ASTEROIDS -->
+          <a class="solar-card" [routerLink]="['/solar-system/asteroids', a.id]">
 
-    @if (activeCategories().has('asteroids')) {
+            <img [src]="a.image" [alt]="a.name">
 
-      @for (a of solar.asteroids(); track a.id) {
+            <div class="card-info">
+              <strong>{{ a.name }}</strong>
+              <span>Asteroid</span>
+            </div>
 
-        <a
-          class="solar-card"
-          [routerLink]="['/solar-system/asteroids', a.id]">
+          </a>
 
-          <img [src]="a.image" [alt]="a.name">
-
-          <div class="card-info">
-            <strong>{{ a.name }}</strong>
-            <span>Asteroid</span>
-          </div>
-
-        </a>
-
+        }
       }
 
-    }
+      @if (activeCategories().has('comets')) {
+        @for (c of solar.comets(); track c.id) {
 
-    <!-- COMETS -->
+          <a class="solar-card" [routerLink]="['/solar-system/comets', c.id]">
 
-    @if (activeCategories().has('comets')) {
+            <img [src]="c.image" [alt]="c.name">
 
-      @for (c of solar.comets(); track c.id) {
+            <div class="card-info">
+              <strong>{{ c.name }}</strong>
+              <span>Comet</span>
+            </div>
 
-        <a
-          class="solar-card"
-          [routerLink]="['/solar-system/comets', c.id]">
+          </a>
 
-          <img [src]="c.image" [alt]="c.name">
-
-          <div class="card-info">
-            <strong>{{ c.name }}</strong>
-            <span>Comet</span>
-          </div>
-
-        </a>
-
+        }
       }
 
-    }
+    </div>
 
   </div>
 

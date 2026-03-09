@@ -19,7 +19,7 @@ type Category =
 export class SolarSystemComponent {
   solar = inject(SolarSystemService);
   activeCategories = signal<Set<Category>>(new Set(['sun', 'planets']));
-
+  mapSize: 'compact' | 'normal' | 'large' = 'normal';
   constructor() {
     this.solar.load();
   }
