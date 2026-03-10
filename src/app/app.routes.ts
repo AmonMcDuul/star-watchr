@@ -13,7 +13,8 @@ export const routes: Routes = [
     data: {
       title: 'Stargazing Forecast Tonight – Clear Sky & Seeing Conditions | StarWatchr',
       description:
-        'Check tonight’s stargazing forecast with cloud cover, seeing conditions, moon phase and twilight times to plan your astronomy observations.'
+        'Check tonight’s stargazing forecast with cloud cover, seeing conditions, moon phase and twilight times to plan your astronomy observations.',
+      canonical: '/'
     }
   },
 
@@ -23,7 +24,8 @@ export const routes: Routes = [
     data: {
       title: 'Deep Sky Objects Visible Tonight – Messier & Caldwell Catalog | StarWatchr',
       description:
-        'Discover which Messier and Caldwell deep sky objects are visible tonight from your location, including altitude and best observing time.'
+        'Discover which Messier and Caldwell deep sky objects are visible tonight from your location, including altitude and best observing time.',
+      canonical: '/dso-forecast'
     }
   },
 
@@ -33,20 +35,10 @@ export const routes: Routes = [
     data: {
       title: 'NASA Astronomy Picture of the Day (APOD) – Space Photo Explained | StarWatchr',
       description:
-        'Explore NASA’s Astronomy Picture of the Day with explanations and context for amateur astronomers and night sky observers.'
+        'Explore NASA’s Astronomy Picture of the Day with explanations and context for amateur astronomers and night sky observers.',
+      canonical: '/apod'
     }
   },
-
-  // Alerts voorlopig uitgeschakeld
-  // {
-  //   path: 'alerts',
-  //   component: AlertsComponent,
-  //   data: {
-  //     title: 'Stargazing Alerts – Clear Sky Notifications | StarWatchr',
-  //     description:
-  //       'Receive notifications when stargazing conditions are optimal, including clear skies, low cloud cover and good astronomical seeing.'
-  //   }
-  // },
 
   {
     path: 'about',
@@ -54,7 +46,8 @@ export const routes: Routes = [
     data: {
       title: 'About StarWatchr – Astronomy Tools for Stargazing & Night Sky Planning',
       description:
-        'Learn about StarWatchr, an astronomy web application designed to help stargazers find clear skies, visible deep sky objects and observing conditions.'
+        'Learn about StarWatchr, an astronomy web application designed to help stargazers find clear skies, visible deep sky objects and observing conditions.',
+      canonical: '/about'
     }
   },
 
@@ -64,7 +57,8 @@ export const routes: Routes = [
     data: {
       title: 'Contact StarWatchr – Questions, Feedback or Bug Reports',
       description:
-        'Contact StarWatchr to report bugs, suggest astronomy features or share feedback about the stargazing tools.'
+        'Contact StarWatchr to report bugs, suggest astronomy features or share feedback about the stargazing tools.',
+      canonical: '/contact'
     }
   },
 
@@ -88,7 +82,8 @@ export const routes: Routes = [
     data: {
       title: 'Interactive Sky Atlas – Explore Stars, Constellations & Deep Sky Objects',
       description:
-        'Navigate the night sky with an interactive sky atlas showing constellations, stars and deep sky objects in real time.'
+        'Navigate the night sky with an interactive sky atlas showing constellations, stars and deep sky objects in real time.',
+      canonical: '/sky-atlas'
     }
   },
 
@@ -103,7 +98,8 @@ export const routes: Routes = [
         data: {
           title: 'Solar System Explorer – Planets, Moons & Orbits | StarWatchr',
           description:
-            'Explore the solar system with interactive 3D orbits and detailed information about the Sun, planets, moons, asteroids and comets.'
+            'Explore the solar system with interactive 3D orbits and detailed information about the Sun, planets, moons, asteroids and comets.',
+          canonical: '/solar-system'
         }
       },
 
