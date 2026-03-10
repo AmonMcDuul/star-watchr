@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SolarSystemService } from '../../services/solar-system.service';
@@ -53,9 +53,7 @@ export class SolarSystemDetailComponent {
       this.id.set(params.get('id'));
     });
 
-    /* ---- SEO WATCHER ---- */
-
-    computed(() => {
+    effect(() => {
 
       const o = this.object();
       if (!o) return;
