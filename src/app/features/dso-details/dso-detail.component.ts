@@ -69,53 +69,47 @@ export class DsoDetailComponent implements OnDestroy {
   });
 
   constructor() {
+  }
 
-    this.route.paramMap.subscribe(params => {
+  async ngOnInit() {
 
-      const id = params.get('id');
-      if (!id) {
-        this.router.navigateByUrl('/');
-        return;
-      }
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) return;
 
-      this.messier.load().then(() => {
+    await this.messier.load();
+    await this.messier.loadCaldwell();
 
-        const parsed = parseInt(id.replace(/[^\d]/g, ''), 10);
-        const prefix = id.charAt(0).toUpperCase();
+    const parsed = parseInt(id.replace(/[^\d]/g, ''), 10);
+    const prefix = id.charAt(0).toUpperCase();
 
-        const target = this.messier.getByNumberAndCode(prefix, parsed);
+    const target = this.messier.getByNumberAndCode(prefix, parsed);
+    if (!target) return;
 
-        if (!target) {
-          this.router.navigateByUrl('/');
-          return;
-        }
+    this.messier.selectedMessier.set(target);
 
-        this.messier.selectedMessier.set(target);
-
-      });
-
-    });
+    this.updateSeo(target);
 
   }
 
-  ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id')?.toLowerCase();
+  private updateSeo(dso: MessierObject) {
 
-    const dsoCatalog = DSO_CATALOG.find(d => d.id === id);
-    if (!dsoCatalog) return;
+    const objectId = `${dso.code}${dso.messierNumber}`.toUpperCase();
 
-    const title = `${dsoCatalog.name} (${dsoCatalog.id.toUpperCase()}) – StarWatchr`;
+    const title =
+      `${dso.name} (${objectId}) – ${dso.type} in ${dso.constellation} | StarWatchr`;
 
     const description =
-      `${dsoCatalog.name} in ${dsoCatalog.constellation}. ` +
-      `Magnitude ${dsoCatalog.magnitude}. Viewing season: ${dsoCatalog.viewingSeason}.`;
+      `${dso.name} (${objectId}) is a ${dso.type.toLowerCase()} in the constellation ${dso.constellation}. ` +
+      `It has an apparent magnitude of ${dso.magnitude} and an angular size of ${dso.size}. ` +
+      `Located about ${dso.distance.toLocaleString()} light-years from Earth and best observed during ${dso.viewingSeason.toLowerCase()}.`;
 
     this.seo.update(
       title,
       description,
-      `/dso/${dsoCatalog.id}`,
-      dsoCatalog.image
+      `/dso/${objectId.toLowerCase()}`,
+      dso.image
     );
+
   }
 
   ngOnDestroy(): void {

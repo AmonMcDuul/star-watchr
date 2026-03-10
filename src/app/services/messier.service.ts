@@ -1,13 +1,14 @@
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { Injectable, PLATFORM_ID, computed, inject, signal } from '@angular/core';
 import { LocationService } from './location.service';
 import { ForecastContextService } from './forecast-context.service';
 import { MessierJson, MessierObject } from '../models/messier.model';
 import { Observer, Horizon, AstroTime, RotateVector, Rotation_EQJ_EQD, SphereFromVector, VectorFromSphere, Rotation_EQD_EQJ, InverseRotation, HourAngle, Refraction, Rotation_ECL_HOR, Rotation_EQJ_HOR, SiderealTime, Body } from 'astronomy-engine';
 import { MessierTimeService } from './messier-time.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class MessierService {
-
+  private platformId = inject(PLATFORM_ID);
   private location = inject(LocationService);
   private context = inject(ForecastContextService);
   private time = inject(MessierTimeService);
@@ -33,6 +34,7 @@ export class MessierService {
   readonly activeCatalog = signal<'M' | 'C'>('M');
   
   async load() {
+    if (!isPlatformBrowser(this.platformId)) return;
     if (this.messierRaw()) return;
     this.loading.set(true);
     const res = await fetch('/assets/data/messier.json');
@@ -40,6 +42,7 @@ export class MessierService {
     this.loading.set(false);
   }
   async loadCaldwell() {
+    if (!isPlatformBrowser(this.platformId)) return;
     if (this.caldwellRaw()) return;
     this.loading.set(true);
     const res = await fetch('/assets/data/caldwell.json');

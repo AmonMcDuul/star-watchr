@@ -47,7 +47,7 @@
 
     <div class="panel image-panel">
       <div class="panel-title">Imaging Reference</div>
-      <img [src]="dso.image" [alt]="dso.name" loading="lazy"
+      <img [src]="dso.image" [alt]="dso.name + ' (' + dso.code + dso.messierNumber + ') ' + dso.type" loading="lazy"
   decoding="async"/>
     </div>
 
