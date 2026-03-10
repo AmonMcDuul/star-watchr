@@ -99,9 +99,9 @@ export class DsoDetailComponent implements OnDestroy {
       `${dso.name} (${objectId}) – ${dso.type} in ${dso.constellation} | StarWatchr`;
 
     const description =
-      `${dso.name} (${objectId}) is a ${dso.type.toLowerCase()} in the constellation ${dso.constellation}. ` +
-      `It has an apparent magnitude of ${dso.magnitude} and an angular size of ${dso.size}. ` +
-      `Located about ${dso.distance.toLocaleString()} light-years from Earth and best observed during ${dso.viewingSeason.toLowerCase()}.`;
+      `${dso.name} (${objectId}) is a ${dso.type.toLowerCase()} in ${dso.constellation}. ` +
+      `Find ${objectId} with the interactive starhop map. ` +
+      `Magnitude ${dso.magnitude}, size ${dso.size}.`;
 
     this.seo.update(
       title,
