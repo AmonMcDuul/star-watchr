@@ -22,9 +22,9 @@ export const routes: Routes = [
     path: 'dso-forecast',
     component: DsoTonightComponent,
     data: {
-      title: 'Deep Sky Objects Visible Tonight – Messier & Caldwell Catalog | StarWatchr',
+      title: 'Messier & Caldwell Catalog – Deep Sky Objects Visible Tonight | StarWatchr',
       description:
-        'Discover which Messier and Caldwell deep sky objects are visible tonight from your location, including altitude and best observing time.',
+      'Browse the Messier and Caldwell deep sky object catalog and see which objects are visible tonight from your location, including altitude and best observing time.',
       canonical: '/dso-forecast'
     }
   },
