@@ -22,24 +22,34 @@ export class App {
   private platformId = inject(PLATFORM_ID);
   protected readonly title = signal('StarWatchr');
 
-  constructor() {
-    this.router.events
-      .pipe(filter(e => e instanceof NavigationEnd))
-      .subscribe((e: NavigationEnd) => {
-        let r = this.route.firstChild;
-        while (r?.firstChild) r = r.firstChild;
+constructor() {
+  this.router.events
+    .pipe(filter(e => e instanceof NavigationEnd))
+    .subscribe((e: NavigationEnd) => {
 
-        const data = r?.snapshot.data;
-        if (data?.['title'] && data?.['description']) {
-          this.seo.update(data['title'], data['description']);
+      let r = this.route.firstChild;
+      while (r?.firstChild) r = r.firstChild;
+
+      const data = r?.snapshot.data;
+
+      if (data?.['title'] && data?.['description']) {
+        this.seo.update(
+          data['title'],
+          data['description'],
+          data['canonical']
+        );
+      }
+
+      if (isPlatformBrowser(this.platformId) && location.hostname !== 'localhost') {
+
+        const path =
+          e.urlAfterRedirects.split('?')[0].replace(/\/+$/, '') || '/';
+
+        if (path !== this.lastPath) {
+          this.lastPath = path;
+          this.analytics.trackPageView(path);
         }
-        if (isPlatformBrowser(this.platformId) && location.hostname !== 'localhost'){
-          const path = e.urlAfterRedirects.split('?')[0].replace(/\/+$/, '') || '/';;
-          if (path !== this.lastPath) {
-            this.lastPath = path;
-            this.analytics.trackPageView(path);
-          }
-        }
-      });
-  }
+      }
+    });
+}
 }
