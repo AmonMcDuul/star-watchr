@@ -11,78 +11,87 @@ export const routes: Routes = [
     path: '',
     component: ForecastPageComponent,
     data: {
-      title: 'Stargazing Forecast – StarWatchr',
+      title: 'Stargazing Forecast Tonight – Clear Sky & Seeing Conditions | StarWatchr',
       description:
-        'Accurate and detailed stargazing forecast with moon phase, twilight times, cloud cover and seeing conditions.'
+        'Check tonight’s stargazing forecast with cloud cover, seeing conditions, moon phase and twilight times to plan your astronomy observations.'
     }
   },
+
   {
     path: 'dso-forecast',
     component: DsoTonightComponent,
     data: {
-      title: 'Deep Sky Object Forecast – StarWatchr',
+      title: 'Deep Sky Objects Visible Tonight – Messier & Caldwell Catalog | StarWatchr',
       description:
-        'See which Messier and deep-sky objects are visible tonight and per hour from your location, based on sky position and time.'
+        'Discover which Messier and Caldwell deep sky objects are visible tonight from your location, including altitude and best observing time.'
     }
   },
+
   {
     path: 'apod',
     component: ApodComponent,
     data: {
-      title: 'NASA Astronomy Picture of the Day – StarWatchr',
+      title: 'NASA Astronomy Picture of the Day (APOD) – Space Photo Explained | StarWatchr',
       description:
-        'Explore the universe with NASA’s Astronomy Picture of the Day (APOD), with context and explanation for stargazers.'
+        'Explore NASA’s Astronomy Picture of the Day with explanations and context for amateur astronomers and night sky observers.'
     }
   },
-  {
-    path: 'alerts',
-    component: AlertsComponent,
-    data: {
-      title: 'Stargazing Alerts – StarWatchr',
-      description:
-        'Receive notifications when stargazing conditions are optimal, including clear skies, low cloud cover and good seeing.'
-    }
-  },
+
+  // Alerts voorlopig uitgeschakeld
+  // {
+  //   path: 'alerts',
+  //   component: AlertsComponent,
+  //   data: {
+  //     title: 'Stargazing Alerts – Clear Sky Notifications | StarWatchr',
+  //     description:
+  //       'Receive notifications when stargazing conditions are optimal, including clear skies, low cloud cover and good astronomical seeing.'
+  //   }
+  // },
+
   {
     path: 'about',
     component: AboutComponent,
     data: {
-      title: 'About StarWatchr – Astronomy & Stargazing Tools',
+      title: 'About StarWatchr – Astronomy Tools for Stargazing & Night Sky Planning',
       description:
-        'Learn more about StarWatchr, an astronomy-focused web application built to help stargazers plan the perfect night under the stars.'
+        'Learn about StarWatchr, an astronomy web application designed to help stargazers find clear skies, visible deep sky objects and observing conditions.'
     }
   },
+
   {
     path: 'contact',
     component: ContactComponent,
     data: {
-      title: 'Contact StarWatchr – Questions, Feedback & Bug Reports',
+      title: 'Contact StarWatchr – Questions, Feedback or Bug Reports',
       description:
-        'Have a question, idea, bug report or feedback about StarWatchr? Get in touch and help improve the stargazing experience.'
+        'Contact StarWatchr to report bugs, suggest astronomy features or share feedback about the stargazing tools.'
     }
   },
+
   {
     path: 'dso/:id',
     loadComponent: () =>
       import('./features/dso-details/dso-detail.component')
         .then(m => m.DsoDetailComponent),
     data: {
-      title: 'Deep Sky Object Details – StarWatchr',
+      title: 'Deep Sky Object – Messier & Caldwell Details | StarWatchr',
       description:
-        'Detailed information about deep sky objects, including visibility, sky position and observation tips.'
+        'Detailed information about Messier and Caldwell deep sky objects including magnitude, size, constellation and observing season.'
     }
   },
+
   {
     path: 'sky-atlas',
     loadComponent: () =>
       import('./features/sky-atlas/sky-atlas.component')
         .then(m => m.SkyAtlasComponent),
     data: {
-      title: 'Interactive Sky Atlas – StarWatchr',
+      title: 'Interactive Sky Atlas – Explore Stars, Constellations & Deep Sky Objects',
       description:
-        'Explore the night sky with the interactive sky atlas. Navigate constellations, stars and deep sky objects in real time.'
+        'Navigate the night sky with an interactive sky atlas showing constellations, stars and deep sky objects in real time.'
     }
   },
+
   {
     path: 'solar-system',
     children: [
@@ -92,23 +101,25 @@ export const routes: Routes = [
           import('./features/solar-system/solar-system.component')
             .then(m => m.SolarSystemComponent),
         data: {
-          title: 'Solar System Explorer – StarWatchr',
+          title: 'Solar System Explorer – Planets, Moons & Orbits | StarWatchr',
           description:
             'Explore the solar system with interactive 3D orbits and detailed information about the Sun, planets, moons, asteroids and comets.'
         }
       },
+
       {
         path: ':type/:id',
         loadComponent: () =>
           import('./features/solar-system-detail/solar-system-detail.component')
             .then(m => m.SolarSystemDetailComponent),
         data: {
-          title: 'Solar System Object – StarWatchr',
+          title: 'Solar System Object – Planet, Moon or Asteroid Details | StarWatchr',
           description:
             'Detailed information about solar system objects including planets, moons, dwarf planets, asteroids and comets.'
         }
       }
     ]
   },
+
   { path: '**', redirectTo: '' }
 ];

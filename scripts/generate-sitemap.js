@@ -16,7 +16,6 @@ const routes = [
   '/',
   '/about',
   '/contact',
-  '/alerts',
   '/apod',
   '/solar-system',
   '/sky-atlas',
