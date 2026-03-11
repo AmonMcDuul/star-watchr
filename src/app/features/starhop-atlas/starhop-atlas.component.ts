@@ -409,69 +409,89 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
   }
 
   // ===== STERREN =====
-  private createStars(): void {
-    const allStars = this.catalog.getStarsNear(this.ra, this.dec, 30);
-    const positions: number[] = [];
-    const colors: number[] = [];
-    const sizes: number[] = [];
+// ===== STERREN - met vaste grootte =====
+private createStars(): void {
+  const allStars = this.catalog.getStarsNear(this.ra, this.dec, 30);
+  const positions: number[] = [];
+  const colors: number[] = [];
+  const sizes: number[] = [];
 
-    allStars.forEach(star => {
-      const pos = this.raDecToXYZ(star.ra, star.dec, 100);
-      const color = this.bvToColor(star.ci);
-      positions.push(pos.x, pos.y, pos.z);
-      colors.push(color.r, color.g, color.b);
+  allStars.forEach(star => {
+    const pos = this.raDecToXYZ(star.ra, star.dec, 100);
+    const color = this.bvToColor(star.ci);
+    positions.push(pos.x, pos.y, pos.z);
+    colors.push(color.r, color.g, color.b);
 
-      let size = 7.0 * (6.5 - Math.min(star.mag, 6.5)) * 0.8;
-      if (star.mag < 1) size *= 1.6;
-      else if (star.mag < 2) size *= 1.3;
+    // Kleinere basisgrootte voor alle sterren
+      let size = 5.0 * (6.5 - Math.min(star.mag, 6.5)) * 0.6;
+      if (star.mag < 1) size *= 1.4;
+      else if (star.mag < 2) size *= 1.2;
       else if (star.mag < 4) size *= 1.1;
-      size = Math.min(28, Math.max(4, size));
-      sizes.push(size);
+    // Maximum veel kleiner gemaakt
+    size = Math.min(16, Math.max(2, size));
 
-      this.stars.push({ position: pos, name: star.name, magnitude: star.mag, color, ra: star.ra, dec: star.dec, size });
+    sizes.push(size);
+
+    this.stars.push({ 
+      position: pos, 
+      name: star.name, 
+      magnitude: star.mag, 
+      color, 
+      ra: star.ra, 
+      dec: star.dec, 
+      size 
     });
+  });
 
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-    geometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+  geometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
 
-    const vertexShader = `
-      attribute float size;
-      attribute vec3 color;
-      varying vec3 vColor;
-      void main() {
-        vColor = color;
-        vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-        gl_PointSize = size;
-        gl_Position = projectionMatrix * mvPosition;
-      }
-    `;
-    const fragmentShader = `
-      uniform sampler2D pointTexture;
-      varying vec3 vColor;
-      void main() {
-        vec4 texColor = texture2D(pointTexture, gl_PointCoord);
-        gl_FragColor = vec4(vColor, texColor.a);
-      }
-    `;
-    const material = new THREE.ShaderMaterial({
-      uniforms: { pointTexture: { value: this.textures.star } },
-      vertexShader, fragmentShader,
-      transparent: true,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false
-    });
-    this.starGroup.add(new THREE.Points(geometry, material));
+  // Eenvoudige shader zonder schaling op afstand
+  const vertexShader = `
+    attribute float size;
+    attribute vec3 color;
+    varying vec3 vColor;
+    void main() {
+      vColor = color;
+      vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+      // VASTE grootte - niet schalen met afstand
+      gl_PointSize = size;
+      gl_Position = projectionMatrix * mvPosition;
+    }
+  `;
+  
+  const fragmentShader = `
+    uniform sampler2D pointTexture;
+    varying vec3 vColor;
+    void main() {
+      vec4 texColor = texture2D(pointTexture, gl_PointCoord);
+      gl_FragColor = vec4(vColor, texColor.a);
+    }
+  `;
+  
+  const material = new THREE.ShaderMaterial({
+    uniforms: { pointTexture: { value: this.textures.star } },
+    vertexShader, 
+    fragmentShader,
+    transparent: true,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false
+  });
 
-    if (this.showStarNames) {
-      this.stars.filter(s => s.name && s.magnitude < 4).forEach(star => {
-        const label = this.createLabel(star.name!, '#ffd700', 32, 18);
+  this.starGroup.add(new THREE.Points(geometry, material));
+
+  if (this.showStarNames) {
+    this.stars
+      .filter(s => s.name && s.magnitude < 4)
+      .forEach(star => {
+        const label = this.createLabel(star.name!, '#ffd700', 28, 18);
         label.position.copy(star.position.clone().multiplyScalar(1.05));
         this.starGroup.add(label);
       });
-    }
   }
+}
 
   // ===== CONSTELLATIES =====
 // ===== CONSTELLATIES - precies zoals in originele werkende code =====
@@ -1083,19 +1103,29 @@ private createLabel(text: string, color: string, baseFontSize = 32, scaleDivisor
   
   return sprite;
 }
-  private updateLabelSizes(): void {
-    if (!this.camera) return;
-    const zoomFactor = 30 / this.camera.fov;
-    [this.constellationNameGroup, this.starGroup].forEach(group => {
-      group.children.forEach(child => {
-        if (child instanceof THREE.Sprite && child.userData?.['baseWidth']) {
-          const { baseWidth, baseHeight, minScale = 0.5, maxScale = 3.0 } = child.userData;
-          const clamped = Math.max(minScale, Math.min(maxScale, zoomFactor));
-          child.scale.set(baseWidth * clamped, baseHeight * clamped, 1);
-        }
-      });
-    });
-  }
+private updateLabelSizes(): void {
+  if (!this.camera) return;
+  
+  // Alleen constellation namen aanpassen, geen sterren meer
+  this.constellationNameGroup.children.forEach(child => {
+    if (child instanceof THREE.Sprite && child.userData?.['baseWidth']) {
+      const { baseWidth, baseHeight, minScale = 1.0, maxScale = 2.0 } = child.userData;
+      // Alleen bij grote zoomverschillen een beetje aanpassen
+      const zoomFactor = Math.min(2.0, 20 / this.camera.fov);
+      const clamped = Math.max(minScale, Math.min(maxScale, zoomFactor));
+      child.scale.set(baseWidth * clamped, baseHeight * clamped, 1);
+    }
+  });
+  
+  // Sterren labels niet aanpassen
+  this.starGroup.children.forEach(child => {
+    if (child instanceof THREE.Sprite && child.userData?.['baseWidth']) {
+      // Houd labels van sterren op vaste grootte
+      const { baseWidth, baseHeight } = child.userData;
+      child.scale.set(baseWidth, baseHeight, 1);
+    }
+  });
+}
 
   // ===== TOUCH =====
   private onWheel = (event: WheelEvent) => {
