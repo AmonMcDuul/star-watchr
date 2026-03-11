@@ -474,25 +474,89 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
   }
 
   // ===== CONSTELLATIES =====
-  private createConstellations(): void {
-    const constellations = this.catalog.getConstellationsInView(this.ra, this.dec, 60);
-    const lineMaterial = new THREE.LineBasicMaterial({ color: 0x88aaff, opacity: 0.4, transparent: true });
+// ===== CONSTELLATIES - precies zoals in originele werkende code =====
+private createConstellations(): void {
+  const constellations = this.catalog.getConstellationsInView(this.ra, this.dec, 60);
+  const lineMaterial = new THREE.LineBasicMaterial({ color: 0x88aaff, opacity: 0.4, transparent: true });
 
-    constellations.forEach(c => {
-      c.lines.forEach((line: any) => {
-        const from = this.raDecToXYZ(line.from.ra, line.from.dec, 99.5);
-        const to = this.raDecToXYZ(line.to.ra, line.to.dec, 99.5);
-        const geometry = new THREE.BufferGeometry().setFromPoints([from, to]);
-        this.constellationLineGroup.add(new THREE.Line(geometry, lineMaterial));
-      });
-
-      const center = this.calculateConstellationCenter(c);
-      // Iets grotere labels voor betere zichtbaarheid
-      const label = this.createLabel(c.name, '#aaccff', 24, 14);
-      label.position.copy(center);
-      this.constellationNameGroup.add(label);
+  constellations.forEach(c => {
+    c.lines.forEach((line: any) => {
+      const from = this.raDecToXYZ(line.from.ra, line.from.dec, 99.5);
+      const to = this.raDecToXYZ(line.to.ra, line.to.dec, 99.5);
+      const geometry = new THREE.BufferGeometry().setFromPoints([from, to]);
+      this.constellationLineGroup.add(new THREE.Line(geometry, lineMaterial));
     });
-  }
+
+    // PREcies dezelfde center berekening als origineel
+    const center = this.calculateConstellationCenter(c);
+    
+    // PREcies dezelfde label creatie als origineel
+    const label = this.createLabelOrigineel(c.name, '#aaccff', 20, 16);
+    label.position.copy(center);
+    this.constellationNameGroup.add(label);
+  });
+  
+  // Zorg dat de groep altijd zichtbaar is
+  this.constellationNameGroup.visible = true;
+}
+
+// ===== ORIGINELE label functie (uit je eerste code) =====
+private createLabelOrigineel(
+  text: string, 
+  color: string, 
+  baseFontSize = 32,
+  scaleDivisor = 15
+): THREE.Sprite {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d')!;
+  
+  canvas.width = 512;
+  canvas.height = 256;
+  
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  ctx.font = `800 ${baseFontSize}px 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif`;
+  ctx.textBaseline = 'middle';
+  ctx.textAlign = 'center';
+  
+  ctx.shadowColor = 'rgba(0, 0, 0, 1)';
+  ctx.shadowBlur = 16;
+  ctx.shadowOffsetX = 3;
+  ctx.shadowOffsetY = 3;
+  
+  ctx.fillStyle = color;
+  ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+  
+  ctx.globalAlpha = 1.0;
+  ctx.shadowBlur = 0;
+  
+  const texture = new THREE.CanvasTexture(canvas);
+  // ORIGINEEL materiaal zonder depthTest aanpassingen!
+  const material = new THREE.SpriteMaterial({ 
+    map: texture, 
+    transparent: true,
+    depthTest: true,        // Origineel was true
+    depthWrite: false,      // Origineel was false
+    blending: THREE.NormalBlending,
+    sizeAttenuation: true
+  });
+  
+  const sprite = new THREE.Sprite(material);
+  
+  const baseWidth = canvas.width / scaleDivisor;
+  const baseHeight = canvas.height / scaleDivisor;
+  
+  sprite.userData = { 
+    baseWidth, 
+    baseHeight,
+    minScale: 1.8,
+    maxScale: 2.0
+  };
+  
+  sprite.scale.set(baseWidth, baseHeight, 1);
+  
+  return sprite;
+}
 
   // ===== DSO OBJECTEN =====
   private createDSOObjects(): void {
@@ -641,14 +705,15 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
   }
 
   // ===== ZICHTBAARHEID =====
-  private updateVisibility(): void {
-    this.constellationLineGroup.visible = this.showConstellations;
-    this.constellationNameGroup.visible = this.showConstellations && this.showConstellationNames;
-    this.dsoGroup.visible = this.showMessier;       // oranje cirkels uit/aan
-    this.dsoImageGroup.visible = true;               // afbeeldingen altijd zichtbaar
-    this.gridGroup.visible = this.showGrid;
-    this.skySphere.scale.x = this.mirrored ? -1 : 1;
-  }
+private updateVisibility(): void {
+  this.constellationLineGroup.visible = this.showConstellations;
+  this.showConstellationNames = true;
+  this.constellationNameGroup.visible = this.showConstellations && this.showConstellationNames;
+  this.dsoGroup.visible = this.showMessier;
+  this.dsoImageGroup.visible = true;
+  this.gridGroup.visible = this.showGrid;
+  this.skySphere.scale.x = this.mirrored ? -1 : 1;
+}
 
   // ===== CENTEREN =====
   private centerOnTarget(): void {
@@ -984,29 +1049,40 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
     return 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)) * 180/Math.PI;
   }
 
-  private createLabel(text: string, color: string, baseFontSize = 32, scaleDivisor = 15): THREE.Sprite {
-    const canvas = document.createElement('canvas');
-    canvas.width = 512; canvas.height = 256;
-    const ctx = canvas.getContext('2d')!;
-    ctx.clearRect(0,0,512,256);
-    ctx.font = `800 ${baseFontSize}px 'Inter', sans-serif`;
-    ctx.textBaseline = 'middle';
-    ctx.textAlign = 'center';
-    ctx.shadowColor = 'rgba(0,0,0,1)';
-    ctx.shadowBlur = 16;
-    ctx.shadowOffsetX = 3; ctx.shadowOffsetY = 3;
-    ctx.fillStyle = color;
-    ctx.fillText(text, 256, 128);
-    const texture = new THREE.CanvasTexture(canvas);
-    const material = new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: true, depthWrite: false, blending: THREE.NormalBlending, sizeAttenuation: true });
-    const sprite = new THREE.Sprite(material);
-    const baseWidth = canvas.width / scaleDivisor;
-    const baseHeight = canvas.height / scaleDivisor;
-    sprite.userData = { baseWidth, baseHeight, minScale: 1.8, maxScale: 2.0 };
-    sprite.scale.set(baseWidth, baseHeight, 1);
-    return sprite;
-  }
-
+private createLabel(text: string, color: string, baseFontSize = 32, scaleDivisor = 15): THREE.Sprite {
+  const canvas = document.createElement('canvas');
+  canvas.width = 512; canvas.height = 256;
+  const ctx = canvas.getContext('2d')!;
+  ctx.clearRect(0,0,512,256);
+  ctx.font = `800 ${baseFontSize}px 'Inter', sans-serif`;
+  ctx.textBaseline = 'middle';
+  ctx.textAlign = 'center';
+  ctx.shadowColor = 'rgba(0,0,0,1)';
+  ctx.shadowBlur = 16;
+  ctx.shadowOffsetX = 3; ctx.shadowOffsetY = 3;
+  ctx.fillStyle = color;
+  ctx.fillText(text, 256, 128);
+  const texture = new THREE.CanvasTexture(canvas);
+  
+  const material = new THREE.SpriteMaterial({ 
+    map: texture, 
+    transparent: true, 
+    depthTest: false,  
+    depthWrite: false,
+    blending: THREE.NormalBlending, 
+    sizeAttenuation: true 
+  });
+  
+  const sprite = new THREE.Sprite(material);
+  const baseWidth = canvas.width / scaleDivisor;
+  const baseHeight = canvas.height / scaleDivisor;
+  sprite.userData = { baseWidth, baseHeight, minScale: 1.8, maxScale: 2.0 };
+  sprite.scale.set(baseWidth, baseHeight, 1);
+  
+  sprite.renderOrder = 100;
+  
+  return sprite;
+}
   private updateLabelSizes(): void {
     if (!this.camera) return;
     const zoomFactor = 30 / this.camera.fov;
