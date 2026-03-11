@@ -321,21 +321,48 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private createSaturnRings(planetMesh: THREE.Mesh, size: number) {
     const tex = this.textureLoader.load('/assets/img/textures/saturn-rings.jpg');
+
+    tex.center.set(0.5, 0.5);  
+    tex.rotation = Math.PI / 2; 
     const inner = size * 1.2;
     const outer = size * 2.5;
-    const geometry = new THREE.RingGeometry(inner, outer, 128);
+
+    const geometry = new THREE.RingGeometry(inner, outer, 256);
+
+    const pos = geometry.attributes['position'];
+    const uv = geometry.attributes['uv'];
+
+    for (let i = 0; i < pos.count; i++) {
+      const x = pos.getX(i);
+      const y = pos.getY(i);
+
+      const angle = Math.atan2(y, x);
+      const radius = Math.sqrt(x * x + y * y);
+
+      const u = (angle + Math.PI) / (Math.PI * 2); 
+      const v = (radius - inner) / (outer - inner); 
+
+      uv.setXY(i, u, v);
+    }
+
+    uv.needsUpdate = true;
+
     const material = new THREE.MeshStandardMaterial({
       map: tex,
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.7,
-      roughness: 0.5
+      opacity: 0.8,
+      roughness: 0.5,
+      depthWrite: false
     });
+
     const rings = new THREE.Mesh(geometry, material);
     rings.rotation.x = Math.PI / 2;
+
     planetMesh.add(rings);
     this.planetMeshes.get('saturn')!.rings = rings;
   }
+
 
   // -----------------------------------------
   // Banen (elliptisch met focus op zon)
@@ -509,7 +536,7 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!planetData) return;
 
     const worldPos = planetData.mesh.getWorldPosition(new THREE.Vector3());
-    const targetPos = worldPos.clone().add(new THREE.Vector3(0, 5, 25));
+    const targetPos = worldPos.clone().add(new THREE.Vector3(0, 5, 100));
 
     const startPos = this.camera.position.clone();
     const startTarget = this.controls.target.clone();
