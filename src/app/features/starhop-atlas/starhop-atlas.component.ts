@@ -424,8 +424,8 @@ private createStars(): void {
 
     // Kleinere basisgrootte voor alle sterren
       let size = 7.0 * (6.5 - Math.min(star.mag, 6.5)) * 0.8;
-      if (star.mag < 1) size *= 1.4;
-      else if (star.mag < 2) size *= 1.2;
+      if (star.mag < 1) size *= 1.6;
+      else if (star.mag < 2) size *= 1.3;
       else if (star.mag < 4) size *= 1.1;
     // Maximum veel kleiner gemaakt
     size = Math.min(16, Math.max(2, size));
