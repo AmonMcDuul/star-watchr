@@ -1,0 +1,20 @@
+    <div class="space-viewer">
+      <div class="mode-switcher">
+        <button 
+          (click)="setMode('sky')" 
+          [class.active]="mode() === 'sky'">
+          Deep Sky
+        </button>
+        <button 
+          (click)="setMode('solar')" 
+          [class.active]="mode() === 'solar'">
+          Solar System
+        </button>
+      </div>
+
+      @if (mode() === 'sky') {
+        <app-sky-atlas />
+      } @else {
+        <app-solar-orbit-atlas />
+      }
+    </div>

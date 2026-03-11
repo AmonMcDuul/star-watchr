@@ -1,0 +1,62 @@
+    .space-viewer {
+      width: 100%;
+      height: calc(100vh - 160px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mode-switcher {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      display: flex;
+      gap: 10px;
+      background: rgba(10,12,20,0.9);
+      padding: 8px 12px;
+      border-radius: 6px;              
+      backdrop-filter: blur(8px);
+      border: 1px solid #2d3b5e;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+
+    .mode-switcher button {
+      background: #1a233a;
+      border: 1px solid #2d3b5e;
+      color: #e8ecff;
+      padding: 6px 16px;
+      border-radius: 6px;              
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.2s ease;
+    }
+
+    .mode-switcher button:hover {
+      background: #2d3b5e;
+      border-color: #4a5f93;
+    }
+
+    .mode-switcher button.active {
+      background: #3a4b7a;
+      border-color: #5d7bc4;
+      color: #ffcc66;
+    }
+
+    @media (max-width: 1000px) {
+      .mode-switcher {
+        top: auto;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 6px 10px;
+      }
+
+      .mode-switcher button {
+        padding: 4px 12px;
+        font-size: 0.7rem;
+      }
+    }

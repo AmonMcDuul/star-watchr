@@ -160,6 +160,9 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
       this.messierService.loadCaldwell()
     ]);
 
+    // Wacht tot de container zichtbare afmetingen heeft
+    await this.waitForContainer();
+
     this.createTextures();
     this.initThree();
     this.initPostProcessing();
@@ -168,6 +171,21 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
     this.animate();
 
     this.updateHUD();
+  }
+
+  private waitForContainer(): Promise<void> {
+    return new Promise((resolve) => {
+      const check = () => {
+        const width = this.canvasRef.nativeElement.clientWidth;
+        const height = this.canvasRef.nativeElement.clientHeight;
+        if (width > 0 && height > 0) {
+          resolve();
+        } else {
+          setTimeout(check, 50);
+        }
+      };
+      check();
+    });
   }
 
   ngOnDestroy() {
@@ -196,7 +214,7 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
   // =====================================================
 
   private createTextures() {
-    // Ster – glow (kleiner voor subtieler effect)
+    // Star – glow
     const starCanvas = document.createElement('canvas');
     starCanvas.width = 64; starCanvas.height = 64;
     const sCtx = starCanvas.getContext('2d')!;
@@ -260,16 +278,26 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
 
   private initThree() {
     const canvas = this.canvasRef.nativeElement;
+    let width = canvas.clientWidth;
+    let height = canvas.clientHeight;
+
+    // Fallback (moet niet nodig zijn door waitForContainer, maar voor de zekerheid)
+    if (width === 0 || height === 0) {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      console.warn('Canvas heeft geen afmetingen, gebruik venstergrootte als fallback');
+    }
+
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
     this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-    this.renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    this.renderer.setSize(width, height, false);
     this.renderer.toneMapping = THREE.ReinhardToneMapping;
     this.renderer.toneMappingExposure = 1.0;
 
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x03030a);
 
-    this.camera = new THREE.PerspectiveCamera(this.targetFov, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+    this.camera = new THREE.PerspectiveCamera(this.targetFov, width / height, 0.1, 1000);
     this.camera.position.set(0,0,0);
     this.camera.lookAt(0,0,1);
 
@@ -295,10 +323,14 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
   }
 
   private initPostProcessing() {
+    const width = this.canvasRef.nativeElement.clientWidth;
+    const height = this.canvasRef.nativeElement.clientHeight;
+
     this.composer = new EffectComposer(this.renderer);
     this.composer.addPass(new RenderPass(this.scene, this.camera));
+
     const bloomPass = new UnrealBloomPass(
-      new THREE.Vector2(this.canvasRef.nativeElement.clientWidth, this.canvasRef.nativeElement.clientHeight),
+      new THREE.Vector2(width, height),
       0.1, 0.2, 0.6
     );
     this.composer.addPass(bloomPass);
@@ -409,7 +441,7 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
     this.starGroup.add(new THREE.Points(geometry, material));
   }
 
-  // ===== CONSTELLATIES (kleinere labels) =====
+  // ===== CONSTELLATIES =====
   private createConstellations() {
     const constellations = this.catalog.getConstellations();
     const lineMaterial = new THREE.LineBasicMaterial({ color: 0x88aaff, opacity: 0.4, transparent: true });
@@ -423,7 +455,6 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
       });
 
       const center = this.calculateConstellationCenter(c);
-      // Kleinere labels: fontSize 32, scaleDivisor 30 (was 40,20)
       const label = this.createLabel(c.name, '#aaccff', 40, 40);
       label.position.copy(center);
       this.constellationNameGroup.add(label);
@@ -567,7 +598,6 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
   }
 
   private updateLabelSizes() {
-    // Beperkte schaling om te voorkomen dat labels te groot worden bij inzoomen
     const zoomFactor = Math.max(0.6, Math.min(1.5, 45 / this.camera.fov));
     this.labelGroup.children.forEach(child => {
       if (child instanceof THREE.Sprite && child.userData['baseWidth']) {
@@ -652,7 +682,6 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
       }
       if (dsoData) {
         if (this.hoveredDSO !== dsoData) {
-          // Reset vorige hover (rekening houdend met selectie)
           if (this.hoveredDSO) {
             if (this.hoveredDSO === this.selectedDSO) {
               this.hoveredDSO.sprite.material.map = this.textures.dsoSelected;
@@ -663,14 +692,12 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
             this.hoveredDSO.sprite.material.needsUpdate = true;
           }
 
-          // Alleen hover toepassen als niet geselecteerd
           if (dsoData !== this.selectedDSO) {
             this.hoveredDSO = dsoData;
             this.hoveredDSO.sprite.material.map = this.textures.dsoHover;
             this.hoveredDSO.sprite.scale.set(4.5, 4.5, 1);
             this.hoveredDSO.sprite.material.needsUpdate = true;
           } else {
-            // Bij geselecteerd object alleen tooltip tonen, geen texture change
             this.hoveredDSO = dsoData;
           }
 
@@ -991,7 +1018,6 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
     ctx.font = `500 ${fontSize}px 'Inter', sans-serif`;
     ctx.textBaseline = 'middle';
 
-    // Achtergrond (donker, semi-transparant)
     ctx.fillStyle = 'rgba(5,10,20,0.8)';
     ctx.shadowColor = 'rgba(0,0,0,0.8)';
     ctx.shadowBlur = 8;
@@ -1005,13 +1031,11 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
     ctx.closePath();
     ctx.fill();
 
-    // Rand
     ctx.strokeStyle = color;
     ctx.lineWidth = 1.5;
     ctx.shadowBlur = 0;
     ctx.stroke();
 
-    // Tekst
     ctx.fillStyle = color;
     ctx.fillText(text, padding, fontSize/2 + padding);
 
@@ -1129,6 +1153,7 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
       const canvas = this.canvasRef.nativeElement;
       const width = canvas.clientWidth;
       const height = canvas.clientHeight;
+      if (width === 0 || height === 0) return;
       this.camera.aspect = width / height;
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(width, height, false);

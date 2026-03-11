@@ -77,12 +77,12 @@ export const routes: Routes = [
   {
     path: 'sky-atlas',
     loadComponent: () =>
-      import('./features/sky-atlas/sky-atlas.component')
-        .then(m => m.SkyAtlasComponent),
+      import('./features/space-viewer/space-viewer.component')
+        .then(m => m.SpaceViewerComponent),
     data: {
-      title: 'Interactive Sky Atlas – Explore Stars, Constellations & Deep Sky Objects',
+      title: 'Interactive Sky Atlas – Explore the Solar system, Stars, Constellations & Deep Sky Objects',
       description:
-        'Navigate the night sky with an interactive sky atlas showing constellations, stars and deep sky objects in real time.',
+        'Navigate the night sky with an interactive sky atlas showing object of the solar system, constellations, stars and deep sky objects in real time.',
       canonical: '/sky-atlas'
     }
   },
