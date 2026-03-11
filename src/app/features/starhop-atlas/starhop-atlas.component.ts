@@ -24,6 +24,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { StarCatalogService } from '../../services/star-catalog.service';
 import { MessierService } from '../../services/messier.service';
 
+// ========== INTERFACES ==========
 interface StarData {
   position: THREE.Vector3;
   name?: string;
@@ -32,13 +33,17 @@ interface StarData {
   ra: number;
   dec: number;
   size: number;
+  bv?: number;
 }
 
-interface MessierSpriteData {
+interface DSOSpriteData {
   object: any;
   sprite: THREE.Sprite;
   position: THREE.Vector3;
-  label: THREE.Sprite;
+  imageMesh?: THREE.Mesh;
+  type: 'messier' | 'caldwell';
+  magnitude: number;
+  size: number;
 }
 
 @Component({
@@ -60,11 +65,10 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
   @Input() showConstellations: boolean = true;
   @Input() showConstellationNames: boolean = true;
   @Input() showStarNames: boolean = false;
-  @Input() showMessier: boolean = true;
-  @Input() showMessierNames: boolean = true;
-  @Input() showGrid: boolean = false;
-  @Input() mirrored: boolean = false;
+  // D's zijn altijd zichtbaar, dus geen toggle nodig
+  @Input() showGrid: boolean = true;
   @Input() starDensity: 'sparse' | 'normal' | 'dense' = 'normal';
+  @Input() nightMode: boolean = false;
 
   // ===== DEPENDENCIES =====
   private catalog = inject(StarCatalogService);
@@ -81,80 +85,109 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
   private composer!: EffectComposer;
   private raycaster = new THREE.Raycaster();
   private mouse = new THREE.Vector2();
+  private textureLoader = new THREE.TextureLoader();
 
   // ===== GROUPS =====
   private skySphere = new THREE.Group();
   private starGroup = new THREE.Group();
   private constellationLineGroup = new THREE.Group();
   private constellationNameGroup = new THREE.Group();
-  private messierGroup = new THREE.Group();
-  private messierLabelGroup = new THREE.Group();
+  private dsoGroup = new THREE.Group();
+  private dsoImageGroup = new THREE.Group();
   private gridGroup = new THREE.Group();
   private targetHighlightGroup = new THREE.Group();
 
   // ===== DATA =====
   private stars: StarData[] = [];
-  private messierSprites: MessierSpriteData[] = [];
+  public dsoSprites: DSOSpriteData[] = [];
   private targetPosition = new THREE.Vector3();
 
   // ===== TEXTURES =====
-  private starTexture!: THREE.CanvasTexture;
-  private messierTexture!: THREE.CanvasTexture;
-  private messierHoverTexture!: THREE.CanvasTexture;
-  private highlightTexture!: THREE.CanvasTexture;
+  private textures: {
+    star: THREE.CanvasTexture;
+    dsoNormal: THREE.CanvasTexture;
+    dsoHover: THREE.CanvasTexture;
+    highlight: THREE.CanvasTexture;
+  } = {} as any;
 
   // ===== ANIMATION =====
   private frameId = 0;
-  private targetFov: number;
-  private resizeObserver!: ResizeObserver;
+  public targetFov: number;
 
-  // ===== ZOOM HELPERS =====
+  // ===== RESIZE =====
+  private resizeObserver!: ResizeObserver;
+  private resizeThrottleTimeout: any;
+
+  // ===== ZOOM STATE =====
   private touchStartDistance = 0;
-  private initialFov = 60;
+  private initialFov = 3;
   private touchStartTime = 0;
   private touchStartPos = { x: 0, y: 0 };
   private isZooming = false;
   private zoomTimeout: any;
   
-  // ===== DOUBLE TAP HANDLING =====
+  // ===== DOUBLE TAP =====
   private lastTapTime = 0;
   private lastTapPosition = { x: 0, y: 0 };
-  private readonly DOUBLE_TAP_DELAY = 300;
-  private readonly DOUBLE_TAP_MAX_DIST = 30;
   
   // ===== ZOOM ANIMATION =====
   private zoomAnimationFrame: number | null = null;
-  private readonly MIN_FOV = 0.5;  // Minimum zoom (most zoomed in)
-  private readonly MAX_FOV = 60;   // Maximum zoom (most zoomed out)
 
   // ===== HOVER STATE =====
-  private hoveredMessier: MessierSpriteData | null = null;
+  private hoveredDSO: DSOSpriteData | null = null;
 
   // ===== UI STATE =====
   showInfoPanel = false;
   infoPanelContent: any = null;
-  infoPanelPosition = { x: 0, y: 0 };
   
   hoverTooltipContent: string | null = null;
   hoverTooltipPosition = { x: 0, y: 0 };
 
+  showSearchPanel = false;
+  searchQuery = '';
+  searchResults: any[] = [];
+
   // ===== ROTATION STATE =====
-  private rotationAngle = 0; // degrees
+  private rotationAngle = 0;
 
+  // ===== HUD INFO =====
+  hudInfo = {
+    ra: '',
+    dec: '',
+    fov: 0,
+    altitude: 0,
+    azimuth: 0
+  };
 
+  // ===== CONSTANTS =====
+  public readonly CONSTANTS = {
+    MIN_FOV: 0.2,
+    MAX_FOV: 60,
+    DEFAULT_FOV: 3,
+    SPHERE_RADIUS: 100,
+    DOUBLE_TAP_DELAY: 300,
+    DOUBLE_TAP_MAX_DIST: 30,
+    STAR_SIZE_MULTIPLIER: 4.0,
+    MAX_STAR_SIZE: 18,
+    MIN_STAR_SIZE: 2,
+    BLOOM_STRENGTH: 0.08,
+    BLOOM_RADIUS: 0.3,
+    BLOOM_THRESHOLD: 0.2
+  } as const;
 
+  // ===== BROWSER CHECK =====
   private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+  private isTouchDevice = false;
 
-
-  
   constructor() {
     this.targetFov = this.fovDegrees;
   }
 
+  // ========== LIFECYCLE ==========
   async ngAfterViewInit() {
-
     if (!this.isBrowser) return;
 
+    this.isTouchDevice = 'ontouchstart' in window;
     this.catalog.setStarDensity(this.starDensity);
 
     await Promise.all([
@@ -173,41 +206,44 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
 
     requestAnimationFrame(() => {
       this.centerOnTarget();
+      this.updateHUD();
     });
   }
 
   ngOnDestroy(): void {
     if (this.isBrowser) {
-    cancelAnimationFrame(this.frameId);
-    }
-    if (this.zoomAnimationFrame) {
-      if (this.isBrowser) {
-      cancelAnimationFrame(this.zoomAnimationFrame);
+      cancelAnimationFrame(this.frameId);
+      if (this.zoomAnimationFrame) {
+        cancelAnimationFrame(this.zoomAnimationFrame);
       }
+      clearTimeout(this.resizeThrottleTimeout);
+      clearTimeout(this.zoomTimeout);
     }
+    
     this.renderer?.dispose();
     this.composer?.dispose();
     this.resizeObserver?.disconnect();
-    const canvas = this.canvasRef.nativeElement;
-    canvas.removeEventListener('wheel', this.onWheel);
-    canvas.removeEventListener('touchstart', this.onTouchStart);
-    canvas.removeEventListener('touchmove', this.onTouchMove);
-    canvas.removeEventListener('touchend', this.onTouchEnd);
-    canvas.removeEventListener('mousemove', this.onMouseMove);
-    canvas.removeEventListener('click', this.onClick);
+    
+    Object.values(this.textures).forEach(t => t?.dispose());
+    
+    const canvas = this.canvasRef?.nativeElement;
+    if (canvas) {
+      canvas.removeEventListener('wheel', this.onWheel);
+      canvas.removeEventListener('touchstart', this.onTouchStart);
+      canvas.removeEventListener('touchmove', this.onTouchMove);
+      canvas.removeEventListener('touchend', this.onTouchEnd);
+      canvas.removeEventListener('mousemove', this.onMouseMove);
+      canvas.removeEventListener('click', this.onClick);
+      canvas.removeEventListener('dblclick', this.onDoubleClick);
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!this.camera) return;
 
     if (changes['ra'] || changes['dec']) {
-
       this.buildSky();
-
-      requestAnimationFrame(() => {
-        this.centerOnTarget();
-      });
-
+      requestAnimationFrame(() => this.centerOnTarget());
     }
 
     if (changes['fovDegrees'] && !changes['fovDegrees'].firstChange) {
@@ -219,120 +255,129 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
       this.buildSky();
     }
 
-    if (
-      changes['showConstellations'] ||
-      changes['showConstellationNames'] ||
-      changes['showMessier'] ||
-      changes['showMessierNames'] ||
-      changes['showStarNames'] ||
-      changes['showGrid'] ||
-      changes['mirrored']
-    ) {
+    if (changes['nightMode']) {
+      this.updateNightMode();
+    }
+
+    if (this.shouldRebuildSky(changes)) {
       this.updateVisibility();
     }
   }
 
-  // ===== RESIZE =====
-  private setupResizeObserver(): void {
-
-    if (!this.isBrowser) return;
-
-    this.resizeObserver = new ResizeObserver(() => {
-      this.zone.run(() => this.onResize());
-    });
-
-    this.resizeObserver.observe(this.canvasRef.nativeElement.parentElement!);
+  private shouldRebuildSky(changes: SimpleChanges): boolean {
+    return !!(changes['showConstellations'] ||
+      changes['showConstellationNames'] ||
+      changes['showStarNames'] ||
+      changes['showGrid']);
   }
 
-  onResize(): void {
-    const canvas = this.canvasRef.nativeElement;
-    const width = canvas.clientWidth;
-    const height = canvas.clientHeight;
-    if (width === 0 || height === 0) return;
-    this.camera.aspect = width / height;
-    this.camera.updateProjectionMatrix();
-    this.renderer.setSize(width, height, false);
-    this.composer.setSize(width, height);
-  }
-
-  // ===== TEXTURES =====
+  // ========== INITIALIZATION ==========
   private createTextures(): void {
-    // Star texture
-    const starCanvas = document.createElement('canvas');
-    starCanvas.width = 128;
-    starCanvas.height = 128;
-    const starCtx = starCanvas.getContext('2d')!;
-    const gradient = starCtx.createRadialGradient(64, 64, 0, 64, 64, 64);
-    gradient.addColorStop(0, 'rgba(255,255,255,1)');
-    gradient.addColorStop(0.4, 'rgba(255,255,200,0.9)');
-    gradient.addColorStop(0.8, 'rgba(200,180,100,0.3)');
-    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-    starCtx.fillStyle = gradient;
-    starCtx.fillRect(0, 0, 128, 128);
-    this.starTexture = new THREE.CanvasTexture(starCanvas);
-
-    // Messier sprite
-    const messierCanvas = document.createElement('canvas');
-    messierCanvas.width = 64;
-    messierCanvas.height = 64;
-    const mCtx = messierCanvas.getContext('2d')!;
-    mCtx.clearRect(0, 0, 64, 64);
-    mCtx.strokeStyle = '#ffaa44';
-    mCtx.lineWidth = 3;
-    mCtx.beginPath();
-    mCtx.arc(32, 32, 14, 0, Math.PI * 2);
-    mCtx.stroke();
-    mCtx.fillStyle = 'rgba(255,170,68,0.2)';
-    mCtx.beginPath();
-    mCtx.arc(32, 32, 10, 0, Math.PI * 2);
-    mCtx.fill();
-    this.messierTexture = new THREE.CanvasTexture(messierCanvas);
-
-    // Hover texture
-    const hoverCanvas = document.createElement('canvas');
-    hoverCanvas.width = 64;
-    hoverCanvas.height = 64;
-    const hoverCtx = hoverCanvas.getContext('2d')!;
-    hoverCtx.clearRect(0, 0, 64, 64);
-    hoverCtx.strokeStyle = 'white';
-    hoverCtx.lineWidth = 3;
-    hoverCtx.beginPath();
-    hoverCtx.arc(32, 32, 18, 0, Math.PI * 2);
-    hoverCtx.stroke();
-    hoverCtx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-    hoverCtx.beginPath();
-    hoverCtx.arc(32, 32, 14, 0, Math.PI * 2);
-    hoverCtx.fill();
-    this.messierHoverTexture = new THREE.CanvasTexture(hoverCanvas);
-
-    // Highlight texture (subtle red dashed ring)
-    const hlCanvas = document.createElement('canvas');
-    hlCanvas.width = 128;
-    hlCanvas.height = 128;
-    const hlCtx = hlCanvas.getContext('2d')!;
-
-    hlCtx.clearRect(0, 0, 128, 128);
-    hlCtx.strokeStyle = 'rgba(255, 60, 60, 0.9)';
-    hlCtx.lineWidth = 4;
-    hlCtx.setLineDash([10, 8]); // dashed line
-
-    hlCtx.beginPath();
-    hlCtx.arc(64, 64, 40, 0, Math.PI * 2);
-    hlCtx.stroke();
-    this.highlightTexture = new THREE.CanvasTexture(hlCanvas);
+    this.textures = {
+      star: this.createStarTexture(),
+      dsoNormal: this.createDSONormalTexture(),
+      dsoHover: this.createDSOHoverTexture(),
+      highlight: this.createHighlightTexture()
+    };
   }
 
-  // ===== THREE INIT =====
+  private createStarTexture(): THREE.CanvasTexture {
+    const canvas = document.createElement('canvas');
+    canvas.width = 64;
+    canvas.height = 64;
+    const ctx = canvas.getContext('2d')!;
+    
+    const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+    gradient.addColorStop(0, 'rgba(255,255,255,1)');
+    gradient.addColorStop(0.4, 'rgba(255,255,255,0.8)');
+    gradient.addColorStop(0.7, 'rgba(255,255,255,0.3)');
+    gradient.addColorStop(1, 'rgba(255,255,255,0)');
+    
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 64, 64);
+    
+    return new THREE.CanvasTexture(canvas);
+  }
+
+  private createDSONormalTexture(): THREE.CanvasTexture {
+    const canvas = document.createElement('canvas');
+    canvas.width = 64;
+    canvas.height = 64;
+    const ctx = canvas.getContext('2d')!;
+    
+    ctx.clearRect(0, 0, 64, 64);
+    ctx.strokeStyle = '#ffaa44';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.arc(32, 32, 16, 0, Math.PI * 2);
+    ctx.stroke();
+    
+    ctx.fillStyle = 'rgba(255,170,68,0.1)';
+    ctx.beginPath();
+    ctx.arc(32, 32, 12, 0, Math.PI * 2);
+    ctx.fill();
+    
+    return new THREE.CanvasTexture(canvas);
+  }
+
+  private createDSOHoverTexture(): THREE.CanvasTexture {
+    const canvas = document.createElement('canvas');
+    canvas.width = 64;
+    canvas.height = 64;
+    const ctx = canvas.getContext('2d')!;
+    
+    ctx.clearRect(0, 0, 64, 64);
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(32, 32, 18, 0, Math.PI * 2);
+    ctx.stroke();
+    
+    ctx.fillStyle = 'rgba(255,255,255,0.15)';
+    ctx.beginPath();
+    ctx.arc(32, 32, 14, 0, Math.PI * 2);
+    ctx.fill();
+    
+    return new THREE.CanvasTexture(canvas);
+  }
+
+  private createHighlightTexture(): THREE.CanvasTexture {
+    const canvas = document.createElement('canvas');
+    canvas.width = 128;
+    canvas.height = 128;
+    const ctx = canvas.getContext('2d')!;
+
+    ctx.clearRect(0, 0, 128, 128);
+    
+    ctx.strokeStyle = 'rgba(255, 100, 100, 0.8)';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([8, 6]);
+    ctx.beginPath();
+    ctx.arc(64, 64, 45, 0, Math.PI * 2);
+    ctx.stroke();
+    
+    return new THREE.CanvasTexture(canvas);
+  }
+
   private initThree(): void {
     const canvas = this.canvasRef.nativeElement;
-    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+    
+    this.renderer = new THREE.WebGLRenderer({ 
+      canvas, 
+      antialias: true, 
+      powerPreference: 'high-performance',
+      alpha: false,
+      stencil: false,
+      depth: true
+    });
+    
     this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
     this.renderer.setSize(canvas.clientWidth, canvas.clientHeight);
     this.renderer.toneMapping = THREE.ReinhardToneMapping;
     this.renderer.toneMappingExposure = 1.0;
 
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0x0c1445);
+    this.scene.background = new THREE.Color(0x000000);
     
     this.camera = new THREE.PerspectiveCamera(
       this.targetFov,
@@ -343,14 +388,13 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
     this.camera.position.set(0, 0, 0);
     this.camera.lookAt(0, 0, 1);
 
+    // Controls met omgekeerde richting (negatieve rotateSpeed)
     this.controls = new OrbitControls(this.camera, canvas);
-    this.controls.enableZoom = false; // We handle zoom manually
+    this.controls.enableZoom = false;
     this.controls.enablePan = false;
     this.controls.enableDamping = true;
     this.controls.dampingFactor = 0.05;
-    this.controls.rotateSpeed = -0.2; // Slower rotation for mobile
-    // this.controls.keyboardSpeed = 0.2;
-    // this.controls.mouseRotateSpeed = 0.3;
+    this.controls.rotateSpeed = -0.3; // Negatief voor inverted controls
     this.controls.target.set(0, 0, 1);
 
     this.scene.add(this.skySphere);
@@ -358,28 +402,32 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
       this.starGroup,
       this.constellationLineGroup,
       this.constellationNameGroup,
-      this.messierGroup,
-      this.messierLabelGroup,
+      this.dsoGroup,
+      this.dsoImageGroup,
       this.gridGroup,
       this.targetHighlightGroup
     );
-
-    this.skySphere.scale.x = this.mirrored ? -1 : 1;
   }
 
   private initPostProcessing(): void {
+    const width = this.canvasRef.nativeElement.clientWidth;
+    const height = this.canvasRef.nativeElement.clientHeight;
+    
     this.composer = new EffectComposer(this.renderer);
-    this.composer.addPass(new RenderPass(this.scene, this.camera));
+    
+    const renderPass = new RenderPass(this.scene, this.camera);
+    this.composer.addPass(renderPass);
+
     const bloomPass = new UnrealBloomPass(
-      new THREE.Vector2(this.canvasRef.nativeElement.clientWidth, this.canvasRef.nativeElement.clientHeight),
-      0.1,
-      0.2,
-      0.5
+      new THREE.Vector2(width, height),
+      this.CONSTANTS.BLOOM_STRENGTH,
+      this.CONSTANTS.BLOOM_RADIUS,
+      this.CONSTANTS.BLOOM_THRESHOLD
     );
     this.composer.addPass(bloomPass);
   }
 
-  // ===== EVENT LISTENERS =====
+  // ========== EVENT LISTENERS ==========
   private setupEventListeners(): void {
     const canvas = this.canvasRef.nativeElement;
     canvas.addEventListener('wheel', this.onWheel, { passive: false });
@@ -388,6 +436,7 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
     canvas.addEventListener('touchend', this.onTouchEnd);
     canvas.addEventListener('mousemove', this.onMouseMove);
     canvas.addEventListener('click', this.onClick);
+    canvas.addEventListener('dblclick', this.onDoubleClick);
   }
 
   private onWheel = (event: WheelEvent) => {
@@ -398,22 +447,22 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
       this.controls.enableRotate = false;
     }
     
-    const zoomSpeed = this.targetFov < 10 ? 0.02 : 0.04;
-    this.targetFov += event.deltaY * 0.01 * zoomSpeed * 60;
-    this.targetFov = THREE.MathUtils.clamp(this.targetFov, this.MIN_FOV, this.MAX_FOV);
+    const zoomSpeed = this.targetFov < 10 ? 0.5 : 1.0;
+    this.targetFov += event.deltaY * 0.005 * zoomSpeed;
+    this.targetFov = THREE.MathUtils.clamp(this.targetFov, this.CONSTANTS.MIN_FOV, this.CONSTANTS.MAX_FOV);
     
     this.updateLabelSizes();
+    
     clearTimeout(this.zoomTimeout);
-        this.zoomTimeout = setTimeout(() => {
-        this.isZooming = false;
-        this.controls.enableRotate = true;
-      }, 200);
+    this.zoomTimeout = setTimeout(() => {
+      this.isZooming = false;
+      this.controls.enableRotate = true;
+    }, 200);
   };
 
   private onTouchStart = (event: TouchEvent) => {
     if (event.touches.length === 2) {
       event.preventDefault();
-      
       this.isZooming = true;
       this.controls.enableRotate = false;
       
@@ -428,202 +477,181 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
     }
   };
 
-private onTouchMove = (event: TouchEvent) => {
-  if (event.touches.length === 2) {
-    event.preventDefault();
-    
-    // Als we aan het zoemen zijn, verwerk alleen de zoom
-    const dx = event.touches[0].clientX - event.touches[1].clientX;
-    const dy = event.touches[0].clientY - event.touches[1].clientY;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-    
-    const zoomSensitivity = 0.8;
-    const zoomFactor = 1 + ((this.touchStartDistance / distance) - 1) * zoomSensitivity;
-    this.targetFov = THREE.MathUtils.clamp(
-      this.initialFov * zoomFactor,
-      this.MIN_FOV,
-      this.MAX_FOV
-    );
-    
-    this.updateLabelSizes();
-  } else if (event.touches.length === 1 && this.isZooming) {
-    // Als we aan het zoemen waren en nu maar 1 vinger, negeer dan beweging
-    event.preventDefault();
-  }
-};
-
-private onTouchEnd = (event: TouchEvent) => {
-  // Als we aan het zoomen waren, blokkeer dan eventuele beweging
-  if (this.isZooming) {
-    event.preventDefault();
-    
-    // Voorkom dat een enkele touch na het zoomen wordt gezien als drag
-    if (event.touches.length === 0) {
-      this.isZooming = false;
-      this.controls.enableRotate = true;
+  private onTouchMove = (event: TouchEvent) => {
+    if (event.touches.length === 2 && this.isZooming) {
+      event.preventDefault();
       
-      // Reset touch start positie zodat een per ongeluk touch niet wordt geregistreerd
-      this.touchStartPos.x = 0;
-      this.touchStartPos.y = 0;
-      this.touchStartTime = 0;
+      const dx = event.touches[0].clientX - event.touches[1].clientX;
+      const dy = event.touches[0].clientY - event.touches[1].clientY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      
+      const zoomFactor = this.touchStartDistance / distance;
+      this.targetFov = THREE.MathUtils.clamp(
+        this.initialFov * zoomFactor,
+        this.CONSTANTS.MIN_FOV,
+        this.CONSTANTS.MAX_FOV
+      );
+      
+      this.updateLabelSizes();
     }
-    return; // Stop hier, verwerk geen clicks/double taps
-  }
-  
-  // Alleen clicks/double taps verwerken als we niet aan het zoomen waren
-  const currentTime = Date.now();
-  
-  if (event.touches.length === 0 && event.changedTouches.length === 1 && !this.isZooming) {
-    const touch = event.changedTouches[0];
-    const timeSinceLastTap = currentTime - this.lastTapTime;
-    const dx = Math.abs(touch.clientX - this.lastTapPosition.x);
-    const dy = Math.abs(touch.clientY - this.lastTapPosition.y);
-    
-    if (timeSinceLastTap < this.DOUBLE_TAP_DELAY && 
-        dx < this.DOUBLE_TAP_MAX_DIST && 
-        dy < this.DOUBLE_TAP_MAX_DIST) {
-      this.handleDoubleClick(touch.clientX, touch.clientY);
-    } else if (currentTime - this.touchStartTime < 300 && 
-               Math.abs(touch.clientX - this.touchStartPos.x) < 10 && 
-               Math.abs(touch.clientY - this.touchStartPos.y) < 10) {
-      this.handleClick(touch.clientX, touch.clientY);
-    }
-    
-    this.lastTapTime = currentTime;
-    this.lastTapPosition.x = touch.clientX;
-    this.lastTapPosition.y = touch.clientY;
-  }
-};
+  };
 
-  // ===== MOUSE MOVE =====
+  private onTouchEnd = (event: TouchEvent) => {
+    if (this.isZooming) {
+      event.preventDefault();
+      if (event.touches.length === 0) {
+        this.isZooming = false;
+        this.controls.enableRotate = true;
+      }
+      return;
+    }
+    
+    this.handleTap(event);
+  };
+
+  private handleTap(event: TouchEvent) {
+    const currentTime = Date.now();
+    
+    if (event.touches.length === 0 && event.changedTouches.length === 1) {
+      const touch = event.changedTouches[0];
+      const timeSinceLastTap = currentTime - this.lastTapTime;
+      const dx = Math.abs(touch.clientX - this.lastTapPosition.x);
+      const dy = Math.abs(touch.clientY - this.lastTapPosition.y);
+      
+      if (timeSinceLastTap < this.CONSTANTS.DOUBLE_TAP_DELAY && 
+          dx < this.CONSTANTS.DOUBLE_TAP_MAX_DIST && 
+          dy < this.CONSTANTS.DOUBLE_TAP_MAX_DIST) {
+        this.handleDoubleClick(touch.clientX, touch.clientY);
+      } else if (currentTime - this.touchStartTime < 300 && 
+                 Math.abs(touch.clientX - this.touchStartPos.x) < 10 && 
+                 Math.abs(touch.clientY - this.touchStartPos.y) < 10) {
+        this.handleClick(touch.clientX, touch.clientY);
+      }
+      
+      this.lastTapTime = currentTime;
+      this.lastTapPosition.x = touch.clientX;
+      this.lastTapPosition.y = touch.clientY;
+    }
+  }
+
   private onMouseMove = (event: MouseEvent) => {
     this.checkHover(event.clientX, event.clientY);
   };
 
-  // ===== CLICK =====
   private onClick = (event: MouseEvent) => {
     this.handleClick(event.clientX, event.clientY);
   };
 
-  // ===== HOVER HANDLING =====
-  private checkHover(x: number, y: number) {
-    if (!this.showMessier) return;
+  private onDoubleClick = (event: MouseEvent) => {
+    this.handleDoubleClick(event.clientX, event.clientY);
+  };
 
+  // ========== HOVER HANDLING ==========
+  private checkHover(x: number, y: number) {
     const rect = this.canvasRef.nativeElement.getBoundingClientRect();
     this.mouse.x = ((x - rect.left) / rect.width) * 2 - 1;
     this.mouse.y = -((y - rect.top) / rect.height) * 2 + 1;
 
     this.raycaster.setFromCamera(this.mouse, this.camera);
     
-    const sprites = this.messierSprites.map(m => m.sprite);
-    const intersects = this.raycaster.intersectObjects(sprites);
+    const objects = this.dsoSprites.map(m => m.sprite);
+    const intersects = this.raycaster.intersectObjects(objects);
 
     if (intersects.length > 0) {
       const hitSprite = intersects[0].object as THREE.Sprite;
-      const messierData = this.messierSprites.find(m => m.sprite === hitSprite);
+      const dsoData = this.dsoSprites.find(m => m.sprite === hitSprite);
       
-      if (messierData) {
-        if (this.hoveredMessier !== messierData) {
-          if (this.hoveredMessier) {
-            this.hoveredMessier.sprite.material.map = this.messierTexture;
-            this.hoveredMessier.sprite.material.needsUpdate = true;
-            this.hoveredMessier.sprite.scale.set(3.0, 3.0, 1);
-          }
-          
-          this.hoveredMessier = messierData;
-          this.hoveredMessier.sprite.material.map = this.messierHoverTexture;
-          this.hoveredMessier.sprite.material.needsUpdate = true;
-          this.hoveredMessier.sprite.scale.set(4.5, 4.5, 1);
-          console.log(messierData)
-          this.hoverTooltipContent = `${messierData.object.code}${messierData.object.messierNumber}: ${messierData.object.name}`;
-          this.hoverTooltipPosition = {
-            x: x - rect.left,
-            y: y - rect.top
-          };
-          this.cdr.detectChanges();
-        }
+      if (dsoData) {
+        this.showHoverTooltip(dsoData, rect);
       }
-    } else if (this.hoveredMessier) {
-      this.hoveredMessier.sprite.material.map = this.messierTexture;
-      this.hoveredMessier.sprite.material.needsUpdate = true;
-      this.hoveredMessier.sprite.scale.set(3.0, 3.0, 1);
-      this.hoveredMessier = null;
+    } else {
+      this.hideHoverTooltip();
+    }
+  }
+
+  private showHoverTooltip(dsoData: DSOSpriteData, rect: DOMRect): void {
+    if (this.hoveredDSO !== dsoData) {
+      // Reset vorige hover
+      if (this.hoveredDSO) {
+        this.hoveredDSO.sprite.material.map = this.textures.dsoNormal;
+        this.hoveredDSO.sprite.material.needsUpdate = true;
+        this.hoveredDSO.sprite.scale.set(3.0, 3.0, 1);
+      }
+      
+      // Toon nieuwe hover
+      this.hoveredDSO = dsoData;
+      this.hoveredDSO.sprite.material.map = this.textures.dsoHover;
+      this.hoveredDSO.sprite.material.needsUpdate = true;
+      this.hoveredDSO.sprite.scale.set(4.5, 4.5, 1);
+      
+      const type = dsoData.object.code === 'M' ? 'Messier' : 'Caldwell';
+      const number = dsoData.object.messierNumber || dsoData.object.messierNumber;
+      
+      this.hoverTooltipContent = `${type} ${number}: ${dsoData.object.name}`;
+      
+      // Tooltip in het midden van het canvas
+      this.hoverTooltipPosition = {
+        x: rect.width / 2,
+        y: rect.height / 2
+      };
+      this.cdr.detectChanges();
+    }
+  }
+
+  private hideHoverTooltip(): void {
+    if (this.hoveredDSO) {
+      this.hoveredDSO.sprite.material.map = this.textures.dsoNormal;
+      this.hoveredDSO.sprite.material.needsUpdate = true;
+      this.hoveredDSO.sprite.scale.set(3.0, 3.0, 1);
+      this.hoveredDSO = null;
       this.hoverTooltipContent = null;
       this.cdr.detectChanges();
     }
   }
 
-  // ===== CLICK HANDLING =====
+  // ========== CLICK HANDLING ==========
   private handleClick(x: number, y: number) {
-    if (!this.showMessier) return;
-
     const rect = this.canvasRef.nativeElement.getBoundingClientRect();
     this.mouse.x = ((x - rect.left) / rect.width) * 2 - 1;
     this.mouse.y = -((y - rect.top) / rect.height) * 2 + 1;
 
     this.raycaster.setFromCamera(this.mouse, this.camera);
     
-    const sprites = this.messierSprites.map(m => m.sprite);
+    const sprites = this.dsoSprites.map(m => m.sprite);
     const intersects = this.raycaster.intersectObjects(sprites);
 
     if (intersects.length > 0) {
       const hitSprite = intersects[0].object as THREE.Sprite;
-      const messierData = this.messierSprites.find(m => m.sprite === hitSprite);
+      const dsoData = this.dsoSprites.find(m => m.sprite === hitSprite);
       
-      if (messierData) {
-        this.infoPanelContent = messierData.object;
-        const localX = x - rect.left;
-        const localY = y - rect.top;
-
-        const container = this.canvasRef.nativeElement.parentElement!;
-        const maxWidth = container.clientWidth;
-        const maxHeight = container.clientHeight;
-
-        const panelWidth = 260;
-        const panelHeight = 320;
-
-        let clampedX = Math.max(panelWidth / 2, Math.min(localX, maxWidth - panelWidth / 2));
-        let clampedY = Math.max(panelHeight + 60, localY);
-
-        this.infoPanelPosition = {
-          x: clampedX,
-          y: clampedY
-        };
+      if (dsoData) {
+        this.infoPanelContent = dsoData.object;
         this.showInfoPanel = true;
         this.cdr.detectChanges();
       }
     }
   }
 
-  // ===== DOUBLE CLICK/TAP HANDLING =====
   private handleDoubleClick(x: number, y: number) {
     const rect = this.canvasRef.nativeElement.getBoundingClientRect();
     const mouseX = ((x - rect.left) / rect.width) * 2 - 1;
     const mouseY = -((y - rect.top) / rect.height) * 2 + 1;
 
-    // First check if we clicked on a Messier object
-    if (this.showMessier) {
-      this.mouse.x = mouseX;
-      this.mouse.y = mouseY;
-      this.raycaster.setFromCamera(this.mouse, this.camera);
-      const sprites = this.messierSprites.map(m => m.sprite);
-      const intersects = this.raycaster.intersectObjects(sprites);
-      
-      if (intersects.length > 0) {
-        const hitSprite = intersects[0].object as THREE.Sprite;
-        const messierData = this.messierSprites.find(m => m.sprite === hitSprite);
-        if (messierData) {
-          this.infoPanelContent = messierData.object;
-          this.infoPanelPosition = { x, y };
-          this.showInfoPanel = true;
-          this.cdr.detectChanges();
-          this.zoomToPoint(messierData.position, 0.3); // Zoom in to 30% of current FOV
-          return;
-        }
+    this.mouse.x = mouseX;
+    this.mouse.y = mouseY;
+    this.raycaster.setFromCamera(this.mouse, this.camera);
+    const sprites = this.dsoSprites.map(m => m.sprite);
+    const intersects = this.raycaster.intersectObjects(sprites);
+    
+    if (intersects.length > 0) {
+      const hitSprite = intersects[0].object as THREE.Sprite;
+      const dsoData = this.dsoSprites.find(m => m.sprite === hitSprite);
+      if (dsoData) {
+        this.zoomToObject(dsoData);
+        return;
       }
     }
 
-    // If no Messier object clicked, zoom to the point on the sphere
     const raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(new THREE.Vector2(mouseX, mouseY), this.camera);
     const sphere = new THREE.Sphere(new THREE.Vector3(0, 0, 0), 1);
@@ -631,14 +659,30 @@ private onTouchEnd = (event: TouchEvent) => {
     const hasIntersection = raycaster.ray.intersectSphere(sphere, intersectionPoint);
 
     if (hasIntersection) {
-      this.zoomToPoint(intersectionPoint, 0.4); // Zoom in to 40% of current FOV
+      this.zoomToPoint(intersectionPoint, 0.4);
     }
+  }
+
+  hideInfoPanel(): void {
+    this.showInfoPanel = false;
+    this.infoPanelContent = null;
+  }
+
+  // ========== ZOOM FUNCTIONS ==========
+  public zoomToObject(dsoData: DSOSpriteData): void {
+    this.zoomToPoint(dsoData.position, 0.3);
+    
+    setTimeout(() => {
+      this.infoPanelContent = dsoData.object;
+      this.showInfoPanel = true;
+      this.cdr.detectChanges();
+    }, 600);
   }
 
   private zoomToPoint(targetPoint: THREE.Vector3, zoomFactor: number = 0.4) {
     if (this.zoomAnimationFrame !== null) {
       if (this.isBrowser) {
-      cancelAnimationFrame(this.zoomAnimationFrame);
+        cancelAnimationFrame(this.zoomAnimationFrame);
       }
       this.zoomAnimationFrame = null;
     }
@@ -646,13 +690,13 @@ private onTouchEnd = (event: TouchEvent) => {
     const startDir = this.controls.target.clone().normalize();
     const endDir = targetPoint.clone().normalize();
     const startFov = this.targetFov;
-    const endFov = Math.max(this.MIN_FOV, Math.min(this.MAX_FOV, startFov * zoomFactor));
+    const endFov = Math.max(this.CONSTANTS.MIN_FOV, Math.min(this.CONSTANTS.MAX_FOV, startFov * zoomFactor));
 
     const wasDampingEnabled = this.controls.enableDamping;
     this.controls.enableDamping = false;
 
     const startTime = performance.now();
-    const duration = 600; // milliseconds
+    const duration = 600;
 
     const animateStep = () => {
       const now = performance.now();
@@ -669,50 +713,89 @@ private onTouchEnd = (event: TouchEvent) => {
 
       if (progress < 1) {
         if (this.isBrowser) {
-        this.zoomAnimationFrame = requestAnimationFrame(animateStep);
+          this.zoomAnimationFrame = requestAnimationFrame(animateStep);
         }
       } else {
         this.controls.enableDamping = wasDampingEnabled;
         this.zoomAnimationFrame = null;
       }
     };
-if (this.isBrowser) {
-    this.zoomAnimationFrame = requestAnimationFrame(animateStep);
-}
+
+    if (this.isBrowser) {
+      this.zoomAnimationFrame = requestAnimationFrame(animateStep);
+    }
   }
 
-  hideInfoPanel() {
-    this.showInfoPanel = false;
-    this.infoPanelContent = null;
+  // ========== SEARCH ==========
+  searchObjects(): void {
+    if (!this.searchQuery.trim()) {
+      this.searchResults = [];
+      return;
+    }
+
+    const query = this.searchQuery.toLowerCase();
+    const allObjects = this.messierService.realAll();
+    
+    this.searchResults = allObjects.filter(obj => {
+      const code = `${obj.code}${obj.messierNumber || obj.messierNumber}`.toLowerCase();
+      const name = obj.name?.toLowerCase() || '';
+      const type = obj.type?.toLowerCase() || '';
+      const constellation = obj.constellation?.toLowerCase() || '';
+      
+      return code.includes(query) || 
+             name.includes(query) || 
+             type.includes(query) || 
+             constellation.includes(query);
+    }).slice(0, 20);
   }
 
-  goToMessierDetails(m: any) {
-    this.messierService.selectMessierByNumberAndCode(m.code, m.messierNumber);
-    // window.location.href = `/dso/${m.code}${m.messierNumber}`; //temp reload fix
-    this.router.navigate(['/dso', `${m.code}${m.messierNumber}`]);
-    this.hideInfoPanel();
+  selectSearchResult(obj: any): void {
+    this.searchQuery = '';
+    this.searchResults = [];
+    this.showSearchPanel = false;
+    this.goToDSODetails(obj);
   }
 
-  // ===== BUILD SKY =====
-  private buildSky(): void {
+  // ========== SKY BUILDING ==========
+  public buildSky(): void {
     this.clearGroups();
     this.createStars();
     this.createConstellations();
-    this.createMessierObjects();
+    this.createDSOObjects();
     this.createGrid();
     this.createTargetHighlight();
     this.updateVisibility();
   }
 
   private clearGroups(): void {
-    [this.starGroup, this.constellationLineGroup, this.constellationNameGroup,
-     this.messierGroup, this.messierLabelGroup, this.gridGroup, this.targetHighlightGroup]
-      .forEach(g => { while(g.children.length) g.remove(g.children[0]); });
+    [
+      this.starGroup,
+      this.constellationLineGroup,
+      this.constellationNameGroup,
+      this.dsoGroup,
+      this.dsoImageGroup,
+      this.gridGroup,
+      this.targetHighlightGroup
+    ].forEach(g => {
+      while (g.children.length) {
+        const child = g.children[0];
+        if (child instanceof THREE.BufferGeometry) child.dispose();
+        if (child instanceof THREE.Material) {
+          if (Array.isArray(child)) {
+            child.forEach(m => m.dispose());
+          } else {
+            child.dispose();
+          }
+        }
+        g.remove(child);
+      }
+    });
+    
     this.stars = [];
-    this.messierSprites = [];
+    this.dsoSprites = [];
   }
 
-  // ===== STARS =====
+  // ========== STARS ==========
   private createStars(): void {
     const allStars = this.catalog.getStarsNear(this.ra, this.dec, 30);
     const positions: number[] = [];
@@ -720,16 +803,17 @@ if (this.isBrowser) {
     const sizes: number[] = [];
 
     allStars.forEach(star => {
-      const pos = this.raDecToXYZ(star.ra, star.dec, 100);
+      const pos = this.raDecToXYZ(star.ra, star.dec, this.CONSTANTS.SPHERE_RADIUS);
       const color = this.bvToColor(star.ci);
+      
       positions.push(pos.x, pos.y, pos.z);
       colors.push(color.r, color.g, color.b);
 
-      let size = 7.0 * (6.5 - Math.min(star.mag, 6.5)) * 0.8;
-      if (star.mag < 1) size *= 1.6;
-      else if (star.mag < 2) size *= 1.3;
+      let size = this.CONSTANTS.STAR_SIZE_MULTIPLIER * (6.5 - Math.min(star.mag, 6.5)) * 0.6;
+      if (star.mag < 1) size *= 1.3;
+      else if (star.mag < 2) size *= 1.2;
       else if (star.mag < 4) size *= 1.1;
-      size = Math.min(28, Math.max(4, size));
+      size = Math.min(this.CONSTANTS.MAX_STAR_SIZE, Math.max(this.CONSTANTS.MIN_STAR_SIZE, size));
 
       sizes.push(size);
 
@@ -740,40 +824,55 @@ if (this.isBrowser) {
         color,
         ra: star.ra,
         dec: star.dec,
-        size
+        size,
+        bv: star.ci
       });
     });
+
+    const vertexShader = `
+      attribute float size;
+      attribute vec3 color;
+      varying vec3 vColor;
+      
+      void main() {
+        vColor = color;
+        vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+        gl_PointSize = size * (300.0 / -mvPosition.z);
+        gl_Position = projectionMatrix * mvPosition;
+      }
+    `;
+
+    const fragmentShader = `
+      uniform sampler2D pointTexture;
+      uniform float nightMode;
+      varying vec3 vColor;
+      
+      void main() {
+        vec4 texColor = texture2D(pointTexture, gl_PointCoord);
+        
+        vec3 finalColor = vColor;
+        if (nightMode > 0.5) {
+          finalColor = vec3(1.0, 0.3, 0.1) * (vColor.r * 0.3 + vColor.g * 0.6 + vColor.b * 0.1);
+        }
+        
+        gl_FragColor = vec4(finalColor, texColor.a * 0.9);
+      }
+    `;
 
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
     geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
     geometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
 
-    const vertexShader = `
-      attribute float size;
-      attribute vec3 color;
-      varying vec3 vColor;
-      void main() {
-        vColor = color;
-        vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-        gl_PointSize = size;
-        gl_Position = projectionMatrix * mvPosition;
-      }
-    `;
-    const fragmentShader = `
-      uniform sampler2D pointTexture;
-      varying vec3 vColor;
-      void main() {
-        vec4 texColor = texture2D(pointTexture, gl_PointCoord);
-        gl_FragColor = vec4(vColor, texColor.a);
-      }
-    `;
     const material = new THREE.ShaderMaterial({
-      uniforms: { pointTexture: { value: this.starTexture } },
+      uniforms: {
+        pointTexture: { value: this.textures.star },
+        nightMode: { value: this.nightMode ? 1 : 0 }
+      },
       vertexShader,
       fragmentShader,
       transparent: true,
-      blending: THREE.AdditiveBlending,
+      blending: THREE.NormalBlending,
       depthWrite: false
     });
 
@@ -781,91 +880,203 @@ if (this.isBrowser) {
 
     if (this.showStarNames) {
       this.stars
-        .filter(s => s.name && s.magnitude < 4)
+        .filter(s => s.name && s.magnitude < 3.5)
         .forEach(star => {
-          const label = this.createLabel(star.name!, '#ffd700', 32, 18);
+          const label = this.createLabel(star.name!, '#ffffff', 28, 20);
           label.position.copy(star.position.clone().multiplyScalar(1.05));
           this.starGroup.add(label);
         });
     }
   }
 
-  // ===== CONSTELLATIONS =====
+  // ========== CONSTELLATIONS ==========
   private createConstellations(): void {
     const constellations = this.catalog.getConstellationsInView(this.ra, this.dec, 60);
-    const lineMaterial = new THREE.LineBasicMaterial({ color: 0x88aaff, opacity: 0.4, transparent: true });
+    
+    const lineMaterial = new THREE.LineBasicMaterial({ 
+      color: this.nightMode ? 0x442211 : 0x88aaff, 
+      opacity: this.nightMode ? 0.2 : 0.25, 
+      transparent: true 
+    });
 
     constellations.forEach(c => {
       c.lines.forEach((line: any) => {
-        const from = this.raDecToXYZ(line.from.ra, line.from.dec, 99.5);
-        const to = this.raDecToXYZ(line.to.ra, line.to.dec, 99.5);
+        const from = this.raDecToXYZ(line.from.ra, line.from.dec, this.CONSTANTS.SPHERE_RADIUS - 0.5);
+        const to = this.raDecToXYZ(line.to.ra, line.to.dec, this.CONSTANTS.SPHERE_RADIUS - 0.5);
         const geometry = new THREE.BufferGeometry().setFromPoints([from, to]);
         this.constellationLineGroup.add(new THREE.Line(geometry, lineMaterial));
       });
 
-      const center = this.calculateConstellationCenter(c);
-      const label = this.createLabel(c.name, '#aaccff', 20, 16);
-      label.position.copy(center);
-      this.constellationNameGroup.add(label);
+      // Constellation namen
+      if (this.showConstellationNames) {
+        const center = this.calculateConstellationCenter(c);
+        // Iets grotere labels voor betere zichtbaarheid
+        const label = this.createLabel(
+          c.name, 
+          this.nightMode ? '#884422' : '#aaccff', 
+          26, // Iets groter
+          18  // Kleinere divisor = groter
+        );
+        label.position.copy(center);
+        this.constellationNameGroup.add(label);
+      }
     });
   }
 
-  // ===== MESSIER OBJECTS =====
-  private createMessierObjects(): void {
-    const allMessier = this.messierService.realAll();
-    const radius = 20; // Show objects within 10° of center
+  // ========== DSO OBJECTS ==========
+  private createDSOObjects(): void {
+    const allDSO = this.messierService.realAll();
+    const radius = 30;
     
-    allMessier.forEach(obj => {
+    allDSO.forEach(obj => {
       const ra = this.raToDeg(obj.rightAscension);
       const dec = this.decToDeg(obj.declination);
       const distance = this.angularDistance(this.ra, this.dec, ra, dec);
       
       if (distance > radius) return;
-      
-      const pos = this.raDecToXYZ(ra, dec, 99);
 
-      const spriteMat = new THREE.SpriteMaterial({ 
-        map: this.messierTexture, 
+      const type = obj.code === 'M' ? 'messier' : 'caldwell';
+      const pos = this.raDecToXYZ(ra, dec, this.CONSTANTS.SPHERE_RADIUS - 1);
+
+      // Sprite met oranje cirkel (altijd zichtbaar)
+      const spriteMat = new THREE.SpriteMaterial({
+        map: this.textures.dsoNormal,
         transparent: true,
         depthTest: true,
         depthWrite: false,
         blending: THREE.NormalBlending
       });
-      
+
       const sprite = new THREE.Sprite(spriteMat);
       sprite.position.copy(pos);
-      sprite.scale.set(4.0, 4.0, 1);
-      sprite.frustumCulled = false;
-      sprite.matrixAutoUpdate = true;
       
-      this.messierGroup.add(sprite);
+      const sizeArcmin = (obj as any).sizeArcmin || 60;
+      const baseScale = 3.0;
+      const sizeScale = Math.max(0.5, Math.min(2.5, sizeArcmin / 30));
+      sprite.scale.set(baseScale * sizeScale, baseScale * sizeScale, 1);
+      
+      sprite.frustumCulled = false;
+      this.dsoGroup.add(sprite);
 
-      this.messierSprites.push({
+      let imageMesh: THREE.Mesh | undefined;
+      imageMesh = this.createDSOImage(obj, pos);
+
+      this.dsoSprites.push({
         object: obj,
         sprite,
         position: pos,
-        label: null as any
+        imageMesh,
+        type,
+        magnitude: obj.magnitude || 99,
+        size: sizeArcmin
       });
     });
+
+    this.dsoSprites.sort((a, b) => a.magnitude - b.magnitude);
   }
 
-  // ===== GRID =====
+  private createDSOImage(obj: any, pos: THREE.Vector3): THREE.Mesh | undefined {
+    const code = obj.code;
+    const number = obj.messierNumber || obj.messierNumber;
+
+    const path = code === 'M'
+      ? `/assets/dso/messier/M${number}.webp`
+      : `/assets/dso/caldwell/C${number}.webp`;
+
+    const sizeArcmin = (obj as any).sizeArcmin || 60;
+    const scale = (sizeArcmin / 60) * 2.0;
+
+    const geometry = new THREE.PlaneGeometry(scale, scale);
+    
+    // Verbeterde shader met circulaire fade
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        map: { value: null },
+        nightMode: { value: this.nightMode ? 1 : 0 }
+      },
+      transparent: true,
+      depthWrite: false,
+      vertexShader: `
+        varying vec2 vUv;
+        void main() {
+          vUv = uv;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform sampler2D map;
+        uniform float nightMode;
+        varying vec2 vUv;
+        
+        void main() {
+          vec4 color = texture2D(map, vUv);
+          
+          // Circulaire fade: hoe verder van het centrum, hoe transparanter
+          float dist = distance(vUv, vec2(0.5));
+          float circle = 1.0 - smoothstep(0.3, 0.7, dist); // Zachte overgang
+          
+          // Alleen pixels met alpha > 0 tonen, vermenigvuldigd met circle
+          float alpha = color.a * circle;
+          if (alpha < 0.05) discard;
+          
+          vec3 finalColor = color.rgb;
+          if (nightMode > 0.5) {
+            finalColor = vec3(1.0, 0.3, 0.1) * (color.r * 0.3 + color.g * 0.6 + color.b * 0.1);
+          }
+          
+          gl_FragColor = vec4(finalColor, alpha);
+        }
+      `
+    });
+
+    const plane = new THREE.Mesh(geometry, material);
+    plane.position.copy(pos);
+    plane.lookAt(0, 0, 0);
+    plane.userData = obj;
+
+    this.textureLoader.load(
+      path, 
+      (texture: THREE.Texture) => {
+        texture.colorSpace = THREE.SRGBColorSpace;
+        texture.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+        
+        if (plane.material instanceof THREE.ShaderMaterial) {
+          plane.material.uniforms['map'].value = texture;
+        }
+      }, 
+      undefined, 
+      (error: unknown) => {}
+    );
+
+    this.dsoImageGroup.add(plane);
+    return plane;
+  }
+
+  // ========== GRID ==========
   private createGrid(): void {
-    const gridMaterial = new THREE.LineBasicMaterial({ color: 0x446688, opacity: 0.1, transparent: true });
+    while (this.gridGroup.children.length) {
+      this.gridGroup.remove(this.gridGroup.children[0]);
+    }
+
+    const gridMaterial = new THREE.LineBasicMaterial({ 
+      color: this.nightMode ? 0x331100 : 0x446688, 
+      opacity: this.nightMode ? 0.2 : 0.2, 
+      transparent: true 
+    });
 
     for (let ra = 0; ra < 360; ra += 30) {
       const points: THREE.Vector3[] = [];
       for (let dec = -85; dec <= 85; dec += 5) {
-        points.push(this.raDecToXYZ(ra, dec, 99.8));
+        points.push(this.raDecToXYZ(ra, dec, this.CONSTANTS.SPHERE_RADIUS - 0.2));
       }
       const geometry = new THREE.BufferGeometry().setFromPoints(points);
       this.gridGroup.add(new THREE.Line(geometry, gridMaterial));
     }
 
-    for (let dec = -80; dec <= 80; dec += 20) {
+    for (let dec = -80; dec <= 80; dec += 30) {
       const points: THREE.Vector3[] = [];
-      for (let ra = 0; ra <= 360; ra += 10) {
-        points.push(this.raDecToXYZ(ra, dec, 99.8));
+      for (let ra = 0; ra <= 360; ra += 15) {
+        points.push(this.raDecToXYZ(ra, dec, this.CONSTANTS.SPHERE_RADIUS - 0.2));
       }
       const geometry = new THREE.BufferGeometry().setFromPoints(points);
       this.gridGroup.add(new THREE.Line(geometry, gridMaterial));
@@ -873,50 +1084,79 @@ if (this.isBrowser) {
 
     const equatorPoints: THREE.Vector3[] = [];
     for (let ra = 0; ra <= 360; ra += 5) {
-      equatorPoints.push(this.raDecToXYZ(ra, 0, 99.8));
+      equatorPoints.push(this.raDecToXYZ(ra, 0, this.CONSTANTS.SPHERE_RADIUS - 0.2));
     }
     const equatorGeo = new THREE.BufferGeometry().setFromPoints(equatorPoints);
-    const equatorMat = new THREE.LineBasicMaterial({ color: 0x6688aa, opacity: 0.2, transparent: true });
+    const equatorMat = new THREE.LineBasicMaterial({ 
+      color: this.nightMode ? 0x442200 : 0x88aaff, 
+      opacity: this.nightMode ? 0.25 : 0.3, 
+      transparent: true 
+    });
     this.gridGroup.add(new THREE.Line(equatorGeo, equatorMat));
   }
 
-  // ===== TARGET HIGHLIGHT =====
+  // ========== TARGET HIGHLIGHT ==========
   private createTargetHighlight(): void {
     const targetObj = this.messierService.realAll().find(m =>
-      `${m.code}${m.messierNumber}` === this.targetName
+      `${m.code}${m.messierNumber || m.messierNumber}` === this.targetName
     );
+    
     if (!targetObj) return;
 
     const ra = this.raToDeg(targetObj.rightAscension);
     const dec = this.decToDeg(targetObj.declination);
-    this.targetPosition.copy(this.raDecToXYZ(ra, dec, 99.5));
+    this.targetPosition.copy(this.raDecToXYZ(ra, dec, this.CONSTANTS.SPHERE_RADIUS - 0.5));
 
     const spriteMat = new THREE.SpriteMaterial({
-      map: this.highlightTexture,
-      transparent: true,             
-      depthWrite: false,             
-      depthTest: true,               
-      blending: THREE.AdditiveBlending,
-      alphaTest: 0.01                
+      map: this.textures.highlight,
+      transparent: true,
+      depthWrite: false,
+      depthTest: true,
+      blending: THREE.AdditiveBlending
     });
+    
     const sprite = new THREE.Sprite(spriteMat);
     sprite.position.copy(this.targetPosition);
-    sprite.scale.set(3.2, 3.2, 1);
+    sprite.scale.set(3.0, 3.0, 1);
     this.targetHighlightGroup.add(sprite);
   }
 
-  // ===== VISIBILITY =====
+  // ========== VISIBILITY ==========
   private updateVisibility(): void {
     this.constellationLineGroup.visible = this.showConstellations;
-    this.constellationNameGroup.visible = this.showConstellations;
-    this.messierGroup.visible = this.showMessier;
-    this.gridGroup.visible = true;
-    this.skySphere.scale.x = this.mirrored ? -1 : 1;
+    // Constellation namen altijd tonen als showConstellationNames aan staat
+    this.constellationNameGroup.visible = this.showConstellationNames;
+    // DSO afbeeldingen altijd zichtbaar
+    this.dsoImageGroup.visible = true;
+    // Oranje cirkels altijd zichtbaar (DSO's zijn altijd aan)
+    this.dsoGroup.visible = true;
+    this.gridGroup.visible = this.showGrid;
   }
 
-  // ===== CENTER ON TARGET =====
-  private centerOnTarget(): void {
+  private updateNightMode(): void {
+    const color = this.nightMode ? 0x331100 : 0x446688;
+    const opacity = this.nightMode ? 0.2 : 0.2;
+    
+    this.gridGroup.children.forEach(child => {
+      if (child instanceof THREE.Line) {
+        if (child.material instanceof THREE.LineBasicMaterial) {
+          child.material.color.setHex(color);
+          child.material.opacity = opacity;
+        }
+      }
+    });
+
+    this.starGroup.children.forEach(child => {
+      if (child instanceof THREE.Points && child.material instanceof THREE.ShaderMaterial) {
+        child.material.uniforms['nightMode'].value = this.nightMode ? 1 : 0;
+      }
+    });
+  }
+
+  // ========== CENTERING ==========
+  centerOnTarget(): void {
     if (!this.camera || !this.controls) return;
+    
     const targetDir = this.raDecToXYZ(this.ra, this.dec, 1).normalize();
     this.controls.target.copy(targetDir);
     this.camera.lookAt(targetDir);
@@ -924,13 +1164,13 @@ if (this.isBrowser) {
     this.camera.fov = this.targetFov;
     this.camera.updateProjectionMatrix();
     this.updateLabelSizes();
+    this.updateHUD();
   }
 
-  // ===== PUBLIC METHODS FOR TEMPLATE =====
   resetView(): void {
     if (this.zoomAnimationFrame) {
       if (this.isBrowser) {
-      cancelAnimationFrame(this.zoomAnimationFrame);
+        cancelAnimationFrame(this.zoomAnimationFrame);
       }
       this.zoomAnimationFrame = null;
     }
@@ -939,6 +1179,7 @@ if (this.isBrowser) {
     this.showInfoPanel = false;
     this.camera.up.set(0, 1, 0);
     this.rotationAngle = 0;
+    
     const targetDir = this.raDecToXYZ(this.ra, this.dec, 1).normalize();
     this.controls.target.copy(targetDir);
     this.camera.position.set(0, 0, 0);
@@ -950,50 +1191,13 @@ if (this.isBrowser) {
     this.updateLabelSizes();
   }
 
-  toggleMirror(): void {
-    this.mirrored = !this.mirrored;
-    this.skySphere.scale.x = this.mirrored ? -1 : 1;
-  }
-
-  toggleStarNames(): void {
-    this.showStarNames = !this.showStarNames;
-    this.buildSky();
-  }
-
-  toggleConstellations(): void {
-    this.showConstellations = !this.showConstellations;
-    this.constellationLineGroup.visible = this.showConstellations;
-    this.showConstellationNames = this.showConstellations;
-    this.constellationNameGroup.visible = this.showConstellations;
-  }
-
-  toggleConstellationNames(): void {
-    this.showConstellationNames = !this.showConstellationNames;
-    this.constellationNameGroup.visible = this.showConstellationNames;
-  }
-
-  toggleMessier(): void {
-    this.showMessier = !this.showMessier;
-    this.messierGroup.visible = this.showMessier;
-    this.messierLabelGroup.visible = this.showMessier && this.showMessierNames;
-  }
-
-  toggleMessierNames(): void {
-    // this.showMessierNames = !this.showMessierNames;
-    // this.messierLabelGroup.visible = this.showMessier && this.showMessierNames;
-  }
-
-  toggleGrid(): void {
-    this.showGrid = !this.showGrid;
-    this.gridGroup.visible = this.showGrid;
-  }
-
+  // ========== ROTATION ==========
   rotateLeft(): void {
-    this.rotateField(-15);
+    this.rotateField(15);
   }
 
   rotateRight(): void {
-    this.rotateField(15);
+    this.rotateField(-15);
   }
 
   private rotateField(degrees: number): void {
@@ -1002,26 +1206,88 @@ if (this.isBrowser) {
     const angle = THREE.MathUtils.degToRad(degrees);
     this.rotationAngle += degrees;
 
-    // View direction bepalen
     const viewDir = new THREE.Vector3()
       .subVectors(this.controls.target, this.camera.position)
       .normalize();
 
-    // Quaternion rond huidige kijk-as
     const q = new THREE.Quaternion().setFromAxisAngle(viewDir, angle);
-
-    // Toepassen op skySphere
     this.skySphere.quaternion.premultiply(q);
     this.skySphere.quaternion.normalize();
   }
 
+  // ========== DENSITY ==========
   setDensity(density: 'sparse' | 'normal' | 'dense'): void {
     this.starDensity = density;
     this.catalog.setStarDensity(density);
     this.buildSky();
   }
 
-  // ===== UTILITIES =====
+  // ========== TOGGLE FUNCTIONS ==========
+  toggleConstellations(): void {
+    this.showConstellations = !this.showConstellations;
+    this.constellationLineGroup.visible = this.showConstellations;
+    this.constellationNameGroup.visible = this.showConstellations && this.showConstellationNames;
+  }
+
+  toggleConstellationNames(): void {
+    this.showConstellationNames = !this.showConstellationNames;
+    this.constellationNameGroup.visible = this.showConstellations && this.showConstellationNames;
+  }
+
+  // DSO toggle verwijderd - altijd aan
+  // toggleMessier(): void { ... } verwijderd
+
+  toggleGrid(): void {
+    this.showGrid = !this.showGrid;
+    this.gridGroup.visible = this.showGrid;
+  }
+
+  toggleNightMode(): void {
+    this.nightMode = !this.nightMode;
+    this.updateNightMode();
+  }
+
+  // ========== SCREENSHOT ==========
+  takeScreenshot(): void {
+    if (!this.renderer) return;
+
+    this.composer.render();
+
+    const canvas = this.renderer.domElement;
+    const dataUrl = canvas.toDataURL('image/png');
+    
+    const link = document.createElement('a');
+    link.download = `starhop-${this.targetName || 'view'}-${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.png`;
+    link.href = dataUrl;
+    link.click();
+  }
+
+  // ========== HUD UPDATE ==========
+  private updateHUD(): void {
+    if (!this.camera || !this.controls) return;
+
+    const targetDir = this.controls.target.clone().normalize();
+    
+    const ra = Math.atan2(targetDir.x, targetDir.z) * 180 / Math.PI;
+    const dec = Math.asin(targetDir.y) * 180 / Math.PI;
+    
+    const raNormalized = (ra + 360) % 360;
+    
+    const raHours = raNormalized / 15;
+    const raH = Math.floor(raHours);
+    const raM = Math.floor((raHours - raH) * 60);
+    const raS = Math.floor(((raHours - raH) * 60 - raM) * 60);
+
+    this.hudInfo = {
+      ra: `${raH.toString().padStart(2, '0')}h ${raM.toString().padStart(2, '0')}m ${raS.toString().padStart(2, '0')}s`,
+      dec: `${dec >= 0 ? '+' : ''}${dec.toFixed(2)}°`,
+      fov: this.camera.fov,
+      altitude: 90 - Math.abs(dec),
+      azimuth: (raNormalized + 180) % 360
+    };
+  }
+
+  // ========== UTILITIES ==========
   private raDecToXYZ(ra: number, dec: number, radius: number): THREE.Vector3 {
     const raRad = THREE.MathUtils.degToRad(ra - 90);
     const decRad = THREE.MathUtils.degToRad(dec);
@@ -1035,22 +1301,26 @@ if (this.isBrowser) {
   private calculateConstellationCenter(constellation: any): THREE.Vector3 {
     const center = new THREE.Vector3();
     let count = 0;
+    
     constellation.lines.forEach((line: any) => {
       center.add(this.raDecToXYZ(line.from.ra, line.from.dec, 101));
       center.add(this.raDecToXYZ(line.to.ra, line.to.dec, 101));
       count += 2;
     });
+    
     return center.divideScalar(count);
   }
 
   private bvToColor(bv?: number): THREE.Color {
     if (bv == null || isNaN(bv)) return new THREE.Color(0xffffff);
+    
     const t = Math.max(-0.4, Math.min(2.0, bv));
-    if (t < 0.0)  return new THREE.Color('#fff4ea');
-    if (t < 0.4)  return new THREE.Color('#fff4ea');
-    if (t < 0.8)  return new THREE.Color('#fff4ea');
-    if (t < 1.2)  return new THREE.Color('#ffd2a1');
-    return new THREE.Color('#fff4ea');
+    
+    if (t < 0.0) return new THREE.Color('#ffffff');
+    if (t < 0.4) return new THREE.Color('#fffef9');
+    if (t < 0.8) return new THREE.Color('#fffcf5');
+    if (t < 1.2) return new THREE.Color('#fffaf0');
+    return new THREE.Color('#fff7ea');
   }
 
   private raToDeg(ra: string): number {
@@ -1074,98 +1344,116 @@ if (this.isBrowser) {
   }
 
   private createLabel(
-    text: string, 
-    color: string, 
-    baseFontSize = 32,
-    scaleDivisor = 15
+    text: string,
+    color: string,
+    baseFontSize = 28,
+    scaleDivisor = 18
   ): THREE.Sprite {
     const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d')!;
-    
     canvas.width = 512;
     canvas.height = 256;
-    
+    const ctx = canvas.getContext('2d')!;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    ctx.font = `800 ${baseFontSize}px 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif`;
+    ctx.font = `600 ${baseFontSize}px 'Inter', -apple-system, BlinkMacSystemFont, sans-serif`;
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
-    
-    ctx.shadowColor = 'rgba(0, 0, 0, 1)';
-    ctx.shadowBlur = 16;
-    ctx.shadowOffsetX = 3;
-    ctx.shadowOffsetY = 3;
-    
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+    ctx.shadowBlur = 12;
+    ctx.shadowOffsetX = 2;
+    ctx.shadowOffsetY = 2;
     ctx.fillStyle = color;
     ctx.fillText(text, canvas.width / 2, canvas.height / 2);
-    
-    ctx.globalAlpha = 1.0;
-    ctx.shadowBlur = 0;
-    
+
     const texture = new THREE.CanvasTexture(canvas);
-    const material = new THREE.SpriteMaterial({ 
-      map: texture, 
+    const material = new THREE.SpriteMaterial({
+      map: texture,
       transparent: true,
       depthTest: true,
       depthWrite: false,
       blending: THREE.NormalBlending,
       sizeAttenuation: true
     });
-    
+
     const sprite = new THREE.Sprite(material);
-    
     const baseWidth = canvas.width / scaleDivisor;
     const baseHeight = canvas.height / scaleDivisor;
-    
-    sprite.userData = { 
-      baseWidth, 
-      baseHeight,
-      minScale: 1.8,
-      maxScale: 2.0
-    };
-    
+
+    sprite.userData = { baseWidth, baseHeight, minScale: 1.2, maxScale: 2.0 };
     sprite.scale.set(baseWidth, baseHeight, 1);
-    
     return sprite;
   }
 
   private updateLabelSizes(): void {
     if (!this.camera) return;
-    
-    const zoomFactor = 30 / this.camera.fov;
-    
-    [this.constellationNameGroup, this.messierLabelGroup, this.starGroup].forEach(group => {
+
+    const zoomFactor = 20 / this.camera.fov;
+
+    [this.constellationNameGroup, this.starGroup].forEach(group => {
       group.children.forEach(child => {
         if (child instanceof THREE.Sprite && child.userData['baseWidth']) {
           const baseWidth = child.userData['baseWidth'];
           const baseHeight = child.userData['baseHeight'];
-          const minScale = child.userData['minScale'] || 0.5;
-          const maxScale = child.userData['maxScale'] || 3.0;
-          
+          const minScale = child.userData['minScale'] || 1.0;
+          const maxScale = child.userData['maxScale'] || 2.5;
+
           const clampedZoom = Math.max(minScale, Math.min(maxScale, zoomFactor));
-          
-          child.scale.set(
-            baseWidth * clampedZoom,
-            baseHeight * clampedZoom,
-            1
-          );
+          child.scale.set(baseWidth * clampedZoom, baseHeight * clampedZoom, 1);
         }
       });
     });
   }
 
+  private setupResizeObserver(): void {
+    if (!this.isBrowser) return;
+
+    this.resizeObserver = new ResizeObserver(() => {
+      clearTimeout(this.resizeThrottleTimeout);
+      this.resizeThrottleTimeout = setTimeout(() => {
+        this.zone.run(() => this.onResize());
+      }, 100);
+    });
+
+    this.resizeObserver.observe(this.canvasRef.nativeElement.parentElement!);
+  }
+
+  onResize(): void {
+    const canvas = this.canvasRef.nativeElement;
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+    
+    if (width === 0 || height === 0) return;
+    
+    this.camera.aspect = width / height;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(width, height, false);
+    this.composer.setSize(width, height);
+  }
+
+  // ========== ANIMATION ==========
   private animate = () => {
     if (this.isBrowser) {
-    this.frameId = requestAnimationFrame(this.animate);
+      this.frameId = requestAnimationFrame(this.animate);
     }
 
     if (Math.abs(this.camera.fov - this.targetFov) > 0.01) {
       this.camera.fov += (this.targetFov - this.camera.fov) * 0.1;
       this.camera.updateProjectionMatrix();
       this.updateLabelSizes();
+      this.updateHUD();
     }
 
     this.controls.update();
     this.composer.render();
   };
+
+  // ========== ROUTING ==========
+  goToDSODetails(obj: any): void {
+    // Forceer navigatie
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/dso', `${obj.code}${obj.messierNumber || obj.messierNumber}`]);
+    });
+    this.hideInfoPanel();
+    this.showSearchPanel = false;
+  }
 }

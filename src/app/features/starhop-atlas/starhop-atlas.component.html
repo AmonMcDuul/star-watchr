@@ -1,63 +1,240 @@
-<div class="starhop-atlas-container">
-  <!-- Control bar - text buttons like starhop-map -->
+<div class="starhop-atlas-container" [class.night-mode]="nightMode">
+  
+  <!-- Control Bar -->
   <div class="control-bar">
+    <!-- Row 1: Main toggles -->
     <div class="control-row">
-      <!-- <button (click)="toggleMirror()" [class.active]="mirrored" class="control-btn">Mirror</button> -->
-      <!-- <button (click)="toggleGrid()" [class.active]="showGrid" class="control-btn">Grid</button> -->
-      <button (click)="toggleConstellations()" [class.active]="showConstellations" class="control-btn">Constellations</button>
-      <button (click)="toggleMessier()" [class.active]="showMessier" class="control-btn">DSO's</button>
-      <!-- <button (click)="toggleConstellationNames()" [class.active]="showConstellationNames" class="control-btn">Const. Names</button> -->
-    <!-- </div>
-    
-    <div class="control-row"> -->
-      <!-- <button (click)="toggleStarNames()" [class.active]="showStarNames" class="control-btn">Star Names</button> -->
-      <!-- <button (click)="toggleMessierNames()" [class.active]="showMessierNames" class="control-btn">Messier Names</button> -->
-    <!-- </div>
-    
-    <div class="control-row"> -->
-      <div class="rotation-group">
-        <button (click)="rotateLeft()" class="control-btn rotate">↶ 15°</button>
-        <button (click)="rotateRight()" class="control-btn rotate">15° ↷</button>
-      </div>
+      <button 
+        (click)="toggleConstellations()" 
+        [class.active]="showConstellations"
+        class="control-btn"
+        title="Toggle Constellations"
+      >
+        <span class="icon">✦</span>
+        <span class="label">Const.</span>
+      </button>
       
+      <button 
+        (click)="toggleConstellationNames()" 
+        [class.active]="showConstellationNames"
+        class="control-btn"
+        title="Constellation Names"
+        [class.disabled]="!showConstellations"
+      >
+        <span class="icon">📝</span>
+        <span class="label">Names</span>
+      </button>
+      
+      <!-- DSO toggle verwijderd - altijd aan -->
+      
+      <button 
+        (click)="toggleGrid()" 
+        [class.active]="showGrid"
+        class="control-btn"
+        title="Toggle Grid"
+      >
+        <span class="icon">⌗</span>
+        <span class="label">Grid</span>
+      </button>
+    </div>
+
+    <!-- Row 2: Actions & Settings -->
+    <div class="control-row">
+      <div class="btn-group">
+        <button 
+          (click)="toggleNightMode()" 
+          [class.active]="nightMode"
+          class="control-btn"
+          title="Night Mode"
+        >
+          <span class="icon">🌙</span>
+          <span class="label">Night</span>
+        </button>
+        
+        <button 
+          (click)="rotateLeft()" 
+          class="control-btn"
+          title="Rotate Left"
+        >
+          ↶
+        </button>
+        <button 
+          (click)="rotateRight()" 
+          class="control-btn"
+          title="Rotate Right"
+        >
+          ↷
+        </button>
+      </div>
+
       <div class="density-group">
-        <button (click)="setDensity('sparse')" [class.active]="starDensity === 'sparse'" class="control-btn">Sparse</button>
-        <button (click)="setDensity('normal')" [class.active]="starDensity === 'normal'" class="control-btn">Normal</button>
-        <button (click)="setDensity('dense')" [class.active]="starDensity === 'dense'" class="control-btn">Dense</button>
+        <button 
+          (click)="setDensity('sparse')" 
+          [class.active]="starDensity === 'sparse'"
+          class="control-btn"
+        >
+          Sparse
+        </button>
+        <button 
+          (click)="setDensity('normal')" 
+          [class.active]="starDensity === 'normal'"
+          class="control-btn"
+        >
+          Normal
+        </button>
+        <button 
+          (click)="setDensity('dense')" 
+          [class.active]="starDensity === 'dense'"
+          class="control-btn"
+        >
+          Dense
+        </button>
       </div>
-      
-      <button (click)="resetView()" class="control-btn reset">Reset</button>
-      
+
+      <div class="btn-group">
+        <button 
+          (click)="showSearchPanel = !showSearchPanel"
+          class="control-btn"
+          title="Search"
+        >
+          <span class="icon">🔍</span>
+          <span class="label">Search</span>
+        </button>
+        
+        <button 
+          (click)="takeScreenshot()"
+          class="control-btn"
+          title="Screenshot"
+        >
+          <span class="icon">📷</span>
+          <span class="label">Shot</span>
+        </button>
+        
+        <button 
+          (click)="resetView()" 
+          class="control-btn reset"
+          title="Reset View"
+        >
+          Reset
+        </button>
+      </div>
+    </div>
+
+    <!-- HUD Info -->
+    <div class="hud-info">
+      <div class="hud-item">
+        <span class="hud-label">RA:</span>
+        <span class="hud-value">{{ hudInfo.ra }}</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">Dec:</span>
+        <span class="hud-value">{{ hudInfo.dec }}</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">FOV:</span>
+        <span class="hud-value">{{ hudInfo.fov | number:'1.1-1' }}°</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">Alt:</span>
+        <span class="hud-value">{{ hudInfo.altitude | number:'1.0-0' }}°</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">Az:</span>
+        <span class="hud-value">{{ hudInfo.azimuth | number:'1.0-0' }}°</span>
+      </div>
     </div>
   </div>
-  <!-- Hover Tooltip -->
+
+  <!-- Search Panel -->
+  @if (showSearchPanel) {
+    <div class="search-panel">
+      <div class="search-header">
+        <h4>Search DSO</h4>
+        <button class="close-btn" (click)="showSearchPanel = false">✕</button>
+      </div>
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="searchObjects()"
+        placeholder="M31, Pleiades, Andromeda..."
+        class="search-input"
+        autofocus
+      />
+      <div class="search-results">
+        @for (result of searchResults; track result.code + result.messierNumber) {
+          <div class="search-result" (click)="selectSearchResult(result)">
+            <span class="result-code">{{ result.code }}{{ result.messierNumber || result.caldwellNumber }}</span>
+            <span class="result-name">{{ result.name }}</span>
+            <span class="result-type">{{ result.type }}</span>
+          </div>
+        }
+        @if (searchResults.length === 0 && searchQuery) {
+          <div class="no-results">No objects found</div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Hover Tooltip (centered) -->
   @if (hoverTooltipContent) {
-    <div class="tooltip" [style.left.px]="hoverTooltipPosition.x" [style.top.px]="hoverTooltipPosition.y">
+    <div class="tooltip">
       {{ hoverTooltipContent }}
     </div>
   }
 
-  <!-- Info Panel -->
+  <!-- Info Panel (centered) -->
   @if (showInfoPanel && infoPanelContent) {
-    <div class="info-panel" [style.left.px]="infoPanelPosition.x" [style.top.px]="infoPanelPosition.y">
+    <div class="info-panel">
       <div class="info-header">
-        <h3>{{ infoPanelContent.code }}{{ infoPanelContent.messierNumber }} – {{ infoPanelContent.name }}</h3>
+        <h3>{{ infoPanelContent.code }}{{ infoPanelContent.messierNumber || infoPanelContent.caldwellNumber }}</h3>
         <button class="close-btn" (click)="hideInfoPanel()">✕</button>
       </div>
-      <div class="info-content">
-        <img [src]="infoPanelContent.image" [alt]="infoPanelContent.name" />
-        <div><strong>Type:</strong> {{ infoPanelContent.type }}</div>
-        <div><strong>Magnitude:</strong> {{ infoPanelContent.magnitude }}</div>
-        <div><strong>Constellation:</strong> {{ infoPanelContent.constellation }}</div>
-        <div><strong>Distance:</strong> {{ infoPanelContent.distance }} ly</div>
-        <div><strong>Size:</strong> {{ infoPanelContent.size }}</div>
-        <button class="details-btn" (click)="goToMessierDetails(infoPanelContent)">
-          View Details →
-        </button>
+      
+      <h4 class="object-name">{{ infoPanelContent.name }}</h4>
+      
+      <img 
+        [src]="infoPanelContent.image" 
+        [alt]="infoPanelContent.name"
+        (error)="$event.target.src = '/assets/dso/placeholder.webp'"
+      />
+      
+      <div class="info-grid">
+        <div class="info-row">
+          <span class="label">Type:</span>
+          <span class="value">{{ infoPanelContent.type }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Magnitude:</span>
+          <span class="value">{{ infoPanelContent.magnitude }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Constellation:</span>
+          <span class="value">{{ infoPanelContent.constellation }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Distance:</span>
+          <span class="value">{{ infoPanelContent.distance || '?' }} ly</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Size:</span>
+          <span class="value">{{ infoPanelContent.size }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">RA:</span>
+          <span class="value">{{ infoPanelContent.rightAscension }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Dec:</span>
+          <span class="value">{{ infoPanelContent.declination }}</span>
+        </div>
       </div>
+
+      <button class="details-btn" (click)="goToDSODetails(infoPanelContent)">
+        View Details →
+      </button>
     </div>
   }
-  
-  <!-- Canvas fills remaining space -->
+
+  <!-- Canvas -->
   <canvas #canvas class="starhop-canvas"></canvas>
 </div>
