@@ -423,7 +423,7 @@ private createStars(): void {
     colors.push(color.r, color.g, color.b);
 
     // Kleinere basisgrootte voor alle sterren
-      let size = 5.0 * (6.5 - Math.min(star.mag, 6.5)) * 0.6;
+      let size = 7.0 * (6.5 - Math.min(star.mag, 6.5)) * 0.8;
       if (star.mag < 1) size *= 1.4;
       else if (star.mag < 2) size *= 1.2;
       else if (star.mag < 4) size *= 1.1;
