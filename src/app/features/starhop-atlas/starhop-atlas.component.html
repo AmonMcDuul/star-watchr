@@ -1,127 +1,50 @@
-<div class="starhop-atlas-container" [class.night-mode]="nightMode">
-  
-  <!-- Control Bar -->
+<div class="starhop-atlas-container">
+  <!-- Control bar -->
   <div class="control-bar">
-    <!-- Row 1: Main toggles -->
+    <!-- Eerste rij: hoofd functies -->
     <div class="control-row">
-      <button 
-        (click)="toggleConstellations()" 
-        [class.active]="showConstellations"
-        class="control-btn"
-        title="Toggle Constellations"
-      >
+      <button (click)="toggleConstellations()" [class.active]="showConstellations" class="control-btn">
         <span class="icon">✦</span>
         <span class="label">Const.</span>
       </button>
-      
-      <button 
-        (click)="toggleConstellationNames()" 
-        [class.active]="showConstellationNames"
-        class="control-btn"
-        title="Constellation Names"
-        [class.disabled]="!showConstellations"
-      >
-        <span class="icon">📝</span>
-        <span class="label">Names</span>
+      <button (click)="toggleMessier()" [class.active]="showMessier" class="control-btn">
+        <span class="icon">●</span>
+        <span class="label">DSO's</span>
       </button>
-      
-      <!-- DSO toggle verwijderd - altijd aan -->
-      
-      <button 
-        (click)="toggleGrid()" 
-        [class.active]="showGrid"
-        class="control-btn"
-        title="Toggle Grid"
-      >
+      <button (click)="toggleGrid()" [class.active]="showGrid" class="control-btn">
         <span class="icon">⌗</span>
         <span class="label">Grid</span>
       </button>
     </div>
 
-    <!-- Row 2: Actions & Settings -->
+    <!-- Tweede rij: rotatie, dichtheid, acties -->
     <div class="control-row">
-      <div class="btn-group">
-        <button 
-          (click)="toggleNightMode()" 
-          [class.active]="nightMode"
-          class="control-btn"
-          title="Night Mode"
-        >
-          <span class="icon">🌙</span>
-          <span class="label">Night</span>
-        </button>
-        
-        <button 
-          (click)="rotateLeft()" 
-          class="control-btn"
-          title="Rotate Left"
-        >
-          ↶
-        </button>
-        <button 
-          (click)="rotateRight()" 
-          class="control-btn"
-          title="Rotate Right"
-        >
-          ↷
-        </button>
+      <div class="rotation-group">
+        <button (click)="rotateLeft()" class="control-btn rotate" title="Rotate left 15°">↶ 15°</button>
+        <button (click)="rotateRight()" class="control-btn rotate" title="Rotate right 15°">15° ↷</button>
       </div>
 
       <div class="density-group">
-        <button 
-          (click)="setDensity('sparse')" 
-          [class.active]="starDensity === 'sparse'"
-          class="control-btn"
-        >
-          Sparse
-        </button>
-        <button 
-          (click)="setDensity('normal')" 
-          [class.active]="starDensity === 'normal'"
-          class="control-btn"
-        >
-          Normal
-        </button>
-        <button 
-          (click)="setDensity('dense')" 
-          [class.active]="starDensity === 'dense'"
-          class="control-btn"
-        >
-          Dense
-        </button>
+        <button (click)="setDensity('sparse')" [class.active]="starDensity === 'sparse'" class="control-btn">Sparse</button>
+        <button (click)="setDensity('normal')" [class.active]="starDensity === 'normal'" class="control-btn">Normal</button>
+        <button (click)="setDensity('dense')" [class.active]="starDensity === 'dense'" class="control-btn">Dense</button>
       </div>
 
-      <div class="btn-group">
-        <button 
-          (click)="showSearchPanel = !showSearchPanel"
-          class="control-btn"
-          title="Search"
-        >
+      <div class="action-group">
+        <button (click)="showSearchPanel = !showSearchPanel" class="control-btn" title="Search">
           <span class="icon">🔍</span>
           <span class="label">Search</span>
         </button>
-        
-        <button 
-          (click)="takeScreenshot()"
-          class="control-btn"
-          title="Screenshot"
-        >
+        <button (click)="takeScreenshot()" class="control-btn" title="Take screenshot">
           <span class="icon">📷</span>
-          <span class="label">Shot</span>
+          <span class="label">Screenshot</span>
         </button>
-        
-        <button 
-          (click)="resetView()" 
-          class="control-btn reset"
-          title="Reset View"
-        >
-          Reset
-        </button>
+        <button (click)="resetView()" class="control-btn reset" title="Reset view">Reset</button>
       </div>
     </div>
 
     <!-- HUD Info -->
-    <div class="hud-info">
+    <!-- <div class="hud-info">
       <div class="hud-item">
         <span class="hud-label">RA:</span>
         <span class="hud-value">{{ hudInfo.ra }}</span>
@@ -142,7 +65,7 @@
         <span class="hud-label">Az:</span>
         <span class="hud-value">{{ hudInfo.azimuth | number:'1.0-0' }}°</span>
       </div>
-    </div>
+    </div> -->
   </div>
 
   <!-- Search Panel -->
@@ -161,7 +84,7 @@
         autofocus
       />
       <div class="search-results">
-        @for (result of searchResults; track result.code + result.messierNumber) {
+        @for (result of searchResults; track result.code + (result.messierNumber || result.caldwellNumber)) {
           <div class="search-result" (click)="selectSearchResult(result)">
             <span class="result-code">{{ result.code }}{{ result.messierNumber || result.caldwellNumber }}</span>
             <span class="result-name">{{ result.name }}</span>
@@ -175,63 +98,36 @@
     </div>
   }
 
-  <!-- Hover Tooltip (centered) -->
+  <!-- Hover Tooltip (gecentreerd) -->
   @if (hoverTooltipContent) {
-    <div class="tooltip">
+    <div class="tooltip centered">
       {{ hoverTooltipContent }}
     </div>
   }
 
-  <!-- Info Panel (centered) -->
+  <!-- Info Panel (gecentreerd) -->
   @if (showInfoPanel && infoPanelContent) {
-    <div class="info-panel">
+    <div class="info-panel centered">
       <div class="info-header">
         <h3>{{ infoPanelContent.code }}{{ infoPanelContent.messierNumber || infoPanelContent.caldwellNumber }}</h3>
         <button class="close-btn" (click)="hideInfoPanel()">✕</button>
       </div>
-      
       <h4 class="object-name">{{ infoPanelContent.name }}</h4>
-      
-      <img 
-        [src]="infoPanelContent.image" 
+      <img
+        [src]="infoPanelContent.image"
         [alt]="infoPanelContent.name"
-        (error)="$event.target.src = '/assets/dso/placeholder.webp'"
+        (error)="handleImageError($event)"
       />
-      
       <div class="info-grid">
-        <div class="info-row">
-          <span class="label">Type:</span>
-          <span class="value">{{ infoPanelContent.type }}</span>
-        </div>
-        <div class="info-row">
-          <span class="label">Magnitude:</span>
-          <span class="value">{{ infoPanelContent.magnitude }}</span>
-        </div>
-        <div class="info-row">
-          <span class="label">Constellation:</span>
-          <span class="value">{{ infoPanelContent.constellation }}</span>
-        </div>
-        <div class="info-row">
-          <span class="label">Distance:</span>
-          <span class="value">{{ infoPanelContent.distance || '?' }} ly</span>
-        </div>
-        <div class="info-row">
-          <span class="label">Size:</span>
-          <span class="value">{{ infoPanelContent.size }}</span>
-        </div>
-        <div class="info-row">
-          <span class="label">RA:</span>
-          <span class="value">{{ infoPanelContent.rightAscension }}</span>
-        </div>
-        <div class="info-row">
-          <span class="label">Dec:</span>
-          <span class="value">{{ infoPanelContent.declination }}</span>
-        </div>
+        <div class="info-row"><span class="label">Type:</span> <span class="value">{{ infoPanelContent.type }}</span></div>
+        <div class="info-row"><span class="label">Magnitude:</span> <span class="value">{{ infoPanelContent.magnitude }}</span></div>
+        <div class="info-row"><span class="label">Constellation:</span> <span class="value">{{ infoPanelContent.constellation }}</span></div>
+        <div class="info-row"><span class="label">Distance:</span> <span class="value">{{ infoPanelContent.distance || '?' }} ly</span></div>
+        <div class="info-row"><span class="label">Size:</span> <span class="value">{{ infoPanelContent.size }}</span></div>
+        <div class="info-row"><span class="label">RA:</span> <span class="value">{{ infoPanelContent.rightAscension }}</span></div>
+        <div class="info-row"><span class="label">Dec:</span> <span class="value">{{ infoPanelContent.declination }}</span></div>
       </div>
-
-      <button class="details-btn" (click)="goToDSODetails(infoPanelContent)">
-        View Details →
-      </button>
+      <button class="details-btn" (click)="goToDSODetails(infoPanelContent)">View Details →</button>
     </div>
   }
 
