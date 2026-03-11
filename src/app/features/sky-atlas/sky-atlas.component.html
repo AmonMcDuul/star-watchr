@@ -17,17 +17,12 @@
   <button 
     (click)="toggleMessier()"
     [class.active]="showMessier()">
-    DSO's
+    DSO Markers
   </button>
   <!-- <button 
-    (click)="toggleMessierNames()"
-    [class.active]="showMessierNames()">
-    Messier Names
-  </button> -->
-  <!-- <button 
-    (click)="toggleGrid()"
-    [class.active]="showGrid()">
-    Grid
+    (click)="toggleNightMode()"
+    [class.active]="nightMode()">
+    Night Mode
   </button> -->
   <button 
     (click)="toggleSearch()"
@@ -41,10 +36,14 @@
 
 <!-- Search Bar -->
 @if (showSearch()) {
-  <div class="search-bar">
+  <div class="search-panel">
+    <div class="search-header">
+      <h4>Search</h4>
+      <button class="close-btn" (click)="toggleSearch()">✕</button>
+    </div>
     <input 
       type="text" 
-      placeholder="Search stars or Messier objects..." 
+      placeholder="Stars, Messier, Caldwell..." 
       [(ngModel)]="searchQuery"
       (input)="onSearch(searchQuery)"
       autofocus>
@@ -63,53 +62,50 @@
   </div>
 }
 
-<!-- Hover Tooltip -->
+<!-- HUD Info -->
+<!-- <div class="hud-info">
+  <div class="hud-item">
+    <span class="hud-label">RA:</span>
+    <span class="hud-value">{{ hudInfo.ra }}</span>
+  </div>
+  <div class="hud-item">
+    <span class="hud-label">Dec:</span>
+    <span class="hud-value">{{ hudInfo.dec }}</span>
+  </div>
+  <div class="hud-item">
+    <span class="hud-label">FOV:</span>
+    <span class="hud-value">{{ hudInfo.fov | number:'1.1-1' }}°</span>
+  </div>
+</div> -->
+
+<!-- Hover Tooltip (gecentreerd) -->
 @if (hoverTooltipContent(); as tooltip) {
-  <div class="tooltip" [style.left.px]="hoverTooltipPosition().x" [style.top.px]="hoverTooltipPosition().y">
+  <div class="tooltip centered">
     {{ tooltip }}
   </div>
 }
 
-<!-- Info Panel -->
+<!-- Info Panel (gecentreerd) -->
 @if (showInfoPanel() && infoPanelContent(); as content) {
-  <div class="info-panel">
+  <div class="info-panel centered">
     <div class="info-header">
       <h3>{{ content.code }}{{ content.messierNumber }} – {{ content.name }}</h3>
       <button class="close-btn" (click)="hideInfoPanel()">✕</button>
     </div>
     <div class="info-content">
-      <img [src]="content.image" [alt]="content.name" />
-      <div><strong>Type:</strong> {{ content.type }}</div>
-      <div><strong>NGC:</strong> {{ content.NGC }}</div>
-      <div><strong>Magnitude:</strong> {{ content.magnitude }}</div>
-      <div><strong>Constellation:</strong> {{ content.constellation }}</div>
-      <div><strong>Distance:</strong> {{ content.distance }} ly</div>
-      <div><strong>Size:</strong> {{ content.size }}</div>
-      <div><strong>Difficulty:</strong> {{ content.viewingDifficulty }}</div>
-      <button class="details-btn" (click)="goToMessierDetails(content)">
-        View Details →
-      </button>
+      <img [src]="content.image" [alt]="content.name" (error)="handleImageError($event)" />
+      <div class="info-grid">
+        <div class="info-row"><span class="label">Type:</span> <span class="value">{{ content.type }}</span></div>
+        <div class="info-row"><span class="label">NGC:</span> <span class="value">{{ content.NGC }}</span></div>
+        <div class="info-row"><span class="label">Magnitude:</span> <span class="value">{{ content.magnitude }}</span></div>
+        <div class="info-row"><span class="label">Constellation:</span> <span class="value">{{ content.constellation }}</span></div>
+        <div class="info-row"><span class="label">Distance:</span> <span class="value">{{ content.distance }} ly</span></div>
+        <div class="info-row"><span class="label">Size:</span> <span class="value">{{ content.size }}</span></div>
+        <div class="info-row"><span class="label">Difficulty:</span> <span class="value">{{ content.viewingDifficulty }}</span></div>
+      </div>
+      <button class="details-btn" (click)="goToMessierDetails(content)">View Details →</button>
     </div>
   </div>
 }
-
-<!-- <div class="controls-info">
-  <div class="shortcut-title">Keyboard Shortcuts</div>
-  <div class="shortcut-grid">
-    <span><kbd>G</kbd> Grid</span>
-    <span><kbd>C</kbd> Constellations</span>
-    <span><kbd>N</kbd> Const. Names</span>
-    <span><kbd>S</kbd> Star Names</span>
-    <span><kbd>M</kbd> Messier</span>
-    <span><kbd>L</kbd> Night Mode</span>
-    <span><kbd>/</kbd> Search</span>
-    <span><kbd>R</kbd> / <kbd>ESC</kbd> Reset</span>
-  </div>
-  <div class="zoom-info">
-    <span class="hint">Scroll / pinch to zoom • Drag to look around>&nbsp;</span>
-    <span class="hint">You are at the center of the celestial sphere>&nbsp;</span>
-    <span class="hint">Hover over Messier objects for name • Click for details</span>
-  </div>
-</div> -->
 
 <canvas #canvas></canvas>
