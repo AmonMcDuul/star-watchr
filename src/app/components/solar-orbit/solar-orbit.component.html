@@ -5,14 +5,14 @@
 
     <!-- Tijdregeling -->
     <div class="control-row">
-      <button class="control-btn" (click)="setTimeSpeed(0)" [class.active]="timeSpeed === 0" title="Pauze">⏸️</button>
+      <button class="control-btn" (click)="setTimeSpeed(0)" [class.active]="timeSpeed === 0" title="pause">⏸️</button>
       <button class="control-btn" (click)="setTimeSpeed(1)" [class.active]="timeSpeed === 1" title="1×">1×</button>
       <!-- <button class="control-btn" (click)="setTimeSpeed(10)" [class.active]="timeSpeed === 10" title="10×">10×</button>
       <button class="control-btn" (click)="setTimeSpeed(100)" [class.active]="timeSpeed === 100" title="100×">100×</button>
       <button class="control-btn" (click)="setTimeSpeed(1000)" [class.active]="timeSpeed === 1000" title="1000×">1000×</button> -->
       <input type="range" min="0" max="1000" step="1" [(ngModel)]="timeSpeed" class="time-slider" />
       <span class="time-display">{{ currentDateTime | date:'yyyy-MM-dd HH:mm:ss' }}</span>
-      <button class="control-btn" (click)="toggleReverse()" [class.active]="reverse" title="Achteruit">↩️</button>
+      <button class="control-btn" (click)="toggleReverse()" [class.active]="reverse" title="backwards">↩️</button>
     </div>
 
     <!-- Volgknop -->
