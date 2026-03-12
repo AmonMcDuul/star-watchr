@@ -17,13 +17,13 @@
 
     <!-- Volgknop -->
     <div class="control-row">
-      <button class="control-btn" (click)="toggleFollow()" [class.active]="followMode" title="Volg geselecteerd object">👁️ Volgen</button>
+      <button class="control-btn" (click)="toggleFollow()" [class.active]="followMode" title="Volg geselecteerd object">👁️ Follow</button>
     </div>
 
     <!-- HUD -->
     <div class="control-row hud">
-      <span>Snelheid: {{ timeSpeed }}×</span>
-      <span>Volgen: {{ followMode ? 'AAN' : 'UIT' }}</span>
+      <span>Speed: {{ timeSpeed }}×</span>
+      <span>Follow: {{ followMode ? 'AAN' : 'UIT' }}</span>
     </div>
 
   </div>
