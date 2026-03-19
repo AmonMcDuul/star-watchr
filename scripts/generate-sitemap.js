@@ -12,7 +12,7 @@ const sun = require('../src/assets/data/solar-system/star.json');
 
 const baseUrl = 'https://starwatchr.com';
 
-// 👉 build timestamp (1x per build)
+// build timestamp (1x per build)
 const lastmod = new Date().toISOString().split('T')[0];
 
 // ----------------------

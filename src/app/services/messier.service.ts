@@ -2,9 +2,24 @@ import { Injectable, PLATFORM_ID, computed, inject, signal } from '@angular/core
 import { LocationService } from './location.service';
 import { ForecastContextService } from './forecast-context.service';
 import { MessierJson, MessierObject } from '../models/messier.model';
-import { Observer, Horizon, AstroTime, RotateVector, Rotation_EQJ_EQD, SphereFromVector, VectorFromSphere, Rotation_EQD_EQJ, InverseRotation, HourAngle, Refraction, Rotation_ECL_HOR, Rotation_EQJ_HOR, SiderealTime, Body } from 'astronomy-engine';
+import {
+  Observer,
+  AstroTime,
+  RotateVector,
+  SphereFromVector,
+  VectorFromSphere,
+  Rotation_EQJ_HOR,
+} from 'astronomy-engine';
 import { MessierTimeService } from './messier-time.service';
 import { isPlatformBrowser } from '@angular/common';
+
+import messierStaticJson from '../../assets/data/messier.json';
+import caldwellStaticJson from '../../assets/data/caldwell.json';
+
+type StaticMessierJson = {
+  catalog: string;
+  data: MessierObject[];
+};
 
 @Injectable({ providedIn: 'root' })
 export class MessierService {
@@ -13,17 +28,17 @@ export class MessierService {
   private context = inject(ForecastContextService);
   private time = inject(MessierTimeService);
 
-  readonly difficultyFilter =
-    signal<'Easy' | 'Moderate' | 'Hard' | 'Very Easy' | 'Very Hard' | null>(null);
+  private messierStatic = this.normalizeStaticData(messierStaticJson.data);
+  private caldwellStatic = this.normalizeStaticData(caldwellStaticJson.data);
 
-  readonly seasonFilter =
-    signal<'Winter' | 'Spring' | 'Summer' | 'Autumn' | null>(null);
+  readonly difficultyFilter = signal<
+    'Easy' | 'Moderate' | 'Hard' | 'Very Easy' | 'Very Hard' | null
+  >(null);
 
-  readonly constellationFilter =
-    signal<string | null>(null);
+  readonly seasonFilter = signal<'Winter' | 'Spring' | 'Summer' | 'Autumn' | null>(null);
 
-  readonly altitudeFilter = 
-    signal<number>(15);
+  readonly constellationFilter = signal<string | null>(null);
+  readonly altitudeFilter = signal<number>(15);
 
   private messierRaw = signal<MessierJson | null>(null);
   private caldwellRaw = signal<MessierJson | null>(null);
@@ -32,28 +47,45 @@ export class MessierService {
 
   readonly selectedMessier = signal<MessierObject | null>(null);
   readonly activeCatalog = signal<'M' | 'C'>('M');
-  
+
+  // ----------------------
+  // LOAD (runtime only)
+  // ----------------------
+
+  normalizeStaticData(data: any): MessierObject[] {
+    if (Array.isArray(data)) {
+      return data;
+    }
+
+    return Object.values(data);
+  }
+
   async load() {
     if (!isPlatformBrowser(this.platformId)) return;
     if (this.messierRaw()) return;
+
     this.loading.set(true);
     const res = await fetch('/assets/data/messier.json');
     this.messierRaw.set(await res.json());
     this.loading.set(false);
   }
+
   async loadCaldwell() {
     if (!isPlatformBrowser(this.platformId)) return;
     if (this.caldwellRaw()) return;
+
     this.loading.set(true);
     const res = await fetch('/assets/data/caldwell.json');
     this.caldwellRaw.set(await res.json());
     this.loading.set(false);
   }
 
+  // ----------------------
+  // SELECT / FIND
+  // ----------------------
+
   selectMessierByNumberAndCode(code: string, id: number | string | null) {
-    this.selectedMessier.set(
-      this.findByCodeAndNumber(code, id)
-    );
+    this.selectedMessier.set(this.findByCodeAndNumber(code, id));
   }
 
   getByNumberAndCode(c: string, n: number) {
@@ -67,16 +99,19 @@ export class MessierService {
     const normalizedNumber = Number(id);
     const normalizedFull = `${normalizedCode}${normalizedNumber}`;
 
-    return this.realAll().find(m => {
-      const objectCode = m.code;
-      const objectNumber = m.messierNumber;
-
-      return (
-        (objectCode === normalizedCode && objectNumber === normalizedNumber) ||
-        `${objectCode}${objectNumber}` === normalizedFull
-      );
-    }) ?? null;
+    return (
+      this.realAll().find((m) => {
+        return (
+          (m.code === normalizedCode && m.messierNumber === normalizedNumber) ||
+          `${m.code}${m.messierNumber}` === normalizedFull
+        );
+      }) ?? null
+    );
   }
+
+  // ----------------------
+  // DATA
+  // ----------------------
 
   readonly dateTime = computed(() => this.time.dateTime());
 
@@ -84,24 +119,20 @@ export class MessierService {
     const catalog = this.activeCatalog();
 
     if (catalog === 'M') {
-      return this.messierRaw()
-        ? Object.values(this.messierRaw()!.data)
-        : [];
+      const raw = this.messierRaw();
+      return raw ? Object.values(raw.data) : this.messierStatic;
     }
 
-    return this.caldwellRaw()
-      ? Object.values(this.caldwellRaw()!.data)
-      : [];
+    const raw = this.caldwellRaw();
+    return raw ? Object.values(raw.data) : this.caldwellStatic;
   });
 
   readonly realAll = computed<MessierObject[]>(() => {
-    const messier = this.messierRaw()
-      ? Object.values(this.messierRaw()!.data)
-      : [];
+    const messier = this.messierRaw() ? Object.values(this.messierRaw()!.data) : this.messierStatic;
 
     const caldwell = this.caldwellRaw()
       ? Object.values(this.caldwellRaw()!.data)
-      : [];
+      : this.caldwellStatic;
 
     return [...messier, ...caldwell];
   });
@@ -109,18 +140,18 @@ export class MessierService {
   readonly availableConstellations = computed(() => {
     const set = new Set<string>();
 
-    this.all().forEach(m => {
-      if (m.constellation) {
-        set.add(m.constellation);
-      }
+    this.all().forEach((m) => {
+      if (m.constellation) set.add(m.constellation);
     });
 
     return Array.from(set).sort();
   });
 
+  // ----------------------
+  // VISIBILITY
+  // ----------------------
 
   readonly visible = computed(() => {
-
     if (!this.location.selected()) return [];
 
     const lat = this.location.selected()!.lat;
@@ -135,47 +166,34 @@ export class MessierService {
     const altFilter = this.altitudeFilter();
 
     return this.all()
-
-      .map(m => {
-
+      .map((m) => {
         const raDeg = this.raToDegrees(m.rightAscension);
         const decDeg = this.decToDegrees(m.declination);
 
         const time = new AstroTime(date);
         const sphereJ2000 = { lon: raDeg, lat: decDeg, dist: 1.0 };
         const vecJ2000 = VectorFromSphere(sphereJ2000, time);
-        const rot_EQJ_HOR = Rotation_EQJ_HOR(time, observer);
-        const vec_hor = RotateVector(rot_EQJ_HOR, vecJ2000);
-        const sphere_hor = SphereFromVector(vec_hor);
+        const rot = Rotation_EQJ_HOR(time, observer);
+        const vecHor = RotateVector(rot, vecJ2000);
+        const sphereHor = SphereFromVector(vecHor);
 
         return {
           ...m,
           raDeg,
           decDeg,
-          altitude: sphere_hor.lat
+          altitude: sphereHor.lat,
         };
       })
-
-      .filter(m => m.altitude > altFilter)
-
-      .filter(m => {
-        if (!diffFilter) return true;
-        return m.viewingDifficulty === diffFilter;
-      })
-
-      .filter(m => {
-        if (!seasonFilter) return true;
-        return normalizeSeason(m.viewingSeason) === seasonFilter;
-      })
-
-      .filter(m => {
-        if (!constFilter) return true;
-        return m.constellation === constFilter;
-      })
-
+      .filter((m) => m.altitude > altFilter)
+      .filter((m) => !diffFilter || m.viewingDifficulty === diffFilter)
+      .filter((m) => !seasonFilter || normalizeSeason(m.viewingSeason) === seasonFilter)
+      .filter((m) => !constFilter || m.constellation === constFilter)
       .sort((a, b) => a.messierNumber - b.messierNumber);
   });
 
+  // ----------------------
+  // UTILS
+  // ----------------------
 
   private raToDegrees(ra: string): number {
     const [h, m, s] = ra.split(':').map(Number);
@@ -189,9 +207,11 @@ export class MessierService {
   }
 }
 
+// ----------------------
+// HELPERS
+// ----------------------
 
 function normalizeSeason(v: string): 'Winter' | 'Spring' | 'Summer' | 'Autumn' {
-
   const s = v.toLowerCase();
 
   if (s.includes('winter')) return 'Winter';
