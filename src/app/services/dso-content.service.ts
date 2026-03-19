@@ -16,6 +16,11 @@ export interface ContentContext {
 export interface DsoContent {
   blocks: string[];
   seoDescription: string;
+
+  summary?: string;
+  conditions?: string[];
+  observing?: string[];
+  expectation?: string[];
 }
 
 interface AltitudeAnalysis {
@@ -155,11 +160,51 @@ export class DsoContentService {
       blocks.push(this.pick(this.comparisons));
     }
 
-    const finalBlocks = this.postProcess(blocks);
+    const summary = this.buildIntro(dso);
+
+    const conditions: string[] = [];
+    const observing: string[] = [];
+    const expectation: string[] = [];
+
+    // visibility → conditions
+    conditions.push(this.buildVisibility(a));
+
+    if (this.maybe(0.8)) {
+      conditions.push(this.buildTiming(a));
+    }
+
+    if (this.maybe(0.9)) {
+      conditions.push(this.buildConditions(dso));
+    }
+
+    // observing tips
+    if (this.maybe(this.variability.includeSkill)) {
+      if (dso.magnitude < 6) {
+        observing.push(this.pick(this.skillEasy));
+      } else {
+        observing.push(this.pick(this.skillHard));
+      }
+    }
+
+    // expectation / experience
+    if (this.maybe(this.variability.includeExperience)) {
+      expectation.push(this.pick(this.experience));
+    }
+
+    if (this.maybe(this.variability.includeComparison)) {
+      expectation.push(this.pick(this.comparisons));
+    }
+
+    // fallback blocks (oude gedrag)
+    const finalBlocks = this.postProcess([summary, ...conditions, ...observing, ...expectation]);
 
     return {
       blocks: finalBlocks,
-      seoDescription: `${finalBlocks[0]} ${finalBlocks[1] ?? ''}`,
+      summary,
+      conditions,
+      observing,
+      expectation,
+      seoDescription: `${summary} ${conditions[0] ?? ''}`,
     };
   }
 

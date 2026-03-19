@@ -1,8 +1,10 @@
 @if (dso(); as dso) {
   <div class="dso-page">
+    <!-- HEADER -->
     <div class="dso-header">
       <div class="header-left">
         <button class="back-btn" (click)="goBack()">← Overview</button>
+
         <h1>
           {{ dso.code }}{{ dso.messierNumber }}
           <span class="object-name">{{ dso.name }}</span>
@@ -25,9 +27,11 @@
       </div>
     </div>
 
+    <!-- TOP GRID -->
     <div class="grid two-thirds">
       <div class="panel starhop-panel">
         <div class="panel-title">Star Hop</div>
+
         <app-starhop-atlas
           [ra]="raDeg()"
           [dec]="decDeg()"
@@ -40,12 +44,12 @@
           [showGrid]="false"
           [mirrored]="false"
           [starDensity]="'normal'"
-        >
-        </app-starhop-atlas>
+        />
       </div>
 
       <div class="panel image-panel">
         <div class="panel-title">Imaging Reference</div>
+
         <img
           [src]="dso.image"
           [alt]="dso.name + ' (' + dso.code + dso.messierNumber + ') ' + dso.type"
@@ -55,78 +59,118 @@
       </div>
     </div>
 
+    <!-- CONTENT GRID -->
     <div class="grid one-thirds">
-      <div class="panel info-panel" *ngIf="content() as c">
-        <div class="panel-title">Observing Guide</div>
+      @if (content(); as c) {
+        <div class="panel info-panel">
+          <!-- OVERVIEW -->
+          <h2>About {{ dso.name }} ({{ dso.code }}{{ dso.messierNumber }})</h2>
 
-        <p *ngFor="let block of c.blocks">
-          {{ block }}
-        </p>
+          @if (c.summary) {
+            <p>{{ c.summary }}</p>
+          }
 
-        <dl class="data-grid">
-          <div>
-            <dt>Type</dt>
-            <dd>{{ dso.type }}</dd>
-          </div>
-          <div>
-            <dt>Constellation</dt>
-            <dd>{{ dso.constellation }}</dd>
-          </div>
-          <div>
-            <dt>Distance</dt>
-            <dd>{{ dso.distance }} ly</dd>
-          </div>
-          <div>
-            <dt>Size</dt>
-            <dd>{{ dso.size }}</dd>
-          </div>
-          <div>
-            <dt>Season</dt>
-            <dd>{{ dso.viewingSeason }}</dd>
-          </div>
-          <div>
-            <dt>Difficulty</dt>
-            <dd>{{ dso.viewingDifficulty }}</dd>
-          </div>
-          <div>
-            <dt>Magnitude</dt>
-            <dd>{{ dso.magnitude }}</dd>
-          </div>
-        </dl>
-      </div>
+          <!-- OBSERVING CONDITIONS -->
+          @if (c.conditions?.length) {
+            <h2>Current visibility</h2>
+
+            @for (block of c.conditions; track $index) {
+              <p>{{ block }}</p>
+            }
+          }
+
+          <!-- OBSERVING TIPS -->
+          @if (c.observing?.length) {
+            <h2>Observing tips</h2>
+
+            @for (block of c.observing; track $index) {
+              <p>{{ block }}</p>
+            }
+          }
+
+          <!-- EXPERIENCE / EXPECTATION -->
+          @if (c.expectation?.length) {
+            <h2>What to expect</h2>
+
+            @for (block of c.expectation; track $index) {
+              <p>{{ block }}</p>
+            }
+          }
+
+          <!-- FALLBACK (oude blocks, blijft werken) -->
+          @if (!c.summary && !c.observing && c.blocks?.length) {
+            <h2>Observing guide</h2>
+
+            @for (block of c.blocks; track $index) {
+              <p>{{ block }}</p>
+            }
+          }
+
+          <!-- DATA GRID -->
+          <dl class="data-grid">
+            <div>
+              <dt>Type</dt>
+              <dd>{{ dso.type }}</dd>
+            </div>
+            <div>
+              <dt>Constellation</dt>
+              <dd>{{ dso.constellation }}</dd>
+            </div>
+            <div>
+              <dt>Distance</dt>
+              <dd>{{ dso.distance }} ly</dd>
+            </div>
+            <div>
+              <dt>Size</dt>
+              <dd>{{ dso.size }}</dd>
+            </div>
+            <div>
+              <dt>Season</dt>
+              <dd>{{ dso.viewingSeason }}</dd>
+            </div>
+            <div>
+              <dt>Difficulty</dt>
+              <dd>{{ dso.viewingDifficulty }}</dd>
+            </div>
+            <div>
+              <dt>Magnitude</dt>
+              <dd>{{ dso.magnitude }}</dd>
+            </div>
+          </dl>
+        </div>
+      }
+
+      <!-- ALTITUDE -->
       <div class="panel info-panel">
-        <!-- <div class="panel dso-lower"> -->
         <div class="panel-title">Altitude Profile (24h)</div>
+
         <app-altitude-graph
           [raDeg]="raDeg()"
           [decDeg]="decDeg()"
           [lat]="lat()"
           [lon]="lon()"
           [date]="time.dateTime()"
-        >
-        </app-altitude-graph>
+        />
       </div>
-      <!-- </div> -->
     </div>
 
+    <!-- ALADIN -->
     <div class="grid">
       <div class="panel aladin-panel">
         <div class="panel-title">Live Sky</div>
+
         <app-aladin-map
           [raDeg]="raDeg()"
           [decDeg]="decDeg()"
           [fov]="3"
           [showConstellations]="showConstellations"
           [showConstellationLabels]="showConstellationLabels"
-        >
-        </app-aladin-map>
+        />
       </div>
     </div>
   </div>
 } @else {
-  <ng-template #loadingTpl>
-    <div class="loading">Loading object data…</div>
-  </ng-template>
+  <div class="loading">Loading object data…</div>
 }
 
 <br /><br /><br /><br />
