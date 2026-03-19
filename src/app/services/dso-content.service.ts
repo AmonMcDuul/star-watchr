@@ -104,7 +104,7 @@ export class DsoContentService {
 
   private comparisons = [
     'It is more subtle than brighter Dso objects.',
-    'It offers less structure than well-known objects like M31.',
+    'It offers less structure than some of the brightest galaxies.',
     'It appears more compact than typical clusters.',
     'It is less prominent than the brightest objects in the catalog.',
   ];
