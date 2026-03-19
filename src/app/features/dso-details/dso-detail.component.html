@@ -1,118 +1,132 @@
-<div class="dso-page" *ngIf="dso() as dso; else loadingTpl">
-
-  <div class="dso-header">
-    <div class="header-left">
-      <button class="back-btn" (click)="goBack()">← Overview</button>
-      <h1>
-        {{ dso.code }}{{ dso.messierNumber }}
-        <span class="object-name">{{ dso.name }}</span>
-      </h1>
-    </div>
-
-    <div class="header-meta">
-      <div class="meta-item">
-        <span class="label">TYPE</span>
-        <span class="value">{{ dso.type }}</span>
+@if (dso(); as dso) {
+  <div class="dso-page">
+    <div class="dso-header">
+      <div class="header-left">
+        <button class="back-btn" (click)="goBack()">← Overview</button>
+        <h1>
+          {{ dso.code }}{{ dso.messierNumber }}
+          <span class="object-name">{{ dso.name }}</span>
+        </h1>
       </div>
-      <div class="meta-item">
-        <span class="label">CONST</span>
-        <span class="value">{{ dso.constellation }}</span>
+
+      <div class="header-meta">
+        <div class="meta-item">
+          <span class="label">TYPE</span>
+          <span class="value">{{ dso.type }}</span>
+        </div>
+        <div class="meta-item">
+          <span class="label">CONST</span>
+          <span class="value">{{ dso.constellation }}</span>
+        </div>
+        <div class="meta-item">
+          <span class="label">MAG</span>
+          <span class="value">{{ dso.magnitude }}</span>
+        </div>
       </div>
-      <div class="meta-item">
-        <span class="label">MAG</span>
-        <span class="value">{{ dso.magnitude }}</span>
+    </div>
+
+    <div class="grid two-thirds">
+      <div class="panel starhop-panel">
+        <div class="panel-title">Star Hop</div>
+        <app-starhop-atlas
+          [ra]="raDeg()"
+          [dec]="decDeg()"
+          [targetName]="dso.code + dso.messierNumber"
+          [fovDegrees]="10"
+          [showConstellations]="showConstellations"
+          [showConstellationNames]="showConstellationLabels"
+          [showMessier]="showOtherDsos"
+          [showStarNames]="false"
+          [showGrid]="false"
+          [mirrored]="false"
+          [starDensity]="'normal'"
+        >
+        </app-starhop-atlas>
+      </div>
+
+      <div class="panel image-panel">
+        <div class="panel-title">Imaging Reference</div>
+        <img
+          [src]="dso.image"
+          [alt]="dso.name + ' (' + dso.code + dso.messierNumber + ') ' + dso.type"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    </div>
+
+    <div class="grid one-thirds">
+      <div class="panel info-panel" *ngIf="content() as c">
+        <div class="panel-title">Observing Guide</div>
+
+        <p *ngFor="let block of c.blocks">
+          {{ block }}
+        </p>
+
+        <dl class="data-grid">
+          <div>
+            <dt>Type</dt>
+            <dd>{{ dso.type }}</dd>
+          </div>
+          <div>
+            <dt>Constellation</dt>
+            <dd>{{ dso.constellation }}</dd>
+          </div>
+          <div>
+            <dt>Distance</dt>
+            <dd>{{ dso.distance }} ly</dd>
+          </div>
+          <div>
+            <dt>Size</dt>
+            <dd>{{ dso.size }}</dd>
+          </div>
+          <div>
+            <dt>Season</dt>
+            <dd>{{ dso.viewingSeason }}</dd>
+          </div>
+          <div>
+            <dt>Difficulty</dt>
+            <dd>{{ dso.viewingDifficulty }}</dd>
+          </div>
+          <div>
+            <dt>Magnitude</dt>
+            <dd>{{ dso.magnitude }}</dd>
+          </div>
+        </dl>
+      </div>
+      <div class="panel info-panel">
+        <!-- <div class="panel dso-lower"> -->
+        <div class="panel-title">Altitude Profile (24h)</div>
+        <app-altitude-graph
+          [raDeg]="raDeg()"
+          [decDeg]="decDeg()"
+          [lat]="lat()"
+          [lon]="lon()"
+          [date]="time.dateTime()"
+        >
+        </app-altitude-graph>
+      </div>
+      <!-- </div> -->
+    </div>
+
+    <div class="grid">
+      <div class="panel aladin-panel">
+        <div class="panel-title">Live Sky</div>
+        <app-aladin-map
+          [raDeg]="raDeg()"
+          [decDeg]="decDeg()"
+          [fov]="3"
+          [showConstellations]="showConstellations"
+          [showConstellationLabels]="showConstellationLabels"
+        >
+        </app-aladin-map>
       </div>
     </div>
   </div>
+} @else {
+  <ng-template #loadingTpl>
+    <div class="loading">Loading object data…</div>
+  </ng-template>
+}
 
-  <div class="grid two-thirds">
-
-    <div class="panel starhop-panel">
-      <div class="panel-title">Star Hop</div>
-      <app-starhop-atlas
-        [ra]="raDeg()"
-        [dec]="decDeg()"
-        [targetName]="dso.code + dso.messierNumber"
-        [fovDegrees]="10"
-        [showConstellations]="showConstellations"
-        [showConstellationNames]="showConstellationLabels"
-        [showMessier]="showOtherDsos"
-        [showStarNames]="false"
-        [showGrid]="false"
-        [mirrored]="false"
-        [starDensity]="'normal'">
-      </app-starhop-atlas>
-    </div>
-
-    <div class="panel image-panel">
-      <div class="panel-title">Imaging Reference</div>
-      <img [src]="dso.image" [alt]="dso.name + ' (' + dso.code + dso.messierNumber + ') ' + dso.type" loading="lazy"
-  decoding="async"/>
-    </div>
-
-
-
-  </div>
-
-  <div class="grid one-thirds">
-
-    <div class="panel info-panel">
-      <div class="panel-title">Object Data</div>
-
-     <p>
-        The {{ dso.name }} is a {{ dso.type.toLowerCase() }} in the constellation
-        {{ dso.constellation }}, located about {{ dso.distance | number }} light-years
-        from Earth. With an apparent size of {{ dso.size }} and a magnitude of
-        {{ dso.magnitude }}, it is best observed during {{ dso.viewingSeason.toLowerCase() }}.
-      </p>
-
-      <p>
-        Under dark skies, this object is considered
-        <strong>{{ dso.viewingDifficulty }}</strong>
-        to observe with small amateur telescopes.
-      </p>
-
-      <dl class="data-grid">
-        <div><dt>Type</dt><dd>{{ dso.type }}</dd></div>
-        <div><dt>Constellation</dt><dd>{{ dso.constellation }}</dd></div>
-        <div><dt>Distance</dt><dd>{{ dso.distance }} ly</dd></div>
-        <div><dt>Size</dt><dd>{{ dso.size }}</dd></div>
-        <div><dt>Season</dt><dd>{{ dso.viewingSeason }}</dd></div>
-        <div><dt>Difficulty</dt><dd>{{ dso.viewingDifficulty }}</dd></div>
-        <div><dt>Magnitude</dt><dd>{{ dso.magnitude }}</dd></div>
-      </dl>
-    </div>
-    <div class="panel info-panel">
-    <!-- <div class="panel dso-lower"> -->
-      <div class="panel-title">Altitude Profile (24h)</div>
-      <app-altitude-graph
-        [raDeg]="raDeg()"
-        [decDeg]="decDeg()"
-        [lat]="lat()"
-        [lon]="lon()"
-        [date]="time.dateTime()">
-      </app-altitude-graph>
-    </div>
-  <!-- </div> -->
-  </div>
-
-  <div class="grid">
-    <div class="panel aladin-panel">
-      <div class="panel-title">Live Sky</div>
-      <app-aladin-map
-        [raDeg]="raDeg()"
-        [decDeg]="decDeg()"
-        [fov]="3"
-        [showConstellations]="showConstellations"
-        [showConstellationLabels]="showConstellationLabels">
-      </app-aladin-map>
-    </div>
-  </div>
-
-</div>
-
-<ng-template #loadingTpl>
-  <div class="loading">Loading object data…</div>
-</ng-template>
-
-<br><br><br><br>
+<br /><br /><br /><br />
