@@ -227,13 +227,28 @@ export class DsoContentService {
     let currentAlt = 0;
     let closestDiff = Infinity;
 
+    if (series.length < 2) {
+      return {
+        maxAlt: 0,
+        bestTime: '',
+        visibleHours: 0,
+        isVisibleNow: false,
+        currentAlt: 0,
+      };
+    }
+
+    const intervalMs = series[1].time.getTime() - series[0].time.getTime();
+    const intervalHours = intervalMs / (1000 * 60 * 60);
+
     for (const p of series) {
       if (p.altitude > maxAlt) {
         maxAlt = p.altitude;
         bestTime = this.formatTime(p.time);
       }
 
-      if (p.altitude > 30) visibleHours++;
+      if (p.altitude > 30) {
+        visibleHours += intervalHours;
+      }
 
       const diff = Math.abs(p.time.getTime() - now.getTime());
       if (diff < closestDiff) {
@@ -245,7 +260,7 @@ export class DsoContentService {
     return {
       maxAlt,
       bestTime,
-      visibleHours,
+      visibleHours: Math.round(visibleHours),
       isVisibleNow: currentAlt > 0,
       currentAlt,
     };
