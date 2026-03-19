@@ -123,88 +123,47 @@ export class DsoContentService {
   generate(dso: MessierObject, ctx: ContentContext): DsoContent {
     const a = this.analyze(ctx.altitudeSeries, ctx.date);
 
-    const blocks: string[] = [];
-
-    // INTRO
-    blocks.push(this.buildIntro(dso));
-
-    // VISIBILITY
-    blocks.push(this.buildVisibility(a));
-
-    // TIMING
-    if (this.maybe(0.8)) {
-      blocks.push(this.buildTiming(a));
-    }
-
-    // CONDITIONS
-    if (this.maybe(0.9)) {
-      blocks.push(this.buildConditions(dso));
-    }
-
-    // EXPERIENCE (conditional)
-    if (this.maybe(this.variability.includeExperience)) {
-      blocks.push(this.pick(this.experience));
-    }
-
-    // SKILL (conditional + based on magnitude)
-    if (this.maybe(this.variability.includeSkill)) {
-      if (dso.magnitude < 6) {
-        blocks.push(this.pick(this.skillEasy));
-      } else {
-        blocks.push(this.pick(this.skillHard));
-      }
-    }
-
-    // COMPARISON (conditional)
-    if (this.maybe(this.variability.includeComparison)) {
-      blocks.push(this.pick(this.comparisons));
-    }
-
+    // --- CORE (altijd aanwezig) ---
     const summary = this.buildIntro(dso);
 
-    const conditions: string[] = [];
+    const visibility = this.buildVisibility(a);
+    const timing = this.buildTiming(a);
+    const conditionsText = this.buildConditions(dso);
+
+    // --- STRUCTURED OUTPUT ---
+    const conditions: string[] = [visibility, timing, conditionsText];
+
+    // --- OPTIONAL (blijft variabel) ---
     const observing: string[] = [];
     const expectation: string[] = [];
 
-    // visibility → conditions
-    conditions.push(this.buildVisibility(a));
-
-    if (this.maybe(0.8)) {
-      conditions.push(this.buildTiming(a));
+    // skill (blijft logisch afhankelijk van magnitude, maar niet random skippen)
+    if (dso.magnitude < 6) {
+      observing.push(this.pick(this.skillEasy));
+    } else {
+      observing.push(this.pick(this.skillHard));
     }
 
-    if (this.maybe(0.9)) {
-      conditions.push(this.buildConditions(dso));
-    }
-
-    // observing tips
-    if (this.maybe(this.variability.includeSkill)) {
-      if (dso.magnitude < 6) {
-        observing.push(this.pick(this.skillEasy));
-      } else {
-        observing.push(this.pick(this.skillHard));
-      }
-    }
-
-    // expectation / experience
+    // experience (optioneel)
     if (this.maybe(this.variability.includeExperience)) {
       expectation.push(this.pick(this.experience));
     }
 
+    // comparison (optioneel)
     if (this.maybe(this.variability.includeComparison)) {
       expectation.push(this.pick(this.comparisons));
     }
 
-    // fallback blocks (oude gedrag)
-    const finalBlocks = this.postProcess([summary, ...conditions, ...observing, ...expectation]);
+    // --- BLOCKS (vast, geen shuffle) ---
+    const blocks: string[] = [summary, ...conditions, ...observing, ...expectation];
 
     return {
-      blocks: finalBlocks,
+      blocks,
       summary,
       conditions,
       observing,
       expectation,
-      seoDescription: `${summary} ${conditions[0] ?? ''}`,
+      seoDescription: `${summary} ${visibility}`,
     };
   }
 

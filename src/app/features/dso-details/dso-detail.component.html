@@ -98,7 +98,7 @@
           }
 
           <!-- FALLBACK (oude blocks, blijft werken) -->
-          @if (!c.summary && !c.observing && c.blocks?.length) {
+          @if (!c.summary && !c.observing && c.blocks.length) {
             <h2>Observing guide</h2>
 
             @for (block of c.blocks; track $index) {

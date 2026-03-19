@@ -14,7 +14,7 @@
     "axialTilt": 0.03,
     "meanTemperatureC": 167,
     "numberOfMoons": 0,
-    "summary": "Mercury is the smallest and innermost planet. With almost no atmosphere it experiences extreme day/night temperature swings. Its surface is heavily cratered and preserves a record of early Solar System impacts, including the large Caloris Basin.",
+    "summary": "Mercury is the smallest and innermost planet of the Solar System, orbiting the Sun every 88 days. With almost no atmosphere, it experiences extreme temperature differences ranging from intense daytime heat to freezing nights. Its heavily cratered surface, including the massive Caloris Basin, preserves a record of early Solar System impacts. Despite its proximity to the Sun, Mercury contains water ice in permanently shadowed polar craters.",
     "image": "/assets/solar-system/planets/mercury.webp"
   },
   {
@@ -81,7 +81,7 @@
     "massKg": 1.898e27,
     "gravity": 24.79,
     "orbitalPeriodDays": 4332.59,
-    "semiMajorAxisAU": 5.20,
+    "semiMajorAxisAU": 5.2,
     "rotationPeriodHours": 9.93,
     "axialTilt": 3.13,
     "meanTemperatureC": -110,
@@ -117,7 +117,7 @@
     "massKg": 8.681e25,
     "gravity": 8.69,
     "orbitalPeriodDays": 30687,
-    "semiMajorAxisAU": 19.20,
+    "semiMajorAxisAU": 19.2,
     "rotationPeriodHours": -17.24,
     "axialTilt": 97.77,
     "meanTemperatureC": -195,
