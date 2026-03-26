@@ -7,7 +7,7 @@ import {
   inject,
   PLATFORM_ID,
   OnInit,
-  NgZone
+  NgZone,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
@@ -25,7 +25,7 @@ import { Planet } from '../../models/solar-system/planet.model';
 // Constants
 const ORBIT_SCALE = 170;
 const PLANET_SCALE = 0.65;
-const SUN_SIZE = 18;
+const SUN_SIZE = 20;
 const ASTEROID_COUNT = 4000;
 const KUIPER_COUNT = 5000;
 
@@ -35,7 +35,7 @@ const KUIPER_COUNT = 5000;
   imports: [CommonModule, FormsModule],
   templateUrl: './solar-orbit.component.html',
   styleUrls: ['./solar-orbit.component.scss'],
-  host: { ngSkipHydration: 'true' }
+  host: { ngSkipHydration: 'true' },
 })
 export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLDivElement>;
@@ -68,12 +68,15 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
   private textureLoader = new THREE.TextureLoader();
 
   // Object containers
-  private planetMeshes: Map<string, {
-    mesh: THREE.Mesh,
-    pivot: THREE.Object3D,           // voor inclinatie
-    axialPivot: THREE.Object3D,       // voor axiale kanteling
-    rings?: THREE.Mesh
-  }> = new Map();
+  private planetMeshes: Map<
+    string,
+    {
+      mesh: THREE.Mesh;
+      pivot: THREE.Object3D; // voor inclinatie
+      axialPivot: THREE.Object3D; // voor axiale kanteling
+      rings?: THREE.Mesh;
+    }
+  > = new Map();
 
   private orbitRings: THREE.Line[] = [];
 
@@ -87,18 +90,18 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
     jupiter: Body.Jupiter,
     saturn: Body.Saturn,
     uranus: Body.Uranus,
-    neptune: Body.Neptune
+    neptune: Body.Neptune,
   };
 
   private rotationPeriods: Record<string, number> = {
-    mercury: 1407,    // 58.6 dagen * 24
-    venus: -5832,     // 243 dagen retrograad
+    mercury: 1407, // 58.6 dagen * 24
+    venus: -5832, // 243 dagen retrograad
     earth: 24,
     mars: 24.6,
     jupiter: 9.9,
     saturn: 10.7,
-    uranus: -17,      // retrograad
-    neptune: 16
+    uranus: -17, // retrograad
+    neptune: 16,
   };
 
   private axialTilts: Record<string, number> = {
@@ -109,7 +112,7 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
     jupiter: 3.1,
     saturn: 26.7,
     uranus: 97.8,
-    neptune: 28.3
+    neptune: 28.3,
   };
 
   private inclinations: Record<string, number> = {
@@ -120,7 +123,7 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
     jupiter: 1.3,
     saturn: 2.5,
     uranus: 0.8,
-    neptune: 1.8
+    neptune: 1.8,
   };
 
   private eccentricities: Record<string, number> = {
@@ -131,7 +134,7 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
     jupiter: 0.0489,
     saturn: 0.0565,
     uranus: 0.0457,
-    neptune: 0.0113
+    neptune: 0.0113,
   };
 
   private animationId?: number;
@@ -139,7 +142,7 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.planets = this.solar.planets();
-    this.route.paramMap.subscribe(p => {
+    this.route.paramMap.subscribe((p) => {
       this.selectedPlanetId = p.get('id') ?? undefined;
       if (this.selectedPlanetId) {
         setTimeout(() => this.flyToPlanet(this.selectedPlanetId!), 400);
@@ -181,7 +184,10 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
     this.camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 20000);
     this.camera.position.set(0, 220, 520);
 
-    this.renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+    this.renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      powerPreference: 'high-performance',
+    });
     this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
     this.renderer.setSize(width, height);
     this.container.nativeElement.appendChild(this.renderer.domElement);
@@ -230,7 +236,12 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
   private createBackgroundStars() {
     const tex = this.textureLoader.load('/assets/img/textures/milkyway.jpg');
     const geo = new THREE.SphereGeometry(8000, 64, 64);
-    const mat = new THREE.MeshBasicMaterial({ map: tex, side: THREE.BackSide, transparent: true, opacity: 0.3 });
+    const mat = new THREE.MeshBasicMaterial({
+      map: tex,
+      side: THREE.BackSide,
+      transparent: true,
+      opacity: 0.02,
+    });
     const sky = new THREE.Mesh(geo, mat);
     this.scene.add(sky);
 
@@ -246,7 +257,12 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
       positions[i * 3 + 2] = r * Math.cos(phi);
     }
     starsGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    const starsMat = new THREE.PointsMaterial({ color: 0xffffff, size: 1.2, transparent: true, opacity: 0.6 });
+    const starsMat = new THREE.PointsMaterial({
+      color: 0xffffff,
+      size: 1.2,
+      transparent: true,
+      opacity: 0.6,
+    });
     const stars = new THREE.Points(starsGeo, starsMat);
     this.scene.add(stars);
   }
@@ -256,7 +272,11 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
   // -----------------------------------------
   private createSun() {
     const tex = this.textureLoader.load('/assets/img/textures/sun.jpg');
-    const sunMat = new THREE.MeshStandardMaterial({ map: tex, emissive: 0xffaa33, emissiveIntensity: 1.2 });
+    const sunMat = new THREE.MeshStandardMaterial({
+      map: tex,
+      emissive: 0xffaa33,
+      emissiveIntensity: 1.2,
+    });
     const sun = new THREE.Mesh(new THREE.SphereGeometry(SUN_SIZE, 64, 64), sunMat);
     this.scene.add(sun);
 
@@ -271,7 +291,11 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, 64, 64);
     const glowTex = new THREE.CanvasTexture(canvas);
-    const glowMat = new THREE.SpriteMaterial({ map: glowTex, blending: THREE.AdditiveBlending, depthWrite: false });
+    const glowMat = new THREE.SpriteMaterial({
+      map: glowTex,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
     const glowSprite = new THREE.Sprite(glowMat);
     glowSprite.scale.set(45, 45, 1);
     sun.add(glowSprite);
@@ -281,7 +305,7 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
   // Planeten (zonder shading)
   // -----------------------------------------
   private createPlanets() {
-    this.planets.forEach(p => this.createPlanet(p));
+    this.planets.forEach((p) => this.createPlanet(p));
   }
 
   private createPlanet(planet: Planet) {
@@ -295,7 +319,7 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
       roughness: 0.6,
       metalness: 0.0,
       emissive: 0x000000,
-      color: 0xcccccc
+      color: 0xcccccc,
     });
 
     const mesh = new THREE.Mesh(geometry, material);
@@ -322,8 +346,8 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
   private createSaturnRings(planetMesh: THREE.Mesh, size: number) {
     const tex = this.textureLoader.load('/assets/img/textures/saturn-rings.jpg');
 
-    tex.center.set(0.5, 0.5);  
-    tex.rotation = Math.PI / 2; 
+    tex.center.set(0.5, 0.5);
+    tex.rotation = Math.PI / 2;
     const inner = size * 1.2;
     const outer = size * 2.5;
 
@@ -339,8 +363,8 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
       const angle = Math.atan2(y, x);
       const radius = Math.sqrt(x * x + y * y);
 
-      const u = (angle + Math.PI) / (Math.PI * 2); 
-      const v = (radius - inner) / (outer - inner); 
+      const u = (angle + Math.PI) / (Math.PI * 2);
+      const v = (radius - inner) / (outer - inner);
 
       uv.setXY(i, u, v);
     }
@@ -353,7 +377,7 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
       transparent: true,
       opacity: 0.8,
       roughness: 0.5,
-      depthWrite: false
+      depthWrite: false,
     });
 
     const rings = new THREE.Mesh(geometry, material);
@@ -363,12 +387,11 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
     this.planetMeshes.get('saturn')!.rings = rings;
   }
 
-
   // -----------------------------------------
   // Banen (elliptisch met focus op zon)
   // -----------------------------------------
   private createOrbitRings() {
-    this.planets.forEach(planet => {
+    this.planets.forEach((planet) => {
       const a = Math.log(planet.semiMajorAxisAU + 1) * ORBIT_SCALE;
       const e = this.eccentricities[planet.id] ?? 0;
       const b = a * Math.sqrt(1 - e * e);
@@ -386,14 +409,30 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
       const geometry = new THREE.BufferGeometry().setFromPoints(points);
       let color = 0x5d74ff;
       switch (planet.id) {
-        case 'mercury': color = 0xaaaaaa; break;
-        case 'venus': color = 0xffcc88; break;
-        case 'earth': color = 0x88aaff; break;
-        case 'mars': color = 0xff8866; break;
-        case 'jupiter': color = 0xffaa66; break;
-        case 'saturn': color = 0xffdd88; break;
-        case 'uranus': color = 0xaaddff; break;
-        case 'neptune': color = 0x3366cc; break;
+        case 'mercury':
+          color = 0xaaaaaa;
+          break;
+        case 'venus':
+          color = 0xffcc88;
+          break;
+        case 'earth':
+          color = 0x88aaff;
+          break;
+        case 'mars':
+          color = 0xff8866;
+          break;
+        case 'jupiter':
+          color = 0xffaa66;
+          break;
+        case 'saturn':
+          color = 0xffdd88;
+          break;
+        case 'uranus':
+          color = 0xaaddff;
+          break;
+        case 'neptune':
+          color = 0x3366cc;
+          break;
       }
 
       const material = new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.3 });
@@ -468,7 +507,7 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
     const astroTime = new AstroTime(this.simulationTime);
 
     // Update planeten posities
-    this.planets.forEach(planet => {
+    this.planets.forEach((planet) => {
       const body = this.bodies[planet.id];
       if (!body) return;
 
@@ -517,7 +556,7 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
     this.raycaster.setFromCamera(this.mouse, this.camera);
 
     const objects: THREE.Object3D[] = [];
-    this.planetMeshes.forEach(p => objects.push(p.mesh));
+    this.planetMeshes.forEach((p) => objects.push(p.mesh));
 
     const hits = this.raycaster.intersectObjects(objects);
     if (hits.length === 0) return;
