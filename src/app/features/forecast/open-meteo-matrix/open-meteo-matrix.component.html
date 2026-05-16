@@ -1,142 +1,173 @@
 @if (weatherApi.loading()) {
-    <div class="loading-overlay">
-      <div class="spinner"></div>
-      <p>Laden…</p>
-    </div>
-  }
+  <div class="loading-overlay">
+    <div class="spinner"></div>
+    <p>Laden…</p>
+  </div>
+}
 
-@if(location.selected() == null){
+@if (location.selected() == null) {
   <div class="empty-state">
     <div class="empty-card">
       <div class="empty-icon"></div>
       <h3>Select a location</h3>
       <p>
-        Choose a location to see astronomical conditions,<br>
+        Choose a location to see astronomical conditions,<br />
         cloud cover and visibility.
       </p>
       <app-location-search></app-location-search>
     </div>
   </div>
-}
-@else{
+} @else {
+  <div
+    class="matrix"
+    [class.loading-active]="weatherApi.loading()"
+    [class.dragging]="isDragging()"
+    (mousedown)="onMouseDown($event)"
+    (touchstart)="onPointerStart($event.touches[0].clientX, $event.touches[0].clientY)"
+    (touchmove)="onPointerMove($event.touches[0].clientX, $event.touches[0].clientY)"
+    (touchend)="onPointerEnd()"
+    [class.mode-standard]="ui.colorMode() === 'standard'"
+    [class.mode-deuteranopia]="ui.colorMode() === 'deuteranopia'"
+    [class.mode-protanopia]="ui.colorMode() === 'protanopia'"
+    [class.mode-tritanopia]="ui.colorMode() === 'tritanopia'"
+  >
+    <h2>{{ context.astroDate() | date: 'EEEE MMM dd yyyy' }}</h2>
+    <br />
 
-<div class="matrix" [class.loading-active]="weatherApi.loading()"
-  [class.dragging]="isDragging()"
-  (mousedown)="onMouseDown($event)"
-  (touchstart)="onPointerStart($event.touches[0].clientX, $event.touches[0].clientY)"
-  (touchmove)="onPointerMove($event.touches[0].clientX, $event.touches[0].clientY)"
-
-  (touchend)="onPointerEnd()"
-  [class.mode-standard]="ui.colorMode() === 'standard'"
-  [class.mode-deuteranopia]="ui.colorMode() === 'deuteranopia'"
-  [class.mode-protanopia]="ui.colorMode() === 'protanopia'"
-  [class.mode-tritanopia]="ui.colorMode() === 'tritanopia'">
-  <h2> {{ context.astroDate() | date:'EEEE MMM dd yyyy' }}</h2>
-  <br>
-
-  <div class="matrix-controls-row">
+    <div class="matrix-controls-row">
       <div class="matrix-controls">
         <button (click)="time.shift(-time.window().stepHours)">◀</button>
         <button (click)="time.reset()">Now</button>
         <button (click)="time.shift(time.window().stepHours)" [disabled]="nextDisabled">▶</button>
       </div>
       <div class="matrix-controls">
-        <button (click)="time.reset(); time.shift(24)"  [class.active]="isActiveDay(1)">{{ dayPlus(1) }}</button>
-        <button (click)="time.reset(); time.shift(48)"  [class.active]="isActiveDay(2)">{{ dayPlus(2) }}</button>
-        <button (click)="time.reset(); time.shift(72)"  [class.active]="isActiveDay(3)">{{ dayPlus(3) }}</button>
-        <button (click)="time.reset(); time.shift(96)"  [class.active]="isActiveDay(4)">{{ dayPlus(4) }}</button>
-        <button (click)="time.reset(); time.shift(120)" [class.active]="isActiveDay(5)">{{ dayPlus(5) }}</button>
+        <button (click)="time.reset(); time.shift(24)" [class.active]="isActiveDay(1)">
+          {{ dayPlus(1) }}
+        </button>
+        <button (click)="time.reset(); time.shift(48)" [class.active]="isActiveDay(2)">
+          {{ dayPlus(2) }}
+        </button>
+        <button (click)="time.reset(); time.shift(72)" [class.active]="isActiveDay(3)">
+          {{ dayPlus(3) }}
+        </button>
+        <button (click)="time.reset(); time.shift(96)" [class.active]="isActiveDay(4)">
+          {{ dayPlus(4) }}
+        </button>
+        <button (click)="time.reset(); time.shift(120)" [class.active]="isActiveDay(5)">
+          {{ dayPlus(5) }}
+        </button>
       </div>
 
-    <div class="drag-hint">
-      ⇆ DRAG
+      <div class="drag-hint">⇆ DRAG</div>
     </div>
-  </div>
-  <br>
+    <br />
 
-  <!-- header row -->
-  <div class="row header hint">
-    <div class="label">Time </div>
-    @for (c of cardsToShow(); track c.time) {
-      <div class="cell time head"   [class.next-day-start]="c.isMidnight"
-  [class.next-day-end]="c.isEndOfDay" (touchstart)="onMobileHover(c, $event)" [class.hover-col]="hoverCard()?.timepoint === c.timepoint" (mouseenter)="onHover(c, $event)"
-     (mouseleave)="onHover(null, null)">{{ c.time | date:'HH:mm' }}</div>
-    }
-  </div>
+    <!-- header row -->
+    <div class="row header hint">
+      <div class="label">Time</div>
+      @for (c of cardsToShow(); track c.time) {
+        <div
+          class="cell time head"
+          [class.next-day-start]="c.isMidnight"
+          [class.next-day-end]="c.isEndOfDay"
+          (touchstart)="onMobileHover(c, $event)"
+          [class.hover-col]="hoverCard()?.timepoint === c.timepoint"
+          (mouseenter)="onHover(c, $event)"
+          (mouseleave)="onHover(null, null)"
+        >
+          {{ c.time | date: 'HH:mm' }}
+        </div>
+      }
+    </div>
 
     <div class="row hint">
-    <div class="label">High cloud</div>
-    @for (c of cardsToShow(); track c.timepoint) {
-      <div class="cell"   [class.next-day-start]="c.isMidnight"
-  [class.next-day-end]="c.isEndOfDay" 
+      <div class="label">High cloud</div>
+      @for (c of cardsToShow(); track c.timepoint) {
+        <div
+          class="cell"
+          [class.next-day-start]="c.isMidnight"
+          [class.next-day-end]="c.isEndOfDay"
           (touchstart)="onMobileHover(c, $event)"
-          [class.hover-col]="hoverCard()?.timepoint === c.timepoint" (mouseenter)="onHover(c, $event)"
-          (mouseleave)="onHover(null, null)">
-        <span
-          class="dot cloud"
-          [class.c1]="c.highCloudCover == 1"
-          [class.c2]="c.highCloudCover == 2"
-          [class.c3]="c.highCloudCover == 3"
-          [class.c4]="c.highCloudCover == 4"
-          [class.c5]="c.highCloudCover == 5"
-          [class.c6]="c.highCloudCover == 6"
-          [class.c7]="c.highCloudCover == 7"
-          [class.c8]="c.highCloudCover == 8"
-          [class.c9]="c.highCloudCover == 9">
-        </span>
-      </div>
-    }
-  </div>
+          [class.hover-col]="hoverCard()?.timepoint === c.timepoint"
+          (mouseenter)="onHover(c, $event)"
+          (mouseleave)="onHover(null, null)"
+        >
+          <span
+            class="dot cloud"
+            [class.c1]="c.highCloudCover == 1"
+            [class.c2]="c.highCloudCover == 2"
+            [class.c3]="c.highCloudCover == 3"
+            [class.c4]="c.highCloudCover == 4"
+            [class.c5]="c.highCloudCover == 5"
+            [class.c6]="c.highCloudCover == 6"
+            [class.c7]="c.highCloudCover == 7"
+            [class.c8]="c.highCloudCover == 8"
+            [class.c9]="c.highCloudCover == 9"
+          >
+          </span>
+        </div>
+      }
+    </div>
 
     <div class="row hint">
-    <div class="label">Mid cloud</div>
-    @for (c of cardsToShow(); track c.timepoint) {
-      <div class="cell"   [class.next-day-start]="c.isMidnight"
-  [class.next-day-end]="c.isEndOfDay" 
+      <div class="label">Mid cloud</div>
+      @for (c of cardsToShow(); track c.timepoint) {
+        <div
+          class="cell"
+          [class.next-day-start]="c.isMidnight"
+          [class.next-day-end]="c.isEndOfDay"
           (touchstart)="onMobileHover(c, $event)"
-          [class.hover-col]="hoverCard()?.timepoint === c.timepoint" (mouseenter)="onHover(c, $event)"
-          (mouseleave)="onHover(null, null)">
-        <span
-          class="dot cloud"
-          [class.c1]="c.midCloudCover == 1"
-          [class.c2]="c.midCloudCover == 2"
-          [class.c3]="c.midCloudCover == 3"
-          [class.c4]="c.midCloudCover == 4"
-          [class.c5]="c.midCloudCover == 5"
-          [class.c6]="c.midCloudCover == 6"
-          [class.c7]="c.midCloudCover == 7"
-          [class.c8]="c.midCloudCover == 8"
-          [class.c9]="c.midCloudCover == 9">
-        </span>
-      </div>
-    }
-  </div>
+          [class.hover-col]="hoverCard()?.timepoint === c.timepoint"
+          (mouseenter)="onHover(c, $event)"
+          (mouseleave)="onHover(null, null)"
+        >
+          <span
+            class="dot cloud"
+            [class.c1]="c.midCloudCover == 1"
+            [class.c2]="c.midCloudCover == 2"
+            [class.c3]="c.midCloudCover == 3"
+            [class.c4]="c.midCloudCover == 4"
+            [class.c5]="c.midCloudCover == 5"
+            [class.c6]="c.midCloudCover == 6"
+            [class.c7]="c.midCloudCover == 7"
+            [class.c8]="c.midCloudCover == 8"
+            [class.c9]="c.midCloudCover == 9"
+          >
+          </span>
+        </div>
+      }
+    </div>
 
     <div class="row hint">
-    <div class="label">Low cloud</div>
-    @for (c of cardsToShow(); track c.timepoint) {
-      <div class="cell"   [class.next-day-start]="c.isMidnight"
-  [class.next-day-end]="c.isEndOfDay" 
+      <div class="label">Low cloud</div>
+      @for (c of cardsToShow(); track c.timepoint) {
+        <div
+          class="cell"
+          [class.next-day-start]="c.isMidnight"
+          [class.next-day-end]="c.isEndOfDay"
           (touchstart)="onMobileHover(c, $event)"
-          [class.hover-col]="hoverCard()?.timepoint === c.timepoint" (mouseenter)="onHover(c, $event)"
-          (mouseleave)="onHover(null, null)">
-        <span
-          class="dot cloud"
-          [class.c1]="c.lowCloudCover == 1"
-          [class.c2]="c.lowCloudCover == 2"
-          [class.c3]="c.lowCloudCover == 3"
-          [class.c4]="c.lowCloudCover == 4"
-          [class.c5]="c.lowCloudCover == 5"
-          [class.c6]="c.lowCloudCover == 6"
-          [class.c7]="c.lowCloudCover == 7"
-          [class.c8]="c.lowCloudCover == 8"
-          [class.c9]="c.lowCloudCover == 9">
-        </span>
-      </div>
-    }
-  </div>
+          [class.hover-col]="hoverCard()?.timepoint === c.timepoint"
+          (mouseenter)="onHover(c, $event)"
+          (mouseleave)="onHover(null, null)"
+        >
+          <span
+            class="dot cloud"
+            [class.c1]="c.lowCloudCover == 1"
+            [class.c2]="c.lowCloudCover == 2"
+            [class.c3]="c.lowCloudCover == 3"
+            [class.c4]="c.lowCloudCover == 4"
+            [class.c5]="c.lowCloudCover == 5"
+            [class.c6]="c.lowCloudCover == 6"
+            [class.c7]="c.lowCloudCover == 7"
+            [class.c8]="c.lowCloudCover == 8"
+            [class.c9]="c.lowCloudCover == 9"
+          >
+          </span>
+        </div>
+      }
+    </div>
 
-  <!-- <div class="row hint">
+    <!-- <div class="row hint">
     <div class="label">Cloud Score</div>
     @for (c of cardsToShow(); track c.timepoint) {
       <div class="cell"   [class.next-day-start]="c.isMidnight"
@@ -159,167 +190,200 @@
       </div>
     }
   </div> -->
-  <!-- seeing -->
-  <div class="row hint">
-    <div class="label">Seeing</div>
-    @for (c of cardsToShow(); track c.timepoint) {
-      <div class="cell"   [class.next-day-start]="c.isMidnight"
-  [class.next-day-end]="c.isEndOfDay"  (touchstart)="onMobileHover(c, $event)" [class.hover-col]="hoverCard()?.timepoint === c.timepoint" (mouseenter)="onHover(c, $event)"
-     (mouseleave)="onHover(null, null)">
-        <span class="dot seeing s{{ c.seeing }}"></span>
-      </div>
-    }
-  </div>
-
-  <!-- transparency -->
-  <div class="row hint">
-    <div class="label">Transparency</div>
-    @for (c of cardsToShow(); track c.timepoint) {
-      <div class="cell"   [class.next-day-start]="c.isMidnight"
-  [class.next-day-end]="c.isEndOfDay"  (touchstart)="onMobileHover(c, $event)" [class.hover-col]="hoverCard()?.timepoint === c.timepoint" (mouseenter)="onHover(c, $event)"
-     (mouseleave)="onHover(null, null)">
-        <span
-          class="bar trans"
-          [class.t2]="c.transparency === 1"
-          [class.t6]="c.transparency === 2"
-          [class.t9]="c.transparency === 3">
-        </span>      
-      </div>
-    }
-  </div>
-
-  <!-- Moon -->
-  <div class="row hint">
-    <div class="label">Moon</div>
-    @for (c of cardsToShow(); track c.timepoint) {
-      <div
-        class="cell moon-cell"
+    <!-- seeing -->
+    <div class="row hint">
+      <div class="label">Seeing</div>
+      @for (c of cardsToShow(); track c.timepoint) {
+        <div
+          class="cell"
           [class.next-day-start]="c.isMidnight"
-  [class.next-day-end]="c.isEndOfDay"
-        (touchstart)="onMobileHover(c, $event)"
-        [class.hover-col]="hoverCard()?.timepoint === c.timepoint" (mouseenter)="onHover(c, $event)"
-        (mouseleave)="onHover(null, null)"
-      >
-        <!-- Alleen tonen als full of partial -->
-        @if (context.moonUpAt(c.time) === 'full') {
-          <div class="planet-name">
-            <img
-              class="moon-icon"
-              [src]="'assets/img/' + context.moonIllumMatrix(c.time) + '.png'"
-              alt="Moon phase"
-            />
-          </div>
-        }
-        @else {
-          <div class="planet-name">
-            <img
-              class="moon-icon"
-              [src]="'assets/img/nomoon.png'"
-              alt="No moon"
-            />
-          </div> 
-        }
-      </div>
-    }
-  </div>
-  
-  <!-- Planets -->
-  <div class="row hint">
-    <div class="label">Planets</div>
+          [class.next-day-end]="c.isEndOfDay"
+          (touchstart)="onMobileHover(c, $event)"
+          [class.hover-col]="hoverCard()?.timepoint === c.timepoint"
+          (mouseenter)="onHover(c, $event)"
+          (mouseleave)="onHover(null, null)"
+        >
+          <span class="dot seeing s{{ c.seeing }}"></span>
+        </div>
+      }
+    </div>
 
-    @for (c of cardsToShow(); track c.timepoint) {
-      <div
-        class="cell planet-cell"
+    <!-- transparency -->
+    <div class="row hint">
+      <div class="label">Transparency</div>
+      @for (c of cardsToShow(); track c.timepoint) {
+        <div
+          class="cell"
           [class.next-day-start]="c.isMidnight"
-  [class.next-day-end]="c.isEndOfDay"
-        [title]="context.planetsVisibleAt(c.time).join(', ')"
-        (touchstart)="onMobileHover(c, $event)"
-        [class.hover-col]="hoverCard()?.timepoint === c.timepoint" (mouseenter)="onHover(c, $event)"
-        (mouseleave)="onHover(null, null)">
-        @if(context.isAstroNight(c.time) !== "full"){
-          
-          @for (p of context.planetsVisibleAt(c.time); track p) {
-            <img
-            class="planet-icon"
-            [src]="'assets/img/' + p + '.png'"
-            [alt]="p"
-            loading="lazy"
-            />
+          [class.next-day-end]="c.isEndOfDay"
+          (touchstart)="onMobileHover(c, $event)"
+          [class.hover-col]="hoverCard()?.timepoint === c.timepoint"
+          (mouseenter)="onHover(c, $event)"
+          (mouseleave)="onHover(null, null)"
+        >
+          <span
+            class="bar trans"
+            [class.t2]="c.transparency === 1"
+            [class.t6]="c.transparency === 2"
+            [class.t9]="c.transparency === 3"
+          >
+          </span>
+        </div>
+      }
+    </div>
+
+    <!-- Moon -->
+    <div class="row hint">
+      <div class="label">Moon</div>
+      @for (c of cardsToShow(); track c.timepoint) {
+        <div
+          class="cell moon-cell"
+          [class.next-day-start]="c.isMidnight"
+          [class.next-day-end]="c.isEndOfDay"
+          (touchstart)="onMobileHover(c, $event)"
+          [class.hover-col]="hoverCard()?.timepoint === c.timepoint"
+          (mouseenter)="onHover(c, $event)"
+          (mouseleave)="onHover(null, null)"
+        >
+          <!-- Alleen tonen als full of partial -->
+          @if (context.moonUpAt(c.time) === 'full') {
+            <div class="planet-name">
+              <img
+                class="moon-icon"
+                [src]="'assets/img/' + context.moonIllumMatrix(c.time) + '.png'"
+                alt="Moon phase"
+              />
+            </div>
+          } @else {
+            <div class="planet-name">
+              <img class="moon-icon" [src]="'assets/img/nomoon.png'" alt="No moon" />
+            </div>
           }
-          
-        }
-      </div>
-    }
-  </div>
+        </div>
+      }
+    </div>
 
-  <!-- Twilight -->
-  <div class="row hint">
-    <div class="label">Darkness</div>
-    @for (c of cardsToShow(); track c.timepoint) {
-      <div
-        class="cell astro-hack"   [class.next-day-start]="c.isMidnight"
-  [class.next-day-end]="c.isEndOfDay" (touchstart)="onMobileHover(c, $event)" [class.hover-col]="hoverCard()?.timepoint === c.timepoint" (mouseenter)="onHover(c, $event)"
-     (mouseleave)="onHover(null, null)"
-     [class.astro-night]="context.isAstroNight(c.time) === 'full'"
-     [class.astro-night-partial]="context.isAstroNight(c.time) === 'partial'">
-        &nbsp;
-      </div>
-    }
-  </div>
+    <!-- Planets -->
+    <div class="row hint">
+      <div class="label">Planets</div>
+
+      @for (c of cardsToShow(); track c.timepoint) {
+        <div
+          class="cell planet-cell"
+          [class.next-day-start]="c.isMidnight"
+          [class.next-day-end]="c.isEndOfDay"
+          [title]="context.planetsVisibleAt(c.time).join(', ')"
+          (touchstart)="onMobileHover(c, $event)"
+          [class.hover-col]="hoverCard()?.timepoint === c.timepoint"
+          (mouseenter)="onHover(c, $event)"
+          (mouseleave)="onHover(null, null)"
+        >
+          @if (context.isAstroNight(c.time) !== 'full') {
+            @for (p of context.planetsVisibleAt(c.time); track p) {
+              <img
+                class="planet-icon"
+                [src]="'assets/img/' + p + '.png'"
+                [alt]="p"
+                loading="lazy"
+              />
+            }
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Twilight -->
+    <div class="row hint">
+      <div class="label">Darkness</div>
+      @for (c of cardsToShow(); track c.timepoint) {
+        <div
+          class="cell astro-hack"
+          [class.next-day-start]="c.isMidnight"
+          [class.next-day-end]="c.isEndOfDay"
+          (touchstart)="onMobileHover(c, $event)"
+          [class.hover-col]="hoverCard()?.timepoint === c.timepoint"
+          (mouseenter)="onHover(c, $event)"
+          (mouseleave)="onHover(null, null)"
+          [class.astro-night]="context.isAstroNight(c.time) === 'full'"
+          [class.astro-night-partial]="context.isAstroNight(c.time) === 'partial'"
+        >
+          &nbsp;
+        </div>
+      }
+    </div>
 
     <!-- temperature -->
-  <div class="row hint">
-    <div class="label">Temp</div>
-    @for (c of cardsToShow(); track c.timepoint) {
-      <div class="cell temp"   [class.next-day-start]="c.isMidnight"
-  [class.next-day-end]="c.isEndOfDay" (touchstart)="onMobileHover(c, $event)" [class.hover-col]="hoverCard()?.timepoint === c.timepoint" (mouseenter)="onHover(c, $event)"
-     (mouseleave)="onHover(null, null)">{{ c.temperature }}°C</div>
-    }
-  </div>
+    <div class="row hint">
+      <div class="label">Temp</div>
+      @for (c of cardsToShow(); track c.timepoint) {
+        <div
+          class="cell temp"
+          [class.next-day-start]="c.isMidnight"
+          [class.next-day-end]="c.isEndOfDay"
+          (touchstart)="onMobileHover(c, $event)"
+          [class.hover-col]="hoverCard()?.timepoint === c.timepoint"
+          (mouseenter)="onHover(c, $event)"
+          (mouseleave)="onHover(null, null)"
+        >
+          {{ c.temperature }}°C
+        </div>
+      }
+    </div>
 
     <!-- temperature -->
-  <div class="row hint">
-    <div class="label">Dewpoint</div>
-    @for (c of cardsToShow(); track c.timepoint) {
-      <div class="cell temp"   [class.next-day-start]="c.isMidnight"
-  [class.next-day-end]="c.isEndOfDay" (touchstart)="onMobileHover(c, $event)" [class.hover-col]="hoverCard()?.timepoint === c.timepoint" (mouseenter)="onHover(c, $event)"
-     (mouseleave)="onHover(null, null)">{{ c.dewPoint }}°C</div>
-    }
-  </div>
+    <div class="row hint">
+      <div class="label">Dewpoint</div>
+      @for (c of cardsToShow(); track c.timepoint) {
+        <div
+          class="cell temp"
+          [class.next-day-start]="c.isMidnight"
+          [class.next-day-end]="c.isEndOfDay"
+          (touchstart)="onMobileHover(c, $event)"
+          [class.hover-col]="hoverCard()?.timepoint === c.timepoint"
+          (mouseenter)="onHover(c, $event)"
+          (mouseleave)="onHover(null, null)"
+        >
+          {{ c.dewPoint }}°C
+        </div>
+      }
+    </div>
 
     <!-- temperature -->
-  <div class="row hint">
-    <div class="label">Humidity</div>
-    @for (c of cardsToShow(); track c.timepoint) {
-      <div class="cell temp"   [class.next-day-start]="c.isMidnight"
-  [class.next-day-end]="c.isEndOfDay" (touchstart)="onMobileHover(c, $event)" [class.hover-col]="hoverCard()?.timepoint === c.timepoint" (mouseenter)="onHover(c, $event)"
-     (mouseleave)="onHover(null, null)">{{ c.relativeHum }}%</div>
-    }
-  </div>
-  
+    <div class="row hint">
+      <div class="label">Humidity</div>
+      @for (c of cardsToShow(); track c.timepoint) {
+        <div
+          class="cell temp"
+          [class.next-day-start]="c.isMidnight"
+          [class.next-day-end]="c.isEndOfDay"
+          (touchstart)="onMobileHover(c, $event)"
+          [class.hover-col]="hoverCard()?.timepoint === c.timepoint"
+          (mouseenter)="onHover(c, $event)"
+          (mouseleave)="onHover(null, null)"
+        >
+          {{ c.relativeHum }}%
+        </div>
+      }
+    </div>
+
     <!-- DSO messiers -->
-  <br><br>
-  <div class="dso">
-    <div class="matrix-controls-dso">    
-      <a routerLink="/dso-forecast">
-        DSO
-      </a>
-    </div>
-    <div class="matrix-controls-dso">    
-      <a routerLink="/solar-system">
-        Solar System
-      </a>
-    </div>
-    <div class="matrix-controls-dso">    
-      <a routerLink="/sky-atlas">
-        Atlas
-      </a>
-    </div>
+    <br /><br />
+    <div class="dso">
+      <div class="matrix-controls-dso">
+        <a routerLink="/dso-forecast"> DSO </a>
+      </div>
+      <div class="matrix-controls-dso">
+        <a routerLink="/solar-system"> Solar System </a>
+      </div>
+      <div class="matrix-controls-dso">
+        <a routerLink="/sky-atlas"> Atlas </a>
+      </div>
       <div class="matrix-controls" (clickOutside)="closeColorMenu()">
         <button
           class="icon-btn"
           (click)="toggleColorMenu($event)"
-          title="Color accessibility modes">
+          title="Color accessibility modes"
+        >
           Colors
         </button>
 
@@ -327,87 +391,91 @@
           <div class="color-menu">
             <button
               [class.active]="ui.colorMode() === 'standard'"
-              (click)="setColorMode('standard')">
+              (click)="setColorMode('standard')"
+            >
               Standard
             </button>
 
             <button
               [class.active]="ui.colorMode() === 'deuteranopia'"
-              (click)="setColorMode('deuteranopia')">
+              (click)="setColorMode('deuteranopia')"
+            >
               Deuteranopia
             </button>
 
             <button
               [class.active]="ui.colorMode() === 'protanopia'"
-              (click)="setColorMode('protanopia')">
+              (click)="setColorMode('protanopia')"
+            >
               Protanopia
             </button>
 
             <button
               [class.active]="ui.colorMode() === 'tritanopia'"
-              (click)="setColorMode('tritanopia')">
+              (click)="setColorMode('tritanopia')"
+            >
               Tritanopia
             </button>
           </div>
         }
+      </div>
+      <div></div>
     </div>
-  <div>
+    @if (hoverCard()) {
+      <div class="matrix-tooltip" [style.top.px]="tooltipY" [style.left.px]="tooltipX">
+        <strong class="time">Time: {{ hoverCard().time | date: 'HH:mm' }}</strong>
 
-  </div>
-</div>
-  @if (hoverCard()) {
-    <div class="matrix-tooltip" [style.top.px]="tooltipY" [style.left.px]="tooltipX">
-    <strong class="time">Time: {{ hoverCard().time | date:'HH:mm' }}</strong>
+        <div class="tooltip-row">
+          <span class="label">High cloud:</span>
+          <span class="value">{{ hoverCard().highCloudCover }}/9</span>
+        </div>
 
-    <div class="tooltip-row">
-      <span class="label">High cloud:</span>
-      <span class="value">{{ hoverCard().highCloudCover }}/9</span>
-    </div>
+        <div class="tooltip-row">
+          <span class="label">Mid cloud:</span>
+          <span class="value">{{ hoverCard().midCloudCover }}/9</span>
+        </div>
 
-    <div class="tooltip-row">
-      <span class="label">Mid cloud:</span>
-      <span class="value">{{ hoverCard().midCloudCover }}/9</span>
-    </div>
+        <div class="tooltip-row">
+          <span class="label">Low cloud:</span>
+          <span class="value">{{ hoverCard().lowCloudCover }}/9</span>
+        </div>
 
-    <div class="tooltip-row">
-      <span class="label">Low cloud:</span>
-      <span class="value">{{ hoverCard().lowCloudCover }}/9</span>
-    </div>
+        <div class="tooltip-row">
+          <span class="label">Seeing:</span>
+          <span class="value">{{ hoverCard().seeing }}/8</span>
+        </div>
 
-    <div class="tooltip-row">
-      <span class="label">Seeing:</span>
-      <span class="value">{{ hoverCard().seeing }}/8</span>
-    </div>
+        <div class="tooltip-row">
+          <span class="label">Transparency:</span>
+          <span class="value">{{ hoverCard().transparency }}/3</span>
+        </div>
 
-    <div class="tooltip-row">
-      <span class="label">Transparency:</span>
-      <span class="value">{{ hoverCard().transparency }}/3</span>
-    </div>
-    
-    <div class="tooltip-row">
-      <span class="label">Moon phase:</span>
-      <span class="value moon">{{ context.moonIllumMatrix(hoverCard().time) }}</span>
-    </div>
-    @if(context.isAstroNight(hoverCard().time) !== "full"){
-      <div class="tooltip-row">
-        <span class="label">Planets:</span>
-        <span class="value planets">{{ context.planetsVisibleAt(hoverCard().time).join(', ') }}</span>
-      </div>    
+        <div class="tooltip-row">
+          <span class="label">Moon phase:</span>
+          <span class="value moon">{{ context.moonIllumMatrix(hoverCard().time) }}</span>
+        </div>
+        @if (context.isAstroNight(hoverCard().time) !== 'full') {
+          <div class="tooltip-row">
+            <span class="label">Planets:</span>
+            <span class="value planets">{{
+              context.planetsVisibleAt(hoverCard().time).join(', ')
+            }}</span>
+          </div>
+        }
+
+        <div class="tooltip-row">
+          <span class="label">Temp:</span>
+          <span class="value temp">{{ hoverCard().temperature }}°C</span>
+        </div>
+        <div class="tooltip-row">
+          <span class="label">Dewpoint:</span>
+          <span class="value temp">{{ hoverCard().dewPoint }}°C</span>
+        </div>
+        <div class="tooltip-row">
+          <span class="label">Humidity:</span>
+          <span class="value temp">{{ hoverCard().relativeHum }}%</span>
+        </div>
+      </div>
     }
-
-      <div class="tooltip-row">
-        <span class="label">Temp:</span>
-        <span class="value temp">{{ hoverCard().temperature }}°C</span>
-      </div>
-      <div class="tooltip-row">
-        <span class="label">Dewpoint:</span>
-        <span class="value temp">{{ hoverCard().dewPoint}}°C</span>
-      </div>
-      <div class="tooltip-row">
-        <span class="label">Humidity:</span>
-        <span class="value temp">{{ hoverCard().relativeHum }}%</span>
-      </div>
   </div>
-}
-</div>
 }
