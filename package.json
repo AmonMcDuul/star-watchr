@@ -8,8 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:star-watchr": "node dist/star-watchr/server/server.mjs",
-    "generate-routes": "node scripts/generate-prerender-routes.js",
-    "build:ssg": "npm run generate-routes && ng build && node scripts/generate-sitemap.js"
+    "prebuild": "node scripts/generate-sitemap.js",
+    "enrich:data": "node scripts/generate-content-enrichment.js"
   },
   "prettier": {
     "printWidth": 100,

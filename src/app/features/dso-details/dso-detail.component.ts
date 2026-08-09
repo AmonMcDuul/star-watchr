@@ -1,4 +1,4 @@
-import {
+﻿import {
   Component,
   computed,
   DestroyRef,
@@ -8,8 +8,9 @@ import {
   OnDestroy,
   signal,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 
 import { MessierObject } from '../../models/messier.model';
@@ -22,7 +23,7 @@ import { AltitudeGraphComponent } from '../../components/altitude-graph/altitude
 import { StarhopAtlasComponent } from '../starhop-atlas/starhop-atlas.component';
 import { SeoService } from '../../services/seo.service';
 import { DSO_CATALOG } from '../../../assets/data/dso-catalog';
-import { DsoContentService } from '../../services/dso-content.service';
+import { DsoPageContentService } from '../../services/dso-page-content.service';
 import {
   Observer,
   AstroTime,
@@ -40,6 +41,7 @@ type SurveyKey = 'dss-color' | 'dss-red' | '2mass';
   imports: [
     CommonModule,
     FormsModule,
+    RouterLink,
     AladinMapComponent,
     AltitudeGraphComponent,
     StarhopAtlasComponent,
@@ -48,11 +50,12 @@ type SurveyKey = 'dss-color' | 'dss-red' | '2mass';
   styleUrls: ['./dso-detail.component.scss'],
 })
 export class DsoDetailComponent implements OnDestroy {
-  private contentService = inject(DsoContentService);
+  private pageContent = inject(DsoPageContentService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private messier = inject(MessierService);
   private injector = inject(Injector);
+  private destroyRef = inject(DestroyRef);
 
   readonly location = inject(LocationService);
   readonly time = inject(MessierTimeService);
@@ -105,38 +108,61 @@ export class DsoDetailComponent implements OnDestroy {
   constructor() {}
 
   async ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
+    await Promise.all([this.messier.load(), this.messier.loadCaldwell()]);
+
+    this.route.paramMap
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params) => this.selectRouteObject(params.get('id')));
+  }
+
+  private selectRouteObject(id: string | null): void {
     if (!id) return;
 
-    await this.messier.load();
-    await this.messier.loadCaldwell();
+    const number = Number.parseInt(id.replace(/[^\d]/g, ''), 10);
+    const code = id.charAt(0).toUpperCase();
+    const target = this.messier.getByNumberAndCode(code, number);
 
-    const parsed = parseInt(id.replace(/[^\d]/g, ''), 10);
-    const prefix = id.charAt(0).toUpperCase();
-
-    const target = this.messier.getByNumberAndCode(prefix, parsed);
-    if (!target) return;
-    console.log(target);
-    this.messier.selectedMessier.set(target);
+    if (target) this.messier.selectedMessier.set(target);
   }
-
   private updateSeo(dso: MessierObject) {
     const objectId = `${dso.code}${dso.messierNumber}`.toUpperCase();
+    const content = this.pageContent.generate(dso);
+    const facts = content.facts;
+    const description = this.pageContent.seoDescription(dso);
+    const title = `${dso.name} (${objectId}) - ${dso.type} in ${dso.constellation} | StarWatchr`;
 
-    const ctx = {
-      lat: this.lat(),
-      lon: this.lon(),
-      date: this.time.dateTime(),
-      altitudeSeries: this.altitudeSeries(),
-    };
+    const path = `/dso/${objectId.toLowerCase()}`;
+    this.seo.update(title, description, path, dso.image);
 
-    const description = this.contentService.generateSeoDescription(dso, ctx);
+    const additionalProperty = [
+      { '@type': 'PropertyValue', name: 'Magnitude', value: dso.magnitude },
+      { '@type': 'PropertyValue', name: 'Right ascension', value: facts.coordinates.raDeg, unitText: 'degrees' },
+      { '@type': 'PropertyValue', name: 'Declination', value: facts.coordinates.decDeg, unitText: 'degrees' },
+      { '@type': 'PropertyValue', name: 'Angular major axis', value: facts.dimensions.majorArcmin, unitText: 'arcminutes' },
+      { '@type': 'PropertyValue', name: 'Angular minor axis', value: facts.dimensions.minorArcmin, unitText: 'arcminutes' },
+      { '@type': 'PropertyValue', name: 'Distance', value: dso.distance, unitText: 'light-years' },
+    ].filter((property) => property.value != null);
 
-    const title = `${dso.name} (${objectId}) – ${dso.type} in ${dso.constellation} | StarWatchr`;
-
-    this.seo.update(title, description, `/dso/${objectId.toLowerCase()}`, dso.image);
+    this.seo.setJsonLd(`dso-${objectId.toLowerCase()}-structured-data`, {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: `${dso.name} (${objectId}) observing and imaging guide`,
+      description,
+      url: this.seo.url(path),
+      image: this.seo.url(dso.image),
+      isBasedOn: facts.source.url,
+      mainEntity: {
+        '@type': 'Thing',
+        name: `${dso.name} (${objectId})`,
+        identifier: facts.catalogIdentifiers,
+        additionalType: dso.type,
+        description: facts.overview,
+        sameAs: facts.source.url,
+        additionalProperty,
+      },
+      isPartOf: { '@type': 'WebSite', name: 'StarWatchr', url: 'https://starwatchr.com' },
+    });
   }
-
   ngOnDestroy(): void {
     this.messier.selectedMessier.set(null);
   }
@@ -157,14 +183,27 @@ export class DsoDetailComponent implements OnDestroy {
     const dso = this.dso();
     if (!dso) return null;
 
-    return this.contentService.generate(dso, {
-      lat: this.lat(),
-      lon: this.lon(),
-      date: this.time.dateTime(),
-      altitudeSeries: this.altitudeSeries(),
-    });
+    return this.pageContent.generate(dso);
   });
 
+  readonly relatedDsos = computed(() => {
+    const current = this.dso();
+    if (!current) return [];
+
+    const currentId = `${current.code}${current.messierNumber}`.toLowerCase();
+    return DSO_CATALOG
+      .filter((item) => item.id !== currentId)
+      .sort((a, b) => {
+        const aScore = a.constellation === current.constellation
+          ? 0
+          : a.viewingSeason === current.viewingSeason ? 1 : 2;
+        const bScore = b.constellation === current.constellation
+          ? 0
+          : b.viewingSeason === current.viewingSeason ? 1 : 2;
+        return aScore - bScore || a.magnitude - b.magnitude;
+      })
+      .slice(0, 8);
+  });
   private raToDegrees(ra: string): number {
     const [h, m, s] = ra.split(':').map(Number);
     return (h + m / 60 + s / 3600) * 15;

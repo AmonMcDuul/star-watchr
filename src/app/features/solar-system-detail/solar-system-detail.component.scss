@@ -278,4 +278,56 @@ h1{
 
   transform:translateX(-2px);
   box-shadow:0 0 12px rgba(120,150,255,.4);
+}.knowledge-block {
+  margin: 1.35rem 0;
+
+  h2 {
+    margin: 0 0 0.45rem;
+    font-size: 1rem;
+    color: #dbe3ff;
+  }
+
+  p {
+    margin: 0;
+    color: #c3ccec;
+    line-height: 1.65;
+  }
+}
+
+.solar-facts {
+  margin-top: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+
+  div {
+    padding: 0.75rem;
+    border: 1px solid rgba(120, 150, 255, 0.1);
+    border-radius: 0.55rem;
+    background: rgba(5, 9, 20, 0.3);
+  }
+}
+
+.comparison-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+
+  span {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid rgba(159, 176, 255, 0.22);
+    border-radius: 999px;
+    color: #d8e0ff;
+    font-size: 0.72rem;
+  }
+}
+
+.source-note {
+  margin-top: 1rem;
+  color: #aebadd;
+  font-size: 0.75rem;
+  line-height: 1.55;
+
+  a {
+    color: #afc2ff;
+  }
 }

@@ -19,18 +19,24 @@ import { Planet } from '../models/solar-system/planet.model';
 import { Sun } from '../models/solar-system/sun.model';
 import { isPlatformBrowser } from '@angular/common';
 
+import sunCatalog from '../../assets/data/solar-system/star.json';
+import planetCatalog from '../../assets/data/solar-system/planets.json';
+import moonCatalog from '../../assets/data/solar-system/moons.json';
+import dwarfCatalog from '../../assets/data/solar-system/dwarf-planets.json';
+import asteroidCatalog from '../../assets/data/solar-system/asteroids.json';
+import cometCatalog from '../../assets/data/solar-system/comets.json';
 @Injectable({ providedIn: 'root' })
 export class SolarSystemService {
     private location = inject(LocationService);
     private context = inject(ForecastContextService);
     private platformId = inject(PLATFORM_ID);
 
-    private sunRaw = signal<Sun | null>(null);
-    private planetsRaw = signal<Planet[] | null>(null);
-    private moonsRaw = signal<Moon[] | null>(null);
-    private dwarfRaw = signal<DwarfPlanet[] | null>(null);
-    private asteroidsRaw = signal<Asteroid[] | null>(null);
-    private cometsRaw = signal<Comet[] | null>(null);
+    private sunRaw = signal<Sun | null>(sunCatalog as unknown as Sun);
+    private planetsRaw = signal<Planet[] | null>(planetCatalog as unknown as Planet[]);
+    private moonsRaw = signal<Moon[] | null>(moonCatalog as unknown as Moon[]);
+    private dwarfRaw = signal<DwarfPlanet[] | null>(dwarfCatalog as unknown as DwarfPlanet[]);
+    private asteroidsRaw = signal<Asteroid[] | null>(asteroidCatalog as unknown as Asteroid[]);
+    private cometsRaw = signal<Comet[] | null>(cometCatalog as unknown as Comet[]);
 
   readonly loading = signal(false);
 

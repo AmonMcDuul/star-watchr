@@ -6,11 +6,12 @@ import { ForecastContextService } from '../../services/forecast-context.service'
 import { LocationSearchComponent } from "../location-search/location-search.component";
 import { LocationService } from '../../services/location.service';
 import { MessierObject } from '../../models/messier.model'; 
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
+import { DSO_CATALOG } from '../../../assets/data/dso-catalog';
 @Component({
   selector: 'app-dso-tonight',
-  imports: [CommonModule, LocationSearchComponent],
+  imports: [CommonModule, LocationSearchComponent, RouterLink],
   templateUrl: './dso-tonight.component.html',
   styleUrl: './dso-tonight.component.scss',
 })
@@ -22,6 +23,7 @@ export class DsoTonightComponent implements OnInit {
   router = inject(Router);
   
   readonly selected = signal<number | null>(null);
+  readonly catalogDirectory = DSO_CATALOG;
   mapSize: 'compact' | 'normal' | 'large' = 'normal';
 
   get catalog() {

@@ -1,4 +1,4 @@
-<div class="solar-system-page">
+﻿<div class="solar-system-page">
 
 
   <!-- SUMMARY -->
@@ -87,7 +87,7 @@
 
           <a class="solar-card" [routerLink]="['/solar-system/sun', s.id]">
 
-            <img [src]="s.image" [alt]="s.name">
+            <img [src]="s.image" [alt]="s.name" loading="lazy" decoding="async">
 
             <div class="card-info">
               <strong>{{ s.name }}</strong>
@@ -104,7 +104,7 @@
 
           <a class="solar-card" [routerLink]="['/solar-system/planets', p.id]">
 
-            <img [src]="p.image" [alt]="p.name">
+            <img [src]="p.image" [alt]="p.name" loading="lazy" decoding="async">
 
             <div class="card-info">
               <strong>{{ p.name }}</strong>
@@ -121,7 +121,7 @@
 
           <a class="solar-card" [routerLink]="['/solar-system/moons', m.id]">
 
-            <img [src]="m.image" [alt]="m.name">
+            <img [src]="m.image" [alt]="m.name" loading="lazy" decoding="async">
 
             <div class="card-info">
               <strong>{{ m.name }}</strong>
@@ -138,7 +138,7 @@
 
           <a class="solar-card" [routerLink]="['/solar-system/dwarf-planets', d.id]">
 
-            <img [src]="d.image" [alt]="d.name">
+            <img [src]="d.image" [alt]="d.name" loading="lazy" decoding="async">
 
             <div class="card-info">
               <strong>{{ d.name }}</strong>
@@ -155,7 +155,7 @@
 
           <a class="solar-card" [routerLink]="['/solar-system/asteroids', a.id]">
 
-            <img [src]="a.image" [alt]="a.name">
+            <img [src]="a.image" [alt]="a.name" loading="lazy" decoding="async">
 
             <div class="card-info">
               <strong>{{ a.name }}</strong>
@@ -172,7 +172,7 @@
 
           <a class="solar-card" [routerLink]="['/solar-system/comets', c.id]">
 
-            <img [src]="c.image" [alt]="c.name">
+            <img [src]="c.image" [alt]="c.name" loading="lazy" decoding="async">
 
             <div class="card-info">
               <strong>{{ c.name }}</strong>
@@ -188,5 +188,72 @@
 
   </div>
 
+  <section class="object-directory" aria-labelledby="solar-directory-title">
+    <div class="directory-heading">
+      <div>
+        <p class="directory-eyebrow">Complete catalogue</p>
+        <h2 id="solar-directory-title">Solar system object directory</h2>
+      </div>
+      <p>
+        Browse every solar-system guide directly. Category filters above only change the visual
+        gallery; these links remain available for visitors and search engines.
+      </p>
+    </div>
+
+    <div class="directory-groups">
+      <section>
+        <h3>Sun</h3>
+        <nav aria-label="Sun page">
+          @if (solar.sun(); as sun) {
+            <a [routerLink]="['/solar-system/sun', sun.id]">{{ sun.name }}</a>
+          }
+        </nav>
+      </section>
+
+      <section>
+        <h3>Planets</h3>
+        <nav aria-label="Planet pages">
+          @for (planet of solar.planets(); track planet.id) {
+            <a [routerLink]="['/solar-system/planets', planet.id]">{{ planet.name }}</a>
+          }
+        </nav>
+      </section>
+
+      <section>
+        <h3>Moons</h3>
+        <nav aria-label="Moon pages">
+          @for (moon of solar.moons(); track moon.id) {
+            <a [routerLink]="['/solar-system/moons', moon.id]">{{ moon.name }}</a>
+          }
+        </nav>
+      </section>
+
+      <section>
+        <h3>Dwarf planets</h3>
+        <nav aria-label="Dwarf planet pages">
+          @for (body of solar.dwarfPlanets(); track body.id) {
+            <a [routerLink]="['/solar-system/dwarf-planets', body.id]">{{ body.name }}</a>
+          }
+        </nav>
+      </section>
+
+      <section>
+        <h3>Asteroids</h3>
+        <nav aria-label="Asteroid pages">
+          @for (asteroid of solar.asteroids(); track asteroid.id) {
+            <a [routerLink]="['/solar-system/asteroids', asteroid.id]">{{ asteroid.name }}</a>
+          }
+        </nav>
+      </section>
+
+      <section>
+        <h3>Comets</h3>
+        <nav aria-label="Comet pages">
+          @for (comet of solar.comets(); track comet.id) {
+            <a [routerLink]="['/solar-system/comets', comet.id]">{{ comet.name }}</a>
+          }
+        </nav>
+      </section>
+    </div>
+  </section>
 </div>
-<br><br><br><br>

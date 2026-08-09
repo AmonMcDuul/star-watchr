@@ -1,37 +1,34 @@
-@if (dso(); as dso) {
-  <div class="dso-page">
-    <!-- HEADER -->
-    <div class="dso-header">
-      <div class="header-left">
-        <button class="back-btn" (click)="goBack()">← Overview</button>
-
+﻿@if (dso(); as dso) {
+  <main class="dso-page">
+    <header class="dso-hero">
+      <div class="hero-copy">
+        <button class="back-btn" type="button" (click)="goBack()">← DSO overview</button>
+        <p class="eyebrow">{{ dso.type }} · {{ dso.constellation }}</p>
         <h1>
           {{ dso.code }}{{ dso.messierNumber }}
-          <span class="object-name">{{ dso.name }}</span>
+          <span>{{ dso.name }}</span>
         </h1>
       </div>
 
-      <div class="header-meta">
-        <div class="meta-item">
-          <span class="label">TYPE</span>
-          <span class="value">{{ dso.type }}</span>
+      <dl class="hero-stats" aria-label="Object summary">
+        <div>
+          <dt>Magnitude</dt>
+          <dd>{{ dso.magnitude }}</dd>
         </div>
-        <div class="meta-item">
-          <span class="label">CONST</span>
-          <span class="value">{{ dso.constellation }}</span>
+        <div>
+          <dt>Season</dt>
+          <dd>{{ dso.viewingSeason }}</dd>
         </div>
-        <div class="meta-item">
-          <span class="label">MAG</span>
-          <span class="value">{{ dso.magnitude }}</span>
+        <div>
+          <dt>Difficulty</dt>
+          <dd>{{ dso.viewingDifficulty }}</dd>
         </div>
-      </div>
-    </div>
+      </dl>
+    </header>
 
-    <!-- TOP GRID -->
-    <div class="grid two-thirds">
+    <section class="media-grid" aria-label="Finding and imaging {{ dso.name }}">
       <div class="panel starhop-panel">
-        <div class="panel-title">Star Hop</div>
-
+        <div class="panel-title">Star-hop chart</div>
         <app-starhop-atlas
           [ra]="raDeg()"
           [dec]="decDeg()"
@@ -47,67 +44,44 @@
         />
       </div>
 
-      <div class="panel image-panel">
-        <div class="panel-title">Imaging Reference</div>
-
+      <figure class="panel image-panel">
+        <figcaption class="panel-title">Imaging reference</figcaption>
         <img
           [src]="dso.image"
           [alt]="dso.name + ' (' + dso.code + dso.messierNumber + ') ' + dso.type"
-          loading="lazy"
+          loading="eager"
           decoding="async"
         />
-      </div>
-    </div>
+      </figure>
+    </section>
 
-    <!-- CONTENT GRID -->
-    <div class="grid one-thirds">
-      @if (content(); as c) {
-        <div class="panel info-panel">
-          <!-- OVERVIEW -->
-          <h2>About {{ dso.name }} ({{ dso.code }}{{ dso.messierNumber }})</h2>
+    @if (content(); as c) {
+      <section class="content-grid">
+        <article class="panel guide-panel">
+          <p class="eyebrow">Observer's guide</p>
+          <h2>About {{ dso.name }}</h2>
+          <p class="lead">{{ c.summary }}</p>
 
-          @if (c.summary) {
-            <p>{{ c.summary }}</p>
-          }
+          <div class="guide-columns">
+            <section>
+              <h3>Observing tips</h3>
+              @for (block of c.observing; track $index) {
+                <p>{{ block }}</p>
+              }
+            </section>
 
-          <!-- OBSERVING CONDITIONS -->
-          @if (c.conditions?.length) {
-            <h2>Current visibility</h2>
+            <section>
+              <h3>What to expect</h3>
+              @for (block of c.expectation; track $index) {
+                <p>{{ block }}</p>
+              }
+            </section>
+          </div>
+        </article>
 
-            @for (block of c.conditions; track $index) {
-              <p>{{ block }}</p>
-            }
-          }
-
-          <!-- OBSERVING TIPS -->
-          @if (c.observing?.length) {
-            <h2>Observing tips</h2>
-
-            @for (block of c.observing; track $index) {
-              <p>{{ block }}</p>
-            }
-          }
-
-          <!-- EXPERIENCE / EXPECTATION -->
-          @if (c.expectation?.length) {
-            <h2>What to expect</h2>
-
-            @for (block of c.expectation; track $index) {
-              <p>{{ block }}</p>
-            }
-          }
-
-          <!-- FALLBACK (oude blocks, blijft werken) -->
-          @if (!c.summary && !c.observing && c.blocks.length) {
-            <h2>Observing guide</h2>
-
-            @for (block of c.blocks; track $index) {
-              <p>{{ block }}</p>
-            }
-          }
-
-          <!-- DATA GRID -->
-          <dl class="data-grid">
+        <aside class="panel snapshot-panel">
+          <div class="panel-title">Catalogue snapshot</div>
+          <dl class="snapshot-grid">
             <div>
               <dt>Type</dt>
               <dd>{{ dso.type }}</dd>
@@ -118,59 +92,190 @@
             </div>
             <div>
               <dt>Distance</dt>
-              <dd>{{ dso.distance }} ly</dd>
+              <dd>{{ dso.distance ? (dso.distance | number) + ' ly' : 'Not listed' }}</dd>
             </div>
             <div>
-              <dt>Size</dt>
-              <dd>{{ dso.size }}</dd>
+              <dt>Catalogue size</dt>
+              <dd>{{ dso.size || 'Not listed' }}</dd>
             </div>
             <div>
-              <dt>Season</dt>
-              <dd>{{ dso.viewingSeason }}</dd>
+              <dt>Coordinates</dt>
+              <dd>{{ dso.rightAscension }} / {{ dso.declination }}</dd>
             </div>
             <div>
-              <dt>Difficulty</dt>
-              <dd>{{ dso.viewingDifficulty }}</dd>
-            </div>
-            <div>
-              <dt>Magnitude</dt>
-              <dd>{{ dso.magnitude }}</dd>
+              <dt>Primary ID</dt>
+              <dd>{{ c.facts.primaryIdentifier }}</dd>
             </div>
           </dl>
+        </aside>
+      </section>
+
+      <section class="panel scientific-panel" aria-labelledby="scientific-record-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Sourced catalogue data</p>
+            <h2 id="scientific-record-heading">Scientific record</h2>
+          </div>
+          <p>
+            Measurements for {{ dso.code }}{{ dso.messierNumber }} are kept separate from
+            practical observing guidance.
+          </p>
         </div>
-      }
 
-      <!-- ALTITUDE -->
-      <div class="panel info-panel">
-        <div class="panel-title">Altitude Profile (24h)</div>
+        <dl class="fact-grid">
+          <div>
+            <dt>Coordinates ({{ c.facts.coordinates.epoch }})</dt>
+            <dd>
+              RA {{ c.facts.coordinates.raDeg | number: '1.4-6' }}° ·
+              Dec {{ c.facts.coordinates.decDeg | number: '1.4-6' }}°
+            </dd>
+          </div>
+          <div>
+            <dt>SIMBAD classification</dt>
+            <dd>{{ c.facts.classification.simbadType }}</dd>
+          </div>
+          @if (c.facts.classification.morphology) {
+            <div>
+              <dt>Morphology</dt>
+              <dd>{{ c.facts.classification.morphology }}</dd>
+            </div>
+          }
+          @if (c.facts.classification.spectralType) {
+            <div>
+              <dt>Spectral type</dt>
+              <dd>{{ c.facts.classification.spectralType }}</dd>
+            </div>
+          }
+          @if (c.facts.dimensions.majorArcmin) {
+            <div>
+              <dt>Angular extent</dt>
+              <dd>
+                {{ c.facts.dimensions.majorArcmin | number: '1.0-2' }}′
+                @if (c.facts.dimensions.minorArcmin) {
+                  × {{ c.facts.dimensions.minorArcmin | number: '1.0-2' }}′
+                }
+              </dd>
+            </div>
+          }
+          @if (c.facts.dimensions.positionAngleDeg !== null) {
+            <div>
+              <dt>Position angle</dt>
+              <dd>{{ c.facts.dimensions.positionAngleDeg }}°</dd>
+            </div>
+          }
+          @if (c.facts.dimensions.surfaceBrightnessMagArcsec2 !== null) {
+            <div>
+              <dt>Surface brightness</dt>
+              <dd>
+                {{ c.facts.dimensions.surfaceBrightnessMagArcsec2 | number: '1.1-2' }}
+                mag/arcsec²
+              </dd>
+            </div>
+          }
+          @if (c.facts.motion.radialVelocityKmS !== null) {
+            <div>
+              <dt>Radial velocity</dt>
+              <dd>{{ c.facts.motion.radialVelocityKmS | number: '1.0-2' }} km/s</dd>
+            </div>
+          }
+          @if (c.facts.motion.redshift !== null) {
+            <div>
+              <dt>Redshift</dt>
+              <dd>{{ c.facts.motion.redshift | number: '1.0-8' }}</dd>
+            </div>
+          }
+          @if (c.facts.bibliographyCount !== null) {
+            <div>
+              <dt>Linked bibliography</dt>
+              <dd>{{ c.facts.bibliographyCount | number }} references</dd>
+            </div>
+          }
+          <div>
+            <dt>Best midnight placement</dt>
+            <dd>{{ c.facts.visibility.bestViewingMonth }}</dd>
+          </div>
+          <div>
+            <dt>Observable latitude range</dt>
+            <dd>
+              {{ c.facts.visibility.observableLatitudeMin }}° to
+              {{ c.facts.visibility.observableLatitudeMax }}°
+            </dd>
+          </div>
+        </dl>
 
-        <app-altitude-graph
-          [raDeg]="raDeg()"
-          [decDeg]="decDeg()"
-          [lat]="lat()"
-          [lon]="lon()"
-          [date]="time.dateTime()"
-        />
+        <p class="source-note">
+          Source:
+          <a
+            [href]="c.facts.source.url"
+            target="_blank"
+            rel="noopener noreferrer external"
+          >
+            {{ c.facts.source.name }}
+          </a>
+          ({{ c.facts.source.license }}; checked {{ c.facts.source.verified }}).
+          Catalogue values may change when new measurements are published.
+        </p>
+      </section>
+    }
+
+    <section class="panel altitude-panel">
+      <div class="section-heading compact-heading">
+        <div>
+          <p class="eyebrow">Your selected location</p>
+          <h2>24-hour altitude profile</h2>
+        </div>
+        <p>Use the highest part of the curve to plan the clearest observing window.</p>
       </div>
-    </div>
+      <app-altitude-graph
+        [raDeg]="raDeg()"
+        [decDeg]="decDeg()"
+        [lat]="lat()"
+        [lon]="lon()"
+        [date]="time.dateTime()"
+      />
+    </section>
 
-    <!-- ALADIN -->
-    <div class="grid">
-      <div class="panel aladin-panel">
-        <div class="panel-title">Live Sky</div>
+    @if (relatedDsos().length) {
+      <nav class="panel related-dsos" aria-label="Related deep-sky objects">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Continue exploring</p>
+            <h2>Objects near this observing context</h2>
+          </div>
+          <p>Objects in {{ dso.constellation }} are shown first, followed by targets from the same season.</p>
+        </div>
 
-        <app-aladin-map
-          [raDeg]="raDeg()"
-          [decDeg]="decDeg()"
-          [fov]="3"
-          [showConstellations]="showConstellations"
-          [showConstellationLabels]="showConstellationLabels"
-        />
-      </div>
-    </div>
-  </div>
+        <div class="related-grid">
+          @for (related of relatedDsos(); track related.id) {
+            <a class="related-card" [routerLink]="['/dso', related.id]">
+              <img
+                [src]="related.image"
+                [alt]="related.name + ' deep-sky object'"
+                loading="lazy"
+                decoding="async"
+              />
+              <span class="related-copy">
+                <strong>{{ related.code }}{{ related.messierNumber }}</strong>
+                <span>{{ related.name }}</span>
+                <small>{{ related.constellation }} · magnitude {{ related.magnitude }}</small>
+              </span>
+            </a>
+          }
+        </div>
+      </nav>
+    }
+
+    <section class="panel aladin-panel">
+      <div class="panel-title">Live sky imagery</div>
+      <app-aladin-map
+        [raDeg]="raDeg()"
+        [decDeg]="decDeg()"
+        [fov]="3"
+        [showConstellations]="showConstellations"
+        [showConstellationLabels]="showConstellationLabels"
+      />
+    </section>
+  </main>
 } @else {
   <div class="loading">Loading object data…</div>
 }
-
-<br /><br /><br /><br />

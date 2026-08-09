@@ -1,4 +1,4 @@
-@if (object(); as o) {
+﻿@if (object(); as o) {
 
 <div class="solar-page">
 
@@ -15,7 +15,7 @@
 
       <a
         class="control-btn"
-        [routerLink]="['/solar-system', b.type === 'sun' ? 'sun' : 'planets', b.id]">
+        [routerLink]="['/solar-system', b.id === 'sun' ? 'sun' : 'planets', b.id]">
 
         {{ b.name }}
 
@@ -56,34 +56,107 @@
 
       <div class="panel-title">Object Data</div>
 
-      <p class="description">
-        {{ o.summary }}
-      </p>
+      @if (content(); as c) {
+        <p class="description">{{ c.overview }}</p>
 
-      <dl class="data-grid">
-
-        @if (o.radiusKm) {
-        <div>
-          <dt>Radius</dt>
-          <dd>{{ o.radiusKm }} km</dd>
+        <div class="knowledge-block">
+          <h2>How to observe {{ o.name }}</h2>
+          <p>{{ c.observingGuide }}</p>
         </div>
+
+        <div class="knowledge-block">
+          <h2>Scientific context</h2>
+          <p>{{ c.scienceContext }}</p>
+        </div>
+
+        <dl class="data-grid solar-facts">
+          @if (c.physical.radiusKm !== null) {
+            <div>
+              <dt>Radius</dt>
+              <dd>{{ c.physical.radiusKm | number: '1.0-3' }} km</dd>
+            </div>
+          }
+          @if (c.physical.diameterKm !== null) {
+            <div>
+              <dt>Diameter</dt>
+              <dd>{{ c.physical.diameterKm | number: '1.0-3' }} km</dd>
+            </div>
+          }
+          @if (c.physical.massKg !== null) {
+            <div>
+              <dt>Mass</dt>
+              <dd>{{ c.physical.massKg | number: '1.0-6' }} kg</dd>
+            </div>
+          }
+          @if (c.physical.densityGcm3 !== null) {
+            <div>
+              <dt>Mean density</dt>
+              <dd>{{ c.physical.densityGcm3 | number: '1.0-3' }} g/cm³</dd>
+            </div>
+          }
+          @if (c.physical.gravityMs2 !== null) {
+            <div>
+              <dt>Surface gravity</dt>
+              <dd>
+                {{ c.physical.gravityMs2 | number: '1.0-6' }} m/s²
+                ({{ c.physical.gravityEarthRatio | number: '1.0-3' }} g)
+              </dd>
+            </div>
+          }
+          @if (c.physical.meanTemperatureC !== null) {
+            <div>
+              <dt>Mean temperature</dt>
+              <dd>{{ c.physical.meanTemperatureC | number: '1.0-1' }}°C</dd>
+            </div>
+          }
+          @if (c.orbit.orbitalPeriodDays !== null && c.orbit.orbitalPeriodDays > 0) {
+            <div>
+              <dt>Orbital period</dt>
+              <dd>
+                {{ c.orbit.orbitalPeriodDays | number: '1.0-4' }} days
+                @if (c.orbit.orbitalPeriodYears) {
+                  ({{ c.orbit.orbitalPeriodYears | number: '1.0-3' }} years)
+                }
+              </dd>
+            </div>
+          }
+          @if (c.orbit.semiMajorAxisAU !== null) {
+            <div>
+              <dt>Semi-major axis</dt>
+              <dd>{{ c.orbit.semiMajorAxisAU | number: '1.0-3' }} AU</dd>
+            </div>
+          }
+          @if (c.orbit.meanLightTimeFromSunMinutes !== null) {
+            <div>
+              <dt>Mean sunlight travel time</dt>
+              <dd>{{ c.orbit.meanLightTimeFromSunMinutes | number: '1.0-2' }} minutes</dd>
+            </div>
+          }
+          @if (c.orbit.parentBody) {
+            <div>
+              <dt>Parent body</dt>
+              <dd>{{ c.orbit.parentBody }}</dd>
+            </div>
+          }
+        </dl>
+
+        @if (c.comparisons.length) {
+          <div class="comparison-list" aria-label="Scale comparisons">
+            @for (comparison of c.comparisons; track comparison) {
+              <span>{{ comparison }}</span>
+            }
+          </div>
         }
 
-        @if (o.gravity) {
-        <div>
-          <dt>Gravity</dt>
-          <dd>{{ o.gravity }}</dd>
-        </div>
-        }
+        <p class="source-note">
+          Source:
+          <a [href]="c.source.url" target="_blank" rel="noopener noreferrer external">
+            {{ c.source.name }}
+          </a>
+          (checked {{ c.source.verified }}). Values are rounded catalogue measurements.
+        </p>
+      }
 
-        @if (o.orbitalPeriodDays) {
-        <div>
-          <dt>Orbital Period</dt>
-          <dd>{{ o.orbitalPeriodDays }} days</dd>
-        </div>
-        }
-
-      </dl>
 
     </div>
 
@@ -94,7 +167,7 @@
 
   <div class="grid middle-section">
 
-    @if(o.type === 'sun' || o.type === 'planet'){
+    @if(o.id === 'sun' || o.type === 'planet'){
 
     <div class="panel altitude-panel">
 
