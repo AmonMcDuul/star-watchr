@@ -17,7 +17,8 @@
       "size": null,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/caldwell/C1.webp"
+      "image": "/assets/dso/caldwell/C1.webp",
+      "summary": "Discovered by John Herschel in 1825, this open cluster sits less than five degrees from the north celestial pole, making it circumpolar for most of the year from mid-northern latitudes. At roughly 6.5 billion years old, NGC 188 is among the oldest open clusters known to survive intact; most such clusters disperse within a few hundred million years, but this one owes its longevity to an orbit that carries it well above the crowded galactic plane, sparing it from disruptive encounters with other stars and clouds. Around 120 stars remain gravitationally bound within it."
     },
     {
       "code": "C",
@@ -35,7 +36,8 @@
       "size": null,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C2.webp"
+      "image": "/assets/dso/caldwell/C2.webp",
+      "summary": "William Herschel found this planetary nebula on November 25, 1788, logging it as a ninth-magnitude star wrapped in faint milky nebulosity. At its center sits an unusually hot, evolved central star that has already shed its outer envelope, and the ejected gas has settled into two lobes of differing composition — an oxygen-rich inner shell and a nitrogen-rich outer one — that give the nebula its bow-tie profile in larger telescopes. Small scopes mostly show the bright central star with only a soft haze surrounding it."
     },
     {
       "code": "C",
@@ -53,7 +55,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C3.webp"
+      "image": "/assets/dso/caldwell/C3.webp",
+      "summary": "This barred, Magellanic-type spiral, discovered by William Herschel in April 1793, belongs to the M81 Group of galaxies. Although it spans about 20 arcminutes of sky — unusually large for a Caldwell galaxy — its light is spread so thinly that it rarely impresses visually, with a surface brightness low enough that only its brighter core registers clearly in amateur telescopes. Seen nearly edge-on, its weakly defined spiral arms and bar are laced with star-forming regions and substantial neutral hydrogen gas, though the spiral pattern itself is hard to trace from Earth."
     },
     {
       "code": "C",
@@ -71,7 +74,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C4.webp"
+      "image": "/assets/dso/caldwell/C4.webp",
+      "summary": "William Herschel discovered this reflection nebula on October 18, 1794, in a region now recognized as part of the larger Cepheus Flare molecular cloud complex. Unlike an emission nebula, the Iris shines by scattering starlight from the embedded magnitude 7.4 star HD 200775, giving it a cool blue color, while filaments of dust nearer the star glow red from complex organic molecules called polycyclic aromatic hydrocarbons. Petal-like dust lanes radiating outward from the central star give the nebula its floral appearance and name."
     },
     {
       "code": "C",
@@ -89,7 +93,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C5.webp"
+      "image": "/assets/dso/caldwell/C5.webp",
+      "summary": "Nicknamed the Hidden Galaxy, IC 342 is a large, bright starburst spiral roughly ten million light-years away, but it sits almost exactly behind the dust, gas, and star fields of the Milky Way's own disk. That obscuring curtain dims what would otherwise be one of the brightest galaxies in the sky down to a faint smudge, and it went undiscovered until 1892, when British astronomer William Frederick Denning spotted it despite the camouflage. It is one of the brightest members of the nearby IC 342/Maffei galaxy group."
     },
     {
       "code": "C",
@@ -107,7 +112,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C6.webp"
+      "image": "/assets/dso/caldwell/C6.webp",
+      "summary": "William Herschel discovered the Cat's Eye Nebula on February 15, 1786, and eighty years later it became the first planetary nebula whose spectrum was studied, when William Huggins used it in 1864 to prove these objects are glowing gas rather than unresolved stars. Hubble Space Telescope images later revealed a structure of striking complexity: concentric shells, high-speed jets, and knotty arcs suggesting that the central star, only about 1,000 years into its planetary-nebula phase, expelled material in distinct pulses roughly every 1,500 years."
     },
     {
       "code": "C",
@@ -125,7 +131,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C7.webp"
+      "image": "/assets/dso/caldwell/C7.webp",
+      "summary": "William Herschel discovered this spiral galaxy on November 1, 1788; it is now recognized as the second-largest member of the M81 Group after M81 itself. In the 1950s, Edwin Hubble used the Palomar telescope to identify Cepheid variable stars within it — the first Cepheids ever found in a galaxy outside the Local Group, a milestone for measuring cosmic distances. In 2004 the galaxy hosted supernova 2004dj, which at the time was the brightest supernova seen since SN 1987A."
     },
     {
       "code": "C",
@@ -143,7 +150,8 @@
       "size": null,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/caldwell/C8.webp"
+      "image": "/assets/dso/caldwell/C8.webp",
+      "summary": "William Herschel discovered NGC 559 in 1787; the amateur astronomer Stephen J. O'Meara later dubbed it the Ghost's Goblet, since its brighter stars, seen with a little imagination, trace the outline of a jeweled cup fading into darkness. It lies about 3,700 light-years away and holds roughly 150 stars, some 40 of which shine at around twelfth magnitude, making it a faint target that rewards a telescope over binoculars. At an estimated 1.8 billion years old, it is considerably older than most open clusters, which tend to disperse quickly."
     },
     {
       "code": "C",
@@ -161,7 +169,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C9.webp"
+      "image": "/assets/dso/caldwell/C9.webp",
+      "summary": "British amateur Patrick Moore coined the name Cave Nebula after noticing in photographs that its glowing rim curves like the mouth of a cavern. Hot O- and B-type stars, including HD 217086, ionize the surrounding hydrogen to produce the red emission glow, while their winds compress the cloud's edge into the bright, sculpted arc that gives the nebula its shape and likely triggers new star formation along it. Unusually, this region shows all three basic nebula types — red emission, blue reflection, and dark obscuring dust — within a single field of view."
     },
     {
       "code": "C",
@@ -179,7 +188,8 @@
       "size": null,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/caldwell/C10.webp"
+      "image": "/assets/dso/caldwell/C10.webp",
+      "summary": "This young open cluster, roughly 20 to 25 million years old, belongs to the Cassiopeia OB8 stellar association along with the open clusters M103 and NGC 654, all embedded in the Perseus spiral arm. It contains an estimated 400 stars, of which more than 80 are within reach of amateur telescopes, and it draws particular interest from professional astronomers for its unusually high number of rapidly rotating Be stars and blue straggler stars — objects that appear younger than the rest of the cluster around them."
     },
     {
       "code": "C",
@@ -197,7 +207,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/caldwell/C11.webp"
+      "image": "/assets/dso/caldwell/C11.webp",
+      "summary": "William Herschel discovered the Bubble Nebula in 1787. Its nearly spherical shell, about 10 light-years across, is being carved out by the ferocious stellar wind of a single massive young star at its heart — roughly 40 times the mass of the Sun and blowing gas outward at some 4 million miles per hour. As that wind slams into the denser surrounding molecular cloud it inflates the visible bubble, a process astronomers estimate began only about 300,000 years ago, making this one of the more dynamically active nebulae in the Caldwell catalog."
     },
     {
       "code": "C",
@@ -215,7 +226,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C12.webp"
+      "image": "/assets/dso/caldwell/C12.webp",
+      "summary": "Straddling the border of Cepheus and Cygnus, this face-on intermediate spiral has earned the nickname Fireworks Galaxy for an extraordinary supernova record: more than ten have been observed in it over the past century, compared with roughly one per century in the Milky Way. William Herschel discovered the galaxy in 1798, unaware of the burst of star formation rippling through its arms that would, two centuries later, make it one of the most supernova-prolific galaxies known to astronomers."
     },
     {
       "code": "C",
@@ -233,7 +245,8 @@
       "size": null,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/caldwell/C13.webp"
+      "image": "/assets/dso/caldwell/C13.webp",
+      "summary": "William Herschel discovered this open cluster in 1787. Its popular names, the Owl Cluster and the E.T. Cluster, come from the pattern its stars make: the bright naked-eye star Phi Cassiopeiae and its neighbor HD 7902 form two glowing 'eyes,' while dimmer member stars trace out a body and outstretched limbs reminiscent of Steven Spielberg's famous movie character. At roughly 20 million years old, it is the brightest open cluster in all of Cassiopeia."
     },
     {
       "code": "C",
@@ -251,7 +264,8 @@
       "size": null,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/caldwell/C14.webp"
+      "image": "/assets/dso/caldwell/C14.webp",
+      "summary": "The Double Cluster in Perseus pairs two open clusters, NGC 869 and NGC 884, close enough together to share a single low-power telescope field — a pairing already recorded by Hipparchus around 130 BCE. Each lies roughly 7,500 light-years away and is only a few million years old, young enough that many of their brightest members are still blue supergiant stars. Despite being visible to the naked eye from a dark sky, neither cluster was included in Messier's catalog, part of why they earned a place near the top of the Caldwell list instead."
     },
     {
       "code": "C",
@@ -269,7 +283,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C15.webp"
+      "image": "/assets/dso/caldwell/C15.webp",
+      "summary": "William Herschel discovered this planetary nebula on September 6, 1793. Its nickname comes from a curious visual trick: viewed directly, the bright central star overwhelms the eye and the surrounding double-shell nebula all but disappears, but shift your gaze slightly to use averted vision and the fainter shell pops back into view, making the object appear to blink on and off at the eyepiece. Structurally it consists of a brighter inner shell around a hot central star, enclosed by a fainter outer envelope dotted with fast-moving knots of gas."
     },
     {
       "code": "C",
@@ -287,7 +302,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/caldwell/C16.webp"
+      "image": "/assets/dso/caldwell/C16.webp",
+      "summary": "William Herschel discovered this open cluster on September 26, 1788, in the small, faint constellation Lacerta. At roughly 100 million years old and 2,500 light-years away, it is dominated by white and blue stars whose color contrasts sharply with the yellow and red field stars behind it. From latitudes above about 41 degrees north it never sets, riding high overhead through the autumn months, and its loosely scattered stars make it an easy target for binoculars as well as small telescopes."
     },
     {
       "code": "C",
@@ -305,7 +321,8 @@
       "size": null,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C17.webp"
+      "image": "/assets/dso/caldwell/C17.webp",
+      "summary": "NGC 147 is a dwarf spheroidal galaxy discovered by John Herschel on September 8, 1829, and one of two satellite galaxies of the Andromeda Galaxy lying roughly seven degrees north of their much larger host, in the direction of Cassiopeia. It forms a gravitationally bound binary system with its near-twin NGC 185, the pair separated by well under a degree on the sky, corresponding to only about 35,000 light-years at Andromeda's distance. Each dwarf spans roughly a tenth the diameter of Andromeda itself."
     },
     {
       "code": "C",
@@ -323,7 +340,8 @@
       "size": null,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C18.webp"
+      "image": "/assets/dso/caldwell/C18.webp",
+      "summary": "NGC 185 is a dwarf spheroidal companion of the Andromeda Galaxy, discovered by William Herschel on November 30, 1787 — more than four decades before his son John found its near-twin, NGC 147, less than a degree away in the same field. The two form a gravitationally bound pair of Andromeda satellites, and unlike many dwarf spheroidals, NGC 185 retains faint traces of gas and dust, hinting at a small amount of star formation within the last billion years even though most of its stellar population is old."
     },
     {
       "code": "C",
@@ -341,7 +359,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C19.webp"
+      "image": "/assets/dso/caldwell/C19.webp",
+      "summary": "The Cocoon Nebula sits at the tip of a long dark dust lane in Cygnus, its compact glow lit from within by BD+46 3474, a hot young B-type star still surrounded by the cloud from which it formed. Embedded inside is the young open cluster Collinder 470; a 2008 infrared survey using the Spitzer Space Telescope catalogued more than 200 young stellar objects still forming within the nebula's dust, making this one of the more active stellar nurseries within reach of amateur telescopes."
     },
     {
       "code": "C",
@@ -359,7 +378,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/caldwell/C20.webp"
+      "image": "/assets/dso/caldwell/C20.webp",
+      "summary": "William Herschel first recorded this vast emission nebula visually in 1786; his son John later gave it its NGC designation in 1829. Its glowing gas is shaped so distinctly like the outline of North America that a dark lane of intervening dust even carves out a recognizable 'Gulf of Mexico.' Just alongside it, separated by that same dust lane, lies its smaller companion the Pelican Nebula (IC 5070); together the pair forms one continuous star-forming cloud, with the glowing 'Cygnus Wall' marking an especially active zone of ongoing star birth."
     },
     {
       "code": "C",
@@ -377,7 +397,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C21.webp"
+      "image": "/assets/dso/caldwell/C21.webp",
+      "summary": "William Herschel discovered this irregular galaxy on April 27, 1788. It closely resembles the Large Magellanic Cloud in structure, but its star formation is unusually widespread rather than confined to a central starburst, with young blue stars scattered through streams surrounding the galaxy as well as its core. Astronomers think gravitational interactions with several smaller companion galaxies in the M94 Group have driven this activity, which is intense enough that current models suggest the galaxy's gas supply will be exhausted within roughly another billion years."
     },
     {
       "code": "C",
@@ -395,7 +416,8 @@
       "size": null,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C22.webp"
+      "image": "/assets/dso/caldwell/C22.webp",
+      "summary": "William Herschel discovered this planetary nebula on October 6, 1784. Its popular name dates only to 1960, when the American writer and amateur astronomer Leland S. Copeland described it as a 'blue snowball' in Sky & Telescope magazine, and the comparison stuck — the Caldwell catalog still lists it as Copeland's Blue Snowball. Through a telescope it shows a compact, faintly blue disk with a double-ringed structure: a bright inner shell of gas surrounded by a fainter, larger halo, illuminated by the hot white dwarf remnant at its center."
     },
     {
       "code": "C",
@@ -413,7 +435,8 @@
       "size": null,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C23.webp"
+      "image": "/assets/dso/caldwell/C23.webp",
+      "summary": "William Herschel discovered this edge-on spiral on October 6, 1784 — the same night, by coincidence, that he also found the Blue Snowball Nebula elsewhere in Andromeda. Similar in size to the Milky Way, NGC 891 is known for the thick, knotted dust lane splitting its disk in two when viewed through a telescope, with dust filaments extending hundreds of light-years above and below the galactic plane, likely blown out by past supernovae and intense star formation. Patrick Moore, who compiled the Caldwell catalog, once described its silhouette as looking like 'two fried eggs clapped back to back.'"
     },
     {
       "code": "C",
@@ -431,7 +454,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C24.webp"
+      "image": "/assets/dso/caldwell/C24.webp",
+      "summary": "NGC 1275, also called Perseus A, is the dominant supergiant elliptical at the heart of the Perseus Cluster of galaxies, some 230 million light-years away, and one of the strongest radio sources in the sky. Jets from its central supermassive black hole punch cavities into the cluster's hot X-ray-emitting gas, and in 2003 Chandra X-ray Observatory data revealed these jets generate ripples of genuine sound waves in the surrounding gas, pitched at a B-flat some 57 octaves below middle C — far too low for human ears without being shifted upward electronically."
     },
     {
       "code": "C",
@@ -449,7 +473,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C25.webp"
+      "image": "/assets/dso/caldwell/C25.webp",
+      "summary": "William Herschel discovered this globular cluster on December 31, 1788, in the faint constellation Lynx. Its nickname, the Intergalactic Wanderer, stems from an early belief that it lay entirely outside the Milky Way's gravitational grip; astronomers now know it is bound to the galaxy, but on one of the most extreme orbits of any known globular cluster, looping out to roughly 275,000 light-years from Earth and taking about three billion years to complete a single circuit around the galactic center."
     },
     {
       "code": "C",
@@ -467,7 +492,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C26.webp"
+      "image": "/assets/dso/caldwell/C26.webp",
+      "summary": "This edge-on spiral, nicknamed the Silver Needle Galaxy, belongs to the Canes Venatici I Group. Seen precisely on its edge, it stretches into a long, thin sliver roughly 17 by 7 arcminutes across, with a bright nuclear star cluster at its center and dark dust lanes tracing its disk. Bright clumps of ionized hydrogen gas mark active star-forming regions scattered along its length, giving observers a clear look at where new stars are being born within an otherwise faint, low-surface-brightness galaxy."
     },
     {
       "code": "C",
@@ -485,7 +511,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C27.webp"
+      "image": "/assets/dso/caldwell/C27.webp",
+      "summary": "The Crescent Nebula is a bubble roughly 25 light-years across, carved out by the extreme stellar wind of the Wolf-Rayet star WR 136 at its center — a star some 21 times the Sun's mass that is shedding material equivalent to the Sun's entire mass every 10,000 years, at speeds exceeding 1,500 kilometers per second. That fast wind is now overtaking and compressing slower material the same star shed earlier during a previous red-giant-like phase, producing the dense, shocked shell visible today. WR 136 is expected to end its life in a supernova within roughly the next million years."
     },
     {
       "code": "C",
@@ -503,7 +530,8 @@
       "size": null,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/caldwell/C28.webp"
+      "image": "/assets/dso/caldwell/C28.webp",
+      "summary": "Caroline Herschel discovered this open cluster in 1783, and her brother William catalogued it in 1786, though a much earlier description by the Sicilian astronomer Giovanni Battista Hodierna may predate both, going back before 1654. At about 1,200 light-years away, it is close and bright enough to see with the naked eye from a dark site, lying roughly halfway between the stars Almach and Beta Trianguli. Its loosely scattered stars are old enough, and spread thin enough, that several faint background galaxies can be glimpsed through the gaps between them in deep images."
     },
     {
       "code": "C",
@@ -521,7 +549,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C29.webp"
+      "image": "/assets/dso/caldwell/C29.webp",
+      "summary": "William Herschel discovered this inclined spiral galaxy on May 1, 1785. It has a notably bright, compact nucleus wrapped in a disk threaded with multiple dust lanes, giving it a richer, more textured appearance in photographs than many Caldwell spirals of similar size. Classified as an intermediate spiral partway between barred and unbarred forms, NGC 5005 belongs to the Canes Venatici I galaxy group and stands out among Caldwell's fainter galaxies for the amount of internal structure visible even in moderate amateur telescopes."
     },
     {
       "code": "C",
@@ -539,7 +568,8 @@
       "size": null,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C30.webp"
+      "image": "/assets/dso/caldwell/C30.webp",
+      "summary": "Often called the Milky Way's twin for its similar size and structure, NGC 7331 is actually about 30 percent larger in diameter than our galaxy, and it differs in two telling ways: unlike the Milky Way, it has no central bar of stars and gas, and its central bulge rotates in the opposite direction to the rest of its disk. William Herschel discovered it in 1784. It is the brightest member of the loose Deer Lick Group, which also includes several fainter, much more distant background galaxies crowded into the same field of view."
     },
     {
       "code": "C",
@@ -557,7 +587,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/caldwell/C31.webp"
+      "image": "/assets/dso/caldwell/C31.webp",
+      "summary": "This nebula is lit by AE Aurigae, a runaway star now plunging through the gas at roughly 200 kilometers per second after being flung out of the Trapezium region of the Orion Nebula around 2.5 million years ago, likely by a close encounter with a binary star system there. AE Aurigae is one of three runaway stars — along with Mu Columbae and 53 Arietis — that trace back to that same ejection event. As it barrels through this unrelated cloud of gas in Auriga, its light ionizes the surrounding hydrogen, producing the nebula's fiery red glow."
     },
     {
       "code": "C",
@@ -575,7 +606,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C32.webp"
+      "image": "/assets/dso/caldwell/C32.webp",
+      "summary": "William Herschel discovered this edge-on spiral on March 20, 1787. Its silhouette, complete with a tapering tail and a bulge that reads as a head, has earned it the nickname Whale Galaxy, and it is gravitationally interacting with a small companion, the dwarf elliptical NGC 4627, cataloged together with it as Arp 281 and nicknamed the Pup. That interaction has triggered a burst of star formation concentrated in the Whale's disk, visible as bright knots threading through the galaxy in deep images."
     },
     {
       "code": "C",
@@ -593,7 +625,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C33.webp"
+      "image": "/assets/dso/caldwell/C33.webp",
+      "summary": "The Eastern Veil is the brighter of the two main arcs of the Cygnus Loop, the expanding wreckage of a massive star that exploded an estimated 10,000 to 20,000 years ago. Since then, the blast wave has pushed outward roughly 65 light-years in every direction, sweeping up interstellar gas into the delicate, braided filaments visible today. This portion, cataloged as NGC 6992 and extending into NGC 6995 and IC 1340, is generally considered the most visually striking segment of the entire supernova remnant, showing more intricate lacework than its western counterpart."
     },
     {
       "code": "C",
@@ -611,7 +644,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C34.webp"
+      "image": "/assets/dso/caldwell/C34.webp",
+      "summary": "William Herschel discovered this segment of the Cygnus Loop supernova remnant in 1784, making it the first-found piece of what turned out to be a vast shell of debris spread across several degrees of sky. The Western Veil passes almost directly behind the naked-eye star 52 Cygni, which makes for a striking photographic pairing but has nothing to do with the nebula itself — the star merely lies along the same line of sight. Fainter and less filamentary overall than its eastern counterpart, it traces the same expanding shockwave from a supernova roughly 10,000 to 20,000 years old."
     },
     {
       "code": "C",
@@ -629,7 +663,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C35.webp"
+      "image": "/assets/dso/caldwell/C35.webp",
+      "summary": "NGC 4889 is a supergiant elliptical galaxy roughly two and a half times the size of the Milky Way, sitting at the core of the massive Coma Cluster some 300 million light-years away. At its center lies one of the most massive black holes ever measured, weighing in at around 21 billion times the mass of the Sun, with an event horizon wide enough to span our own solar system several times over. Despite that scale, the black hole currently shows little activity, having apparently exhausted the nearby gas that once fed it — earning the galaxy the nickname 'the sleeping giant.'"
     },
     {
       "code": "C",
@@ -647,7 +682,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C36.webp"
+      "image": "/assets/dso/caldwell/C36.webp",
+      "summary": "William Herschel discovered this galaxy on April 11, 1785. It is an intermediate spiral with a weak inner ring of stars and gas encircling its core, and a member of the small Coma I Group of galaxies. Its arms are loosely wound and only moderately defined, giving it a somewhat patchy, textured appearance in photographs rather than the crisp, well-organized spiral pattern seen in grand-design galaxies like M51 — a structural type common among the fainter galaxies scattered through the Caldwell catalog's Coma Berenices entries."
     },
     {
       "code": "C",
@@ -665,7 +701,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/caldwell/C37.webp"
+      "image": "/assets/dso/caldwell/C37.webp",
+      "summary": "William Herschel discovered this open cluster in 1784. It surrounds the naked-eye variable star 20 Vulpeculae, a hot, rapidly rotating Be star whose light dominates the field, and its membership has long been debated — some of the stars once assigned to the cluster may simply be an unrelated chance alignment of the Milky Way's background field rather than true cluster members. It sits in a rich stretch of sky not far from the Dumbbell Nebula, M27, making it a convenient stop for observers already touring that part of Vulpecula."
     },
     {
       "code": "C",
@@ -683,7 +720,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C38.webp"
+      "image": "/assets/dso/caldwell/C38.webp",
+      "summary": "William Herschel discovered this galaxy in 1785; it has since become one of the most photographed edge-on spirals in the sky, prized for the crisp, dark dust lane that splits its glowing disk in two along almost its entire fifteen-arcminute length. Roughly comparable in size to the Milky Way, it is often used by astronomers as a stand-in for how our own galaxy might look if viewed edge-on from a great distance. It hosts an estimated 240 globular clusters in its halo, notably more than the roughly 150 known around the Milky Way."
     },
     {
       "code": "C",
@@ -701,7 +739,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C39.webp"
+      "image": "/assets/dso/caldwell/C39.webp",
+      "summary": "William Herschel discovered this planetary nebula on January 17, 1787, describing it as a ninth-magnitude star with a bright center wrapped in nebulosity. Its popular name comes from its resemblance, in longer-exposure images, to a face surrounded by a fur-lined parka hood, though it is also known as the Clown Face Nebula. It is a double-shelled, bipolar nebula and one of the youngest known planetary nebulae, having begun forming only about 10,000 years ago when its central star started shedding its outer layers."
     },
     {
       "code": "C",
@@ -719,7 +758,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C40.webp"
+      "image": "/assets/dso/caldwell/C40.webp",
+      "summary": "William Herschel discovered this galaxy on March 14, 1784. It is an unbarred lenticular galaxy — a type with a stellar disk like a spiral but lacking obvious spiral arms — and belongs to the NGC 3607 galaxy group, one of several loose associations that make up the Leo II galaxy groups. At only about 2.7 by 1.9 arcminutes across, it ranks among the physically smallest and most compact targets in the entire Caldwell catalog, making it a small, dim target best suited to larger amateur telescopes."
     },
     {
       "code": "C",
@@ -737,7 +777,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/caldwell/C41.webp"
+      "image": "/assets/dso/caldwell/C41.webp",
+      "summary": "The Hyades is the nearest open cluster to Earth at only about 150 light-years away, close enough that its true diameter and internal motions have long made it a benchmark for calibrating the cosmic distance scale via the moving-cluster method. Its brightest stars form the V-shaped face of Taurus the Bull, though the fiery orange star Aldebaran that appears to mark one eye is not actually a cluster member — it merely lies along the same line of sight, roughly twice as close to Earth. At around 625 million years old, the Hyades is one of the best-studied clusters in the sky."
     },
     {
       "code": "C",
@@ -755,7 +796,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C42.webp"
+      "image": "/assets/dso/caldwell/C42.webp",
+      "summary": "William Herschel discovered this globular cluster on August 21, 1784. At roughly 135,000 light-years away, it sits far out in the Milky Way's halo — about five times farther from the galactic center than the Sun — making it one of the most remote globular clusters bound to our galaxy. Its highly eccentric orbit has led some astronomers to suspect it originally formed in a small satellite galaxy that was later captured and disrupted by the Milky Way, rather than forming within our galaxy from the start."
     },
     {
       "code": "C",
@@ -773,7 +815,8 @@
       "size": null,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C43.webp"
+      "image": "/assets/dso/caldwell/C43.webp",
+      "summary": "William Herschel discovered this edge-on spiral in 1784; its nickname, the Little Sombrero, reflects its resemblance to the far brighter and better-known Sombrero Galaxy (M104), sharing the same bright central bulge, thin disk, and dark dust lane seen edge-on. The two galaxies are actually similar in physical size, at roughly 60,000 light-years across — NGC 7814 simply looks smaller and fainter because it lies considerably farther from Earth. In 2021, astronomers detected a Type Ia supernova, SN 2021rhu, within its disk."
     },
     {
       "code": "C",
@@ -791,7 +834,8 @@
       "size": null,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C44.webp"
+      "image": "/assets/dso/caldwell/C44.webp",
+      "summary": "William Herschel discovered this barred spiral galaxy in 1784. Its nickname, the Superman Galaxy, comes from the shape of its spiral arms, which curve into a backward 'S' reminiscent of the superhero's chest emblem. It is classified as a Seyfert galaxy, meaning it hosts an active supermassive black hole at its core, and radio observations reveal faint counter-arms winding in the opposite direction from the bright optical arms — a signature astronomers attribute to a past merger with a smaller galaxy that disturbed its structure and triggered widespread star formation along its central bar."
     },
     {
       "code": "C",
@@ -809,7 +853,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C45.webp"
+      "image": "/assets/dso/caldwell/C45.webp",
+      "summary": "William Herschel discovered this galaxy on April 15, 1784. It is classified as a 'grand design' spiral, meaning its two arms sweep continuously from near the core all the way to the outer disk rather than breaking into fragments, and its nucleus is ringed by two active starburst zones dense with newly formed star clusters. Hubble Space Telescope imaging has highlighted these nuclear star-forming rings in detail, making NGC 5248 a frequently cited example of how galactic bars can funnel gas inward to fuel concentrated bursts of star birth."
     },
     {
       "code": "C",
@@ -827,7 +872,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C46.webp"
+      "image": "/assets/dso/caldwell/C46.webp",
+      "summary": "William Herschel first observed this fan-shaped reflection nebula on December 26, 1783, describing it as considerably bright. It is illuminated by the young, erratic variable star R Monocerotis, embedded at its tip but hidden from direct view; what we see is starlight scattered off surrounding dust. Dense knots of that dust drift close to the star and cast shifting shadows across the nebula, causing its brightness and apparent shape to change noticeably over weeks and months. Edwin Hubble studied the nebula extensively early in the 20th century, and it was later named in his honor."
     },
     {
       "code": "C",
@@ -845,7 +891,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/caldwell/C47.webp"
+      "image": "/assets/dso/caldwell/C47.webp",
+      "summary": "William Herschel discovered this globular cluster on September 24, 1785, but at the time was unable to resolve it into individual stars, recording it only as a faint, bright nebula. Lying roughly 52,000 light-years from Earth, it is an intermediate-metallicity cluster estimated to be around 10 billion years old. Astronomers have used it as a testing ground for image-subtraction photometry techniques designed to detect variable stars hidden within the dense, crowded cores of globular clusters."
     },
     {
       "code": "C",
@@ -863,7 +910,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C48.webp"
+      "image": "/assets/dso/caldwell/C48.webp",
+      "summary": "NGC 2775 is classified as a flocculent spiral, a type with poorly defined, feathery arms made of discontinuous tufts of stars rather than clean, continuous spiral lanes. Its center is smooth and largely free of gas, giving it an almost elliptical-galaxy appearance at its core, while a patchy, dusty ring farther out still hosts scattered pockets of star formation. A faint tail of hydrogen gas stretching nearly 100,000 light-years around the galaxy hints that NGC 2775 may have absorbed one or more smaller galaxies in its past, stretching them apart in the process."
     },
     {
       "code": "C",
@@ -881,7 +929,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C49.webp"
+      "image": "/assets/dso/caldwell/C49.webp",
+      "summary": "The Rosette Nebula is a giant star-forming cloud of ionized hydrogen roughly 100 light-years across, its glowing rim and darker interior giving it the floral shape that inspired its name. Radiation and stellar winds from the hot, massive O-type stars of the embedded cluster NGC 2244 — listed separately as Caldwell 50 — have carved out a cavity roughly 50 light-years wide at the nebula's center, hollowing it from the inside as that young cluster continues to sculpt the surrounding gas."
     },
     {
       "code": "C",
@@ -899,7 +948,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/caldwell/C50.webp"
+      "image": "/assets/dso/caldwell/C50.webp",
+      "summary": "NGC 2244 is the young open cluster, only about 4 million years old, embedded at the heart of the Rosette Nebula and responsible for carving it into shape. Several of its brightest members are O-type stars — among the hottest and most massive kind — whose intense ultraviolet radiation ionizes the surrounding hydrogen gas to produce the nebula's red glow, while their powerful stellar winds blow out the dark central cavity visible in wide-field images. At magnitude 4.8, the cluster itself is bright enough to spot with binoculars even though the nebula around it needs darker skies to see well."
     },
     {
       "code": "C",
@@ -917,7 +967,8 @@
       "size": null,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C51.webp"
+      "image": "/assets/dso/caldwell/C51.webp",
+      "summary": "IC 1613 is a dwarf irregular galaxy discovered by Max Wolf in 1906 and recognized in 1928 by Walter Baade as a member of the Local Group, based on his ability to resolve it into individual stars. It has remarkably little interstellar dust, so faint background galaxies can be seen shining directly through it in deep images. Most of its stars formed in a burst around 7 billion years ago, and unlike its livelier Local Group cousins the Magellanic Clouds, it shows little ongoing star formation today; its handful of Cepheid variable stars have nonetheless made it a useful calibration point for the cosmic distance ladder."
     },
     {
       "code": "C",
@@ -935,7 +986,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C52.webp"
+      "image": "/assets/dso/caldwell/C52.webp",
+      "summary": "NGC 4697 is an elliptical galaxy slightly larger than the Andromeda Galaxy, anchoring a small association of galaxies called the NGC 4697 Group. By tracking the motion of stars near its center, astronomers have identified a supermassive black hole of roughly 100 million solar masses at its core. Like most elliptical galaxies it contains little gas or dust, having converted or lost most of its star-forming material long ago, leaving behind a smooth, largely featureless glow of old, cool stars."
     },
     {
       "code": "C",
@@ -953,7 +1005,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C53.webp"
+      "image": "/assets/dso/caldwell/C53.webp",
+      "summary": "William Herschel discovered this galaxy on February 22, 1787. Classified as a lenticular, or S0, galaxy — a transitional type with a stellar disk and central bulge but no visible spiral arms — it became something of a prototype for that category once Edwin Hubble incorporated the class into his galaxy classification scheme. At its center lies one of the most massive black holes known relative to the size of its host galaxy, around a billion solar masses, though the galaxy's supply of gas is now so depleted that little material remains to feed it."
     },
     {
       "code": "C",
@@ -971,7 +1024,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/caldwell/C54.webp"
+      "image": "/assets/dso/caldwell/C54.webp",
+      "summary": "NGC 2506 is a rich, intermediate-age open cluster, roughly 2 billion years old, located near the direction of the galactic anti-center — the point in the sky opposite the Milky Way's core. It is also notably metal-poor for its age compared with most open clusters of similar age found closer to the galactic center, a difference astronomers use to study how the chemical makeup of the galaxy's disk varies with distance. At least 150 stars are packed into an apparent diameter of just a few arcminutes."
     },
     {
       "code": "C",
@@ -989,7 +1043,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C55.webp"
+      "image": "/assets/dso/caldwell/C55.webp",
+      "summary": "William Herschel discovered this planetary nebula in September 1782, using a telescope of his own design at his home in Datchet, England — one of his earliest catalog discoveries. It gained its popular name only in the 1840s, when Lord Rosse's improved telescopes finally resolved the faint jet-like extensions, or 'ansae,' projecting from either end of the nebula's oval body, giving it a passing resemblance to the ringed planet. Its central star, now a hot white dwarf of about magnitude 11.5, is bright enough to be seen directly within the surrounding glow."
     },
     {
       "code": "C",
@@ -1007,7 +1062,8 @@
       "size": null,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C56.webp"
+      "image": "/assets/dso/caldwell/C56.webp",
+      "summary": "The Skull Nebula is a planetary nebula whose looping, cavity-pocked shell of gas suggested a human skull to early observers, giving it its common name. William Herschel discovered it on November 27, 1785, cataloguing it among the first planetary nebulae recorded from England. Long-term Hubble observations later revealed its central white dwarf to be part of a triple star system, an unusually complex core for an object of this type. At magnitude 8, it lies roughly 1,600 light-years away in Cetus and is faintly visible in a small telescope."
     },
     {
       "code": "C",
@@ -1025,7 +1081,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C57.webp"
+      "image": "/assets/dso/caldwell/C57.webp",
+      "summary": "Barnard's Galaxy is a barred dwarf irregular galaxy in the Local Group, discovered on August 17, 1884, by American astronomer Edward Emerson Barnard using a 6-inch refractor at Vanderbilt Observatory. At roughly 1.6 million light-years away it is one of the closer Local Group members outside the Andromeda subgroup, spanning only about 8,000 light-years yet containing active star-forming regions and glowing gas bubbles carved by young stars. Its low surface brightness makes it a genuinely faint, diffuse smudge even in a moderate telescope, unlike the crisper spirals nearby."
     },
     {
       "code": "C",
@@ -1043,7 +1100,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/caldwell/C58.webp"
+      "image": "/assets/dso/caldwell/C58.webp",
+      "summary": "Caroline's Cluster commemorates Caroline Herschel, who found this open cluster on February 26, 1783, during her own comet-sweeping and described it as a 'beautiful cluster of pretty compressed stars.' It was effectively her first personal deep-sky discovery, and her brother William later observed it independently in 1785, crediting her find in his published catalogue. Around 3,700 light-years away in Canis Major, the cluster holds a compact swarm of middle-aged stars bright enough, at magnitude 7.2, to pick out in binoculars."
     },
     {
       "code": "C",
@@ -1061,7 +1119,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C59.webp"
+      "image": "/assets/dso/caldwell/C59.webp",
+      "summary": "The Ghost of Jupiter takes its nickname from its round, blue-green disc, which appears about the same apparent size as the planet Jupiter in a small telescope. William Herschel discovered it on February 7, 1785, and John Herschel later observed it from South Africa in the 1830s, adding it to his southern-sky catalogue. The nebula's inner shell, formed roughly 1,500 years ago, is bounded by fast-moving knots of gas called FLIERs, and its central star, destined to become a white dwarf, still burns at an extreme O-type temperature. It lies in Hydra at a distance of roughly 3,600 light-years."
     },
     {
       "code": "C",
@@ -1079,7 +1138,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C60.webp"
+      "image": "/assets/dso/caldwell/C60.webp",
+      "summary": "Caldwell 60 designates NGC 4038, the northern member of the Antennae Galaxies, a pair of spiral galaxies caught in the act of colliding. William Herschel discovered both galaxies together on February 7, 1785, initially mistaking them for nebulae rather than separate star systems. Gravitational tides during the ongoing merger have flung two long streamers of stars and gas into space, the feature that gives the pair its insect-antennae nickname. The collision, unfolding some tens of millions of light-years away in Corvus, has triggered waves of new star formation, including hundreds of massive young star clusters forming where the two galaxies overlap."
     },
     {
       "code": "C",
@@ -1097,7 +1157,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C61.webp"
+      "image": "/assets/dso/caldwell/C61.webp",
+      "summary": "Caldwell 61 is NGC 4039, the southern of the two spiral galaxies that make up the Antennae, locked with its twin NGC 4038 in a slow-motion collision first recorded by William Herschel in 1785. As the pair's disks tear apart under mutual gravity, NGC 4039 retains a more clearly defined nucleus than its partner, even as its outer arms are stretched into one of the two long tidal tails that inspired the Antennae name. The merger offers a nearby preview of the kind of encounter the Milky Way itself is expected to undergo with Andromeda, billions of years from now."
     },
     {
       "code": "C",
@@ -1115,7 +1176,8 @@
       "size": null,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C62.webp"
+      "image": "/assets/dso/caldwell/C62.webp",
+      "summary": "NGC 247 is a loosely wound spiral galaxy in the Sculptor Group of galaxies, discovered by William Herschel on October 20, 1784. Viewed at a steep angle, its stretched, comma-shaped outline has earned it the nickname the Claw Galaxy among some observers. A large elongated void, populated only by old, reddish stars and empty of recent star formation, was identified in modern surveys along a third of the length of its stellar disk, and its cause remains without a fully settled explanation. It lies around 11 million light-years away in Cetus."
     },
     {
       "code": "C",
@@ -1133,7 +1195,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C63.webp"
+      "image": "/assets/dso/caldwell/C63.webp",
+      "summary": "The Helix Nebula is the closest planetary nebula to Earth, at only about 655 light-years away, first catalogued by German astronomer Karl Ludwig Harding in the early 19th century. Its face-on ring structure, resembling a giant eye, has earned it the popular nickname the Eye of God. High-resolution imaging revealed that the nebula's ring is riddled with roughly 40,000 cometary knots, dense gas globules each with a mass comparable to Earth, trailing tails shaped by radiation from the central dying star. It was the first object in which such knots were ever identified."
     },
     {
       "code": "C",
@@ -1151,7 +1214,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/caldwell/C64.webp"
+      "image": "/assets/dso/caldwell/C64.webp",
+      "summary": "The Tau Canis Majoris Cluster is one of the youngest open clusters known, only 4 to 5 million years old, and is dominated by its namesake, the blue supergiant multiple star system Tau Canis Majoris. It was first recorded by Italian astronomer Giovanni Battista Hodierna in 1654, then rediscovered independently by William Herschel in March 1785. Unlike most young clusters, it has already been swept clean of the gas and dust it formed from, signaling that its burst of star birth has effectively ended. It holds roughly 100 to 150 stars, with several hundred more forming a surrounding halo."
     },
     {
       "code": "C",
@@ -1169,7 +1233,8 @@
       "size": null,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C65.webp"
+      "image": "/assets/dso/caldwell/C65.webp",
+      "summary": "The Sculptor Galaxy, also called the Silver Coin Galaxy for its bright oval glow, was discovered by Caroline Herschel in 1783 while she swept the sky for comets with her own small telescope. It is a starburst galaxy undergoing an intense episode of star formation driven by gas funneled toward its core, and it ranks among the intrinsically brightest galaxies near the Milky Way, outshone only by the Andromeda and Sombrero galaxies. Because Charles Messier never catalogued it, Patrick Moore later added it to the Caldwell list specifically to include such a striking object. It lies roughly 11 million light-years away in Sculptor."
     },
     {
       "code": "C",
@@ -1187,7 +1252,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C66.webp"
+      "image": "/assets/dso/caldwell/C66.webp",
+      "summary": "NGC 5694 is one of the most remote globular clusters bound to the Milky Way, sitting roughly 113,000 light-years away in the galaxy's outer halo. William Herschel discovered it on May 22, 1784, but its distance was so great that he only recorded it as a faint, unresolved nebula; not until 1932 did astronomers at Lowell Observatory resolve it into individual stars and confirm its true nature. Studies of its motion suggest the cluster may be on a hyperbolic orbit only loosely bound, or not bound at all, to the Galaxy, and it is surrounded by an unusually extended, low-surface-brightness halo of stars."
     },
     {
       "code": "C",
@@ -1205,7 +1271,8 @@
       "size": null,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C67.webp"
+      "image": "/assets/dso/caldwell/C67.webp",
+      "summary": "NGC 1097 is a barred spiral galaxy in Fornax discovered by William Herschel on October 9, 1790, and classified today as a Seyfert galaxy powered by a central black hole of roughly 140 million solar masses. Long-exposure images reveal four faint, narrow jets radiating from its nucleus, thought to be the shredded remains of a small companion galaxy consumed long ago, along with a bright star-forming ring encircling the core. At least four supernovae have been recorded in the galaxy since 1992. It lies about 45 million light-years away and interacts gravitationally with its dwarf companion, NGC 1097A."
     },
     {
       "code": "C",
@@ -1223,7 +1290,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C68.webp"
+      "image": "/assets/dso/caldwell/C68.webp",
+      "summary": "The R Coronae Australis Nebula is a small, fan-shaped reflection and emission nebula wrapped around the erratic young variable star R Coronae Australis, discovered in 1861 by German astronomer Johann Friedrich Julius Schmidt while he was observing a nearby globular cluster. Unlike most nebulae, its brightness visibly changes over periods as short as a single day, a consequence of dense dust clumps near the young star intermittently blocking its light. At only about 424 light-years away, it marks one of the nearest active star-forming regions to the Sun, embedded in the Corona Australis molecular cloud."
     },
     {
       "code": "C",
@@ -1241,7 +1309,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C69.webp"
+      "image": "/assets/dso/caldwell/C69.webp",
+      "summary": "The Bug Nebula, also known as the Butterfly Nebula, displays one of the most intricate bipolar structures of any known planetary nebula, its two lobes of gas splayed outward from a dense, dusty equatorial disc that funneled the dying star's outflows into that shape. American astronomer Edward Emerson Barnard is generally credited with its discovery in 1880, though the surrounding nebulosity may have been glimpsed earlier by James Dunlop. Its central white dwarf, only directly imaged in 2009 with Hubble's Wide Field Camera 3, is one of the hottest stars known, with a surface temperature above 250,000 degrees Celsius. It lies roughly 5,200 light-years away in Scorpius."
     },
     {
       "code": "C",
@@ -1259,7 +1328,8 @@
       "size": null,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C70.webp"
+      "image": "/assets/dso/caldwell/C70.webp",
+      "summary": "NGC 300, sometimes called the Sculptor Pinwheel Galaxy, was discovered by Scottish astronomer James Dunlop on August 5, 1826, during his survey of the southern sky from Parramatta, Australia. It sits in the foreground of the Sculptor Group at a distance of about 6 million light-years, making it one of the nearer galaxies beyond the Local Group. Tilted about 42 degrees to our line of sight, it spans roughly 94,000 light-years, somewhat smaller than the Milky Way, and shares enough structural similarities with the Triangulum Galaxy that the two are often compared."
     },
     {
       "code": "C",
@@ -1277,7 +1347,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/caldwell/C71.webp"
+      "image": "/assets/dso/caldwell/C71.webp",
+      "summary": "NGC 2477 is a remarkably rich open cluster in Puppis, discovered by Nicolas-Louis de Lacaille during his 1751-52 survey from the Cape of Good Hope. Packed with roughly 300 stars across a span of 27 arcminutes, it is more compact and populous than nearby M46, giving it, through a telescope, the dense, resolved look of a globular cluster rather than a typical open one. At an estimated age of 700 million years, it is also comparatively old for an open cluster, many of which disperse well before reaching that age. It lies about 3,700 light-years from Earth."
     },
     {
       "code": "C",
@@ -1295,7 +1366,8 @@
       "size": null,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C72.webp"
+      "image": "/assets/dso/caldwell/C72.webp",
+      "summary": "NGC 55 is a Magellanic-type barred galaxy in Sculptor, discovered by James Dunlop on July 7, 1826, and structurally similar to the Large Magellanic Cloud rather than a classic spiral. Seen almost exactly edge-on, it stretches across the sky as an irregular, asymmetric streak of light sometimes called the String of Pearls Galaxy for its knotted clusters of young stars. Long assumed to be a member of the Sculptor Group along with its neighbor NGC 300, more recent distance measurements suggest it actually lies closer to us, in the foreground at around 6.5 million light-years."
     },
     {
       "code": "C",
@@ -1313,7 +1385,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/caldwell/C73.webp"
+      "image": "/assets/dso/caldwell/C73.webp",
+      "summary": "NGC 1851 is a bright, compact globular cluster in the southern constellation Columba, discovered by Scottish astronomer James Dunlop on May 29, 1826, from his observatory near Sydney. It shows a distinctive double structure in its core, a dense inner region surrounded by a fainter halo, and its stars split into two chemically distinct populations, evidence some researchers interpret as the fossil signature of two separate globular clusters that merged in the distant past. Around 39,500 light-years away, it shines at magnitude 7.3, making it reachable with a modest amateur telescope."
     },
     {
       "code": "C",
@@ -1331,7 +1404,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C74.webp"
+      "image": "/assets/dso/caldwell/C74.webp",
+      "summary": "The Eight-Burst Nebula, also known as the Southern Ring Nebula, was discovered by John Herschel in 1835 during his survey of the southern skies from South Africa. Its name comes from the overlapping loops of gas visible in long-exposure images, which give the bright ring an eight-lobed appearance. A prominent 10th-magnitude star sits at its center, but that star is not actually the one that created the nebula; in 1975 astronomer R. Mendez showed that a much fainter companion white dwarf, orbiting the visible star, was the true source of the expanding shell. It lies about 2,000 light-years away in Vela."
     },
     {
       "code": "C",
@@ -1349,7 +1423,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/caldwell/C75.webp"
+      "image": "/assets/dso/caldwell/C75.webp",
+      "summary": "NGC 6124 is an open cluster in Scorpius that Nicolas-Louis de Lacaille recorded in 1751 from the Cape of Good Hope, describing it in his notes as looking like 'a fairly large comet without a tail.' Spanning about 29 arcminutes, roughly the apparent width of the full Moon, it holds more than 120 stars and is bright enough, at magnitude 5.8, to be glimpsed faintly with the naked eye under dark skies. Estimates of its distance vary somewhat between studies, but it lies in the general range of 1,500 to 1,900 light-years from Earth."
     },
     {
       "code": "C",
@@ -1367,7 +1442,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/caldwell/C76.webp"
+      "image": "/assets/dso/caldwell/C76.webp",
+      "summary": "NGC 6231, sometimes called the Northern Jewel Box, is a young, hot open cluster in Scorpius with an age of only 2 to 7 million years, its stars belonging to the Scorpius OB1 association. It has been independently discovered several times: first noted by Italian astronomer Giovanni Battista Hodierna in the 17th century, then separately recorded by Edmond Halley in 1678, Jean-Philippe Loys de Cheseaux in the 1740s, and Nicolas-Louis de Lacaille in 1751-52. The cluster hosts three rare Wolf-Rayet stars among its hot young population and lies roughly 5,600 to 6,000 light-years from Earth."
     },
     {
       "code": "C",
@@ -1385,7 +1461,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C77.webp"
+      "image": "/assets/dso/caldwell/C77.webp",
+      "summary": "Centaurus A is a giant elliptical galaxy split by a broad, warped dust lane, the leftover debris of a collision with a smaller spiral galaxy that the larger system is still in the process of absorbing. James Dunlop discovered it on April 29, 1826, observing from his self-built reflector at Parramatta, Australia. It is the closest active radio galaxy to Earth, and its central supermassive black hole, estimated at 55 million solar masses, powers a relativistic jet detectable across radio and X-ray wavelengths. At roughly 12 million light-years away and the fifth brightest galaxy in the sky, it is a frequent target for both amateur and professional observers."
     },
     {
       "code": "C",
@@ -1403,7 +1480,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/caldwell/C78.webp"
+      "image": "/assets/dso/caldwell/C78.webp",
+      "summary": "NGC 6541 is a compact globular cluster in Corona Australis, discovered independently within months of each other in 1826: first by Niccolo Cacciatore at the Palermo Observatory in Sicily on March 19, then by James Dunlop in Australia on July 3. It orbits within the central region of the Milky Way, roughly 23,000 light-years from Earth. At magnitude 6.3, it is bright enough to pick out with binoculars, appearing as a compact, softly glowing ball where a small telescope begins to resolve individual stars around its edges."
     },
     {
       "code": "C",
@@ -1421,7 +1499,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/caldwell/C79.webp"
+      "image": "/assets/dso/caldwell/C79.webp",
+      "summary": "NGC 3201 is a loosely structured globular cluster in Vela, discovered by James Dunlop on May 1, 1826, who described it through his home-built reflector as an irregular, gradually condensed patch easily resolved into stars. Unlike most globulars, it has a notably low central concentration rather than a dense compact core. It also stands out for its radial velocity of about 490 kilometers per second, among the highest recorded for any Milky Way globular cluster, and 2022 research identified a sub-cluster of stellar-mass black holes totaling roughly a thousand solar masses hidden within it, some 17,000 light-years away."
     },
     {
       "code": "C",
@@ -1439,7 +1518,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/caldwell/C80.webp"
+      "image": "/assets/dso/caldwell/C80.webp",
+      "summary": "Omega Centauri is the largest and most massive globular cluster in the Milky Way, roughly 150 light-years across, home to an estimated 10 million stars, and located about 17,000 light-years from Earth. Ptolemy catalogued it as a single star nearly 2,000 years ago; Edmond Halley recognized it as a fuzzy, nonstellar object in 1677, and John Herschel was first to resolve it into a true star cluster in the 1830s. Unlike ordinary globulars, it holds multiple generations of stars with different ages and compositions, evidence that it may be the stripped-down core of a dwarf galaxy long ago absorbed by the Milky Way."
     },
     {
       "code": "C",
@@ -1457,7 +1537,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/caldwell/C81.webp"
+      "image": "/assets/dso/caldwell/C81.webp",
+      "summary": "NGC 6352 is a loosely concentrated globular cluster in Ara, discovered by James Dunlop on May 14, 1826. Classified as Shapley-Sawyer type XI, one of the least centrally condensed classes, it requires a moderate-aperture telescope to resolve its individual stars. At an estimated 12.67 billion years old, it is nearly as ancient as the universe itself, and detailed photometric studies have identified two distinct generations of stars within it, born only about 10 million years apart, a brief interval by cosmic standards. It lies roughly 18,000 light-years away."
     },
     {
       "code": "C",
@@ -1475,7 +1556,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/caldwell/C82.webp"
+      "image": "/assets/dso/caldwell/C82.webp",
+      "summary": "NGC 6193 is a young open cluster in Ara, discovered by James Dunlop in 1826, whose roughly 27 stars visible to the naked eye anchor the larger Ara OB1 stellar association. At only about 3 million years old, it is dominated by two massive O-type multiple star systems within 10 arcseconds of each other, plus a further two dozen hot B-type stars. Radiation from these young, luminous stars ionizes and lights up the neighboring nebula NGC 6188, an emission cloud that partially envelops the cluster. It sits roughly 3,700 light-years from Earth."
     },
     {
       "code": "C",
@@ -1493,7 +1575,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C83.webp"
+      "image": "/assets/dso/caldwell/C83.webp",
+      "summary": "NGC 4945 is a barred spiral galaxy in Centaurus seen almost exactly edge-on, discovered by James Dunlop in 1826 during his survey from Parramatta, Australia. Despite its modest telescopic appearance as a thin sliver of light, it harbors one of the closest active galactic nuclei to Earth, classified as a Seyfert 2 galaxy, with a central supermassive black hole known to drive powerful outflowing winds of gas. At roughly 12 to 13 million light-years away, it is a near neighbor of Centaurus A and, like it, a favorite target for astronomers studying nearby active black holes."
     },
     {
       "code": "C",
@@ -1511,7 +1594,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/caldwell/C84.webp"
+      "image": "/assets/dso/caldwell/C84.webp",
+      "summary": "NGC 5286 is a globular cluster in Centaurus, discovered by James Dunlop on April 29, 1826, using the same 9-inch reflector he built at his home near Sydney. Dunlop noted its position relative to the naked-eye star Mu Centauri, describing the cluster as lying just a few arcminutes to its north, a relationship still useful for locating it today. At a distance of roughly 36,000 light-years, it is one of the more distant globulars in this part of the sky, appearing as a moderately concentrated, softly glowing ball in amateur telescopes."
     },
     {
       "code": "C",
@@ -1529,7 +1613,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/caldwell/C85.webp"
+      "image": "/assets/dso/caldwell/C85.webp",
+      "summary": "The Omicron Velorum Cluster is one of the brightest open clusters in the southern sky, easily visible to the naked eye at magnitude 2.5 and spanning 50 arcminutes, nearly the size of the full Moon. Persian astronomer Abd al-Rahman al-Sufi described it as a hazy patch around the year 964, and Nicolas-Louis de Lacaille later resolved and catalogued it during his 1751-52 survey from the Cape of Good Hope. At only about 500 light-years away and roughly 50 million years old, it is a young, nearby cluster named for its brightest member, the hot blue star Omicron Velorum."
     },
     {
       "code": "C",
@@ -1547,7 +1632,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/caldwell/C86.webp"
+      "image": "/assets/dso/caldwell/C86.webp",
+      "summary": "NGC 6397 is, together with Messier 4, one of the two closest globular clusters to the Sun, lying only about 7,800 light-years away in Ara. Nicolas-Louis de Lacaille discovered it in 1751 with a half-inch telescope during his expedition to the Cape of Good Hope. At an age of roughly 13.4 billion years, it is among the oldest known clusters, and it has already undergone core collapse, contracting into an unusually dense central ball that packs several hundred thousand stars within a radius of just 36 light-years."
     },
     {
       "code": "C",
@@ -1565,7 +1651,8 @@
       "size": null,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/caldwell/C87.webp"
+      "image": "/assets/dso/caldwell/C87.webp",
+      "summary": "NGC 1261 is a globular cluster in the small southern constellation Horologium, discovered by James Dunlop in 1826 during his systematic sweep of the southern sky. At a distance of about 53,500 light-years, it lies well beyond most of the brighter Caldwell globulars, giving it a fainter, more compact appearance through amateur telescopes at magnitude 8.6. Astronomers have catalogued numerous variable stars within the cluster, observations that help pin down its distance and age more precisely."
     },
     {
       "code": "C",
@@ -1583,7 +1670,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/caldwell/C88.webp"
+      "image": "/assets/dso/caldwell/C88.webp",
+      "summary": "NGC 5823 is an open cluster straddling the border of Circinus and Lupus, discovered by James Dunlop in 1826. John Herschel observed it again a decade later, in 1836, apparently unaware of Dunlop's earlier find, and catalogued it separately as h 3589. At an estimated age of 800 million years, it is a relatively old open cluster for its type, spanning about 12 light-years and sitting roughly 3,900 light-years from Earth."
     },
     {
       "code": "C",
@@ -1601,7 +1689,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/caldwell/C89.webp"
+      "image": "/assets/dso/caldwell/C89.webp",
+      "summary": "The S Normae Cluster takes its name from the classical Cepheid variable star at its heart, S Normae, which brightens and dims between magnitude 6.1 and 6.8 over a regular 9.75-day cycle. James Dunlop discovered the cluster on May 8, 1826, and its roughly 40 member stars have since made it a benchmark system for calibrating the period-luminosity relation that lets astronomers use Cepheids as standard candles to measure cosmic distances. It lies about 2,900 light-years away in Norma."
     },
     {
       "code": "C",
@@ -1619,7 +1708,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/caldwell/C90.webp"
+      "image": "/assets/dso/caldwell/C90.webp",
+      "summary": "NGC 2867 is a planetary nebula in Carina that John Herschel discovered on April Fool's Day, 1834, briefly wondering if he had found a new planet before confirming the following night that it had not moved among the stars. Its outer shell of expelled gas forms a roughly heart-shaped ring with a brighter knot at one edge, surrounding a central star of the rare Wolf-Rayet WC-type still shedding its outer layers on its way to becoming a white dwarf. It lies approximately 5,500 light-years away."
     },
     {
       "code": "C",
@@ -1637,7 +1727,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/caldwell/C91.webp"
+      "image": "/assets/dso/caldwell/C91.webp",
+      "summary": "The Wishing Well Cluster earned its nickname from the way its scattered stars, seen through a telescope, resemble coins glinting at the bottom of a well. Nicolas-Louis de Lacaille discovered it on January 25, 1752, from South Africa, cataloguing it as Lacaille II.7. It holds special historical significance as the first astronomical target ever observed by the Hubble Space Telescope, on May 20, 1990, shortly after the observatory's launch. Located in Carina roughly 1,600 light-years away, the cluster contains around 400 stars, many of them binary systems, and remains a rich, easy naked-eye target."
     },
     {
       "code": "C",
@@ -1655,7 +1746,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C92.webp"
+      "image": "/assets/dso/caldwell/C92.webp",
+      "summary": "The Eta Carinae Nebula is a vast star-forming region roughly four times the apparent size of the Orion Nebula, though its southern location keeps it out of view for most Northern Hemisphere observers. At its core lies Eta Carinae itself, a massive, unstable binary star system that briefly became one of the brightest stars in the sky during an eruption in the 1840s and is expected to end its life as a supernova or hypernova. James Dunlop catalogued the surrounding nebula in 1826 from Australia."
     },
     {
       "code": "C",
@@ -1673,7 +1765,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/caldwell/C93.webp"
+      "image": "/assets/dso/caldwell/C93.webp",
+      "summary": "NGC 6752 ranks as the third-brightest globular cluster in the sky, behind only Omega Centauri and 47 Tucanae, and was discovered by James Dunlop on June 30, 1826, from his observatory near Sydney. Packed into a sphere roughly 100 light-years across are more than 100,000 stars, at an age exceeding 10 billion years. The cluster is especially notable for its unusually large population of blue straggler stars, objects that appear younger than their neighbors, thought to form when stars collide or merge in the dense stellar traffic near the core. It lies about 13,000 light-years away in Pavo."
     },
     {
       "code": "C",
@@ -1691,7 +1784,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/caldwell/C94.webp"
+      "image": "/assets/dso/caldwell/C94.webp",
+      "summary": "The Jewel Box earned its name from John Herschel, who likened its telescopic view to a casket of multicolored gemstones, a mix of hot blue-white stars and a few cooler red supergiants. Nicolas-Louis de Lacaille first identified it as a genuine star cluster, rather than a single nebulous object, during his 1752 survey from the Cape of Good Hope. Located in Crux near the Coalsack, it holds more than 100 stars, many of them hot B-type members only a few million years old, at a distance estimated between roughly 5,000 and 7,600 light-years, reflecting the difficulty of correcting for interstellar dust along this line of sight."
     },
     {
       "code": "C",
@@ -1709,7 +1803,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/caldwell/C95.webp"
+      "image": "/assets/dso/caldwell/C95.webp",
+      "summary": "NGC 6025 is an open cluster in the small southern constellation Triangulum Australe, discovered by Nicolas-Louis de Lacaille on March 5, 1752, during his cataloguing expedition to the Cape of Good Hope. It comprises roughly 30 stars of seventh magnitude and fainter, spread across about 15 arcminutes of sky, faintly visible to the naked eye but better resolved with binoculars. At a mean distance of around 2,500 light-years, it is a modest but accessible target that Patrick Moore later included in his Caldwell list alongside its more famous southern neighbors."
     },
     {
       "code": "C",
@@ -1727,7 +1822,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/caldwell/C96.webp"
+      "image": "/assets/dso/caldwell/C96.webp",
+      "summary": "NGC 2516, nicknamed the Southern Beehive for its resemblance to the Beehive Cluster in Cancer, was discovered by Nicolas-Louis de Lacaille in 1751 using a half-inch refractor at the Cape of Good Hope. Spanning about 30 arcminutes, roughly the width of the full Moon, and estimated at 110 to 135 million years old, it is bright enough to appear as a hazy patch to the naked eye under dark skies, with binoculars resolving around a hundred of its member stars. It lies about 1,300 light-years away in Carina."
     },
     {
       "code": "C",
@@ -1745,7 +1841,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/caldwell/C97.webp"
+      "image": "/assets/dso/caldwell/C97.webp",
+      "summary": "The Pearl Cluster gets its name from the way its stars glimmer like scattered pearls when viewed through a telescope. Nicolas-Louis de Lacaille catalogued it during his 1751-52 survey from the Cape of Good Hope, listing it as Lacaille III.7. At an age of about 14 million years, the young cluster sits within the vast Carina star-forming complex and hosts an unusual mix of stellar types, including eleven hot Be stars, two red supergiants, and three dozen rare variable stars that pulsate at temperatures between the Delta Scuti and slowly pulsating B-star classes. It lies in Centaurus at a distance of roughly 5,800 light-years."
     },
     {
       "code": "C",
@@ -1763,7 +1860,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/caldwell/C98.webp"
+      "image": "/assets/dso/caldwell/C98.webp",
+      "summary": "NGC 4609 is a small open cluster in Crux that happens to lie directly within the boundaries of the Coalsack, the dark dust cloud that blots out background stars nearby. James Dunlop discovered it on May 12, 1826, observing with his home-built reflector in Parramatta, Australia. At an estimated age of 83 million years and a distance of about 4,200 light-years, its stars shine through the near edge of the Coalsack's obscuring dust, offering a rare glimpse of star formation happening close to one of the sky's most famous dark nebulae."
     },
     {
       "code": "C",
@@ -1781,7 +1879,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C99.webp"
+      "image": "/assets/dso/caldwell/C99.webp",
+      "summary": "The Coalsack is a dense, opaque dark nebula that blocks the light of background stars, forming a conspicuous black silhouette against the bright band of the Milky Way beside the Southern Cross. Unlike most Caldwell objects, it needs no telescope: it has been visible to the naked eye, and known to peoples of the Southern Hemisphere, for millennia, with the earliest European record coming from navigator Vicente Yanez Pinzon in 1499. Roughly 600 light-years away and about 100 light-years across, its obscuring dust and gas has not yet collapsed into new stars."
     },
     {
       "code": "C",
@@ -1799,7 +1898,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/caldwell/C100.webp"
+      "image": "/assets/dso/caldwell/C100.webp",
+      "summary": "The Lambda Centauri Nebula, nicknamed the Running Chicken Nebula for the bird-like shape some observers see in its glowing gas, is an emission nebula wrapped around a loose cluster of young, hot, blue stars whose radiation and stellar winds are actively sculpting the surrounding material. It is best known for Thackeray's Globules, dense dark clouds of gas and dust silhouetted against the bright nebula, discovered by South African astronomer Andrew David Thackeray in 1950 and now known to be evaporating under the intense ultraviolet light of the nearby stars. It lies roughly 6,000 light-years away in Centaurus."
     },
     {
       "code": "C",
@@ -1817,7 +1917,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C101.webp"
+      "image": "/assets/dso/caldwell/C101.webp",
+      "summary": "NGC 6744 is often cited as one of the closest structural analogs to our own Milky Way, its yellowish, elongated core and loose, flocculent spiral arms bearing a strong resemblance to how astronomers believe our galaxy would look from outside. James Dunlop discovered it on June 30, 1826, from his observatory at Parramatta, Australia. At nearly 175,000 light-years across, it is almost twice the diameter of the Milky Way, and it has a small, distorted companion galaxy, NGC 6744A, that echoes the relationship between the Milky Way and the Magellanic Clouds. It lies roughly 30 million light-years away in Pavo."
     },
     {
       "code": "C",
@@ -1835,7 +1936,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/caldwell/C102.webp"
+      "image": "/assets/dso/caldwell/C102.webp",
+      "summary": "The Southern Pleiades, centered on the bright star Theta Carinae, is the third-brightest open cluster in the sky after the Hyades and the true Pleiades, discovered by Nicolas-Louis de Lacaille in 1751 during his survey from South Africa. At magnitude 1.9 and only about 500 light-years away, it is easily visible to the naked eye, spanning nearly a full degree of sky, and contains roughly 75 confirmed member stars. Its resemblance to the northern Pleiades, despite being an entirely unrelated cluster, is what gives it its popular name."
     },
     {
       "code": "C",
@@ -1853,7 +1955,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/caldwell/C103.webp"
+      "image": "/assets/dso/caldwell/C103.webp",
+      "summary": "The Tarantula Nebula is the largest and most active star-forming region known in the entire Local Group of galaxies, and it lies not within the Milky Way but in the Large Magellanic Cloud, roughly 170,000 light-years away. Nicolas-Louis de Lacaille first recognized its nebulous, non-stellar nature in 1752. At its heart sits the super star cluster R136, home to some of the most massive and luminous stars ever measured, whose combined radiation makes the nebula so bright that if it were as close as the Orion Nebula, it would cast visible shadows on Earth."
     },
     {
       "code": "C",
@@ -1871,7 +1974,8 @@
       "size": null,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/caldwell/C104.webp"
+      "image": "/assets/dso/caldwell/C104.webp",
+      "summary": "NGC 362 sits only about three degrees from the more famous 47 Tucanae, and though it is often overshadowed by its brighter neighbor, it is a notable cluster in its own right, discovered by James Dunlop on August 1, 1826. It appears near the Small Magellanic Cloud in the sky but is unrelated to it, actually belonging to the Milky Way at a distance of about 27,700 light-years. Its stars have a higher average metal content than typical globulars, suggesting it formed somewhat later than most, and it packs an unusually large number of binary stars into an exceptionally tight core just 13 light-years across."
     },
     {
       "code": "C",
@@ -1889,7 +1993,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/caldwell/C105.webp"
+      "image": "/assets/dso/caldwell/C105.webp",
+      "summary": "NGC 4833 is a globular cluster in Musca discovered by Nicolas-Louis de Lacaille during his 1751-52 expedition to the Cape of Good Hope, using a telescope of only half an inch aperture. It sits in a dust-rich patch of sky near the Coalsack Nebula, and the intervening interstellar dust dims and slightly reddens its light, subtly muting its appearance compared to less obscured clusters of similar brightness. Later observers, including James Dunlop and John Herschel, resolved it into individual stars with larger instruments. It lies roughly 20,000 light-years from Earth."
     },
     {
       "code": "C",
@@ -1907,7 +2012,8 @@
       "size": null,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/caldwell/C106.webp"
+      "image": "/assets/dso/caldwell/C106.webp",
+      "summary": "47 Tucanae is the second-brightest globular cluster in the sky after Omega Centauri, discovered in 1751 by Nicolas-Louis de Lacaille, who at first mistook its condensed glow for the nucleus of a comet. Roughly 14,700 light-years away, it packs tens of thousands of stars into a dense core and hosts an exceptionally rich population of millisecond pulsars, with more than 40 now identified through radio surveys. A dedicated search for planets orbiting those pulsars turned up none, despite roughly 17 being statistically expected if the cluster's planet-formation rate matched that of the Milky Way's disk, a puzzle about how dense stellar environments affect planet survival."
     },
     {
       "code": "C",
@@ -1925,7 +2031,8 @@
       "size": null,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/caldwell/C107.webp"
+      "image": "/assets/dso/caldwell/C107.webp",
+      "summary": "NGC 6101 is a loosely concentrated globular cluster in the far-southern constellation Apus, discovered by James Dunlop on June 1, 1826, using the same 9-inch reflector he built at his home near Sydney. Classified as Shapley-Sawyer type X, it lacks the tightly packed core seen in many globulars, giving it a more diffuse appearance that requires an 8-inch or larger telescope to resolve into individual stars. At a distance of roughly 49,900 light-years, it is one of the more remote globular clusters in the Caldwell catalogue."
     },
     {
       "code": "C",
@@ -1943,7 +2050,8 @@
       "size": null,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/caldwell/C108.webp"
+      "image": "/assets/dso/caldwell/C108.webp",
+      "summary": "NGC 4372 is one of the most metal-poor globular clusters known in the Milky Way, with an iron abundance roughly two hundred times lower than the Sun's, yet it shows unusually elevated levels of magnesium and titanium, a peculiar chemical fingerprint shared with only a handful of other clusters. James Dunlop discovered it on April 30, 1826, from his observatory in Parramatta, Australia. It sits near the southern tip of the Dark Doodad Nebula, a slender dust lane crossing the Milky Way, whose obscuring material partly dims the cluster's light. It lies about 18,900 light-years away in Musca."
     },
     {
       "code": "C",
@@ -1961,7 +2069,8 @@
       "size": null,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/caldwell/C109.webp"
+      "image": "/assets/dso/caldwell/C109.webp",
+      "summary": "NGC 3195 holds the distinction of being the southernmost planetary nebula bright enough for amateur observation, sitting at a declination of about -81 degrees, so close to the south celestial pole that it never rises for virtually all Northern Hemisphere observers. John Herschel discovered it on February 24, 1835, using his 18.3-inch telescope at Feldhausen in South Africa. Faint at magnitude 11.6 and only about 40 by 35 arcseconds across, it appears as a slightly oval, dim patch in the far-southern constellation Chamaeleon, roughly 5,400 light-years from Earth."
     }
   ]
 }

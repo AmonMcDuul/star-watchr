@@ -1,26 +1,28 @@
 @if (location.selected() == null) {
-  <div class="empty-state">
-    <div class="empty-card">
-      <h3>Select a location</h3>
-      <p>Choose a location to see available Messier objects</p>
-      <app-location-search></app-location-search>
+  <div class="location-banner">
+    <div>
+      <strong>Select a location</strong>
+      <span>to see altitude, visibility and best observing time for tonight — the full catalog is browsable below either way.</span>
     </div>
+    <app-location-search></app-location-search>
   </div>
 }
-@else {
-  <div class="night-summary">
-    <div class="summary-item">
-      <strong>{{ time.dateTime() | date:'EEEE MMM dd yyyy HH:mm' }}</strong>
-    </div>
+
+<div class="night-summary">
   <div class="summary-item">
-    <span class="label">Visible Objects</span>
-    <strong>{{ messier.visible().length }}</strong>
+    <strong>{{ time.dateTime() | date:'EEEE MMM dd yyyy HH:mm' }}</strong>
+  </div>
+  <div class="summary-item">
+    <span class="label">{{ location.selected() ? 'Visible Objects' : 'Catalog Objects' }}</span>
+    <strong>{{ messier.displayable().length }}</strong>
   </div>
 
-  <div class="summary-item">
-    <span class="label">Altitude Filter</span>
-    <strong>{{ messier.altitudeFilter() }}°+</strong>
-  </div>
+  @if (location.selected()) {
+    <div class="summary-item">
+      <span class="label">Altitude Filter</span>
+      <strong>{{ messier.altitudeFilter() }}°+</strong>
+    </div>
+  }
 
   <div class="summary-item">
     <span class="label">Difficulty</span>
@@ -31,77 +33,78 @@
 </div>
 
 
-  <div class="matrix-controls-row">
-    <div class="matrix-controls">
-      <button (click)="time.shift(-1)">◀</button>
-      <button (click)="time.reset()">Now</button>
-      <button (click)="time.shift(1)">▶</button>
-    </div>
-
-    <div class="matrix-controls">
-      <button (click)="time.shiftDays(1)" [class.active]="isActiveDay(1)">{{ dayPlus(1) }}</button>
-      <button (click)="time.shiftDays(2)" [class.active]="isActiveDay(2)">{{ dayPlus(2) }}</button>
-      <button (click)="time.shiftDays(3)" [class.active]="isActiveDay(3)">{{ dayPlus(3) }}</button>
-      <button (click)="time.shiftDays(4)" [class.active]="isActiveDay(4)">{{ dayPlus(4) }}</button>
-      <button (click)="time.shiftDays(5)" [class.active]="isActiveDay(5)">{{ dayPlus(5) }}</button>
-    </div>
-  </div>
-  
-  <div class="map-size-controls">
-
-    <button (click)="mapSize = 'compact'" [class.active]="mapSize === 'compact'">Compact</button>
-    <button (click)="mapSize = 'normal'" [class.active]="mapSize === 'normal'">Normal</button>
-    <button (click)="mapSize = 'large'" [class.active]="mapSize === 'large'">Large</button>
+<div class="matrix-controls-row">
+  <div class="matrix-controls">
+    <button (click)="time.shift(-1)">◀</button>
+    <button (click)="time.reset()">Now</button>
+    <button (click)="time.shift(1)">▶</button>
   </div>
 
-  <div class="map-size-controls">
-    <button 
-      (click)="setCatalog('M')" 
-      [class.active]="catalog === 'M'">
-      Messier
-    </button>
+  <div class="matrix-controls">
+    <button (click)="time.shiftDays(1)" [class.active]="isActiveDay(1)">{{ dayPlus(1) }}</button>
+    <button (click)="time.shiftDays(2)" [class.active]="isActiveDay(2)">{{ dayPlus(2) }}</button>
+    <button (click)="time.shiftDays(3)" [class.active]="isActiveDay(3)">{{ dayPlus(3) }}</button>
+    <button (click)="time.shiftDays(4)" [class.active]="isActiveDay(4)">{{ dayPlus(4) }}</button>
+    <button (click)="time.shiftDays(5)" [class.active]="isActiveDay(5)">{{ dayPlus(5) }}</button>
+  </div>
+</div>
 
-    <button 
-      (click)="setCatalog('C')" 
-      [class.active]="catalog === 'C'">
-      Caldwell
-    </button>
-    </div>
+<div class="map-size-controls">
+
+  <button (click)="mapSize = 'compact'" [class.active]="mapSize === 'compact'">Compact</button>
+  <button (click)="mapSize = 'normal'" [class.active]="mapSize === 'normal'">Normal</button>
+  <button (click)="mapSize = 'large'" [class.active]="mapSize === 'large'">Large</button>
+</div>
+
+<div class="map-size-controls">
+  <button
+    (click)="setCatalog('M')"
+    [class.active]="catalog === 'M'">
+    Messier
+  </button>
+
+  <button
+    (click)="setCatalog('C')"
+    [class.active]="catalog === 'C'">
+    Caldwell
+  </button>
+</div>
 
 
-  <div class="filter-bar">
-    <details class="filter-dropdown">
-      <summary>Filters</summary>
+<div class="filter-bar">
+  <details class="filter-dropdown">
+    <summary>Filters</summary>
 
-      <div class="filter-panel">
+    <div class="filter-panel">
 
-        <div class="filter-group">
-          <span>Difficulty</span>
-          <button (click)="setDifficulty(null)" [class.active]="messier.difficultyFilter() === null">All</button>
-          <button (click)="setDifficulty('Very Easy')" [class.active]="messier.difficultyFilter() === 'Very Easy'">Very Easy</button>
-          <button (click)="setDifficulty('Easy')" [class.active]="messier.difficultyFilter() === 'Easy'">Easy</button>
-          <button (click)="setDifficulty('Moderate')" [class.active]="messier.difficultyFilter() === 'Moderate'">Moderate</button>
-          <button (click)="setDifficulty('Hard')" [class.active]="messier.difficultyFilter() === 'Hard'">Hard</button>
-          <button (click)="setDifficulty('Very Hard')" [class.active]="messier.difficultyFilter() === 'Very Hard'">Very Hard</button>
-        </div>
+      <div class="filter-group">
+        <span>Difficulty</span>
+        <button (click)="setDifficulty(null)" [class.active]="messier.difficultyFilter() === null">All</button>
+        <button (click)="setDifficulty('Very Easy')" [class.active]="messier.difficultyFilter() === 'Very Easy'">Very Easy</button>
+        <button (click)="setDifficulty('Easy')" [class.active]="messier.difficultyFilter() === 'Easy'">Easy</button>
+        <button (click)="setDifficulty('Moderate')" [class.active]="messier.difficultyFilter() === 'Moderate'">Moderate</button>
+        <button (click)="setDifficulty('Hard')" [class.active]="messier.difficultyFilter() === 'Hard'">Hard</button>
+        <button (click)="setDifficulty('Very Hard')" [class.active]="messier.difficultyFilter() === 'Very Hard'">Very Hard</button>
+      </div>
 
-        <div class="filter-group">
-          <span>Season</span>
-          <button (click)="setSeason(null)" [class.active]="messier.seasonFilter() === null">All</button>
-          <button (click)="setSeason('Winter')" [class.active]="messier.seasonFilter() === 'Winter'">Winter</button>
-          <button (click)="setSeason('Spring')" [class.active]="messier.seasonFilter() === 'Spring'">Spring</button>
-          <button (click)="setSeason('Summer')" [class.active]="messier.seasonFilter() === 'Summer'">Summer</button>
-          <button (click)="setSeason('Autumn')" [class.active]="messier.seasonFilter() === 'Autumn'">Autumn</button>
-        </div>
+      <div class="filter-group">
+        <span>Season</span>
+        <button (click)="setSeason(null)" [class.active]="messier.seasonFilter() === null">All</button>
+        <button (click)="setSeason('Winter')" [class.active]="messier.seasonFilter() === 'Winter'">Winter</button>
+        <button (click)="setSeason('Spring')" [class.active]="messier.seasonFilter() === 'Spring'">Spring</button>
+        <button (click)="setSeason('Summer')" [class.active]="messier.seasonFilter() === 'Summer'">Summer</button>
+        <button (click)="setSeason('Autumn')" [class.active]="messier.seasonFilter() === 'Autumn'">Autumn</button>
+      </div>
 
-        <div class="filter-group">
-          <span>Constellation</span>
-          <button (click)="setConstellation(null)" [class.active]="messier.constellationFilter() === null">All</button>
-          @for (c of messier.availableConstellations(); track c) {
-            <button (click)="setConstellation(c)" [class.active]="messier.constellationFilter() === c">{{ c }}</button>
-          }
-        </div>
+      <div class="filter-group">
+        <span>Constellation</span>
+        <button (click)="setConstellation(null)" [class.active]="messier.constellationFilter() === null">All</button>
+        @for (c of messier.availableConstellations(); track c) {
+          <button (click)="setConstellation(c)" [class.active]="messier.constellationFilter() === c">{{ c }}</button>
+        }
+      </div>
 
+      @if (location.selected()) {
         <div class="filter-group">
           <span>Altitude</span>
           <button (click)="setAltitude(0)" [class.active]="messier.altitudeFilter() === 0">0°</button>
@@ -109,72 +112,77 @@
           <button (click)="setAltitude(25)" [class.active]="messier.altitudeFilter() === 25">25°</button>
           <button (click)="setAltitude(35)" [class.active]="messier.altitudeFilter() === 35">35°</button>
         </div>
+      }
 
-        <div class="filter-group">
-          <button class="clear-btn" (click)="clearFilters()">Clear filters</button>
-        </div>
-
+      <div class="filter-group">
+        <button class="clear-btn" (click)="clearFilters()">Clear filters</button>
       </div>
-    </details>
-  </div>
 
-  <div class="grid-wrapper"
-       [class.compact]="mapSize === 'compact'"
-       [class.normal]="mapSize === 'normal'"
-       [class.large]="mapSize === 'large'">
+    </div>
+  </details>
+</div>
 
-    @if (messier.loading()) {
-      <p class="muted">
-        {{ catalog === 'M' ? 'Messier-objecten laden…' : 'Caldwell-objecten laden…' }}
-      </p>
-    }
+<div class="grid-wrapper"
+     [class.compact]="mapSize === 'compact'"
+     [class.normal]="mapSize === 'normal'"
+     [class.large]="mapSize === 'large'">
 
-    @if (!messier.loading()) {
-      <div class="messier-grid">
-        @for (m of messier.visible(); track m.messierNumber) {
-          <article class="messier-card"
-                   [class.active]="selected() === m.messierNumber"
-                   (click)="select(m.messierNumber)">
+  @if (messier.loading()) {
+    <p class="muted">
+      {{ catalog === 'M' ? 'Messier-objecten laden…' : 'Caldwell-objecten laden…' }}
+    </p>
+  }
 
-            <img [src]="m.image" [alt]="m.name" loading="lazy"
-  decoding="async" />
+  @if (!messier.loading()) {
+    <div class="messier-grid">
+      @for (m of messier.displayable(); track m.messierNumber) {
+        <article class="messier-card"
+                 [class.active]="selected() === m.messierNumber"
+                 (click)="select(m.messierNumber)">
 
+          <img [src]="m.image" [alt]="m.name" loading="lazy"
+decoding="async" />
+
+          @if (location.selected()) {
             <div class="altitude-bar">
               <div class="fill"
-                  [style.width.%]="m.altitude">
+                  [style.width.%]="$any(m).altitude">
               </div>
             </div>
-            <div class="info">
-              <a class="dso-link"
+          }
+          <div class="info">
+            <a class="dso-link"
+               [routerLink]="['/dso', catalog + m.messierNumber]"
+               (click)="$event.stopPropagation()">
+              {{ catalog }}{{ m.messierNumber }} – {{ m.name }}
+            </a><br>
+            <span>{{ m.type }}</span>
+            <span>&nbsp;- {{ m.constellation }}</span>
+          </div>
+
+          @if (selected() === m.messierNumber) {
+            <div class="details">
+              <div>NGC: {{ m.NGC }}</div>
+              <div>Type: {{ m.type }}</div>
+              <div>Mag: {{ m.magnitude }}</div>
+              <div>Distance: {{ m.distance }} ly</div>
+              <div>Size: {{ m.size }}</div>
+              <div>Difficulty: {{ m.viewingDifficulty }}</div>
+              @if (location.selected()) {
+                <div>Altitude: {{ $any(m).altitude | number:'1.0-0' }}°</div>
+              }
+
+              <a class="starhop-btn"
                  [routerLink]="['/dso', catalog + m.messierNumber]"
                  (click)="$event.stopPropagation()">
-                {{ catalog }}{{ m.messierNumber }} – {{ m.name }}
-              </a><br>
-              <span>{{ m.type }}</span>
-              <span>&nbsp;- {{ m.constellation }}</span>
+                Open details
+              </a>
             </div>
+          }
+        </article>
+      }
+    </div>
+  }
+</div>
 
-            @if (selected() === m.messierNumber) {
-              <div class="details">
-                <div>NGC: {{ m.NGC }}</div>
-                <div>Type: {{ m.type }}</div>
-                <div>Mag: {{ m.magnitude }}</div>
-                <div>Distance: {{ m.distance }} ly</div>
-                <div>Size: {{ m.size }}</div>
-                <div>Difficulty: {{ m.viewingDifficulty }}</div>
-                <div>Altitude: {{ m.altitude | number:'1.0-0' }}°</div>
-
-                <a class="starhop-btn"
-                   [routerLink]="['/dso', catalog + m.messierNumber]"
-                   (click)="$event.stopPropagation()">
-                  Open details
-                </a>
-              </div>
-            }
-          </article>
-        }
-      </div>
-    }
-  </div>
-}
 <br><br><br><br>

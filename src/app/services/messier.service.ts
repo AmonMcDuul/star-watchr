@@ -210,6 +210,27 @@ export class MessierService {
       .sort((a, b) => a.messierNumber - b.messierNumber);
   });
 
+  /**
+   * The list shown by the catalog browser. Falls back to the full
+   * (non-altitude-filtered) catalog when no location is set yet — this is
+   * what's rendered during SSR/prerendering, so the catalog page and its
+   * ~220 detail pages stay linked and crawlable even without a visitor's
+   * location, instead of prerendering to an empty "select a location" page.
+   */
+  readonly displayable = computed(() => {
+    if (this.location.selected()) return this.visible();
+
+    const diffFilter = this.difficultyFilter();
+    const seasonFilter = this.seasonFilter();
+    const constFilter = this.constellationFilter();
+
+    return this.all()
+      .filter((m) => !diffFilter || m.viewingDifficulty === diffFilter)
+      .filter((m) => !seasonFilter || normalizeSeason(m.viewingSeason) === seasonFilter)
+      .filter((m) => !constFilter || m.constellation === constFilter)
+      .sort((a, b) => a.messierNumber - b.messierNumber);
+  });
+
   // ----------------------
   // UTILS
   // ----------------------

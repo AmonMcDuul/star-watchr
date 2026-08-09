@@ -19,11 +19,29 @@ import { Planet } from '../models/solar-system/planet.model';
 import { Sun } from '../models/solar-system/sun.model';
 import { isPlatformBrowser } from '@angular/common';
 
+import sunStatic from '../../assets/data/solar-system/star.json';
+import planetsStatic from '../../assets/data/solar-system/planets.json';
+import moonsStatic from '../../assets/data/solar-system/moons.json';
+import dwarfStatic from '../../assets/data/solar-system/dwarf-planets.json';
+import asteroidsStatic from '../../assets/data/solar-system/asteroids.json';
+import cometsStatic from '../../assets/data/solar-system/comets.json';
+
 @Injectable({ providedIn: 'root' })
 export class SolarSystemService {
     private location = inject(LocationService);
     private context = inject(ForecastContextService);
     private platformId = inject(PLATFORM_ID);
+
+    // Build-time snapshot of the data, used as a fallback so SSR/prerender
+    // (which never runs load(), see below) still has real data to render —
+    // without this, every solar system page prerendered with empty data
+    // and never got its own title/description/content.
+    private readonly sunStatic = sunStatic as Sun;
+    private readonly planetsStatic = planetsStatic as Planet[];
+    private readonly moonsStatic = moonsStatic as Moon[];
+    private readonly dwarfStatic = dwarfStatic as DwarfPlanet[];
+    private readonly asteroidsStatic = asteroidsStatic as Asteroid[];
+    private readonly cometsStatic = cometsStatic as Comet[];
 
     private sunRaw = signal<Sun | null>(null);
     private planetsRaw = signal<Planet[] | null>(null);
@@ -70,26 +88,26 @@ export class SolarSystemService {
 
   }
 
-    readonly sun = computed(() => this.sunRaw());
+    readonly sun = computed(() => this.sunRaw() ?? this.sunStatic);
 
     readonly planets = computed<Planet[]>(() =>
-      this.planetsRaw() ?? []
+      this.planetsRaw() ?? this.planetsStatic
     );
 
     readonly moons = computed<Moon[]>(() =>
-      this.moonsRaw() ?? []
+      this.moonsRaw() ?? this.moonsStatic
     );
 
     readonly dwarfPlanets = computed<DwarfPlanet[]>(() =>
-      this.dwarfRaw() ?? []
+      this.dwarfRaw() ?? this.dwarfStatic
     );
 
     readonly asteroids = computed<Asteroid[]>(() =>
-      this.asteroidsRaw() ?? []
+      this.asteroidsRaw() ?? this.asteroidsStatic
     );
 
     readonly comets = computed<Comet[]>(() =>
-      this.cometsRaw() ?? []
+      this.cometsRaw() ?? this.cometsStatic
     );
 
     readonly planetsOfSun = computed(() =>

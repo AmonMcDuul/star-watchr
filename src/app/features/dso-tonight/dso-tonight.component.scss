@@ -15,6 +15,32 @@
   display: block;
 }
 
+.location-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 10px 20px 0;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(20,24,44,.9), rgba(10,12,26,.9));
+  border: 1px solid rgba(120,140,255,0.25);
+  box-shadow: 0 10px 30px rgba(0,0,0,.4);
+}
+
+.location-banner strong {
+  display: block;
+  color: #fff;
+  font-size: .95rem;
+  margin-bottom: 2px;
+}
+
+.location-banner span {
+  color: #b8c0e0;
+  font-size: .82rem;
+}
+
 .empty-state {
   display: flex;
   justify-content: center;

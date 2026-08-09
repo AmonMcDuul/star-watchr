@@ -22,7 +22,8 @@
       "distance": 6300,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M1.webp"
+      "image": "/assets/dso/messier/M1.webp",
+      "summary": "The Crab Nebula is the expanding wreckage of a supernova recorded by Chinese and Arab astronomers in 1054 CE, one of the few pre-telescopic supernovae documented in written history. At its heart spins the Crab Pulsar, a neutron star discovered in 1968 that rotates roughly 30 times per second. Charles Messier catalogued the nebula in 1758 after mistaking it for Halley's Comet — the mix-up that prompted him to start cataloguing non-cometary objects in the first place."
     },
     "M2": {
       "code": "M",
@@ -39,7 +40,8 @@
       "distance": 37500,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M2.webp"
+      "image": "/assets/dso/messier/M2.webp",
+      "summary": "This globular cluster in Aquarius packs an estimated 150,000 stars into a sphere roughly 175 light-years across, making it one of the richest and most compact clusters in Messier's catalogue. Giovanni Domenico Maraldi discovered it in 1746 while observing a comet, and Messier added it to his list in 1760. Its stars are ancient, likely close to 13 billion years old, and the cluster's elongated, slightly flattened shape hints at a fast rotation rate unusual among globulars."
     },
     "M3": {
       "code": "M",
@@ -56,7 +58,8 @@
       "distance": 33900,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M3.webp"
+      "image": "/assets/dso/messier/M3.webp",
+      "summary": "Charles Messier discovered this cluster himself in 1764, and it became the first entry in his catalogue that was not previously catalogued by another astronomer. It contains roughly 500,000 stars and is notable for its large population of variable stars, with over 270 identified, more than any other known globular cluster. Its blue horizontal-branch stars mark it as comparatively metal-poor and ancient, estimated at around 8 billion years old."
     },
     "M4": {
       "code": "M",
@@ -73,7 +76,8 @@
       "distance": 7200,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/messier/M4.webp"
+      "image": "/assets/dso/messier/M4.webp",
+      "summary": "At about 7,200 light-years away, this is one of the closest globular clusters to Earth, sitting just over a degree from the bright red supergiant Antares in Scorpius. Philippe Loys de Chéseaux first recorded it in 1746. A modest telescope reveals a distinctive central bar of stars running across the cluster's core, a structural feature rarely visible in other globulars. It contains one of the oldest known white dwarfs, estimated at nearly 13 billion years old."
     },
     "M5": {
       "code": "M",
@@ -90,7 +94,8 @@
       "distance": 24500,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/messier/M5.webp"
+      "image": "/assets/dso/messier/M5.webp",
+      "summary": "Gottfried Kirch spotted this cluster in 1702 while tracking a comet, initially describing it as a fuzzy star; Messier catalogued it in 1764 without resolving individual stars. Spanning around 165 light-years, it ranks among the larger and older globular clusters known, with an age estimated near 13 billion years. It holds more than 100 known variable stars, and its slightly asymmetrical outline sets it apart from the more perfectly spherical globulars nearby."
     },
     "M6": {
       "code": "M",
@@ -107,7 +112,8 @@
       "distance": 2000,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M6.webp"
+      "image": "/assets/dso/messier/M6.webp",
+      "summary": "The Butterfly Cluster earns its name from the wing-like pattern its brightest stars trace when viewed through binoculars or a small telescope. This open cluster in Scorpius contains around 80 confirmed member stars and is roughly 100 million years old, young enough that many members are still hot, blue B-type stars. Its brightest member, BM Scorpii, is an orange giant whose color stands out against the cluster's otherwise blue-white stars, a contrast plainly visible even in modest optics."
     },
     "M7": {
       "code": "M",
@@ -124,7 +130,8 @@
       "distance": 800,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M7.webp"
+      "image": "/assets/dso/messier/M7.webp",
+      "summary": "Named after the astronomer Ptolemy, who described it around 130 CE as a nebulous patch near the sting of Scorpius, this is one of the oldest deep-sky objects on record in written astronomy. It is a loose, bright open cluster easily visible to the naked eye under dark skies, containing around 80 stars spread across a region roughly 25 light-years wide. At only about 800 light-years away, it is one of the nearest open clusters in Messier's list."
     },
     "M8": {
       "code": "M",
@@ -141,7 +148,8 @@
       "distance": 5200,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M8.webp"
+      "image": "/assets/dso/messier/M8.webp",
+      "summary": "The Lagoon Nebula is a star-forming region bisected by a dark dust lane that gives it its name, visible even in small telescopes as a mottled bright cloud in Sagittarius. Embedded within it is the open cluster NGC 6530, whose young hot stars ionize the surrounding hydrogen gas to produce the nebula's glow. A turbulent feature called the Hourglass Nebula near its center marks a zone of intense star formation first noted by John Herschel in the 1830s."
     },
     "M9": {
       "code": "M",
@@ -158,7 +166,8 @@
       "distance": 26700,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M9.webp"
+      "image": "/assets/dso/messier/M9.webp",
+      "summary": "This globular cluster sits unusually close to the galactic center, only about 5,500 light-years from it, placing it deep within the Milky Way's dense stellar bulge. Charles Messier discovered it in 1764 and noted it was harder to resolve than other clusters he had seen, a fact later explained by its considerable distance of nearly 27,000 light-years from Earth. Its stars are notably metal-poor, suggesting it formed very early in the galaxy's history."
     },
     "M10": {
       "code": "M",
@@ -175,7 +184,8 @@
       "distance": 14400,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M10.webp"
+      "image": "/assets/dso/messier/M10.webp",
+      "summary": "Messier discovered this globular cluster in 1764 and described it, along with its neighbor M12, as a nebula without stars — a limitation of his telescope rather than the object itself. It lies about 14,400 light-years away in Ophiuchus and is a moderately concentrated cluster, meaning its stars thin out relatively gradually from a fairly loose core rather than piling into a dense knot, making outer members resolvable in smaller telescopes than many globulars allow."
     },
     "M11": {
       "code": "M",
@@ -192,7 +202,8 @@
       "distance": 6000,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/messier/M11.webp"
+      "image": "/assets/dso/messier/M11.webp",
+      "summary": "The Wild Duck Cluster gets its name from the fan-shaped arrangement of its brighter stars, said to resemble a flock of ducks in flight. It is one of the richest and most compact open clusters known, packing an estimated 2,900 stars into a relatively small volume, giving it a density that makes it look almost globular through binoculars. Gottfried Kirch discovered it in 1681, and at roughly 250 million years old it is considerably older than most open clusters, which tend to disperse within a few hundred million years."
     },
     "M12": {
       "code": "M",
@@ -209,7 +220,8 @@
       "distance": 16000,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M12.webp"
+      "image": "/assets/dso/messier/M12.webp",
+      "summary": "Discovered by Messier in 1764 within a day of finding its near-twin M10, this globular cluster is noticeably less centrally concentrated than most globulars, giving it a looser, more diffuse appearance. Some studies suggest it may have lost a significant fraction of its lower-mass stars over billions of years, stripped away by the Milky Way's gravitational tides during passages close to the galactic disk. It lies around 16,000 light-years away in Ophiuchus."
     },
     "M13": {
       "code": "M",
@@ -226,7 +238,8 @@
       "distance": 22800,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/messier/M13.webp"
+      "image": "/assets/dso/messier/M13.webp",
+      "summary": "The Hercules Cluster is the brightest globular cluster visible from mid-northern latitudes, containing several hundred thousand stars packed into a sphere about 145 light-years across. Edmond Halley discovered it in 1714, and Messier added it to his catalogue in 1764. In 1974 it served as the target of the Arecibo message, a symbolic radio transmission aimed at the cluster carrying basic information about humanity and Earth, though any reply would take over 44,000 years round trip."
     },
     "M14": {
       "code": "M",
@@ -243,7 +256,8 @@
       "distance": 27400,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M14.webp"
+      "image": "/assets/dso/messier/M14.webp",
+      "summary": "Messier catalogued this globular cluster in 1764, noting it as fainter and less resolved than its neighbors M10 and M12. It lies roughly 27,000 light-years away in Ophiuchus, farther than many of the other globulars in that constellation, which is why it appears smaller and dimmer despite being physically substantial. In 1938 a nova was discovered within the cluster, one of the few instances of a nova observed inside a globular cluster's dense stellar population."
     },
     "M15": {
       "code": "M",
@@ -260,7 +274,8 @@
       "distance": 33600,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M15.webp"
+      "image": "/assets/dso/messier/M15.webp",
+      "summary": "This ancient globular cluster in Pegasus is thought to be among the most centrally concentrated clusters known, its stars crowding together so tightly near the core that it may have already undergone a core-collapse event billions of years ago. It contains Pease 1, the first planetary nebula ever confirmed inside a globular cluster, identified in 1928. Jean-Dominique Maraldi discovered the cluster in 1746, and it is estimated to be about 12 billion years old."
     },
     "M16": {
       "code": "M",
@@ -277,7 +292,8 @@
       "distance": 7000,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M16.webp"
+      "image": "/assets/dso/messier/M16.webp",
+      "summary": "The star cluster embedded in the Eagle Nebula is best known for the Pillars of Creation, towering columns of gas and dust captured in a famous 1995 Hubble Space Telescope image where new stars are actively forming. The cluster's hot young stars, only a few million years old, illuminate and slowly erode the surrounding pillars through intense stellar winds and radiation. Jean-Philippe de Chéseaux discovered the region in 1745-46, and Messier catalogued it in 1764."
     },
     "M17": {
       "code": "M",
@@ -297,7 +313,8 @@
       "distance": 5000,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M17.webp"
+      "image": "/assets/dso/messier/M17.webp",
+      "summary": "Known by several names including the Swan and Horseshoe Nebula for the curved, bird-like shape of its brightest gas, this is one of the most massive star-forming regions in the Milky Way, containing enough material to form thousands of Sun-like stars. Philippe Loys de Chéseaux discovered it in 1745, and Messier added it in 1764. Its central region hosts a young, partially obscured cluster of hot stars whose radiation powers the nebula's glow."
     },
     "M18": {
       "code": "M",
@@ -314,7 +331,8 @@
       "distance": 4900,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M18.webp"
+      "image": "/assets/dso/messier/M18.webp",
+      "summary": "This is a sparse, relatively young open cluster in Sagittarius, estimated at around 32 million years old, containing only a modest number of stars bright enough to be easily distinguished in amateur telescopes. Messier catalogued it in 1764, describing it as a cluster of faint stars amid nebulosity, though it lacks the dramatic surrounding gas clouds of its more famous neighbors M17 and M24. It sits along the same rich stretch of the Sagittarius Milky Way as those objects."
     },
     "M19": {
       "code": "M",
@@ -331,7 +349,8 @@
       "distance": 27100,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M19.webp"
+      "image": "/assets/dso/messier/M19.webp",
+      "summary": "This globular cluster stands out for its pronounced oblateness — it is one of the most flattened globular clusters known, likely a result of the strong tidal forces exerted by the Milky Way's core, since it orbits deep within the galactic bulge region. Messier discovered it in 1764. At around 27,000 light-years away, it is angularly small from Earth but appears noticeably elongated even in modest telescopes once carefully observed."
     },
     "M20": {
       "code": "M",
@@ -348,7 +367,8 @@
       "distance": 5200,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/messier/M20.webp"
+      "image": "/assets/dso/messier/M20.webp",
+      "summary": "The Trifid Nebula gets its name from the three dark dust lanes that appear to divide its glowing gas into distinct lobes, a pattern first described by John Herschel in the 19th century. It uniquely combines three nebula types in one object: a red emission region ionized by young stars, a blue reflection component scattering starlight off dust, and dark absorption lanes silhouetted against the glow. Charles Messier added it to his catalogue in 1764."
     },
     "M21": {
       "code": "M",
@@ -365,7 +385,8 @@
       "distance": 4250,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M21.webp"
+      "image": "/assets/dso/messier/M21.webp",
+      "summary": "A young, compact open cluster in Sagittarius located near the Trifid Nebula, estimated at only about 4.6 million years old, making it one of the younger clusters in Messier's catalogue. Messier discovered it on the same night in 1764 that he catalogued the nearby Trifid Nebula, M20. Its stars are still loosely bound and relatively few in number, roughly 57 confirmed members, and the cluster is expected to disperse into the galactic disk within a few hundred million years."
     },
     "M22": {
       "code": "M",
@@ -382,7 +403,8 @@
       "distance": 10100,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/messier/M22.webp"
+      "image": "/assets/dso/messier/M22.webp",
+      "summary": "One of the brightest globular clusters visible from Earth and among the closest to us at roughly 10,000 light-years, this cluster was likely first recorded by Abraham Ihle in 1665, making it one of the earliest globular clusters ever documented. It is one of only a handful of globular clusters known to contain a planetary nebula, and radio observations in the 1970s detected microlensing events attributed to planet-sized objects within it. Its position low in Sagittarius makes it a rewarding binocular target from southern latitudes."
     },
     "M23": {
       "code": "M",
@@ -399,7 +421,8 @@
       "distance": 2150,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M23.webp"
+      "image": "/assets/dso/messier/M23.webp",
+      "summary": "A rich, moderately dense open cluster in Sagittarius containing over 150 stars, estimated to be around 220 million years old. Messier catalogued it in 1764. It sits along the edge of a region thick with interstellar dust, and its stars span a range of brightnesses that give the cluster a granular, textured look through binoculars rather than the coarser, sparser patterns of younger clusters nearby."
     },
     "M24": {
       "code": "M",
@@ -416,7 +439,8 @@
       "distance": 10000,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M24.webp"
+      "image": "/assets/dso/messier/M24.webp",
+      "summary": "Unlike most Messier objects, this is not a single star cluster or nebula but a naked-eye-visible star cloud — a dense window through the Milky Way's obscuring dust that reveals a genuine spiral-arm stretch of the galaxy roughly 10,000 to 16,000 light-years deep. Messier catalogued it in 1764 as a large nebulous patch. Binoculars reveal it as an extraordinarily rich star field rather than a discrete object, since it is really a cross-section through several kiloparsecs of the galactic disk."
     },
     "M25": {
       "code": "M",
@@ -433,7 +457,8 @@
       "distance": 2000,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M25.webp"
+      "image": "/assets/dso/messier/M25.webp",
+      "summary": "This open cluster in Sagittarius was recorded by Philippe Loys de Chéseaux in 1745 and later added by Messier in 1764; it is one of the few Messier objects catalogued in the New General Catalogue system as an IC rather than NGC object due to a historical gap in Dreyer's original NGC survey. It contains around 86 stars and includes a well-known Cepheid variable, U Sagittae, whose regular brightness pulsations have made it a useful distance-calibration target for astronomers."
     },
     "M26": {
       "code": "M",
@@ -450,7 +475,8 @@
       "distance": 5000,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M26.webp"
+      "image": "/assets/dso/messier/M26.webp",
+      "summary": "A relatively faint and compact open cluster in Scutum, discovered by Messier himself in 1764. It is notably poorer in bright stars than many other clusters in this catalogue, and observers have long noted an apparent gap or void of stars near its center, thought to result from an intervening patch of obscuring dust rather than any true absence of stars in that region."
     },
     "M27": {
       "code": "M",
@@ -467,7 +493,8 @@
       "distance": 1250,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M27.webp"
+      "image": "/assets/dso/messier/M27.webp",
+      "summary": "The Dumbbell Nebula was the first planetary nebula ever discovered, identified by Messier in 1764, decades before astronomers understood what these objects actually were. It formed when a Sun-like star shed its outer layers roughly 3,000 to 4,000 years ago, leaving behind a hot white dwarf that now ionizes the expelled gas, producing the glow seen today. Its two-lobed, hourglass shape, visible even in small telescopes, gave the nebula its popular name."
     },
     "M28": {
       "code": "M",
@@ -484,7 +511,8 @@
       "distance": 17900,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M28.webp"
+      "image": "/assets/dso/messier/M28.webp",
+      "summary": "Messier discovered this globular cluster in 1764, describing it as a nebula containing no stars, though it in fact holds hundreds of thousands. It was the second globular cluster, after M15, found to contain a millisecond pulsar, detected in 1986, a rapidly rotating neutron star whose radio pulses arrive with extraordinary regularity. The cluster lies close to the galactic center and shows signs of significant tidal interaction with the Milky Way's gravity."
     },
     "M29": {
       "code": "M",
@@ -501,7 +529,8 @@
       "distance": 4000,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M29.webp"
+      "image": "/assets/dso/messier/M29.webp",
+      "summary": "A small, young open cluster in Cygnus, roughly 10 million years old, containing around 50 stars, several of which are hot blue giants. Messier catalogued it in 1764 and remarked on how faint it appeared for its position in a rich part of the Milky Way. Significant interstellar dust along the line of sight dims the cluster considerably, meaning its true brightness is greater than what reaches Earth-based telescopes."
     },
     "M30": {
       "code": "M",
@@ -518,7 +547,8 @@
       "distance": 24800,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M30.webp"
+      "image": "/assets/dso/messier/M30.webp",
+      "summary": "Messier discovered this globular cluster in 1764 in the faint constellation Capricornus. It is thought to have already undergone core collapse, a late-stage process in which a cluster's central stars sink inward through gravitational interactions, producing an unusually dense, sharply peaked core rather than the smoother profile seen in younger globulars. Its curving arcs of stars, visible in amateur telescopes, extend outward from that compact center in a distinctive pattern."
     },
     "M31": {
       "code": "M",
@@ -535,7 +565,8 @@
       "distance": 2900000,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M31.webp"
+      "image": "/assets/dso/messier/M31.webp",
+      "summary": "The Andromeda Galaxy is the nearest large spiral galaxy to the Milky Way, roughly 2.5 million light-years away, and the most distant object easily visible to the naked eye. Persian astronomer Abd al-Rahman al-Sufi recorded it as a 'small cloud' in 964 CE, long before telescopes existed. It contains roughly one trillion stars, more than the Milky Way, and current models predict it will collide and merge with our galaxy in about 4.5 billion years."
     },
     "M32": {
       "code": "M",
@@ -552,7 +583,8 @@
       "distance": 2900000,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M32.webp"
+      "image": "/assets/dso/messier/M32.webp",
+      "summary": "This compact elliptical galaxy is a satellite of the much larger Andromeda Galaxy, appearing as a small, dense smudge close to M31's bright core. Guillaume Le Gentil discovered it in 1749, making it the first companion galaxy of Andromeda to be identified. Astronomers believe it once had spiral arms and a disk but was stripped down to its dense stellar core through a violent past collision with Andromeda, leaving behind an unusually compact remnant galaxy."
     },
     "M33": {
       "code": "M",
@@ -569,7 +601,8 @@
       "distance": 3000000,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/messier/M33.webp"
+      "image": "/assets/dso/messier/M33.webp",
+      "summary": "The Triangulum Galaxy is the third-largest member of the Local Group after the Milky Way and Andromeda, and it may be gravitationally bound to Andromeda as a satellite, with a possible past close encounter between the two. Giovanni Battista Hodierna likely observed it before 1654, though Messier independently catalogued it in 1764. Despite its size, its light is spread across a wide area, giving it a low surface brightness that makes it surprisingly difficult to see clearly even though its total magnitude sounds bright."
     },
     "M34": {
       "code": "M",
@@ -586,7 +619,8 @@
       "distance": 1400,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M34.webp"
+      "image": "/assets/dso/messier/M34.webp",
+      "summary": "A loose, bright open cluster in Perseus visible to the naked eye under dark skies, estimated to be around 200 million years old and located roughly 1,400 light-years away, among the nearer clusters in Messier's list. Giovanni Batista Hodierna recorded it before 1654, and Messier independently added it in 1764. Its stars are spread widely enough that low-power binoculars often show it better than a telescope with a narrower field of view."
     },
     "M35": {
       "code": "M",
@@ -603,7 +637,8 @@
       "distance": 2800,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/messier/M35.webp"
+      "image": "/assets/dso/messier/M35.webp",
+      "summary": "This large open cluster in Gemini spans an area of sky roughly the size of the full Moon and is visible to the naked eye as a hazy patch under dark conditions. Philippe Loys de Chéseaux discovered it around 1745. It contains several hundred stars and is estimated to be about 100 million years old; a smaller, much more distant and compact cluster, NGC 2158, lies in the same field of view, offering a striking contrast in apparent size due to its far greater distance."
     },
     "M36": {
       "code": "M",
@@ -620,7 +655,8 @@
       "distance": 4100,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M36.webp"
+      "image": "/assets/dso/messier/M36.webp",
+      "summary": "One of three open clusters Messier catalogued in Auriga in 1764, this is a relatively young cluster, around 25 million years old, composed largely of hot blue-white stars still in the early stages of their lives. Giovanni Battista Hodierna had recorded it decades earlier, before 1654. Its stars are loosely scattered, giving it a sparse, sparkling appearance rather than the tight core of a globular cluster."
     },
     "M37": {
       "code": "M",
@@ -637,7 +673,8 @@
       "distance": 4400,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M37.webp"
+      "image": "/assets/dso/messier/M37.webp",
+      "summary": "The richest and largest of the three open clusters Messier found in Auriga, this cluster contains upward of 500 stars and is considerably older than its neighbors M36 and M38, with an estimated age around 300 to 500 million years. Giovanni Battista Hodierna observed it before 1654. Its greater age means many of its brighter, hotter stars have already evolved off the main sequence, giving it a noticeably orange-tinted red giant near its center visible in telescopes."
     },
     "M38": {
       "code": "M",
@@ -654,7 +691,8 @@
       "distance": 4200,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M38.webp"
+      "image": "/assets/dso/messier/M38.webp",
+      "summary": "The faintest of Auriga's three Messier open clusters, this one shows a loose, cross-like or Greek-letter-pi pattern in its brightest stars when viewed through a telescope. Giovanni Battista Hodierna recorded it before 1654, and Messier catalogued it independently in 1764. It is roughly 220 million years old, placing its age between its two brighter neighbors, M36 and M37, in the same constellation."
     },
     "M39": {
       "code": "M",
@@ -671,7 +709,8 @@
       "distance": 825,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M39.webp"
+      "image": "/assets/dso/messier/M39.webp",
+      "summary": "A large, loose open cluster in Cygnus, one of the nearest in Messier's catalogue at only about 825 light-years away, making its stars appear widely spread across the sky. Aristotle may have described a fuzzy patch in this region around 325 BCE, possibly referring to this cluster, though the attribution is uncertain; Messier catalogued it definitively in 1764. Its youth, roughly 300 million years, and proximity make it an easy binocular target with a triangular outline."
     },
     "M40": {
       "code": "M",
@@ -687,7 +726,8 @@
       "distance": 510,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M40.webp"
+      "image": "/assets/dso/messier/M40.webp",
+      "summary": "Unlike nearly every other entry in the catalogue, this object is simply a pair of unrelated double stars in Ursa Major that Messier logged in 1764 while searching for a nebula reported by Johannes Hevelius, only to find nothing there but this star pair. It has no real physical significance as a deep-sky object and stands as one of the catalogue's few genuine anomalies, included apparently to record a non-discovery rather than a true nebula or cluster."
     },
     "M41": {
       "code": "M",
@@ -704,7 +744,8 @@
       "distance": 2300,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M41.webp"
+      "image": "/assets/dso/messier/M41.webp",
+      "summary": "A bright open cluster in Canis Major, sitting about 4 degrees south of Sirius, visible to the naked eye under good conditions. It may have been recorded as early as antiquity — a passage attributed to Aristotle around 325 BCE possibly refers to it — though Giovanni Batista Hodierna's mid-17th-century observation is the first solid record. At roughly 2,300 light-years away and 190 million years old, it contains around 100 stars including several orange giants that add visible color contrast among its members."
     },
     "M42": {
       "code": "M",
@@ -721,7 +762,8 @@
       "distance": 1600,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/messier/M42.webp"
+      "image": "/assets/dso/messier/M42.webp",
+      "summary": "The Orion Nebula is the nearest large star-forming region to Earth, close enough that it is visible to the naked eye as a fuzzy patch below Orion's belt. At its heart lies the Trapezium, a tight group of massive young stars whose intense ultraviolet radiation carves out and illuminates the surrounding gas cloud. Nicolas-Claude Fabri de Peiresc is credited with its first telescopic description in 1610, and ongoing star formation within the nebula continues to produce new stars and protoplanetary disks observable today."
     },
     "M43": {
       "code": "M",
@@ -738,7 +780,8 @@
       "distance": 1600,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M43.webp"
+      "image": "/assets/dso/messier/M43.webp",
+      "summary": "Often treated as an extension of the neighboring Orion Nebula, this is a separate, comma-shaped patch of glowing gas connected to M42 by a bridge of nebulosity, separated visually by a dark dust lane. French astronomer Jean-Jacques Dortous de Mairan first described it distinctly in the early 18th century, and it bears his name. Like M42, it is illuminated by young, hot embedded stars, though it is centered on a single dominant star rather than the Trapezium's tight cluster."
     },
     "M44": {
       "code": "M",
@@ -757,7 +800,8 @@
       "distance": 577,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M44.webp"
+      "image": "/assets/dso/messier/M44.webp",
+      "summary": "The Beehive Cluster, also known by its Latin name Praesepe meaning 'manger,' has been recognized since antiquity — Hipparchus catalogued it around 130 BCE as a 'little cloud,' and Aratus referenced it centuries earlier as a naked-eye haze used to predict weather. Galileo was the first to resolve it into individual stars with a telescope in 1609. At about 577 light-years away and roughly 600 million years old, it is one of the closest open clusters to Earth and spans an area of sky wider than the full Moon."
     },
     "M45": {
       "code": "M",
@@ -776,7 +820,8 @@
       "distance": 380,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Very Easy",
-      "image": "/assets/dso/messier/M45.webp"
+      "image": "/assets/dso/messier/M45.webp",
+      "summary": "The Pleiades, also called the Seven Sisters, is among the closest and most recognizable open clusters to Earth, easily visible to the naked eye as a compact dipper-shaped group of stars. Roughly 100 million years old, its brightest stars are still surrounded by wisps of blue reflection nebulosity, dust the cluster is currently passing through rather than leftover material from its own formation. References to it appear in cultures across the world going back thousands of years, from ancient Greek mythology to Aboriginal Australian and Māori astronomy."
     },
     "M46": {
       "code": "M",
@@ -793,7 +838,8 @@
       "distance": 5400,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M46.webp"
+      "image": "/assets/dso/messier/M46.webp",
+      "summary": "This open cluster in Puppis appears to contain a planetary nebula, NGC 2438, within its boundaries, though the two are not physically related — the nebula lies much closer to Earth and simply happens to fall along the same line of sight. Messier discovered the cluster in 1771. It is a rich, relatively distant cluster estimated at around 300 million years old, and the chance alignment with the unrelated nebula has made it a frequently noted curiosity among observers."
     },
     "M47": {
       "code": "M",
@@ -810,7 +856,8 @@
       "distance": 1600,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M47.webp"
+      "image": "/assets/dso/messier/M47.webp",
+      "summary": "A bright, coarse open cluster in Puppis located near the richer M46, visible to the naked eye under dark skies. Giovanni Batista Hodierna recorded it before 1654, though Messier's own 1771 coordinates for the object contained an error that led to confusion about its identity for nearly two centuries until it was correctly matched to NGC 2422. At roughly 1,600 light-years away and 78 million years old, its stars are notably younger and more widely spaced than those of its neighbor M46."
     },
     "M48": {
       "code": "M",
@@ -827,7 +874,8 @@
       "distance": 1500,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M48.webp"
+      "image": "/assets/dso/messier/M48.webp",
+      "summary": "Messier recorded this open cluster in 1771, but an error in his stated position meant the object went unidentified in his catalogue for well over a century, eventually matched to NGC 2548 by later astronomers correcting for his declination mistake. It lies in the faint constellation Hydra and is visible to the naked eye under dark skies as a hazy patch, with a moderately rich population of stars estimated at around 450 million years old."
     },
     "M49": {
       "code": "M",
@@ -844,7 +892,8 @@
       "distance": 60000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M49.webp"
+      "image": "/assets/dso/messier/M49.webp",
+      "summary": "This giant elliptical galaxy was the first member of the Virgo Cluster to be discovered, found by Messier in 1771, predating his identification of the cluster's other bright galaxies by several years. It is one of the most massive galaxies in the Virgo Cluster, containing a vast, smooth halo of old stars and thousands of globular clusters, far more than orbit the Milky Way, reflecting its role as a dominant gravitational anchor within the cluster."
     },
     "M50": {
       "code": "M",
@@ -861,7 +910,8 @@
       "distance": 3000,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M50.webp"
+      "image": "/assets/dso/messier/M50.webp",
+      "summary": "An open cluster in Monoceros with a loosely heart- or triangle-shaped outline of stars, sometimes noted for a reddish star near its edge that stands out against its generally blue-white population. Giovanni Cassini is credited with discovering it before 1711, and Messier catalogued it in 1772. At roughly 3,000 light-years away and about 140 million years old, it is a moderate-richness cluster typical of the Monoceros star fields along the winter Milky Way."
     },
     "M51": {
       "code": "M",
@@ -878,7 +928,8 @@
       "distance": 37000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M51.webp"
+      "image": "/assets/dso/messier/M51.webp",
+      "summary": "The Whirlpool Galaxy was the first galaxy in which spiral structure was ever recognized, identified by Lord Rosse in 1845 using his 72-inch telescope, the largest in the world at the time. It is a face-on spiral seen locked in gravitational interaction with its smaller companion galaxy, NGC 5195, whose gravity has helped trigger enhanced star formation and sharpen the Whirlpool's prominent spiral arms. Charles Messier discovered the galaxy itself in 1773."
     },
     "M52": {
       "code": "M",
@@ -895,7 +946,8 @@
       "distance": 5000,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M52.webp"
+      "image": "/assets/dso/messier/M52.webp",
+      "summary": "Messier discovered this open cluster in Cassiopeia in 1774, describing it as a cluster of small stars amid faint nebulosity. It lies within a rich section of the Milky Way and is thought to be around 35 million years old. The nearby Bubble Nebula, a wind-blown shell of gas carved by a massive hot star, sits in the same general field, though the two objects are not physically associated with one another."
     },
     "M53": {
       "code": "M",
@@ -912,7 +964,8 @@
       "distance": 56400,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M53.webp"
+      "image": "/assets/dso/messier/M53.webp",
+      "summary": "One of the more distant globular clusters visible in a small telescope, this cluster in Coma Berenices lies roughly 56,000 light-years from Earth, well beyond most other globulars in Messier's catalogue. Johann Elert Bode discovered it in 1775, and Messier independently catalogued it the following year. It is notable for containing several unusually blue stragglers, stars that appear younger than the cluster's ancient population, likely formed through stellar collisions or mergers within the dense core."
     },
     "M54": {
       "code": "M",
@@ -929,7 +982,8 @@
       "distance": 82800,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M54.webp"
+      "image": "/assets/dso/messier/M54.webp",
+      "summary": "Charles Messier discovered this dense globular cluster in 1778, but it was not until 1994 that astronomers realized it does not belong to the Milky Way at all — it is actually a member of the Sagittarius Dwarf Spheroidal Galaxy, a small satellite galaxy currently being torn apart and absorbed by our own. This makes it one of the very few Messier objects that originated outside the Milky Way, and at over 80,000 light-years away it is among the most distant objects in his catalogue."
     },
     "M55": {
       "code": "M",
@@ -946,7 +1000,8 @@
       "distance": 16600,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/messier/M55.webp"
+      "image": "/assets/dso/messier/M55.webp",
+      "summary": "A large, loosely concentrated globular cluster in Sagittarius that Nicolas-Louis de Lacaille first noted in 1752 during his survey of the southern sky, though Messier is credited with resolving and cataloguing it properly in 1778. Its relatively low central concentration compared to more tightly packed globulars makes many of its individual stars resolvable even in modest amateur telescopes, unusual for an object of its class."
     },
     "M56": {
       "code": "M",
@@ -963,7 +1018,8 @@
       "distance": 31600,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M56.webp"
+      "image": "/assets/dso/messier/M56.webp",
+      "summary": "M56 is a globular cluster that Charles Messier catalogued on January 19, 1779, while he was tracking a comet through Lyra. It sits in a relatively sparse patch of the summer Milky Way, roughly midway between the bright stars Albireo and Sulafat. Compared to showpiece clusters like the nearby Hercules Cluster, M56 is loosely concentrated and modest in brightness, giving it a more diffuse, grainy texture in mid-sized telescopes rather than a dense stellar ball."
     },
     "M57": {
       "code": "M",
@@ -980,7 +1036,8 @@
       "distance": 4100,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M57.webp"
+      "image": "/assets/dso/messier/M57.webp",
+      "summary": "The Ring Nebula is the glowing shell of gas shed by a dying, sun-like star, now visible as a bright oval ring around a faint central white dwarf. It was first spotted by French astronomer Antoine Darquier de Pellepoix in January 1779, just weeks before Messier logged it independently. Sitting between the stars Beta and Gamma Lyrae near Vega, it's one of the most frequently observed planetary nebulae because its donut shape holds up well even in small telescopes, unlike most nebulae that need long exposures to reveal structure."
     },
     "M58": {
       "code": "M",
@@ -997,7 +1054,8 @@
       "distance": 60000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M58.webp"
+      "image": "/assets/dso/messier/M58.webp",
+      "summary": "M58 is a barred spiral galaxy deep within the Virgo Cluster, discovered by Messier in April 1779. Its central bar funnels gas inward toward an active nucleus, making it one of the few Messier objects classified as a Seyfert galaxy with a feeding supermassive black hole. At magnitude 9.7 it is among the fainter Virgo Cluster members Messier catalogued, and its spiral arms only become visible in larger instruments or long-exposure imaging rather than through a typical amateur eyepiece."
     },
     "M59": {
       "code": "M",
@@ -1014,7 +1072,8 @@
       "distance": 60000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/messier/M59.webp"
+      "image": "/assets/dso/messier/M59.webp",
+      "summary": "M59 is an elliptical galaxy in the Virgo Cluster discovered by Johann Gottfried Koehler in April 1779, just days before Messier added it to his own list. Unlike most ellipticals, which rotate slowly if at all, M59 spins noticeably faster relative to its mass, a trait that has made it a case study in galaxy dynamics. It forms a close pair on the sky with the larger elliptical M60, about a degree to its east."
     },
     "M60": {
       "code": "M",
@@ -1031,7 +1090,8 @@
       "distance": 60000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M60.webp"
+      "image": "/assets/dso/messier/M60.webp",
+      "summary": "M60 is one of the most massive elliptical galaxies in the Virgo Cluster, discovered by Johann Gottfried Koehler on the same night as M59 in April 1779. At its core lies one of the heaviest black holes ever measured in a galaxy, estimated at more than four billion solar masses. M60 appears to overlap on the sky with the smaller spiral galaxy NGC 4647 just to its west, a chance alignment that has been studied for signs of gravitational interaction, though the two show little clear evidence of it."
     },
     "M61": {
       "code": "M",
@@ -1048,7 +1108,8 @@
       "distance": 60000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/messier/M61.webp"
+      "image": "/assets/dso/messier/M61.webp",
+      "summary": "M61 is a grand-design spiral galaxy in the Virgo Cluster, independently discovered on the same night, May 5, 1779, by both Barnabus Oriani and Charles Messier, who briefly mistook it for a comet. Its prominent star-forming spiral arms have made it one of the most supernova-productive galaxies known, with astronomers recording explosions there across multiple decades from the 1920s through the 2000s. Its bar-fed nucleus also shows signs of active black hole feeding."
     },
     "M62": {
       "code": "M",
@@ -1065,7 +1126,8 @@
       "distance": 21500,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M62.webp"
+      "image": "/assets/dso/messier/M62.webp",
+      "summary": "M62 is a globular cluster in Ophiuchus that Messier discovered in June 1771. It lies close to the galactic center as seen from Earth, and the Milky Way's gravity has tidally distorted its shape into a noticeably asymmetric, egg-like form rather than the round profile typical of globulars. The cluster also contains an unusually high number of low-mass X-ray binaries and variable stars for its size, making it a frequent target for studies of stellar collisions in dense cluster cores."
     },
     "M63": {
       "code": "M",
@@ -1082,7 +1144,8 @@
       "distance": 37000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M63.webp"
+      "image": "/assets/dso/messier/M63.webp",
+      "summary": "The Sunflower Galaxy earned its nickname from patchy, fragmented spiral arms that give it a flocculent rather than grand-design structure, a pattern later used to define an entire class of spiral galaxies. Pierre Mechain discovered it on June 14, 1779, and it was one of the first galaxies whose light was analyzed to detect an extended halo of faint tidal debris, evidence of past interactions with smaller companion galaxies. It shares a loose physical association with the larger Whirlpool Galaxy, M51."
     },
     "M64": {
       "code": "M",
@@ -1099,7 +1162,8 @@
       "distance": 19000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M64.webp"
+      "image": "/assets/dso/messier/M64.webp",
+      "summary": "The Black Eye Galaxy takes its name from a dark band of dust curving across its bright nucleus, first noted by English astronomer Edward Pigott in March 1779. Its most striking feature isn't visible to the eye at all: the gas in its outer disk rotates in the opposite direction to the gas and stars in its inner regions, a signature astronomers attribute to a merger with a smaller satellite galaxy in the distant past."
     },
     "M65": {
       "code": "M",
@@ -1116,7 +1180,8 @@
       "distance": 35000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M65.webp"
+      "image": "/assets/dso/messier/M65.webp",
+      "summary": "M65 is a spiral galaxy in Leo discovered by Pierre Mechain in March 1780, and one third of the Leo Triplet alongside M66 and NGC 3628. It is comparatively dust-poor and quieter in star formation than its triplet neighbors, with a smooth, tightly wound disk that shows less obvious disturbance despite the group's ongoing gravitational interactions."
     },
     "M66": {
       "code": "M",
@@ -1133,7 +1198,8 @@
       "distance": 35000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M66.webp"
+      "image": "/assets/dso/messier/M66.webp",
+      "summary": "M66 is a spiral galaxy in Leo, discovered by Pierre Mechain in 1780 alongside its Leo Triplet neighbor M65. Gravitational tugging from its two triplet companions has visibly warped its spiral arms into an asymmetric, offset pattern rather than the balanced spiral typical of undisturbed galaxies. It has also hosted several supernovae recorded over the past few decades, making it a regularly monitored target for transient searches."
     },
     "M67": {
       "code": "M",
@@ -1150,7 +1216,8 @@
       "distance": 2700,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M67.webp"
+      "image": "/assets/dso/messier/M67.webp",
+      "summary": "M67 is one of the oldest open clusters known, with an age of roughly four billion years, far older than most open clusters, which tend to disperse within a few hundred million years. Because every star in it formed at the same time from the same material, differing only in mass, it has become a benchmark for testing models of stellar evolution and dating other star populations. It was recorded before Messier's own survey, likely first noted by Johann Gottfried Koehler around 1779."
     },
     "M68": {
       "code": "M",
@@ -1167,7 +1234,8 @@
       "distance": 33300,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/messier/M68.webp"
+      "image": "/assets/dso/messier/M68.webp",
+      "summary": "M68 is a globular cluster in Hydra, discovered by Messier in April 1780. It lies well south of the galactic plane and is relatively metal-poor, consistent with being one of the Milky Way's older halo clusters. Its outskirts contain a modest population of RR Lyrae variable stars, which astronomers use to independently check distance estimates to the cluster."
     },
     "M69": {
       "code": "M",
@@ -1184,7 +1252,8 @@
       "distance": 26700,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M69.webp"
+      "image": "/assets/dso/messier/M69.webp",
+      "summary": "M69 is a globular cluster in Sagittarius that Messier discovered on August 31, 1780. It lies in the direction of the galactic center and is notably metal-rich for a globular cluster, suggesting it formed from gas already enriched by earlier generations of stars. It forms a roughly symmetric pair on the sky with the similarly sized cluster M70 a few degrees to its east."
     },
     "M70": {
       "code": "M",
@@ -1201,7 +1270,8 @@
       "distance": 28000,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M70.webp"
+      "image": "/assets/dso/messier/M70.webp",
+      "summary": "M70 is a globular cluster in Sagittarius discovered by Messier on the same night as its near-twin M69, August 31, 1780. It gained unexpected fame in July 1995 when amateur astronomer Alan Hale, observing the cluster from his driveway, noticed an unfamiliar fuzzy object nearby that turned out to be Comet Hale-Bopp, independently confirmed the same night by fellow observer Thomas Bopp."
     },
     "M71": {
       "code": "M",
@@ -1218,7 +1288,8 @@
       "distance": 11700,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M71.webp"
+      "image": "/assets/dso/messier/M71.webp",
+      "summary": "M71 is a compact cluster in the small constellation Sagitta, first recorded by Swiss astronomer Philippe Loys de Cheseaux around 1745 and added to Messier's catalogue in 1780. For much of the 20th century, astronomers debated whether it was a dense open cluster or an unusually loose globular cluster, since it lacks the strong central concentration typical of globulars. It's now classified as a young, sparse globular cluster."
     },
     "M72": {
       "code": "M",
@@ -1235,7 +1306,8 @@
       "distance": 52800,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M72.webp"
+      "image": "/assets/dso/messier/M72.webp",
+      "summary": "M72 is a globular cluster on the Aquarius-Capricornus border, discovered by Pierre Mechain in August 1780. It is one of the more distant and faint globular clusters in Messier's catalogue, loosely concentrated compared to bright showpieces like M13, and was among the last objects Mechain reported to Messier before the catalogue's major 1781 expansion. Its stars sit roughly 55,000 light-years away, making it one of the more remote clusters Messier ever recorded."
     },
     "M73": {
       "code": "M",
@@ -1252,7 +1324,8 @@
       "distance": 2000,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/messier/M73.webp"
+      "image": "/assets/dso/messier/M73.webp",
+      "summary": "M73 is a small, tight grouping of four stars in Aquarius that Messier recorded in October 1780, noting faint nebulosity he suspected surrounded them. That suspicion sparked two centuries of debate over whether the group was a genuine star cluster; modern precision astrometry from the Gaia spacecraft eventually showed the four stars lie at different distances and move independently, confirming M73 is simply a chance alignment rather than a physically bound cluster."
     },
     "M74": {
       "code": "M",
@@ -1269,7 +1342,8 @@
       "distance": 35000000,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/messier/M74.webp"
+      "image": "/assets/dso/messier/M74.webp",
+      "summary": "M74 is a face-on spiral galaxy in Pisces, discovered by Pierre Mechain in September 1780, prized by astronomers as one of the clearest examples of a symmetric, grand-design spiral with well-defined arms. Despite a respectable catalogued brightness, its light is spread thinly across a large area, making it one of the hardest Messier objects to see visually even though it photographs well. It has hosted at least two well-studied supernovae, including SN 2002ap in 2002."
     },
     "M75": {
       "code": "M",
@@ -1286,7 +1360,8 @@
       "distance": 57700,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M75.webp"
+      "image": "/assets/dso/messier/M75.webp",
+      "summary": "M75 is a globular cluster in Sagittarius discovered by Pierre Mechain in August 1780. It's one of the more distant globulars in Messier's catalogue and also one of the most tightly concentrated, packing its stars into a dense core that gives it a compact, star-like appearance at low magnification compared to looser clusters such as M56."
     },
     "M76": {
       "code": "M",
@@ -1306,7 +1381,8 @@
       "distance": 3400,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M76.webp"
+      "image": "/assets/dso/messier/M76.webp",
+      "summary": "The Little Dumbbell Nebula is a planetary nebula in Perseus, discovered by Pierre Mechain in September 1780, and one of the faintest objects in Messier's catalogue. Its two glowing lobes were originally catalogued as separate objects, NGC 650 and NGC 651, before being recognized as the two halves of a single bipolar nebula shaped like a compressed hourglass, echoing the larger M27 on a smaller scale."
     },
     "M77": {
       "code": "M",
@@ -1323,7 +1399,8 @@
       "distance": 60000000,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M77.webp"
+      "image": "/assets/dso/messier/M77.webp",
+      "summary": "M77 is a spiral galaxy in Cetus discovered by Pierre Mechain in October 1780. It hosts one of the nearest and brightest Seyfert nuclei known, powered by a supermassive black hole of roughly ten million solar masses actively pulling in surrounding gas. In 2022, the IceCube Neutrino Observatory reported detecting high-energy neutrinos streaming from its core, making M77 one of the first galaxies beyond our own confirmed as a neutrino source."
     },
     "M78": {
       "code": "M",
@@ -1340,7 +1417,8 @@
       "distance": 1600,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M78.webp"
+      "image": "/assets/dso/messier/M78.webp",
+      "summary": "M78 is a reflection nebula in Orion, discovered by Pierre Mechain in 1780. Unlike glowing emission nebulae such as its neighbor the Orion Nebula, M78 shines only because starlight from young embedded stars scatters off surrounding dust, giving it a cooler, bluish-white glow. It's part of the same vast Orion molecular cloud complex and marks an active site of ongoing star formation."
     },
     "M79": {
       "code": "M",
@@ -1357,7 +1435,8 @@
       "distance": 41100,
       "viewingSeason": "Winter",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M79.webp"
+      "image": "/assets/dso/messier/M79.webp",
+      "summary": "M79 is a globular cluster in Lepus, discovered by Pierre Mechain in December 1780. It is unusual for a Messier globular in being prominent in the winter sky rather than the summer's Sagittarius-rich region, and some researchers have proposed it may not be a native Milky Way cluster at all, but instead was captured from the Canis Major Dwarf Galaxy during a past merger."
     },
     "M80": {
       "code": "M",
@@ -1374,7 +1453,8 @@
       "distance": 27400,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M80.webp"
+      "image": "/assets/dso/messier/M80.webp",
+      "summary": "M80 is one of the densest globular clusters in the Milky Way, discovered by Messier on January 4, 1781, in Scorpius. In 1860, a nova named T Scorpii flared up within the cluster and briefly outshone hundreds of thousands of its stars combined, one of very few novae ever recorded appearing inside a globular cluster."
     },
     "M81": {
       "code": "M",
@@ -1391,7 +1471,8 @@
       "distance": 12000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M81.webp"
+      "image": "/assets/dso/messier/M81.webp",
+      "summary": "Bode's Galaxy is a grand-design spiral discovered by German astronomer Johann Elert Bode on December 31, 1774, one of the earliest deep-sky discoveries later folded into Messier's catalogue. It forms a gravitationally bound pair with the nearby starburst galaxy M82; repeated close passes between the two have stripped gas from M82 and pulled it into long tidal streams, while triggering intense star formation in both galaxies."
     },
     "M82": {
       "code": "M",
@@ -1408,7 +1489,8 @@
       "distance": 12000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M82.webp"
+      "image": "/assets/dso/messier/M82.webp",
+      "summary": "The Cigar Galaxy is an edge-on irregular galaxy that Johann Elert Bode discovered the same night as its neighbor M81, December 31, 1774. Gravitational interaction with M81 has triggered one of the most intense bursts of star formation known in a nearby galaxy, and the resulting supernova explosions and stellar winds drive vast plumes of superheated gas out of its disk, visible in images extending thousands of light-years above and below the galactic plane."
     },
     "M83": {
       "code": "M",
@@ -1425,7 +1507,8 @@
       "distance": 15000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/messier/M83.webp"
+      "image": "/assets/dso/messier/M83.webp",
+      "summary": "The Southern Pinwheel Galaxy is a barred spiral discovered by French astronomer Nicolas-Louis de Lacaille in 1752 from the Cape of Good Hope, decades before Messier began his own survey. It is exceptionally rich in star formation for its size and has produced more recorded supernovae than almost any other known galaxy, with six documented explosions logged between the 1920s and 1980s."
     },
     "M84": {
       "code": "M",
@@ -1442,7 +1525,8 @@
       "distance": 60000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M84.webp"
+      "image": "/assets/dso/messier/M84.webp",
+      "summary": "M84 is a lenticular galaxy near the core of the Virgo Cluster, discovered by Messier on March 18, 1781. It sits along Markarian's Chain, a striking curved line of galaxies that appear to share a common motion across the sky as seen from Earth. Radio observations reveal jets of material blasting from its central supermassive black hole, bent into a C-shape by its motion through the cluster's hot gas."
     },
     "M85": {
       "code": "M",
@@ -1459,7 +1543,8 @@
       "distance": 60000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M85.webp"
+      "image": "/assets/dso/messier/M85.webp",
+      "summary": "M85 is a lenticular galaxy in Coma Berenices, discovered by Pierre Mechain in March 1781, and one of the outermost members of the Virgo Cluster on its northern edge. It has an unusually smooth, featureless light profile with little sign of ongoing star formation, and faint shell-like structures detected in deep images suggest it absorbed a smaller companion galaxy at some point in its past. It is often observed alongside the nearby spiral NGC 4394."
     },
     "M86": {
       "code": "M",
@@ -1476,7 +1561,8 @@
       "distance": 60000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M86.webp"
+      "image": "/assets/dso/messier/M86.webp",
+      "summary": "M86 is a galaxy near the core of the Virgo Cluster discovered by Messier on the same night as M84, March 1781. It has the largest blueshift of any Messier object, meaning it is one of the few galaxies actually moving toward the Milky Way rather than away, a result of its high orbital speed within the cluster overwhelming the outward pull of cosmic expansion. Like M84, it lies along Markarian's Chain."
     },
     "M87": {
       "code": "M",
@@ -1493,7 +1579,8 @@
       "distance": 60000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M87.webp"
+      "image": "/assets/dso/messier/M87.webp",
+      "summary": "M87 is a giant elliptical galaxy at the center of the Virgo Cluster, discovered by Messier in March 1781, and among the most massive galaxies in the local universe. Its central supermassive black hole became the first ever directly imaged, when the Event Horizon Telescope released its picture in 2019. M87 also shoots out a relativistic jet of plasma roughly 5,000 light-years long, bright enough to be recorded in amateur astrophotographs."
     },
     "M88": {
       "code": "M",
@@ -1510,7 +1597,8 @@
       "distance": 60000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M88.webp"
+      "image": "/assets/dso/messier/M88.webp",
+      "summary": "M88 is a spiral galaxy in the Virgo Cluster discovered by Messier in March 1781, tilted at an oblique angle that reveals its multiple spiral arms clearly in photographs. As it plunges through the cluster's hot intracluster gas, ram-pressure stripping is slowly pulling gas out of its disk, a process that will eventually starve it of the raw material needed for future star formation."
     },
     "M89": {
       "code": "M",
@@ -1527,7 +1615,8 @@
       "distance": 60000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M89.webp"
+      "image": "/assets/dso/messier/M89.webp",
+      "summary": "M89 is an elliptical galaxy in the Virgo Cluster, discovered by Messier in March 1781. It is one of the roundest galaxies known, appearing almost perfectly spherical from Earth's vantage point. Deep long-exposure images have revealed a faint extended envelope and looping arcs of stars around it, thought to be the tidally disrupted remains of a smaller galaxy it absorbed long ago."
     },
     "M90": {
       "code": "M",
@@ -1544,7 +1633,8 @@
       "distance": 60000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/messier/M90.webp"
+      "image": "/assets/dso/messier/M90.webp",
+      "summary": "M90 is a spiral galaxy in the Virgo Cluster discovered by Messier in March 1781. It is one of the few Virgo galaxies with a blueshift rather than a redshift, indicating it is moving unusually fast relative to the cluster's average recession, likely on its way out after a close pass through the cluster's dense core. Like several of its Virgo neighbors, it shows signs of gas stripped by the cluster's hot intergalactic medium."
     },
     "M91": {
       "code": "M",
@@ -1561,7 +1651,8 @@
       "distance": 60000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/messier/M91.webp"
+      "image": "/assets/dso/messier/M91.webp",
+      "summary": "M91 is a barred spiral galaxy in the Virgo Cluster discovered by Messier in March 1781. For much of the 20th century its true identity was uncertain, since a recording error in Messier's original notes left astronomers unsure whether he meant this galaxy or the nearby NGC 4571; the discrepancy was eventually resolved in favor of NGC 4548, now accepted as M91. It's the faintest of the Virgo Cluster galaxies in Messier's catalogue."
     },
     "M92": {
       "code": "M",
@@ -1578,7 +1669,8 @@
       "distance": 26400,
       "viewingSeason": "summer",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M92.webp"
+      "image": "/assets/dso/messier/M92.webp",
+      "summary": "M92 is a globular cluster in Hercules discovered by Johann Elert Bode on December 27, 1777, four years before Messier catalogued it independently. It's among the oldest known globular clusters, with an age close to 14 billion years, nearly as old as the universe itself. Despite ranking as one of the brightest globulars in the northern sky, it is often overlooked by observers drawn to its far more famous neighbor, the Hercules Cluster M13, in the same constellation."
     },
     "M93": {
       "code": "M",
@@ -1595,7 +1687,8 @@
       "distance": 3600,
       "viewingSeason": "winter",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M93.webp"
+      "image": "/assets/dso/messier/M93.webp",
+      "summary": "M93 is an open cluster in Puppis that Messier discovered on March 20, 1781, one of the last entries he logged from his own observations. Its blue-white stars are loosely scattered in a wedge or butterfly-like shape, set against a relatively unremarkable stretch of the winter Milky Way compared to the richer star fields nearby in Canis Major and Monoceros."
     },
     "M94": {
       "code": "M",
@@ -1612,7 +1705,8 @@
       "distance": 14500000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M94.webp"
+      "image": "/assets/dso/messier/M94.webp",
+      "summary": "M94 is a spiral galaxy in Canes Venatici discovered by Pierre Mechain in March 1781. Its most distinctive feature is a bright, tightly-wound inner ring of vigorous star formation that outshines its faint, loosely structured outer disk, giving it a two-part look rather than the classic single spiral pattern. The inner starburst ring is thought to be sustained by gas funneled inward by the galaxy's oval-shaped disk."
     },
     "M95": {
       "code": "M",
@@ -1629,7 +1723,8 @@
       "distance": 38000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/messier/M95.webp"
+      "image": "/assets/dso/messier/M95.webp",
+      "summary": "M95 is a barred spiral galaxy in Leo discovered by Pierre Mechain in March 1781. Its central bar channels gas toward a bright ring of star-forming regions that encircles the nucleus, a textbook example of how bars can fuel star birth. In 2012 it hosted the well-studied Type II supernova SN 2012aw, giving astronomers a close, detailed look at a massive star's collapse."
     },
     "M96": {
       "code": "M",
@@ -1646,7 +1741,8 @@
       "distance": 38000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M96.webp"
+      "image": "/assets/dso/messier/M96.webp",
+      "summary": "M96 is a spiral galaxy in Leo, discovered by Pierre Mechain in March 1781, the same night as M95. It is the brightest member of the Leo I Group, a small cluster of galaxies that also includes M95 and M105, and its lopsided spiral structure is thought to result from gravitational interactions with its group neighbors. A supernova, SN 1998bu, was recorded in the galaxy in 1998."
     },
     "M97": {
       "code": "M",
@@ -1663,7 +1759,8 @@
       "distance": 2600,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/messier/M97.webp"
+      "image": "/assets/dso/messier/M97.webp",
+      "summary": "The Owl Nebula is a planetary nebula in Ursa Major discovered by Pierre Mechain in February 1781. Its rounded disk contains two darker patches that resemble a pair of eyes, a feature noted in Lord Rosse's observations in the 1840s that gave the nebula its nickname. It ranks among the fainter Messier objects, making it a common benchmark for testing how much telescope aperture is needed to reveal a planetary nebula's fine structure."
     },
     "M98": {
       "code": "M",
@@ -1680,7 +1777,8 @@
       "distance": 60000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/messier/M98.webp"
+      "image": "/assets/dso/messier/M98.webp",
+      "summary": "M98 is a nearly edge-on spiral galaxy in the Virgo Cluster discovered by Pierre Mechain in March 1781. It is one of only a few Virgo Cluster members with a blueshift instead of a redshift, meaning its orbital motion within the cluster currently carries it toward the Milky Way faster than the cluster's overall expansion carries it away."
     },
     "M99": {
       "code": "M",
@@ -1697,7 +1795,8 @@
       "distance": 60000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/messier/M99.webp"
+      "image": "/assets/dso/messier/M99.webp",
+      "summary": "M99 is a spiral galaxy in the Virgo Cluster discovered by Pierre Mechain in March 1781, and among the first galaxies in which spiral structure was recognized, through Lord Rosse's large reflecting telescope in the 1840s. One of its arms appears stretched and distorted relative to the other, a lopsided pattern likely caused by a fast, close passage through the crowded Virgo Cluster."
     },
     "M100": {
       "code": "M",
@@ -1714,7 +1813,8 @@
       "distance": 60000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/messier/M100.webp"
+      "image": "/assets/dso/messier/M100.webp",
+      "summary": "M100 is a large, bright grand-design spiral galaxy in the Virgo Cluster discovered by Pierre Mechain in March 1781. It became one of the key galaxies in the Hubble Space Telescope's 1990s Key Project, in which astronomers tracked Cepheid variable stars within it to help calibrate the cosmic distance scale and refine the measured rate of the universe's expansion."
     },
     "M101": {
       "code": "M",
@@ -1731,7 +1831,8 @@
       "distance": 27000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Very Hard",
-      "image": "/assets/dso/messier/M101.webp"
+      "image": "/assets/dso/messier/M101.webp",
+      "summary": "The Pinwheel Galaxy is a large, nearly face-on spiral discovered by Pierre Mechain on March 27, 1781. Its disk is visibly off-center and its arms asymmetric, a pattern attributed to gravitational tugging from several dwarf companion galaxies nearby. M101 has hosted at least five recorded supernovae, including SN 2011fe in 2011, one of the closest and most thoroughly studied Type Ia supernovae of modern astronomy."
     },
     "M102": {
       "code": "M",
@@ -1748,7 +1849,8 @@
       "distance": 40000000,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/messier/M102.webp"
+      "image": "/assets/dso/messier/M102.webp",
+      "summary": "M102's identity was disputed for two centuries after Pierre Mechain reported it in 1781; some believed his notes were simply a duplicate record of M101, but the object is now generally accepted to be the lenticular galaxy NGC 5866 in Draco. Seen edge-on, it displays a sharp, dark dust lane slicing across its thin, bright disk, earning it the nickname Spindle Galaxy."
     },
     "M103": {
       "code": "M",
@@ -1765,7 +1867,8 @@
       "distance": 8000,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M103.webp"
+      "image": "/assets/dso/messier/M103.webp",
+      "summary": "M103 is an open cluster in Cassiopeia, one of the last objects Pierre Mechain added to Messier's catalogue in 1781. It has a compact, wedge-like shape set in a rich part of the Milky Way, and includes a conspicuous orange giant star whose color stands out against the cluster's otherwise blue-white population of young stars."
     },
     "M104": {
       "code": "M",
@@ -1782,7 +1885,8 @@
       "distance": 50000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Easy",
-      "image": "/assets/dso/messier/M104.webp"
+      "image": "/assets/dso/messier/M104.webp",
+      "summary": "The Sombrero Galaxy is a spiral galaxy in Virgo, reported by Pierre Mechain in May 1781 and later added to Messier's list by other astronomers using his notes. A sharply defined ring of dust circles its bright, bulging nucleus, producing the wide-brimmed hat shape that gives the galaxy its name. Its central supermassive black hole, at roughly a billion solar masses, is unusually large for the size of its bulge, and it hosts one of the richest known systems of globular clusters, with an estimated 2,000 or more."
     },
     "M105": {
       "code": "M",
@@ -1799,7 +1903,8 @@
       "distance": 38000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Moderate",
-      "image": "/assets/dso/messier/M105.webp"
+      "image": "/assets/dso/messier/M105.webp",
+      "summary": "M105 is an elliptical galaxy in Leo, observed by Pierre Mechain in 1781 but not formally added to the Messier catalogue until 1947, when historian Owen Gingerich incorporated it along with M106 through M110 based on Mechain's original notes. Its smooth, regular light profile makes it a textbook example of a normal elliptical galaxy, and precise measurements of stellar motion near its center have yielded one of the more accurate black hole mass estimates among nearby galaxies."
     },
     "M106": {
       "code": "M",
@@ -1816,7 +1921,8 @@
       "distance": 25000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/messier/M106.webp"
+      "image": "/assets/dso/messier/M106.webp",
+      "summary": "M106 is a spiral galaxy in Canes Venatici discovered by Pierre Mechain in 1781. Beyond its visible spiral arms, radio and X-ray observations reveal a pair of extra, fainter 'anomalous arms' produced by shock-heated gas driven out by the galaxy's active central black hole rather than by normal spiral density waves. Water molecules orbiting close to that black hole emit maser radiation that astronomers have used as one of the most precise cosmic distance yardsticks available."
     },
     "M107": {
       "code": "M",
@@ -1833,7 +1939,8 @@
       "distance": 19600,
       "viewingSeason": "Summer",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/messier/M107.webp"
+      "image": "/assets/dso/messier/M107.webp",
+      "summary": "M107 is a globular cluster in Ophiuchus, one of the last objects Pierre Mechain added to Messier's catalogue in 1782. It is loosely concentrated compared to dense showpiece clusters, and relatively metal-rich for a globular, consistent with clusters that formed closer to the Milky Way's central bulge. It was among the final globular clusters discovered by eye, before large-scale photographic surveys took over the search for new deep-sky objects in the following century."
     },
     "M108": {
       "code": "M",
@@ -1850,7 +1957,8 @@
       "distance": 45000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/messier/M108.webp"
+      "image": "/assets/dso/messier/M108.webp",
+      "summary": "M108 is a spiral galaxy in Ursa Major, recorded by Pierre Mechain in 1781 and later folded into the Messier catalogue. Seen almost exactly edge-on, it appears as an elongated, mottled streak of light with dust patches but no distinct central bulge from our viewing angle. It shares a telescope field of view with the planetary nebula M97, making the pair a popular target to observe together."
     },
     "M109": {
       "code": "M",
@@ -1867,7 +1975,8 @@
       "distance": 55000000,
       "viewingSeason": "Spring",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/messier/M109.webp"
+      "image": "/assets/dso/messier/M109.webp",
+      "summary": "M109 is a barred spiral galaxy in Ursa Major, observed by Pierre Mechain in 1781 and added to Messier's catalogue afterward. It sits close on the sky to Phecda, one of the stars forming the bowl of the Big Dipper, which can make it tricky to locate without the star's glare interfering. M109 is the brightest member of a small, loosely associated group of galaxies that bears its name."
     },
     "M110": {
       "code": "M",
@@ -1884,7 +1993,8 @@
       "distance": 2900000,
       "viewingSeason": "Autumn",
       "viewingDifficulty": "Hard",
-      "image": "/assets/dso/messier/M110.webp"
+      "image": "/assets/dso/messier/M110.webp",
+      "summary": "M110 is a dwarf elliptical satellite of the Andromeda Galaxy, observed by Messier on August 10, 1773, though he never added it to his own published catalogue. It was finally included as the 110th and last Messier object in 1967, when researcher Kenneth Glyn Jones formalized it based on Messier's surviving notes and sketches. Unlike most dwarf elliptical satellites, M110 still contains patches of dust and evidence of relatively recent star formation, suggesting it has not been fully stripped of gas."
     }
   }
 }
