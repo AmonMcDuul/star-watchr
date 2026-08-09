@@ -48,6 +48,23 @@ export class SeoService {
     }
   }
 
+  setJsonLd(id: string, data: Record<string, unknown>) {
+    let script = this.document.getElementById(id) as HTMLScriptElement | null;
+
+    if (!script) {
+      script = this.document.createElement('script');
+      script.id = id;
+      script.type = 'application/ld+json';
+      this.document.head.appendChild(script);
+    }
+
+    script.textContent = JSON.stringify(data);
+  }
+
+  url(path: string): string {
+    return this.buildUrl(path);
+  }
+
   private buildUrl(path: string): string {
 
     if (!path.startsWith('/')) {

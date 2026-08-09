@@ -1,389 +1,455 @@
-.dso-page {
-  padding: clamp(24px, 3vw, 42px);
-  // background: #0a0f1a;
-  color: #e2e8ff;
-  font-family: Inter, system-ui;
-}
-
-/* ================= HEADER ================= */
-
-.dso-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 48px;
-  padding-bottom: 18px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-
-.header-left {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-
-  h1 {
-    margin: 0;
-    font-size: clamp(1.6rem, 2.5vw, 2rem);
-    font-weight: 600;
-    letter-spacing: 0.02em;
-  }
-
-  .object-name {
-    margin-left: 12px;
-    font-weight: 400;
-    opacity: 0.6;
-  }
-}
-
-.header-meta {
-  display: flex;
-  gap: 36px;
-}
-
-.meta-item {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-
-  .label {
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    opacity: 0.5;
-  }
-
-  .value {
-    font-size: 0.9rem;
-    font-weight: 600;
-  }
-}
-
-/* ================= GRID ================= */
-
-.grid {
-  display: grid;
-  gap: 28px;
-  margin-bottom: 40px;
-}
-
-.two-thirds {
-  @media (min-width: 1100px) {
-    grid-template-columns: 2fr 1fr;
-  }
-}
-
-.one-thirds {
-  @media (min-width: 1100px) {
-    grid-template-columns: 1fr 2fr;
-  }
-}
-
-/* ================= PANELS ================= */
-
-.panel {
-  background: #111726;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.06);
-  padding: 22px;
-
-  box-shadow:
-    0 8px 24px rgba(0,0,0,0.4);
-
-  h3 {
-    margin: 0 0 12px;
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: #9fb0ff;
-    letter-spacing: 0.04em;
-  }
-
-  p {
-    margin: 0 0 14px;
-    font-size: 0.85rem;
-  }
-}
-
-.panel-title {
-  font-size: 0.7rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  margin-bottom: 18px;
-  opacity: 0.6;
-}
-
-
-
-
-/* ================= CONTENT ================= */
-
-.starhop-panel app-starhop-atlas {
-  display: block;
-  width: 100%;
-  height: 460px;
-}
-
-.image-panel img {
-  width: 100%;
-  height: 420px;
-  object-fit: cover;
-  border-radius: 6px;
-}
-
-.aladin-panel app-aladin-map {
-  display: block;
-  width: 100%;
-  height: 520px;
-}
-
-/* ================= DATA ================= */
-
-.description {
-  font-size: 0.9rem;
-  line-height: 1.6;
-  margin-bottom: 20px;
-  opacity: 0.85;
-}
-
-.data-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px 24px;
-
-  dt {
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    opacity: 0.5;
-  }
-
-  dd {
-    margin: 4px 0 0;
-    font-size: 0.9rem;
-    font-weight: 500;
-  }
-}
-
-/* ================= BUTTON ================= */
-
-.back-btn {
-  all: unset;
-  cursor: pointer;
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  padding: 6px 12px;
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 4px;
-  opacity: 0.7;
-
-  transition: 0.2s ease;
-
-  &:hover {
-    opacity: 1;
-    border-color: rgba(255,255,255,0.35);
-  }
-}
-
-/* ================= LOADING ================= */
-
-.loading {
-  padding: 80px;
-  text-align: center;
-  opacity: 0.5;
-}
-
-.dso-lower {
-  margin-top: 26px;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(8,10,20,0.92),
-      rgba(4,6,12,0.92)
-    );
-  padding: 18px;
-  border-radius: 14px;
-  border: 1px solid rgba(120,150,255,0.12);
-
-  box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,0.02),
-    0 16px 44px rgba(20,30,90,0.45);
-
-  h3 {
-    margin: 0 0 12px;
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: #9fb0ff;
-    letter-spacing: 0.04em;
-  }
-}
-
-
-/* =========================================
-   GLOBAL ATMOSPHERE (safe, non-layout)
-   ========================================= */
-
-.dso-page {
+﻿.dso-page {
   position: relative;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: clamp(1rem, 3vw, 2.5rem);
+  color: #e2e8ff;
 }
 
 .dso-page::before {
-  content: "";
+  content: '';
   position: fixed;
   inset: 0;
+  z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(circle at 15% 20%, rgba(120,150,255,.07), transparent 45%),
-    radial-gradient(circle at 85% 70%, rgba(120,150,255,.05), transparent 50%);
-  z-index: 0;
+    radial-gradient(circle at 15% 20%, rgba(120, 150, 255, 0.07), transparent 42%),
+    radial-gradient(circle at 85% 70%, rgba(93, 120, 220, 0.05), transparent 48%);
 }
 
-/* =========================================
-   HEADER – More depth, zero layout shift
-   ========================================= */
-
-.dso-header {
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  padding-bottom: 22px;
-  margin-bottom: 52px;
+.dso-hero {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: clamp(1.5rem, 4vw, 3rem);
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.object-name {
-  opacity: .55;
+.hero-copy h1 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35em;
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1;
 }
 
-/* subtle glow accent */
-.header-meta .value {
-  color: #cfd8ff;
+.hero-copy h1 span {
+  color: #aebbe4;
+  font-size: 0.48em;
+  font-weight: 450;
 }
 
-.meta-item {
-  transition: transform .2s ease, opacity .2s ease;
-}
-
-.meta-item:hover {
-  transform: translateY(-2px);
-  opacity: 1;
-}
-
-/* =========================================
-   PANELS – premium glass effect
-   ========================================= */
-
-.panel {
-  background:
-    linear-gradient(
-      180deg,
-      rgba(18,24,40,.95),
-      rgba(12,16,28,.95)
-    );
-
-  border-radius: 14px;
-  border: 1px solid rgba(120,150,255,0.12);
-
-  box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,0.02),
-    0 14px 36px rgba(0,0,0,.55);
-
-  transition:
-    transform .25s ease,
-    box-shadow .25s ease,
-    border-color .25s ease;
-}
-
-.panel:hover {
-  transform: translateY(-3px);
-  border-color: rgba(140,170,255,.35);
-  box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,0.03),
-    0 18px 48px rgba(40,60,120,.45);
-}
-
-/* =========================================
-   PANEL TITLES – cleaner hierarchy
-   ========================================= */
-
+.eyebrow,
 .panel-title {
-  letter-spacing: .22em;
-  font-weight: 600;
-  color: #9fb0ff;
-  opacity: .7;
+  margin: 0 0 0.55rem;
+  color: #93a9f5;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
-
-/* =========================================
-   STARHOP & MAP FRAMES
-   ========================================= */
-
-.starhop-panel,
-.aladin-panel {
-  overflow: hidden;
-  border-radius: 14px;
-}
-
-.starhop-panel app-starhop-atlas,
-.aladin-panel app-aladin-map {
-  border-radius: 10px;
-}
-
-/* =========================================
-   IMAGE PANEL – cinematic feel
-   ========================================= */
-
-.image-panel img {
-  transition: transform .5s ease, filter .4s ease;
-}
-
-.image-panel:hover img {
-  transform: scale(1.03);
-  filter: contrast(1.05) brightness(1.05);
-}
-
-/* =========================================
-   DESCRIPTION TEXT
-   ========================================= */
-
-.panel p {
-  line-height: 1.65;
-  opacity: .9;
-}
-
-/* =========================================
-   DATA GRID – stronger visual separation
-   ========================================= */
-
-.data-grid div {
-  padding: 6px 0;
-  border-bottom: 1px solid rgba(255,255,255,.04);
-}
-
-.data-grid div:last-child {
-  border-bottom: none;
-}
-
-.data-grid dd {
-  color: #ffffff;
-}
-
-/* =========================================
-   BACK BUTTON – refined interaction
-   ========================================= */
 
 .back-btn {
-  transition:
-    transform .2s ease,
-    box-shadow .2s ease,
-    border-color .2s ease;
+  appearance: none;
+  margin-bottom: 1.25rem;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid rgba(159, 182, 255, 0.25);
+  border-radius: 0.45rem;
+  background: rgba(9, 14, 30, 0.55);
+  color: #cbd6fa;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.75rem;
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .back-btn:hover {
   transform: translateX(-2px);
-  box-shadow: 0 0 12px rgba(120,150,255,.4);
+  border-color: #91a9fa;
+  color: #fff;
 }
 
-/* =========================================
-   LOADING STATE
-   ========================================= */
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(90px, 1fr));
+  gap: 0.75rem;
+  min-width: min(100%, 360px);
+  margin: 0;
+}
+
+.hero-stats div,
+.snapshot-grid div,
+.fact-grid div {
+  min-width: 0;
+}
+
+.hero-stats div {
+  padding: 0.75rem;
+  border: 1px solid rgba(120, 150, 255, 0.13);
+  border-radius: 0.65rem;
+  background: rgba(11, 16, 34, 0.6);
+}
+
+dt {
+  color: #8f9cbe;
+  font-size: 0.62rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+dd {
+  margin: 0.28rem 0 0;
+  color: #fff;
+  overflow-wrap: anywhere;
+}
+
+.hero-stats dd {
+  font-size: 0.86rem;
+  font-weight: 650;
+}
+
+.panel {
+  min-width: 0;
+  padding: clamp(1rem, 2vw, 1.4rem);
+  border: 1px solid rgba(120, 150, 255, 0.13);
+  border-radius: 0.9rem;
+  background:
+    linear-gradient(180deg, rgba(18, 24, 40, 0.96), rgba(10, 14, 27, 0.96));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.018),
+    0 16px 38px rgba(0, 0, 0, 0.34);
+}
+
+.media-grid,
+.content-grid {
+  display: grid;
+  gap: clamp(1rem, 2vw, 1.6rem);
+  margin-bottom: clamp(1rem, 2vw, 1.6rem);
+}
+
+.media-grid {
+  grid-template-columns: minmax(0, 1.65fr) minmax(300px, 0.85fr);
+}
+
+.content-grid {
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 0.8fr);
+  align-items: stretch;
+}
+
+.starhop-panel app-starhop-atlas {
+  display: block;
+  width: 100%;
+  height: 450px;
+  overflow: hidden;
+  border-radius: 0.65rem;
+}
+
+.image-panel {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.image-panel img {
+  width: 100%;
+  height: 450px;
+  border-radius: 0.65rem;
+  object-fit: cover;
+}
+
+.guide-panel h2,
+.scientific-panel h2,
+.altitude-panel h2,
+.related-dsos h2 {
+  margin: 0;
+  color: #f4f6ff;
+  font-size: clamp(1.2rem, 2vw, 1.65rem);
+}
+
+.lead {
+  max-width: 78ch;
+  margin: 0.8rem 0 1.5rem;
+  color: #d5dcf4;
+  font-size: 0.94rem;
+  line-height: 1.75;
+}
+
+.guide-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.guide-columns section {
+  padding-top: 1rem;
+  border-top: 1px solid rgba(120, 150, 255, 0.13);
+}
+
+.guide-columns h3 {
+  margin: 0 0 0.65rem;
+  color: #afc0fa;
+  font-size: 0.9rem;
+}
+
+.guide-columns p {
+  margin: 0 0 0.7rem;
+  color: #bfc9e7;
+  font-size: 0.82rem;
+  line-height: 1.65;
+}
+
+.snapshot-grid {
+  display: grid;
+  gap: 0;
+  margin: 0;
+}
+
+.snapshot-grid div {
+  padding: 0.76rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+}
+
+.snapshot-grid div:last-child {
+  border-bottom: 0;
+}
+
+.snapshot-grid dd {
+  font-size: 0.84rem;
+}
+
+.scientific-panel,
+.altitude-panel,
+.related-dsos,
+.aladin-panel {
+  margin-bottom: clamp(1rem, 2vw, 1.6rem);
+}
+
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.2rem;
+}
+
+.section-heading > p {
+  max-width: 56ch;
+  margin: 0;
+  color: #aeb8d8;
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.fact-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin: 0;
+}
+
+.fact-grid div {
+  padding: 0.8rem;
+  border: 1px solid rgba(120, 150, 255, 0.1);
+  border-radius: 0.55rem;
+  background: rgba(5, 9, 20, 0.34);
+}
+
+.fact-grid dd {
+  font-size: 0.8rem;
+}
+
+.source-note {
+  margin: 1rem 0 0;
+  color: #9eabce;
+  font-size: 0.72rem;
+  line-height: 1.55;
+}
+
+.source-note a {
+  color: #adc0ff;
+}
+
+.altitude-panel app-altitude-graph {
+  display: block;
+  width: 100%;
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.related-card {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(120, 150, 255, 0.14);
+  border-radius: 0.65rem;
+  background: rgba(6, 10, 22, 0.55);
+  color: #e3e9ff;
+  text-decoration: none;
+  transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+}
+
+.related-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(159, 182, 255, 0.55);
+  background: rgba(18, 25, 48, 0.8);
+}
+
+.related-card img {
+  width: 88px;
+  height: 88px;
+  object-fit: cover;
+}
+
+.related-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.15rem;
+  padding: 0.55rem;
+}
+
+.related-copy strong {
+  color: #9fb6ff;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+}
+
+.related-copy > span {
+  overflow: hidden;
+  font-size: 0.78rem;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.related-copy small {
+  overflow: hidden;
+  color: #909cbd;
+  font-size: 0.64rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.aladin-panel app-aladin-map {
+  display: block;
+  width: 100%;
+  height: min(64vh, 560px);
+  overflow: hidden;
+  border-radius: 0.65rem;
+}
 
 .loading {
-  font-size: .85rem;
-  letter-spacing: .08em;
-  text-transform: uppercase;
+  padding: 5rem 1rem;
+  color: #aeb9da;
+  text-align: center;
+}
+
+@media (max-width: 1150px) {
+  .fact-grid,
+  .related-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .dso-hero {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .hero-stats {
+    width: 100%;
+  }
+
+  .media-grid,
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .image-panel img {
+    height: min(58vw, 430px);
+  }
+
+  .fact-grid,
+  .related-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .dso-page {
+    padding: 0.85rem;
+  }
+
+  .hero-copy h1 {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .hero-copy h1 span {
+    font-size: 0.42em;
+  }
+
+  .hero-stats {
+    grid-template-columns: 1fr;
+    gap: 0.45rem;
+  }
+
+  .hero-stats div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.55rem 0.7rem;
+  }
+
+  .hero-stats dd {
+    margin: 0;
+  }
+
+  .starhop-panel app-starhop-atlas {
+    height: 390px;
+  }
+
+  .guide-columns,
+  .fact-grid,
+  .related-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .related-card {
+    grid-template-columns: 76px minmax(0, 1fr);
+  }
+
+  .related-card img {
+    width: 76px;
+    height: 76px;
+  }
+
+  .aladin-panel app-aladin-map {
+    height: 430px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back-btn,
+  .related-card {
+    transition: none;
+  }
 }

@@ -1,4 +1,4 @@
-@if (location.selected() == null) {
+﻿@if (location.selected() == null) {
   <div class="empty-state">
     <div class="empty-card">
       <h3>Select a location</h3>
@@ -152,18 +152,24 @@
 
             @if (selected() === m.messierNumber) {
               <div class="details">
-                <div>NGC: {{ m.NGC }}</div>
-                <div>Type: {{ m.type }}</div>
-                <div>Mag: {{ m.magnitude }}</div>
-                <div>Distance: {{ m.distance }} ly</div>
-                <div>Size: {{ m.size }}</div>
-                <div>Difficulty: {{ m.viewingDifficulty }}</div>
-                <div>Altitude: {{ m.altitude | number:'1.0-0' }}°</div>
+                <dl class="detail-stats">
+                  <div><dt>NGC</dt><dd>{{ m.NGC || '—' }}</dd></div>
+                  <div><dt>Type</dt><dd>{{ m.type }}</dd></div>
+                  <div><dt>Magnitude</dt><dd>{{ m.magnitude }}</dd></div>
+                  <div><dt>Distance</dt><dd>{{ m.distance | number }} ly</dd></div>
+                  <div><dt>Size</dt><dd>{{ m.size }}</dd></div>
+                  <div><dt>Difficulty</dt><dd>{{ m.viewingDifficulty }}</dd></div>
+                  <div><dt>Altitude</dt><dd>{{ m.altitude | number:'1.0-0' }}°</dd></div>
+                </dl>
 
-                <button class="starhop-btn"
-                        (click)="goToDso(m); $event.stopPropagation()">
-                  Open details
-                </button>
+                <a
+                  class="starhop-btn"
+                  [routerLink]="['/dso', m.code.toLowerCase() + m.messierNumber]"
+                  (click)="$event.stopPropagation()"
+                >
+                  View full observing guide
+                  <span aria-hidden="true">→</span>
+                </a>
               </div>
             }
           </article>
@@ -172,4 +178,15 @@
     }
   </div>
 }
-<br><br><br><br>
+
+<section class="catalog-directory" aria-labelledby="catalog-directory-title">
+  <h2 id="catalog-directory-title">Messier and Caldwell object directory</h2>
+  <p>Browse every deep-sky observing guide, or select a location above for tonight's visibility.</p>
+  <nav class="catalog-link-grid" aria-label="Deep-sky object pages">
+    @for (object of catalogDirectory; track object.id) {
+      <a [routerLink]="['/dso', object.id]">
+        {{ object.code }}{{ object.messierNumber }}: {{ object.name }}
+      </a>
+    }
+  </nav>
+</section>

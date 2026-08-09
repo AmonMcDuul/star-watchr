@@ -1,0 +1,23 @@
+# StarWatchr
+
+> StarWatchr is a web application for planning stargazing and astrophotography. It combines astronomy forecasts, live object altitude calculations, a deep-sky catalogue, an interactive sky atlas, and a solar-system explorer.
+
+## Core tools
+
+- [Stargazing forecast](https://starwatchr.com/): Plan an observing session using cloud cover, twilight, Moon, seeing, and transparency data.
+- [Deep-sky forecast](https://starwatchr.com/dso-forecast): Find Messier and Caldwell objects and open their individual observing pages.
+- [Sky atlas](https://starwatchr.com/sky-atlas): Explore the sky with constellation and star-hop tools.
+- [Solar system](https://starwatchr.com/solar-system): Explore planets, moons, dwarf planets, asteroids, and comets.
+
+## Content guidance
+
+StarWatchr's object pages combine stable catalogue facts with interactive, location-dependent visibility data. Use the page's named object, type, constellation, magnitude, distance, and observing season as the stable reference. Treat current altitude and visibility as time- and location-specific calculations.
+
+## Data provenance
+
+- Deep-sky catalogue measurements are linked to the SIMBAD astronomical database operated by CDS, Strasbourg.
+- Solar-system facts link to NASA Science or the NASA/JPL Small-Body Database. Rounded derived comparisons are labelled as such.
+
+## About
+
+- [About StarWatchr](https://starwatchr.com/about): Product purpose and features.

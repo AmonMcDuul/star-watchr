@@ -116,8 +116,6 @@ ${allRoutes
 // WRITE
 // ----------------------
 
-fs.mkdirSync('dist/star-watchr/browser', { recursive: true });
-
-fs.writeFileSync('dist/star-watchr/browser/sitemap.xml', xml);
+fs.writeFileSync('public/sitemap.xml', xml);
 
 console.log(`Generated sitemap with ${allRoutes.length} routes`);

@@ -174,7 +174,9 @@ export class SolarOrbitAtlasComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   ngOnDestroy() {
-    cancelAnimationFrame(this.animationId!);
+    if (this.animationId != null && typeof cancelAnimationFrame !== 'undefined') {
+      cancelAnimationFrame(this.animationId);
+    }
     this.renderer?.dispose();
     this.composer?.dispose();
     this.scene?.clear();

@@ -1,8 +1,17 @@
+:root {
+  --color-background: #0a0f1a;
+  --color-surface: #1a233a;
+  --color-border: #2d3b5e;
+  --color-text: #e8ecff;
+  --color-accent: #ffcc66;
+  --color-link: #aaccff;
+}
+
 body{ 
     margin: 0px;
     // background: radial-gradient(circle at top, #070815, #1b1e3c);
-    background: #0a0f1a;
-    color:white;
+    background: var(--color-background);
+    color: var(--color-text);
     font-family: 'Inter', system-ui, sans-serif;
 }
 

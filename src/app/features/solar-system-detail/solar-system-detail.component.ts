@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+﻿import { Component, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SolarSystemService } from '../../services/solar-system.service';
@@ -11,6 +11,7 @@ import { Moon } from '../../models/solar-system/moon.model';
 import { SolarSystemBody } from '../../models/solar-system/solar-system-body.model';
 import { SeoService } from '../../services/seo.service';
 
+import { SolarSystemPageContentService } from '../../services/solar-system-page-content.service';
 function isMoon(body: SolarSystemBody): body is Moon {
   return body.type === 'moon';
 }
@@ -26,6 +27,7 @@ export class SolarSystemDetailComponent {
   solar = inject(SolarSystemService);
   route = inject(ActivatedRoute);
   location = inject(LocationService);
+  private readonly pageContent = inject(SolarSystemPageContentService);
   readonly time = inject(MessierTimeService);
 
   private bodyMap: Record<string, Body> = {
@@ -45,12 +47,16 @@ export class SolarSystemDetailComponent {
     this.route.snapshot.paramMap.get('id')
   );
 
+  readonly routeType = signal<string | null>(
+    this.route.snapshot.paramMap.get('type')
+  );
   constructor() {
 
     this.solar.load();
 
     this.route.paramMap.subscribe(params => {
       this.id.set(params.get('id'));
+      this.routeType.set(params.get('type'));
     });
 
     effect(() => {
@@ -65,57 +71,77 @@ export class SolarSystemDetailComponent {
   }
 
   private updateSeo(o: SolarSystemBody) {
-
     const id = o.id.toLowerCase();
+    const facts = this.pageContent.get(o);
+    const category = this.routeType() ?? this.categoryFor(o);
+    const diameter = facts?.physical.diameterKm;
+    const orbitDays = facts?.orbit.orbitalPeriodDays;
 
-    const title =
-      `${o.name} – ${o.type} in the Solar System | StarWatchr`;
-
+    const title = `${o.name} - ${o.type} facts and observing guide | StarWatchr`;
     const description =
-      `${o.name} is a ${o.type} in our solar system. ` +
-      `${o.summary} ` +
-      (o.radiusKm
-        ? `Radius: ${o.radiusKm.toLocaleString()} km. `
-        : '') +
-      (o.orbitalPeriodDays
-        ? `Orbital period: ${o.orbitalPeriodDays} days.`
-        : '');
+      `${o.name} is a ${o.type} in the Solar System. ` +
+      (diameter ? `Diameter ${diameter.toLocaleString()} km. ` : '') +
+      (orbitDays ? `Orbital period ${orbitDays.toLocaleString()} days. ` : '') +
+      'Explore sourced facts, observing guidance and orbital context.';
 
-    const canonical =
-      `/solar-system/${o.type === 'sun' ? 'sun' :
-        o.type === 'planet' ? 'planets' :
-        o.type === 'moon' ? 'moons' :
-        o.type === 'asteroid' ? 'asteroids' :
-        o.type === 'comet' ? 'comets' :
-        'dwarf-planets'
-      }/${id}`;
+    const canonical = `/solar-system/${category}/${id}`;
+    this.seo.update(title, description, canonical, o.image);
 
-    this.seo.update(
-      title,
+    const additionalProperty = facts
+      ? [
+          { '@type': 'PropertyValue', name: 'Diameter', value: facts.physical.diameterKm, unitText: 'km' },
+          { '@type': 'PropertyValue', name: 'Mean density', value: facts.physical.densityGcm3, unitText: 'g/cm3' },
+          { '@type': 'PropertyValue', name: 'Orbital period', value: facts.orbit.orbitalPeriodDays, unitText: 'days' },
+          { '@type': 'PropertyValue', name: 'Semi-major axis', value: facts.orbit.semiMajorAxisAU, unitText: 'AU' },
+        ].filter((property) => property.value != null)
+      : [];
+
+    this.seo.setJsonLd(`solar-${category}-${id}-structured-data`, {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: `${o.name} solar system facts and observing guide`,
       description,
-      canonical,
-      o.image
-    );
-
+      url: this.seo.url(canonical),
+      image: this.seo.url(o.image),
+      isBasedOn: facts?.source.url,
+      mainEntity: {
+        '@type': 'Thing',
+        name: o.name,
+        identifier: `${o.type}:${o.id}`,
+        additionalType: o.type,
+        description: facts?.overview ?? o.summary,
+        sameAs: facts?.source.url,
+        additionalProperty,
+      },
+      isPartOf: { '@type': 'WebSite', name: 'StarWatchr', url: 'https://starwatchr.com' },
+    });
+  }
+  private categoryFor(body: SolarSystemBody): string {
+    if (body.id === 'sun') return 'sun';
+    if (body.type === 'planet') return 'planets';
+    if (body.type === 'moon') return 'moons';
+    if (body.type === 'asteroid') return 'asteroids';
+    if (body.type === 'comet') return 'comets';
+    return 'dwarf-planets';
   }
 
-  /* ---------------- object ---------------- */
+  private matchesRouteCategory(body: SolarSystemBody, category: string | null): boolean {
+    if (!category) return true;
+    return this.categoryFor(body) === category;
+  }
 
   readonly object = computed(() => {
-
     const id = this.id();
-    const all = this.solar.all();
-
-    console.log("All objects loaded:", all.length);
-
-    const found = all.find(o => o.id === id) ?? null;
-
-    console.log("Object lookup:", id, found);
-
-    return found;
-
+    const category = this.routeType();
+    return this.solar.all().find(
+      (body) => body.id === id && this.matchesRouteCategory(body, category),
+    ) ?? null;
   });
 
+  readonly content = computed(() => {
+    const body = this.object();
+    return body ? this.pageContent.get(body) : null;
+  });
   /* ---------------- moons of planet ---------------- */
 
   readonly moons = computed(() => {
