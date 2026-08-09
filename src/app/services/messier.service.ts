@@ -92,6 +92,25 @@ export class MessierService {
     return this.findByCodeAndNumber(c, n);
   }
 
+  /**
+   * Other catalog objects related to the given one — same constellation
+   * first, padded out with same-season objects. Used to give detail pages
+   * real outbound links to other detail pages instead of being orphaned
+   * pages only reachable via the sitemap.
+   */
+  getRelated(dso: MessierObject, count = 6): MessierObject[] {
+    const all = this.realAll().filter(
+      (m) => !(m.code === dso.code && m.messierNumber === dso.messierNumber),
+    );
+
+    const sameConstellation = all.filter((m) => m.constellation === dso.constellation);
+    const sameSeason = all.filter(
+      (m) => m.viewingSeason === dso.viewingSeason && m.constellation !== dso.constellation,
+    );
+
+    return [...sameConstellation, ...sameSeason].slice(0, count);
+  }
+
   private findByCodeAndNumber(code: string, id: number | string | null) {
     if (id == null) return null;
 

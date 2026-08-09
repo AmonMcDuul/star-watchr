@@ -1,3 +1,23 @@
 User-agent: *
 Disallow:
+
+# AI / answer-engine crawlers — explicitly allowed
+User-agent: GPTBot
+Disallow:
+
+User-agent: ChatGPT-User
+Disallow:
+
+User-agent: ClaudeBot
+Disallow:
+
+User-agent: Claude-Web
+Disallow:
+
+User-agent: PerplexityBot
+Disallow:
+
+User-agent: Google-Extended
+Disallow:
+
 Sitemap: https://starwatchr.com/sitemap.xml

@@ -19,8 +19,6 @@ export interface DsoContent {
 
   summary?: string;
   conditions?: string[];
-  observing?: string[];
-  expectation?: string[];
 }
 
 interface AltitudeAnalysis {
@@ -31,163 +29,61 @@ interface AltitudeAnalysis {
   currentAlt: number;
 }
 
+/**
+ * Builds page content for a deep-sky object.
+ *
+ * The descriptive "about" text comes from MessierObject.summary — a fixed,
+ * fact-checked description written per object (see messier.json / caldwell.json).
+ * Everything else here is derived deterministically from real numbers
+ * (altitude, magnitude, distance) for the given location/time — nothing is
+ * randomised, so the same input always produces the same output and the
+ * static/prerendered page content doesn't churn between builds.
+ */
 @Injectable({ providedIn: 'root' })
 export class DsoContentService {
-  // -------------------------
-  // CONFIG (variability control)
-  // -------------------------
-
-  private variability = {
-    includeExperience: 0.7,
-    includeSkill: 0.6,
-    includeComparison: 0.5,
-    mergeSentences: 0.4,
-    shortVariant: 0.3,
-  };
-
-  // -------------------------
-  // WEIGHTED PICK
-  // -------------------------
-
-  private weightedPick(items: { value: string; weight: number }[]): string {
-    const total = items.reduce((sum, i) => sum + i.weight, 0);
-    let rand = Math.random() * total;
-
-    for (const item of items) {
-      if (rand < item.weight) return item.value;
-      rand -= item.weight;
-    }
-
-    return items[0].value;
-  }
-
-  private maybe(prob: number): boolean {
-    return Math.random() < prob;
-  }
-
-  // -------------------------
-  // PHRASES
-  // -------------------------
-
-  private openings = [
-    { value: 'is a rewarding deep-sky target', weight: 3 },
-    { value: 'stands out as a well-known observing object', weight: 2 },
-    { value: 'is frequently observed by amateur astronomers', weight: 2 },
-    { value: 'offers a subtle but interesting view', weight: 1 },
-  ];
-
-  private visuals = [
-    { value: 'appears as a soft glow', weight: 3 },
-    { value: 'shows up as a faint patch of light', weight: 2 },
-    { value: 'presents itself as a diffuse object', weight: 2 },
-    { value: 'is visible as a compact luminous region', weight: 1 },
-  ];
-
-  private experience = [
-    'In small telescopes it remains mostly unresolved.',
-    'With larger apertures, more structure becomes visible.',
-    'At higher magnification, subtle detail can be detected.',
-    'Under good conditions, the object reveals more character.',
-  ];
-
-  private skillEasy = [
-    'This makes it a good target for beginners.',
-    'It is often recommended as an entry-level object.',
-    'It can be observed without much difficulty.',
-  ];
-
-  private skillHard = [
-    'This object is better suited for experienced observers.',
-    'It requires patience and good conditions.',
-    'It can be challenging under typical skies.',
-  ];
-
-  private comparisons = [
-    'It is more subtle than brighter Dso objects.',
-    'It offers less structure than some of the brightest galaxies.',
-    'It appears more compact than typical clusters.',
-    'It is less prominent than the brightest objects in the catalog.',
-  ];
-
-  private contrast = [
-    'fine detail requires darker skies',
-    'contrast improves away from light pollution',
-    'subtle features are easily lost in bright skies',
-    'structure becomes clearer under good conditions',
-  ];
-
-  // -------------------------
-  // MAIN GENERATOR
-  // -------------------------
 
   generate(dso: MessierObject, ctx: ContentContext): DsoContent {
     const a = this.analyze(ctx.altitudeSeries, ctx.date);
 
-    // --- CORE (altijd aanwezig) ---
-    const summary = this.buildIntro(dso);
+    const summary = dso.summary?.trim() || this.fallbackSummary(dso);
 
     const visibility = this.buildVisibility(a);
     const timing = this.buildTiming(a);
-    const conditionsText = this.buildConditions(dso);
+    const conditions: string[] = [visibility, timing];
 
-    // --- STRUCTURED OUTPUT ---
-    const conditions: string[] = [visibility, timing, conditionsText];
-
-    // --- OPTIONAL (blijft variabel) ---
-    const observing: string[] = [];
-    const expectation: string[] = [];
-
-    // skill (blijft logisch afhankelijk van magnitude, maar niet random skippen)
-    if (dso.magnitude < 6) {
-      observing.push(this.pick(this.skillEasy));
-    } else {
-      observing.push(this.pick(this.skillHard));
-    }
-
-    // experience (optioneel)
-    if (this.maybe(this.variability.includeExperience)) {
-      expectation.push(this.pick(this.experience));
-    }
-
-    // comparison (optioneel)
-    if (this.maybe(this.variability.includeComparison)) {
-      expectation.push(this.pick(this.comparisons));
-    }
-
-    // --- BLOCKS (vast, geen shuffle) ---
-    const blocks: string[] = [summary, ...conditions, ...observing, ...expectation];
+    const blocks: string[] = [summary, ...conditions];
 
     return {
       blocks,
       summary,
       conditions,
-      observing,
-      expectation,
       seoDescription: `${summary} ${visibility}`,
     };
   }
 
   // -------------------------
-  // BUILDERS
+  // FALLBACK (only used if an object is somehow missing a summary)
   // -------------------------
 
-  private buildIntro(dso: MessierObject): string {
-    const opening = this.weightedPick(this.openings);
-    const visual = this.weightedPick(this.visuals);
+  private fallbackSummary(dso: MessierObject): string {
+    const type = dso.type.toLowerCase();
+    const distancePart = dso.distance
+      ? ` roughly ${dso.distance.toLocaleString()} light-years away`
+      : '';
 
-    const brightness =
-      dso.magnitude < 6
-        ? 'It is relatively bright.'
-        : dso.magnitude > 9
-          ? 'It is quite faint.'
-          : 'It has moderate brightness.';
-
-    return `${dso.name} ${opening} and ${visual}. ${brightness}`;
+    return (
+      `${dso.name} (${dso.code}${dso.messierNumber}) is a ${type} in the constellation ` +
+      `${dso.constellation},${distancePart}, with an apparent magnitude of ${dso.magnitude}.`
+    );
   }
+
+  // -------------------------
+  // LIVE / LOCATION-DEPENDENT TEXT
+  // -------------------------
 
   private buildVisibility(a: AltitudeAnalysis): string {
     if (!a.isVisibleNow) {
-      return `It is currently below the horizon.`;
+      return `It is currently below the horizon from your location.`;
     }
 
     return `Right now it is at about ${Math.round(a.currentAlt)}° altitude and reaches ${Math.round(a.maxAlt)}° around ${a.bestTime}.`;
@@ -195,24 +91,10 @@ export class DsoContentService {
 
   private buildTiming(a: AltitudeAnalysis): string {
     if (!a.visibleHours) {
-      return `It does not reach a useful observing altitude today.`;
+      return `It does not reach a useful observing altitude today from your location.`;
     }
 
     return `It stays above 30° for roughly ${a.visibleHours} hours.`;
-  }
-
-  private buildConditions(dso: MessierObject): string {
-    const type = dso.type.toLowerCase();
-
-    if (type.includes('galaxy')) {
-      return `Galaxies are sensitive to light pollution, ${this.pick(this.contrast)}.`;
-    }
-
-    if (type.includes('nebula')) {
-      return `Nebulae benefit from filters, ${this.pick(this.contrast)}.`;
-    }
-
-    return `Observing conditions matter, ${this.pick(this.contrast)}.`;
   }
 
   // -------------------------
@@ -266,56 +148,25 @@ export class DsoContentService {
     };
   }
 
-  // -------------------------
-  // POST PROCESS (structure variation)
-  // -------------------------
-
-  private postProcess(blocks: string[]): string[] {
-    let result = [...blocks];
-
-    // random shuffle (structure variation)
-    result = result.sort(() => Math.random() - 0.5);
-
-    // merge sentences sometimes
-    if (this.maybe(this.variability.mergeSentences) && result.length > 2) {
-      result[0] = `${result[0]} ${result[1]}`;
-      result.splice(1, 1);
-    }
-
-    // short variant
-    if (this.maybe(this.variability.shortVariant)) {
-      result = result.slice(0, Math.max(2, Math.floor(result.length * 0.7)));
-    }
-
-    return result;
-  }
-
-  // -------------------------
-  // UTILS
-  // -------------------------
-
-  private pick(arr: string[]) {
-    return arr[Math.floor(Math.random() * arr.length)];
-  }
-
   private formatTime(date: Date): string {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
 
+  // -------------------------
   // SEO
+  // -------------------------
+
   generateSeoDescription(dso: MessierObject, ctx: ContentContext): string {
     const a = this.analyze(ctx.altitudeSeries, ctx.date);
+    const summary = dso.summary?.trim() || this.fallbackSummary(dso);
 
     const visibleNow = a.isVisibleNow
-      ? `currently visible at ${Math.round(a.currentAlt)}°`
+      ? `currently visible at about ${Math.round(a.currentAlt)}°`
       : `currently below the horizon`;
 
-    const peak = a.bestTime ? `reaches ${Math.round(a.maxAlt)}° around ${a.bestTime}` : '';
+    // Keep the meta description within a sane length for search snippets.
+    const firstSentence = summary.split(/(?<=[.!?])\s/)[0];
 
-    return (
-      `${dso.name} (${dso.code}${dso.messierNumber}) is a ${dso.type.toLowerCase()} in ${dso.constellation}. ` +
-      `From your location it is ${visibleNow} and ${peak}. ` +
-      `Best observed for about ${a.visibleHours} hours above 30° altitude.`
-    );
+    return `${firstSentence} From your location it is ${visibleNow}.`;
   }
 }

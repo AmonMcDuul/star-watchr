@@ -81,14 +81,15 @@ export class SolarSystemDetailComponent {
         ? `Orbital period: ${o.orbitalPeriodDays} days.`
         : '');
 
-    const canonical =
-      `/solar-system/${o.type === 'sun' ? 'sun' :
-        o.type === 'planet' ? 'planets' :
-        o.type === 'moon' ? 'moons' :
-        o.type === 'asteroid' ? 'asteroids' :
-        o.type === 'comet' ? 'comets' :
-        'dwarf-planets'
-      }/${id}`;
+    const typeSegment =
+      o.type === 'sun' ? 'sun' :
+      o.type === 'planet' ? 'planets' :
+      o.type === 'moon' ? 'moons' :
+      o.type === 'asteroid' ? 'asteroids' :
+      o.type === 'comet' ? 'comets' :
+      'dwarf-planets';
+
+    const canonical = `/solar-system/${typeSegment}/${id}`;
 
     this.seo.update(
       title,
@@ -96,6 +97,37 @@ export class SolarSystemDetailComponent {
       canonical,
       o.image
     );
+
+    this.seo.updateStructuredData([
+      {
+        '@context': 'https://schema.org',
+        '@type': 'CreativeWork',
+        name: o.name,
+        headline: title,
+        description: o.summary,
+        url: `https://starwatchr.com${canonical}`,
+        image: `https://starwatchr.com${o.image}`,
+        about: {
+          '@type': 'Thing',
+          name: o.name,
+          additionalType: o.type,
+        },
+        isPartOf: {
+          '@type': 'WebSite',
+          name: 'StarWatchr',
+          url: 'https://starwatchr.com',
+        },
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'StarWatchr', item: 'https://starwatchr.com' },
+          { '@type': 'ListItem', position: 2, name: 'Solar System', item: 'https://starwatchr.com/solar-system' },
+          { '@type': 'ListItem', position: 3, name: o.name, item: `https://starwatchr.com${canonical}` },
+        ],
+      },
+    ]);
 
   }
 
@@ -106,13 +138,7 @@ export class SolarSystemDetailComponent {
     const id = this.id();
     const all = this.solar.all();
 
-    console.log("All objects loaded:", all.length);
-
-    const found = all.find(o => o.id === id) ?? null;
-
-    console.log("Object lookup:", id, found);
-
-    return found;
+    return all.find(o => o.id === id) ?? null;
 
   });
 

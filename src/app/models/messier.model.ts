@@ -14,6 +14,7 @@ export interface MessierObject {
   viewingSeason: 'Winter' | 'Spring' | 'Summer' | 'Autumn';
   viewingDifficulty?: 'Easy' | 'Moderate' | 'Hard' | 'Very Easy' | 'Very Hard';
   image: string;
+  summary?: string;
 }
 
 export interface MessierJson {

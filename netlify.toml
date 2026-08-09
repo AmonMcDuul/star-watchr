@@ -1,4 +1,14 @@
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+# No manual redirects here on purpose.
+#
+# This app is built with Angular SSR + per-route prerendering
+# (see src/app/app.routes.server.ts) via @netlify/angular-runtime,
+# which Netlify auto-detects and uses to serve each route's own
+# prerendered/SSR HTML.
+#
+# A blanket `/* -> /index.html` SPA fallback (as used to live here)
+# defeats that: it can serve the generic client shell for every
+# route instead of that route's real prerendered HTML, which makes
+# every URL look identical to crawlers that don't fully execute
+# client-side JS — a likely contributor to why most deep-sky and
+# solar-system detail pages were not getting indexed. Don't add it
+# back without confirming it's actually needed for a specific route.

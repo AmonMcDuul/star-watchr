@@ -32,6 +32,11 @@ constructor() {
 
       const data = r?.snapshot.data;
 
+      // Cleared on every navigation; pages that need it (DSO / solar system
+      // detail) set their own via SeoService.updateStructuredData() once
+      // their data loads, so it never lingers from a previously visited page.
+      this.seo.updateStructuredData(null);
+
       if (data?.['title'] && data?.['description']) {
         this.seo.update(
           data['title'],

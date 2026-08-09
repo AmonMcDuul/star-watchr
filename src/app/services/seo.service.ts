@@ -48,6 +48,29 @@ export class SeoService {
     }
   }
 
+  updateStructuredData(data: object | object[] | null) {
+
+    let script: HTMLScriptElement | null =
+      this.document.querySelector("script[data-seo='structured-data']");
+
+    if (!data) {
+      script?.remove();
+      return;
+    }
+
+    if (!script) {
+
+      script = this.document.createElement('script');
+      script.setAttribute('type', 'application/ld+json');
+      script.setAttribute('data-seo', 'structured-data');
+
+      this.document.head?.appendChild(script);
+
+    }
+
+    script.textContent = JSON.stringify(data);
+  }
+
   private buildUrl(path: string): string {
 
     if (!path.startsWith('/')) {

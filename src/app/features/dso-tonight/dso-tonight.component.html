@@ -145,7 +145,11 @@
               </div>
             </div>
             <div class="info">
-              <strong>{{ catalog }}{{ m.messierNumber }} – {{ m.name }}</strong><br>
+              <a class="dso-link"
+                 [routerLink]="['/dso', catalog + m.messierNumber]"
+                 (click)="$event.stopPropagation()">
+                {{ catalog }}{{ m.messierNumber }} – {{ m.name }}
+              </a><br>
               <span>{{ m.type }}</span>
               <span>&nbsp;- {{ m.constellation }}</span>
             </div>
@@ -160,10 +164,11 @@
                 <div>Difficulty: {{ m.viewingDifficulty }}</div>
                 <div>Altitude: {{ m.altitude | number:'1.0-0' }}°</div>
 
-                <button class="starhop-btn"
-                        (click)="goToDso(m); $event.stopPropagation()">
+                <a class="starhop-btn"
+                   [routerLink]="['/dso', catalog + m.messierNumber]"
+                   (click)="$event.stopPropagation()">
                   Open details
-                </button>
+                </a>
               </div>
             }
           </article>

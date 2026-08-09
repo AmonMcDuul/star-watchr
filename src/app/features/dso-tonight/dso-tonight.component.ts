@@ -5,12 +5,11 @@ import { MessierTimeService } from '../../services/messier-time.service';
 import { ForecastContextService } from '../../services/forecast-context.service';
 import { LocationSearchComponent } from "../location-search/location-search.component";
 import { LocationService } from '../../services/location.service';
-import { MessierObject } from '../../models/messier.model'; 
-import { Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dso-tonight',
-  imports: [CommonModule, LocationSearchComponent],
+  imports: [CommonModule, LocationSearchComponent, RouterLink],
   templateUrl: './dso-tonight.component.html',
   styleUrl: './dso-tonight.component.scss',
 })
@@ -19,8 +18,7 @@ export class DsoTonightComponent implements OnInit {
   location = inject(LocationService)
   time = inject(MessierTimeService);
   context = inject(ForecastContextService);
-  router = inject(Router);
-  
+
   readonly selected = signal<number | null>(null);
   mapSize: 'compact' | 'normal' | 'large' = 'normal';
 
@@ -71,11 +69,6 @@ export class DsoTonightComponent implements OnInit {
     return diff === days;
   }
   
-  goToDso(m: MessierObject) {
-    this.messier.selectMessierByNumberAndCode(m.code, m.messierNumber);
-    this.router.navigate(['/dso', this.catalog + m.messierNumber]);
-  }
-
   setDifficulty(v:
     'Easy' | 'Moderate' | 'Hard' | 'Very Easy' | 'Very Hard' | null) {
     this.messier.difficultyFilter.set(v);

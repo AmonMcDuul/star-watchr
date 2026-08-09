@@ -387,3 +387,50 @@
   letter-spacing: .08em;
   text-transform: uppercase;
 }
+
+/* ================= RELATED ================= */
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.related-card {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  background: #0b1020;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+  overflow: hidden;
+  transition: border-color .2s ease, transform .2s ease;
+}
+
+.related-card:hover {
+  border-color: rgba(140,170,255,.5);
+  transform: translateY(-2px);
+}
+
+.related-card img {
+  width: 100%;
+  height: 90px;
+  object-fit: cover;
+  display: block;
+}
+
+.related-info {
+  padding: 8px 10px;
+}
+
+.related-info strong {
+  display: block;
+  font-size: .78rem;
+  margin-bottom: 2px;
+}
+
+.related-info span {
+  display: block;
+  font-size: .68rem;
+  opacity: .65;
+}

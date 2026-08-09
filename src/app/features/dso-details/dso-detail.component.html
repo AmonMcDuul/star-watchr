@@ -79,33 +79,6 @@
             }
           }
 
-          <!-- OBSERVING TIPS -->
-          @if (c.observing?.length) {
-            <h2>Observing tips</h2>
-
-            @for (block of c.observing; track $index) {
-              <p>{{ block }}</p>
-            }
-          }
-
-          <!-- EXPERIENCE / EXPECTATION -->
-          @if (c.expectation?.length) {
-            <h2>What to expect</h2>
-
-            @for (block of c.expectation; track $index) {
-              <p>{{ block }}</p>
-            }
-          }
-
-          <!-- FALLBACK (oude blocks, blijft werken) -->
-          @if (!c.summary && !c.observing && c.blocks.length) {
-            <h2>Observing guide</h2>
-
-            @for (block of c.blocks; track $index) {
-              <p>{{ block }}</p>
-            }
-          }
-
           <!-- DATA GRID -->
           <dl class="data-grid">
             <div>
@@ -168,6 +141,28 @@
         />
       </div>
     </div>
+
+    <!-- RELATED -->
+    @if (related().length) {
+      <div class="grid">
+        <div class="panel related-panel">
+          <div class="panel-title">Related objects in {{ dso.constellation }} &amp; nearby seasons</div>
+
+          <div class="related-grid">
+            @for (r of related(); track r.code + r.messierNumber) {
+              <a class="related-card"
+                 [routerLink]="['/dso', r.code + r.messierNumber]">
+                <img [src]="r.image" [alt]="r.name" loading="lazy" decoding="async" />
+                <div class="related-info">
+                  <strong>{{ r.code }}{{ r.messierNumber }} – {{ r.name }}</strong>
+                  <span>{{ r.type }} · {{ r.constellation }}</span>
+                </div>
+              </a>
+            }
+          </div>
+        </div>
+      </div>
+    }
   </div>
 } @else {
   <div class="loading">Loading object data…</div>

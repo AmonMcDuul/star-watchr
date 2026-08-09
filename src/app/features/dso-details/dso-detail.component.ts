@@ -8,7 +8,7 @@ import {
   OnDestroy,
   signal,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -40,6 +40,7 @@ type SurveyKey = 'dss-color' | 'dss-red' | '2mass';
   imports: [
     CommonModule,
     FormsModule,
+    RouterLink,
     AladinMapComponent,
     AltitudeGraphComponent,
     StarhopAtlasComponent,
@@ -116,12 +117,12 @@ export class DsoDetailComponent implements OnDestroy {
 
     const target = this.messier.getByNumberAndCode(prefix, parsed);
     if (!target) return;
-    console.log(target);
     this.messier.selectedMessier.set(target);
   }
 
   private updateSeo(dso: MessierObject) {
     const objectId = `${dso.code}${dso.messierNumber}`.toUpperCase();
+    const path = `/dso/${objectId.toLowerCase()}`;
 
     const ctx = {
       lat: this.lat(),
@@ -134,7 +135,38 @@ export class DsoDetailComponent implements OnDestroy {
 
     const title = `${dso.name} (${objectId}) – ${dso.type} in ${dso.constellation} | StarWatchr`;
 
-    this.seo.update(title, description, `/dso/${objectId.toLowerCase()}`, dso.image);
+    this.seo.update(title, description, path, dso.image);
+
+    this.seo.updateStructuredData([
+      {
+        '@context': 'https://schema.org',
+        '@type': 'CreativeWork',
+        name: `${dso.name} (${objectId})`,
+        headline: title,
+        description: dso.summary?.trim() || description,
+        url: `https://starwatchr.com${path}`,
+        image: `https://starwatchr.com${dso.image}`,
+        about: {
+          '@type': 'Thing',
+          name: `${dso.name} (${objectId})`,
+          additionalType: dso.type,
+        },
+        isPartOf: {
+          '@type': 'WebSite',
+          name: 'StarWatchr',
+          url: 'https://starwatchr.com',
+        },
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'StarWatchr', item: 'https://starwatchr.com' },
+          { '@type': 'ListItem', position: 2, name: 'DSO Catalog', item: 'https://starwatchr.com/dso-forecast' },
+          { '@type': 'ListItem', position: 3, name: `${dso.name} (${objectId})`, item: `https://starwatchr.com${path}` },
+        ],
+      },
+    ]);
   }
 
   ngOnDestroy(): void {
@@ -152,6 +184,13 @@ export class DsoDetailComponent implements OnDestroy {
   toggleOtherDsos() {
     this.showOtherDsos = !this.showOtherDsos;
   }
+
+  readonly related = computed(() => {
+    const dso = this.dso();
+    if (!dso) return [];
+
+    return this.messier.getRelated(dso, 6);
+  });
 
   readonly content = computed(() => {
     const dso = this.dso();
