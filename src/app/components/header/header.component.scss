@@ -19,29 +19,33 @@
   color: #eef2fb;
 }
 
-.site-header::before,
+.site-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  background: transparent url('/assets/img/stardust.png') repeat;
+  opacity: 0.32;
+  animation: stars-move 60s linear infinite;
+  will-change: transform;
+}
+
 .site-header::after {
   content: '';
   position: absolute;
-  inset: -100% 0 0;
+  inset: 0;
   pointer-events: none;
-  background-image:
-    radial-gradient(circle, rgba(255,255,255,.72) 0 1px, transparent 1.2px),
-    radial-gradient(circle, rgba(151,181,237,.55) 0 1px, transparent 1.2px);
-  background-position: 12px 8px, 58px 34px;
-  background-size: 88px 72px, 126px 94px;
-  opacity: 0.22;
-  animation: star-drift 36s linear infinite;
+  background:
+    radial-gradient(circle at 18% 25%, rgba(107, 136, 205, 0.13), transparent 38%),
+    radial-gradient(circle at 82% 80%, rgba(87, 112, 176, 0.08), transparent 44%);
 }
 
-.site-header::after {
-  background-size: 173px 128px;
-  opacity: 0.12;
-  animation-duration: 62s;
-}
-
-@keyframes star-drift {
-  to { transform: translateY(50%); }
+@keyframes stars-move {
+  from { transform: translate(0, 0); }
+  to { transform: translate(-50%, -50%); }
 }
 
 .brand,
