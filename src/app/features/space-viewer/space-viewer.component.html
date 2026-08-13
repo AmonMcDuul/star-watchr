@@ -1,20 +1,26 @@
-    <div class="space-viewer">
-      <div class="mode-switcher">
-        <button 
-          (click)="setMode('sky')" 
-          [class.active]="mode() === 'sky'">
-          Deep Sky
-        </button>
-        <button 
-          (click)="setMode('solar')" 
-          [class.active]="mode() === 'solar'">
-          Solar System
-        </button>
+<section class="space-viewer" [attr.data-mode]="mode()" aria-label="Interactive astronomy viewer">
+  <header class="viewer-header">
+    <div class="viewer-title">
+      <span class="viewer-mark" aria-hidden="true"></span>
+      <div>
+        <span class="eyebrow">Interactive viewer</span>
+        <strong>{{ mode() === 'sky' ? 'Deep-sky atlas' : 'Solar system' }}</strong>
       </div>
-
-      @if (mode() === 'sky') {
-        <app-sky-atlas />
-      } @else {
-        <app-solar-orbit-atlas />
-      }
     </div>
+
+    <div class="mode-switcher" role="group" aria-label="Viewer mode">
+      <button type="button" (click)="setMode('sky')" [class.active]="mode() === 'sky'" [attr.aria-pressed]="mode() === 'sky'">Deep sky</button>
+      <button type="button" (click)="setMode('solar')" [class.active]="mode() === 'solar'" [attr.aria-pressed]="mode() === 'solar'">Solar system</button>
+    </div>
+
+    <p class="viewer-hint">{{ mode() === 'sky' ? 'Drag to look around / scroll to zoom' : 'Drag to orbit / select a planet' }}</p>
+  </header>
+
+  <div class="viewer-stage">
+    @if (mode() === 'sky') {
+      <app-sky-atlas />
+    } @else {
+      <app-solar-orbit-atlas />
+    }
+  </div>
+</section>

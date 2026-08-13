@@ -15,6 +15,7 @@ import { OpenMeteoService } from '../../services/open-meteo.service';
 export class LocationSearchComponent implements OnInit {
   // fugly temp oplossing voor search bar weer weghalen
   @ViewChild('wrapper') wrapper!: ElementRef<HTMLDivElement>;
+  @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
   public location = inject(LocationService); 
   public openMeteoApi = inject(OpenMeteoService); 
   private platformId = inject(PLATFORM_ID);
@@ -46,8 +47,7 @@ export class LocationSearchComponent implements OnInit {
     if (!isPlatformBrowser(this.platformId)) return;
 
     setTimeout(() => {
-      const input = document.querySelector<HTMLInputElement>('input');
-      input?.focus();
+      this.searchInput?.nativeElement.focus();
     });
   }
 

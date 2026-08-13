@@ -1,42 +1,30 @@
-<header>
-  <div class="brand" (click)="goHome()">
-    <h1>StarWatchr</h1>
-    <span>know when to look up</span>
-  </div>
+<header class="site-header">
+  <button class="brand" type="button" (click)="goHome()" aria-label="StarWatchr home">
+    <strong>StarWatchr</strong>
+    <span>astronomy planner</span>
+  </button>
 
-  <!-- Desktop nav -->
-  <nav class="desktop-nav">
-    <a routerLink="/">Forecast</a>
-    <a routerLink="/dso-forecast">DSO</a>
-    <a routerLink="/solar-system">SolarSystem</a>
-    <a routerLink="/sky-atlas">Atlas</a>
-    <a routerLink="/apod">Apod</a>
-    <!-- <a routerLink="/alerts">Alerts</a> -->
-    <a routerLink="/about">About</a>
-    <a routerLink="/contact">Contact</a>
+  <nav class="desktop-nav" aria-label="Primary navigation">
+    <a routerLink="/" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Forecast</a>
+    <a routerLink="/dso-forecast" routerLinkActive="active">Deep sky</a>
+    <a routerLink="/solar-system" routerLinkActive="active">Solar system</a>
+    <a routerLink="/sky-atlas" routerLinkActive="active">Atlas</a>
+    <a routerLink="/apod" routerLinkActive="active">APOD</a>
+    <a routerLink="/about" routerLinkActive="active">About</a>
+    <a routerLink="/contact" routerLinkActive="active">Contact</a>
   </nav>
 
-  <!-- Hamburger -->
-  <button
-    class="hamburger"
-    (click)="toggleMenu()"
-    [class.open]="menuOpen"
-    aria-label="Menu"
-  >
-    <span></span>
-    <span></span>
-    <span></span>
+  <button class="hamburger" type="button" (click)="toggleMenu()" [class.open]="menuOpen" [attr.aria-expanded]="menuOpen" aria-controls="mobile-menu" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
   </button>
 </header>
 
-<!-- Mobile menu -->
-<div class="mobile-menu" [class.open]="menuOpen">
+<nav id="mobile-menu" class="mobile-menu" [class.open]="menuOpen" aria-label="Mobile navigation">
   <a routerLink="/" (click)="closeMenu()">Forecast</a>
-  <a routerLink="/dso-forecast" (click)="closeMenu()">DSO</a>
-  <a routerLink="/solar-system" (click)="closeMenu()">SolarSystem</a>
+  <a routerLink="/dso-forecast" (click)="closeMenu()">Deep sky</a>
+  <a routerLink="/solar-system" (click)="closeMenu()">Solar system</a>
   <a routerLink="/sky-atlas" (click)="closeMenu()">Atlas</a>
-  <a routerLink="/apod" (click)="closeMenu()">Apod</a>
-  <!-- <a routerLink="/alerts" (click)="closeMenu()">Alerts</a> -->
+  <a routerLink="/apod" (click)="closeMenu()">APOD</a>
   <a routerLink="/about" (click)="closeMenu()">About</a>
   <a routerLink="/contact" (click)="closeMenu()">Contact</a>
-</div>
+</nav>

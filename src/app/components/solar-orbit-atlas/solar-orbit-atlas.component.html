@@ -1,56 +1,87 @@
 <div class="orbit-container">
-
-  <!-- Control bar -->
-  <div class="control-bar">
-
-    <!-- Tijdregeling -->
-    <div class="control-row">
-      <button class="control-btn" (click)="setTimeSpeed(0)" [class.active]="timeSpeed === 0" title="pause">⏸️</button>
-      <button class="control-btn" (click)="setTimeSpeed(1)" [class.active]="timeSpeed === 1" title="1×">1×</button>
-      <!-- <button class="control-btn" (click)="setTimeSpeed(10)" [class.active]="timeSpeed === 10" title="10×">10×</button>
-      <button class="control-btn" (click)="setTimeSpeed(100)" [class.active]="timeSpeed === 100" title="100×">100×</button>
-      <button class="control-btn" (click)="setTimeSpeed(1000)" [class.active]="timeSpeed === 1000" title="1000×">1000×</button> -->
-      <input type="range" min="0" max="1000" step="1" [(ngModel)]="timeSpeed" class="time-slider" />
-      <span class="time-display">{{ currentDateTime | date:'yyyy-MM-dd HH:mm:ss' }}</span>
-      <button class="control-btn" (click)="toggleReverse()" [class.active]="reverse" title="backwards">↩️</button>
+  <div class="simulation-tools" role="toolbar" aria-label="Solar system simulation controls">
+    <div class="time-controls">
+      <span class="control-label">Time</span>
+      <button type="button" class="control-btn icon" (click)="setTimeSpeed(0)" [class.active]="timeSpeed === 0" [attr.aria-pressed]="timeSpeed === 0" title="Pause simulation" aria-label="Pause simulation">Pause</button>
+      @for (speed of [1, 10, 100, 1000]; track speed) {
+        <button type="button" class="control-btn speed" (click)="setTimeSpeed(speed)" [class.active]="timeSpeed === speed" [attr.aria-pressed]="timeSpeed === speed">{{ speed }}&times;</button>
+      }
+      <button type="button" class="control-btn icon" (click)="toggleReverse()" [class.active]="reverse" [attr.aria-pressed]="reverse" title="Reverse time" aria-label="Reverse time">Rev</button>
     </div>
 
-    <!-- Volgknop -->
-    <div class="control-row">
-      <button class="control-btn" (click)="toggleFollow()" [class.active]="followMode" title="Volg geselecteerd object">👁️ Follow</button>
+    <div class="view-controls">
+      <button type="button" class="control-btn" (click)="toggleFollow()" [class.active]="followMode" [disabled]="!selectedPlanetId" [attr.aria-pressed]="followMode">Follow</button>
+      <button type="button" class="control-btn" (click)="toggleOrbits()" [class.active]="showOrbits" [attr.aria-pressed]="showOrbits">Orbits</button>
+      <button type="button" class="control-btn" (click)="toggleTrueScale()" [class.active]="showTrueScale" [attr.aria-pressed]="showTrueScale">True sizes</button>
+      <button type="button" class="control-btn reset" (click)="resetSimulation()">Now</button>
     </div>
-
-    <!-- HUD -->
-    <div class="control-row hud">
-      <span>Speed: {{ timeSpeed }}×</span>
-      <span>Follow: {{ followMode ? 'AAN' : 'UIT' }}</span>
-    </div>
-
   </div>
 
-  <!-- Info Panel (gecentreerd) -->
-  @if (showInfoPanel && infoPanelContent) {
-    <div class="info-panel centered">
-      <div class="info-header">
-        <h3>{{ infoPanelContent.name }}</h3>
-        <button class="close-btn" (click)="hideInfoPanel()">✕</button>
-      </div>
-      <div class="info-content">
-        <img [src]="infoPanelContent.image" [alt]="infoPanelContent.name" (error)="$event.target.src='/assets/img/placeholder.jpg'" />
-        <div class="info-grid">
-          <div class="info-row"><span class="label">Type:</span> <span class="value">Planet</span></div>
-          <div class="info-row"><span class="label">Magnitude:</span> <span class="value">{{ infoPanelContent.magnitude }}</span></div>
-          <div class="info-row"><span class="label">Distance from Sun:</span> <span class="value">{{ infoPanelContent.distanceFromSun }} AU</span></div>
-          <div class="info-row"><span class="label">Diameter:</span> <span class="value">{{ infoPanelContent.diameter }} km</span></div>
-          <div class="info-row"><span class="label">Day length:</span> <span class="value">{{ infoPanelContent.dayLength }} hours</span></div>
-          <div class="info-row"><span class="label">Year length:</span> <span class="value">{{ infoPanelContent.yearLength }} days</span></div>
-        </div>
-        <button class="details-btn" (click)="goToPlanetDetails(infoPanelContent)">View Details →</button>
-      </div>
+  <div class="simulation-status" aria-live="polite">
+    <span class="status-dot" [class.paused]="timeSpeed === 0" aria-hidden="true"></span>
+    <div>
+      <span class="status-label">{{ timeSpeed === 0 ? 'Paused' : (reverse ? 'Backward' : 'Forward') }}</span>
+      <strong>{{ currentDateTime | date:'MMM d, y, HH:mm' }}</strong>
     </div>
+    <span class="speed-readout">{{ timeSpeed }}&times;</span>
+  </div>
+
+  <aside class="scale-note">
+    <span aria-hidden="true">i</span>
+    <p><strong>Exploration scale.</strong> Sizes and distances in the 3D scene use separate scales. Select <em>True sizes</em> for relative diameters.</p>
+  </aside>
+
+  @if (showTrueScale) {
+    <aside class="true-scale-panel" aria-label="Planets shown at their true relative diameters">
+      <header>
+        <div><span>One diameter scale</span><strong>How small the planets really are</strong></div>
+        <button type="button" (click)="toggleTrueScale()" aria-label="Close true size comparison">Close</button>
+      </header>
+      <p>Diameters are proportional to the Sun. Orbital distances are omitted because they require a very different scale.</p>
+      <div class="scale-strip">
+        <div class="scale-body sun">
+          <span class="scale-disc" [style.width.px]="trueScaleSunDiameterPx" [style.height.px]="trueScaleSunDiameterPx"></span>
+          <strong>Sun</strong><small>1,392,680 km</small>
+        </div>
+        @for (planet of planets; track planet.id) {
+          <div class="scale-body">
+            <span [class]="'scale-disc ' + planet.id" [style.width.px]="trueScaleDiameterPx(planet)" [style.height.px]="trueScaleDiameterPx(planet)"></span>
+            <strong>{{ planet.name }}</strong><small>{{ ((planet.radiusKm ?? 0) * 2) | number:'1.0-0' }} km</small>
+          </div>
+        }
+      </div>
+    </aside>
   }
 
-  <!-- Canvas -->
-  <div #container class="viewer"></div>
+  <nav class="planet-dock" aria-label="Focus a planet">
+    @for (planet of planets; track planet.id) {
+      <button type="button" (click)="selectPlanet(planet)" [class.active]="selectedPlanetId === planet.id" [attr.aria-pressed]="selectedPlanetId === planet.id" [title]="'Focus ' + planet.name">
+        <span [class]="'planet-dot ' + planet.id" aria-hidden="true"></span><span>{{ planet.name }}</span>
+      </button>
+    }
+  </nav>
 
+  @if (showInfoPanel && infoPanelContent) {
+    <aside class="planet-panel" aria-label="Selected planet information">
+      <div class="planet-visual"><img [src]="infoPanelContent.image" [alt]="infoPanelContent.name" (error)="handleImageError($event)"></div>
+      <div class="planet-body">
+        <div class="panel-heading">
+          <div><span class="panel-kicker">Selected planet</span><h2>{{ infoPanelContent.name }}</h2></div>
+          <button type="button" class="panel-close" (click)="hideInfoPanel()" aria-label="Close planet information">Close</button>
+        </div>
+        <p>{{ infoPanelContent.summary }}</p>
+        <dl>
+          <div><dt>Orbit</dt><dd>{{ infoPanelContent.semiMajorAxisAU | number:'1.2-2' }} AU</dd></div>
+          <div><dt>Year</dt><dd>{{ infoPanelContent.orbitalPeriodDays | number:'1.0-1' }} days</dd></div>
+          <div><dt>Radius</dt><dd>{{ infoPanelContent.radiusKm | number:'1.0-0' }} km</dd></div>
+          <div><dt>Day</dt><dd>{{ infoPanelContent.rotationPeriodHours | number:'1.0-1' }} hours</dd></div>
+          <div><dt>Mean temp.</dt><dd>{{ infoPanelContent.meanTemperatureC | number:'1.0-0' }} &deg;C</dd></div>
+          <div><dt>Moons</dt><dd>{{ infoPanelContent.numberOfMoons }}</dd></div>
+        </dl>
+        <button type="button" class="details-btn" (click)="goToPlanetDetails(infoPanelContent)">Open planet guide <span aria-hidden="true">&rarr;</span></button>
+      </div>
+    </aside>
+  }
+
+  <div #container class="viewer" aria-label="Interactive three-dimensional solar system model"></div>
 </div>

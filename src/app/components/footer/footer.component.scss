@@ -1,35 +1,31 @@
-footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  padding: 0.5rem 1rem;
+.site-footer {
+  border-top: 1px solid rgba(148, 164, 196, 0.14);
+  background: #060b14;
+  color: #7f8da6;
+}
 
+.footer-inner {
   display: flex;
-  justify-content: center;
+  width: min(calc(100% - 2rem), 1320px);
+  min-height: 64px;
   align-items: center;
-  gap: 1rem;
-
-  background-color: rgba(0, 0, 0, 0.571);
-  font-size: 1rem;
-  opacity: 0.9;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin: auto;
+  font-size: 0.7rem;
 }
 
-.bmc-button img {
-  height: 30px;
-  width: auto;
+.footer-inner strong { color: #d8dfeb; }
+.footer-inner nav { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+.footer-inner a { color: #8f9db5; text-decoration: none; }
+.footer-inner a:hover { color: #fff; }
+.support-link { white-space: nowrap; }
 
-  border-radius: 5px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.35);
-
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.bmc-button:hover img {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.45);
-}
-
-.bmc-button:active img {
-  transform: translateY(0);
-  box-shadow: 0 3px 6px rgba(0,0,0,0.35);
+@media (max-width: 760px) {
+  .footer-inner {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 1.1rem 0;
+  }
 }

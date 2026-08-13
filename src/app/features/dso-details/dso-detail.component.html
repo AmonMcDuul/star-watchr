@@ -1,4 +1,4 @@
-﻿@if (dso(); as dso) {
+@if (dso(); as dso) {
   <main class="dso-page">
     <header class="dso-hero">
       <div class="hero-copy">
@@ -26,7 +26,15 @@
       </dl>
     </header>
 
-    <section class="media-grid" aria-label="Finding and imaging {{ dso.name }}">
+    <nav class="object-nav" aria-label="On this page">
+      <a href="#finding-chart">Finding chart</a>
+      <a href="#observing-guide">Observing guide</a>
+      <a href="#catalogue-data">Catalogue data</a>
+      <a href="#altitude-profile">Altitude</a>
+      <a href="#sky-imagery">Sky imagery</a>
+    </nav>
+
+    <section id="finding-chart" class="media-grid" aria-label="Finding and imaging {{ dso.name }}">
       <div class="panel starhop-panel">
         <div class="panel-title">Star-hop chart</div>
         <app-starhop-atlas
@@ -57,7 +65,7 @@
 
     @if (content(); as c) {
       <section class="content-grid">
-        <article class="panel guide-panel">
+        <article id="observing-guide" class="panel guide-panel">
           <p class="eyebrow">Observer's guide</p>
           <h2>About {{ dso.name }}</h2>
           <p class="lead">{{ c.summary }}</p>
@@ -110,7 +118,7 @@
         </aside>
       </section>
 
-      <section class="panel scientific-panel" aria-labelledby="scientific-record-heading">
+      <section id="catalogue-data" class="panel scientific-panel" aria-labelledby="scientific-record-heading">
         <div class="section-heading">
           <div>
             <p class="eyebrow">Sourced catalogue data</p>
@@ -218,7 +226,7 @@
       </section>
     }
 
-    <section class="panel altitude-panel">
+    <section id="altitude-profile" class="panel altitude-panel">
       <div class="section-heading compact-heading">
         <div>
           <p class="eyebrow">Your selected location</p>
@@ -265,7 +273,7 @@
       </nav>
     }
 
-    <section class="panel aladin-panel">
+    <section id="sky-imagery" class="panel aladin-panel">
       <div class="panel-title">Live sky imagery</div>
       <app-aladin-map
         [raDeg]="raDeg()"

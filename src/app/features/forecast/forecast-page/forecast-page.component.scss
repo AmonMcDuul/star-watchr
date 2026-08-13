@@ -1,44 +1,134 @@
+:host {
+  display: block;
+  padding: 1rem 0 3rem;
+}
+
+.planner-header,
+.matrix-section,
 .legend-suncalc-container {
+  width: min(calc(100% - 2rem), 1400px);
+  margin-inline: auto;
+}
+
+.planner-header {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(360px, 1.2fr) auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 0.75rem;
+  background: #0b1321;
+}
+
+.planner-copy h1 {
+  margin: 0;
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+}
+
+.planner-copy p,
+.section-heading p {
+  margin: 0.25rem 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+.forecast-context {
+  display: grid;
+  grid-template-columns: auto minmax(120px, 1fr) minmax(180px, 260px);
+  gap: 0.65rem;
+  align-items: center;
+  min-width: 0;
+  padding-left: 1rem;
+  border-left: 1px solid var(--color-border-subtle);
+}
+
+.context-status {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: #7b8495;
+}
+
+.has-location .context-status { background: #63c99f; }
+.location-copy { min-width: 0; }
+.location-copy span { display: block; color: #7786a0; font-size: 0.56rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.location-copy strong { display: block; overflow: hidden; color: #dce3ef; font-size: 0.7rem; text-overflow: ellipsis; white-space: nowrap; }
+
+:host ::ng-deep .forecast-context app-location-search .location-wrapper { margin: 0; }
+:host ::ng-deep .forecast-context app-location-search .chosen-location { display: none; }
+:host ::ng-deep .forecast-context app-location-search .location-search {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0.4rem 0.55rem;
+  border: 1px solid rgba(148, 164, 196, 0.18);
+  border-radius: 0.4rem;
+  background: #080e19;
+}
+:host ::ng-deep .forecast-context app-location-search .location-search input { min-width: 0; opacity: 1; }
+:host ::ng-deep .forecast-context app-location-search .icon { font-size: 1rem; }
+
+.quick-links {
   display: flex;
-  gap: 2rem;
-  align-items: flex-start;
+  gap: 0.35rem;
+}
 
-  max-width: 1400px;
-  margin: 20px;
-  padding: 1rem;
+.quick-links a {
+  padding: 0.45rem 0.6rem;
+  border: 1px solid rgba(148, 164, 196, 0.18);
+  border-radius: 0.4rem;
+  color: #aebbd0;
+  font-size: 0.64rem;
+  font-weight: 650;
+  text-decoration: none;
+  white-space: nowrap;
+}
 
-  // overflow-x: auto;
-  margin: 20px;
-  padding: 1rem;
-  border-radius: 12px;
-  background: #0000003d;
-  box-shadow:
-    0 0 0 1px rgba(120,140,255,0.15),
-    0 10px 30px rgba(0,0,0,0.4);
+.quick-links a:hover { border-color: #7789a9; color: #fff; }
 
-  .metainfo {
-    flex: 1 1 35%;
-    min-width: 320px;
-    
-  }
+.matrix-section { margin-top: 1rem; }
+.section-heading { padding: 0 0.25rem 0.45rem; }
+.section-heading h2 { margin: 0; font-size: 1rem; }
 
-  .legend {
-    flex: 1 1 65%;
-    min-width: 480px;
-  }
+:host ::ng-deep app-open-meteo-matrix .matrix {
+  margin: 0;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 0.65rem;
+  background: #080f1c;
+  box-shadow: none;
+}
 
-  @media (max-width: 900px) {
-    flex-direction: column;
-    gap: 1.5rem;
+.legend-suncalc-container {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.5fr);
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
 
-    .metainfo,
-    .legend {
-      flex: 1 1 100%;
-      min-width: 100%;
-    }
-  }
+.metainfo,
+.legend {
+  min-width: 0;
+  padding: 0.9rem;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 0.65rem;
+  background: #0a111e;
+}
 
-  @media (max-width: 480px) {
-    padding: 1rem;
-  }
+@media (max-width: 1050px) {
+  .planner-header { grid-template-columns: 1fr auto; }
+  .forecast-context { grid-row: 2; grid-column: 1 / -1; padding: 0.75rem 0 0; border-top: 1px solid var(--color-border-subtle); border-left: 0; }
+}
+
+@media (max-width: 760px) {
+  .planner-header, .matrix-section, .legend-suncalc-container { width: calc(100% - 1rem); }
+  .planner-header { grid-template-columns: 1fr; }
+  .quick-links { grid-row: auto; }
+  .forecast-context { grid-column: auto; grid-template-columns: auto 1fr; }
+  .forecast-context app-location-search { grid-column: 1 / -1; }
+  .legend-suncalc-container { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .quick-links { overflow-x: auto; }
 }

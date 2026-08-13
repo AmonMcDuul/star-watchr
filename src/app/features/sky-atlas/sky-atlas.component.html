@@ -1,111 +1,119 @@
-<div class="ui">
-  <button 
-    (click)="toggleConstellations()" 
-    [class.active]="showConstellations()">
-    Constellations
-  </button>
-  <button 
-    (click)="toggleConstellationNames()"
-    [class.active]="showConstellationNames()">
-    Const. Names
-  </button>
-  <button 
-    (click)="toggleStarNames()"
-    [class.active]="showStarNames()">
-    Star Names
-  </button>
-  <button 
-    (click)="toggleMessier()"
-    [class.active]="showMessier()">
-    DSO Markers
-  </button>
-  <!-- <button 
-    (click)="toggleNightMode()"
-    [class.active]="nightMode()">
-    Night Mode
-  </button> -->
-  <button 
-    (click)="toggleSearch()"
-    [class.active]="showSearch()">
-    Search
-  </button>
-  <button (click)="resetView()">
-    Reset
-  </button>
+<div class="atlas-ui">
+  <div class="primary-tools" role="toolbar" aria-label="Sky atlas controls">
+    <button type="button" class="tool-button layers-trigger" (click)="toggleLayerPanel()" [class.active]="showLayerPanel()" [attr.aria-expanded]="showLayerPanel()" title="Map layers">
+      <span aria-hidden="true">☷</span><span class="tool-label">Layers</span>
+    </button>
+    <button type="button" class="tool-button" (click)="toggleSearch()" [class.active]="showSearch()" [attr.aria-pressed]="showSearch()" title="Search stars and deep-sky objects">
+      <span aria-hidden="true">⌕</span><span class="tool-label">Search</span>
+    </button>
+    <span class="tool-divider" aria-hidden="true"></span>
+    <button type="button" class="tool-button icon-only" (click)="zoomIn()" title="Zoom in" aria-label="Zoom in">+</button>
+    <button type="button" class="tool-button icon-only" (click)="zoomOut()" title="Zoom out" aria-label="Zoom out">−</button>
+    <button type="button" class="tool-button" (click)="resetView()" title="Reset view">
+      <span aria-hidden="true">↺</span><span class="tool-label">Reset</span>
+    </button>
+    <button type="button" class="tool-button icon-only help-trigger" (click)="toggleHelp()" [class.active]="showHelp()" aria-label="Atlas help" title="Keyboard and touch controls">?</button>
+  </div>
+
+  <aside class="layer-panel" [class.open]="showLayerPanel()" aria-label="Map layers">
+    <div class="panel-heading">
+      <div><span class="panel-kicker">Map layers</span><strong>Celestial overlays</strong></div>
+      <button type="button" class="panel-close" (click)="toggleLayerPanel()" aria-label="Close layers">×</button>
+    </div>
+    <button type="button" (click)="toggleConstellations()" [class.active]="showConstellations()" [attr.aria-pressed]="showConstellations()">
+      <span class="layer-swatch lines" aria-hidden="true"></span><span>Constellation lines</span><span class="state">{{ showConstellations() ? 'On' : 'Off' }}</span>
+    </button>
+    <button type="button" (click)="toggleConstellationNames()" [class.active]="showConstellationNames()" [attr.aria-pressed]="showConstellationNames()">
+      <span class="layer-swatch labels" aria-hidden="true">Aa</span><span>Constellation names</span><span class="state">{{ showConstellationNames() ? 'On' : 'Off' }}</span>
+    </button>
+    <button type="button" (click)="toggleStarNames()" [class.active]="showStarNames()" [attr.aria-pressed]="showStarNames()">
+      <span class="layer-swatch star" aria-hidden="true">✦</span><span>Bright star names</span><span class="state">{{ showStarNames() ? 'On' : 'Off' }}</span>
+    </button>
+    <button type="button" (click)="toggleMessier()" [class.active]="showMessier()" [attr.aria-pressed]="showMessier()">
+      <span class="layer-swatch dso" aria-hidden="true"></span><span>Messier & Caldwell</span><span class="state">{{ showMessier() ? 'On' : 'Off' }}</span>
+    </button>
+    <button type="button" (click)="toggleGrid()" [class.active]="showGrid()" [attr.aria-pressed]="showGrid()">
+      <span class="layer-swatch grid" aria-hidden="true">#</span><span>Equatorial grid</span><span class="state">{{ showGrid() ? 'On' : 'Off' }}</span>
+    </button>    <button type="button" (click)="toggleNightMode()" [class.active]="nightMode()" [attr.aria-pressed]="nightMode()">
+      <span class="layer-swatch night" aria-hidden="true">N</span><span>Red-light mode</span><span class="state">{{ nightMode() ? 'On' : 'Off' }}</span>
+    </button>
+  </aside>
+
+  @if (showSearch()) {
+    <section class="search-panel" aria-label="Search the sky">
+      <div class="panel-heading">
+        <div><span class="panel-kicker">Catalogue search</span><strong>Find an object</strong></div>
+        <button type="button" class="panel-close" (click)="toggleSearch()" aria-label="Close search">×</button>
+      </div>
+      <label class="search-field">
+        <span aria-hidden="true">⌕</span>
+        <input type="search" placeholder="Try M31, Andromeda or Sirius" [(ngModel)]="searchQuery" (input)="onSearch(searchQuery)" autofocus autocomplete="off">
+      </label>
+      @if (showSearchResults) {
+        <div class="search-results">
+          @for (result of searchResults; track result.name) {
+            <button type="button" class="search-result" (click)="selectSearchResult(result)">
+              <span class="result-name">{{ result.name }}</span>
+              @if (result.mag !== undefined) { <span class="result-mag">mag {{ result.mag | number:'1.1-1' }}</span> }
+            </button>
+          }
+        </div>
+      } @else if (searchQuery.length >= 2) {
+        <p class="no-results">No matching catalogued objects.</p>
+      }
+    </section>
+  }
+
+  @if (showHelp()) {
+    <aside class="help-card">
+      <div class="panel-heading">
+        <div><span class="panel-kicker">Field guide</span><strong>Navigate the atlas</strong></div>
+        <button type="button" class="panel-close" (click)="toggleHelp()" aria-label="Close help">×</button>
+      </div>
+      <dl>
+        <div><dt>Look around</dt><dd>Drag</dd></div>
+        <div><dt>Zoom</dt><dd>Scroll or pinch</dd></div>
+        <div><dt>Search</dt><dd>/</dd></div>
+        <div><dt>Grid / DSO</dt><dd>G / D</dd></div>
+        <div><dt>Reset</dt><dd>R</dd></div>
+      </dl>
+    </aside>
+  }
+
+  <div class="center-reticle" aria-hidden="true"><span></span></div>
+
+  <div class="hud-info" aria-label="Current sky coordinates">
+    <div class="hud-item"><span class="hud-label">RA</span><span class="hud-value">{{ hudInfo.ra }}</span></div>
+    <div class="hud-item"><span class="hud-label">Dec</span><span class="hud-value">{{ hudInfo.dec }}</span></div>
+    <div class="hud-item"><span class="hud-label">Field</span><span class="hud-value">{{ hudInfo.fov | number:'1.1-1' }}°</span></div>
+  </div>
 </div>
 
-<!-- Search Bar -->
-@if (showSearch()) {
-  <div class="search-panel">
-    <div class="search-header">
-      <h4>Search</h4>
-      <button class="close-btn" (click)="toggleSearch()">✕</button>
-    </div>
-    <input 
-      type="text" 
-      placeholder="Stars, Messier, Caldwell..." 
-      [(ngModel)]="searchQuery"
-      (input)="onSearch(searchQuery)"
-      autofocus>
-    @if (showSearchResults) {
-      <div class="search-results">
-        @for (result of searchResults; track result.name) {
-          <div class="search-result" (click)="selectSearchResult(result)">
-            <span class="result-name">{{ result.name }}</span>
-            @if (result.mag) {
-              <span class="result-mag">mag {{ result.mag | number:'1.1f' }}</span>
-            }
-          </div>
-        }
-      </div>
-    }
-  </div>
-}
-
-<!-- HUD Info -->
-<!-- <div class="hud-info">
-  <div class="hud-item">
-    <span class="hud-label">RA:</span>
-    <span class="hud-value">{{ hudInfo.ra }}</span>
-  </div>
-  <div class="hud-item">
-    <span class="hud-label">Dec:</span>
-    <span class="hud-value">{{ hudInfo.dec }}</span>
-  </div>
-  <div class="hud-item">
-    <span class="hud-label">FOV:</span>
-    <span class="hud-value">{{ hudInfo.fov | number:'1.1-1' }}°</span>
-  </div>
-</div> -->
-
-<!-- Hover Tooltip (gecentreerd) -->
 @if (hoverTooltipContent(); as tooltip) {
-  <div class="tooltip centered">
-    {{ tooltip }}
-  </div>
+  <div class="atlas-tooltip">{{ tooltip }}</div>
 }
 
-<!-- Info Panel (gecentreerd) -->
 @if (showInfoPanel() && infoPanelContent(); as content) {
-  <div class="info-panel centered">
-    <div class="info-header">
-      <h3>{{ content.code }}{{ content.messierNumber }} – {{ content.name }}</h3>
-      <button class="close-btn" (click)="hideInfoPanel()">✕</button>
+  <aside class="object-panel" aria-label="Selected deep-sky object">
+    <div class="object-visual">
+      <img [src]="content.image" [alt]="content.name" (error)="handleImageError($event)">
+      <span class="object-code">{{ content.code }}{{ content.messierNumber || content.caldwellNumber }}</span>
     </div>
-    <div class="info-content">
-      <img [src]="content.image" [alt]="content.name" (error)="handleImageError($event)" />
-      <div class="info-grid">
-        <div class="info-row"><span class="label">Type:</span> <span class="value">{{ content.type }}</span></div>
-        <div class="info-row"><span class="label">NGC:</span> <span class="value">{{ content.NGC }}</span></div>
-        <div class="info-row"><span class="label">Magnitude:</span> <span class="value">{{ content.magnitude }}</span></div>
-        <div class="info-row"><span class="label">Constellation:</span> <span class="value">{{ content.constellation }}</span></div>
-        <div class="info-row"><span class="label">Distance:</span> <span class="value">{{ content.distance }} ly</span></div>
-        <div class="info-row"><span class="label">Size:</span> <span class="value">{{ content.size }}</span></div>
-        <div class="info-row"><span class="label">Difficulty:</span> <span class="value">{{ content.viewingDifficulty }}</span></div>
+    <div class="object-body">
+      <div class="panel-heading">
+        <div><span class="panel-kicker">Selected object</span><h2>{{ content.name }}</h2></div>
+        <button type="button" class="panel-close" (click)="hideInfoPanel()" aria-label="Close object information">×</button>
       </div>
-      <button class="details-btn" (click)="goToMessierDetails(content)">View Details →</button>
+      <p class="object-type">{{ content.type }} in {{ content.constellation }}</p>
+      <dl class="object-facts">
+        <div><dt>Magnitude</dt><dd>{{ content.magnitude ?? '—' }}</dd></div>
+        <div><dt>Distance</dt><dd>{{ content.distance ? (content.distance + ' ly') : '—' }}</dd></div>
+        <div><dt>Apparent size</dt><dd>{{ content.size || '—' }}</dd></div>
+        <div><dt>Difficulty</dt><dd>{{ content.viewingDifficulty || '—' }}</dd></div>
+      </dl>
+      <button type="button" class="details-btn" (click)="goToMessierDetails(content)">Open observing guide <span aria-hidden="true">→</span></button>
     </div>
-  </div>
+  </aside>
 }
 
-<canvas #canvas></canvas>
+<canvas #canvas aria-label="Interactive three-dimensional sky atlas"></canvas>

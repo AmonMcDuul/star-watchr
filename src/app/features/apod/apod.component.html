@@ -13,7 +13,7 @@
       <img
         [src]="apod()!.hdurl || apod()!.url"
         [alt]="apod()!.title"
-        loading="lazy"
+        loading="eager" decoding="async"
       />
       <div class="image-overlay"></div>
       <div class="image-meta">
@@ -29,7 +29,7 @@
         [src]="apod()!.url"
         frameborder="0"
         allowfullscreen
-        title="@apod()!.title"
+        [title]="apod()!.title"
       ></iframe>
       <div class="video-meta">
         <h1>{{ apod()!.title }}</h1>
@@ -71,9 +71,7 @@
         </p>
       }
     </div>
-  </section>
-  <br><br>
-}
+  </section>}
 
 @if (error()) {
   <p class="error">Could not load today’s APOD()!.</p>

@@ -1,16 +1,35 @@
-@if(location.selected()){
-  <app-location-search></app-location-search>
-}
-<app-open-meteo-matrix></app-open-meteo-matrix>
-
-<div class="legend-suncalc-container">
-  <div class="metainfo">
-    <app-astro-metainfo></app-astro-metainfo>
+<section class="planner-header" aria-labelledby="forecast-title">
+  <div class="planner-copy">
+    <h1 id="forecast-title">Stargazing forecast</h1>
+    <p>Weather, darkness, Moon and planet visibility for your observing location.</p>
   </div>
 
-  <div class="legend">
-    <app-matrix-legend></app-matrix-legend>
+  <div class="forecast-context" [class.has-location]="location.selected()">
+    <span class="context-status" aria-hidden="true"></span>
+    <div class="location-copy">
+      <span>Location</span>
+      <strong>{{ location.selected()?.display_name || 'Choose a location' }}</strong>
+    </div>
+    <app-location-search></app-location-search>
   </div>
-</div>
-<br><br>
-<br><br>
+
+  <nav class="quick-links" aria-label="Related tools">
+    <a routerLink="/dso-forecast">Deep-sky targets</a>
+    <a routerLink="/sky-atlas">Open atlas</a>
+  </nav>
+</section>
+
+<section class="matrix-section" aria-label="Astronomy forecast matrix">
+  <header class="section-heading">
+    <div>
+      <h2>Hourly conditions</h2>
+      <p>Drag horizontally and select a cell for exact values.</p>
+    </div>
+  </header>
+  <app-open-meteo-matrix></app-open-meteo-matrix>
+</section>
+
+<section class="legend-suncalc-container" aria-label="Forecast explanation">
+  <div class="metainfo"><app-astro-metainfo></app-astro-metainfo></div>
+  <div class="legend"><app-matrix-legend></app-matrix-legend></div>
+</section>
