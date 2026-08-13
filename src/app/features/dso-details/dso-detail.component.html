@@ -27,11 +27,11 @@
     </header>
 
     <nav class="object-nav" aria-label="On this page">
-      <a href="#finding-chart">Finding chart</a>
-      <a href="#observing-guide">Observing guide</a>
-      <a href="#catalogue-data">Catalogue data</a>
-      <a href="#altitude-profile">Altitude</a>
-      <a href="#sky-imagery">Sky imagery</a>
+      <button type="button" (click)="scrollToSection($event, 'finding-chart')">Finding chart</button>
+      <button type="button" (click)="scrollToSection($event, 'observing-guide')">Observing guide</button>
+      <button type="button" (click)="scrollToSection($event, 'catalogue-data')">Catalogue data</button>
+      <button type="button" (click)="scrollToSection($event, 'altitude-profile')">Altitude</button>
+      <button type="button" (click)="scrollToSection($event, 'sky-imagery')">Sky imagery</button>
     </nav>
 
     <section id="finding-chart" class="media-grid" aria-label="Finding and imaging {{ dso.name }}">

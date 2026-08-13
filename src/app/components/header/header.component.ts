@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
+import { Component, HostListener, inject, OnDestroy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
@@ -8,22 +8,36 @@ import { Router, RouterModule } from '@angular/router';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent {
-  private router = inject(Router)
-  
+export class HeaderComponent implements OnDestroy {
+  private router = inject(Router);
+  private document = inject(DOCUMENT);
+
   menuOpen = false;
 
   goHome() {
-    this.menuOpen = false;
+    this.closeMenu();
     this.router.navigate(['/']);
   }
 
   toggleMenu() {
-    this.menuOpen = !this.menuOpen;
+    this.setMenuOpen(!this.menuOpen);
   }
 
   closeMenu() {
-    this.menuOpen = false;
+    this.setMenuOpen(false);
   }
 
+  @HostListener('document:keydown.escape')
+  onEscape() {
+    if (this.menuOpen) this.closeMenu();
+  }
+
+  ngOnDestroy() {
+    this.document.body.classList.remove('mobile-menu-open');
+  }
+
+  private setMenuOpen(open: boolean) {
+    this.menuOpen = open;
+    this.document.body.classList.toggle('mobile-menu-open', open);
+  }
 }

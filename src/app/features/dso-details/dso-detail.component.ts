@@ -1,4 +1,4 @@
-﻿import {
+import {
   Component,
   computed,
   DestroyRef,
@@ -9,7 +9,7 @@
   signal,
 } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 
@@ -56,6 +56,7 @@ export class DsoDetailComponent implements OnDestroy {
   private messier = inject(MessierService);
   private injector = inject(Injector);
   private destroyRef = inject(DestroyRef);
+  private document = inject(DOCUMENT);
 
   readonly location = inject(LocationService);
   readonly time = inject(MessierTimeService);
@@ -169,6 +170,16 @@ export class DsoDetailComponent implements OnDestroy {
 
   goBack() {
     this.router.navigateByUrl('/dso-forecast');
+  }
+
+  scrollToSection(event: Event, sectionId: string): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.document.getElementById(sectionId)?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
   }
 
   toggleConstellations() {

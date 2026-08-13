@@ -19,12 +19,12 @@
   </button>
 </header>
 
-<nav id="mobile-menu" class="mobile-menu" [class.open]="menuOpen" aria-label="Mobile navigation">
-  <a routerLink="/" (click)="closeMenu()">Forecast</a>
-  <a routerLink="/dso-forecast" (click)="closeMenu()">Deep sky</a>
-  <a routerLink="/solar-system" (click)="closeMenu()">Solar system</a>
-  <a routerLink="/sky-atlas" (click)="closeMenu()">Atlas</a>
-  <a routerLink="/apod" (click)="closeMenu()">APOD</a>
-  <a routerLink="/about" (click)="closeMenu()">About</a>
-  <a routerLink="/contact" (click)="closeMenu()">Contact</a>
+<nav id="mobile-menu" class="mobile-menu" [class.open]="menuOpen" [attr.aria-hidden]="menuOpen ? null : true" aria-label="Mobile navigation">
+  <a routerLink="/" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active" (click)="closeMenu()">Forecast</a>
+  <a routerLink="/dso-forecast" routerLinkActive="active" (click)="closeMenu()">Deep sky</a>
+  <a routerLink="/solar-system" routerLinkActive="active" (click)="closeMenu()">Solar system</a>
+  <a routerLink="/sky-atlas" routerLinkActive="active" (click)="closeMenu()">Atlas</a>
+  <a routerLink="/apod" routerLinkActive="active" (click)="closeMenu()">APOD</a>
+  <a routerLink="/about" routerLinkActive="active" (click)="closeMenu()">About</a>
+  <a routerLink="/contact" routerLinkActive="active" (click)="closeMenu()">Contact</a>
 </nav>

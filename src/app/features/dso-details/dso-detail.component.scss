@@ -78,8 +78,11 @@ dd { margin: 0.12rem 0 0; color: #eef2f7; overflow-wrap: anywhere; }
 
 .object-nav::-webkit-scrollbar { display: none; }
 
-.object-nav a {
+.object-nav button {
   padding: 0.4rem 0.55rem;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
   border-radius: 0.3rem;
   color: #8f9db4;
   font-size: 0.62rem;
@@ -87,7 +90,7 @@ dd { margin: 0.12rem 0 0; color: #eef2f7; overflow-wrap: anywhere; }
   white-space: nowrap;
 }
 
-.object-nav a:hover { background: #111a29; color: #fff; }
+.object-nav button:hover { background: #111a29; color: #fff; }
 
 .panel {
   min-width: 0;
@@ -170,7 +173,13 @@ dd { margin: 0.12rem 0 0; color: #eef2f7; overflow-wrap: anywhere; }
 .scientific-panel,
 .altitude-panel,
 .related-dsos,
-.aladin-panel { margin-bottom: 0.75rem; scroll-margin-top: 112px; }
+.aladin-panel { margin-bottom: 0.75rem; }
+
+#finding-chart,
+#observing-guide,
+#catalogue-data,
+#altitude-profile,
+#sky-imagery { scroll-margin-top: 1rem; }
 
 .section-heading {
   display: flex;

@@ -74,18 +74,53 @@
   gap: 0.35rem;
 }
 
-.quick-links a {
+.quick-links a,
+.quick-links button {
   padding: 0.45rem 0.6rem;
   border: 1px solid rgba(148, 164, 196, 0.18);
   border-radius: 0.4rem;
   color: #aebbd0;
   font-size: 0.64rem;
   font-weight: 650;
+  background: transparent;
+  cursor: pointer;
   text-decoration: none;
   white-space: nowrap;
 }
 
-.quick-links a:hover { border-color: #7789a9; color: #fff; }
+.quick-links a:hover,
+.quick-links button:hover { border-color: #7789a9; color: #fff; }
+
+.quick-links .install-app {
+  border-style: dashed;
+  color: #8f9db3;
+  font-weight: 550;
+}
+
+.install-help {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.55rem 0.65rem;
+  border-top: 1px solid var(--color-border-subtle);
+  color: #929fb4;
+  font-size: 0.65rem;
+  text-align: left;
+}
+
+.install-help p { margin: 0; }
+.install-help strong { color: #d4dce8; }
+.install-help button {
+  padding: 0.3rem 0.45rem;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 0.3rem;
+  background: transparent;
+  color: #9facc0;
+  cursor: pointer;
+  font-size: 0.58rem;
+}
 
 .matrix-section { margin-top: 1rem; }
 .section-heading { padding: 0 0.25rem 0.45rem; }

@@ -5,6 +5,7 @@ import { FooterComponent } from "./components/footer/footer.component";
 import { filter } from 'rxjs';
 import { SeoService } from './services/seo.service';
 import { AnalyticsService } from './services/analytics.service';
+import { PwaInstallService } from './services/pwa-install.service';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
@@ -18,11 +19,13 @@ export class App {
   private route = inject(ActivatedRoute);
   private seo = inject(SeoService);
   private analytics = inject(AnalyticsService);
+  private pwaInstall = inject(PwaInstallService);
   private lastPath?: string;
   private platformId = inject(PLATFORM_ID);
   protected readonly title = signal('StarWatchr');
 
 constructor() {
+  this.pwaInstall.initialize();
   this.router.events
     .pipe(filter(e => e instanceof NavigationEnd))
     .subscribe((e: NavigationEnd) => {

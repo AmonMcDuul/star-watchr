@@ -48,6 +48,8 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+body.mobile-menu-open { overflow: hidden; }
+
 button,
 input,
 select,
