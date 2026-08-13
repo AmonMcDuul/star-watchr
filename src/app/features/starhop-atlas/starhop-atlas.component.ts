@@ -215,6 +215,7 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
       canvas.removeEventListener('touchend', this.onTouchEnd);
       canvas.removeEventListener('mousemove', this.onMouseMove);
       canvas.removeEventListener('click', this.onClick);
+      this.controls?.removeEventListener('change', this.onControlsChange);
     }
   }
 
@@ -317,7 +318,8 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
   private initThree(): void {
     const canvas = this.canvasRef.nativeElement;
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
-    this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    const pixelRatioCap = canvas.clientWidth < 700 ? 1.35 : 1.75;
+    this.renderer.setPixelRatio(Math.min(devicePixelRatio, pixelRatioCap));
     this.renderer.setSize(canvas.clientWidth, canvas.clientHeight);
     this.renderer.toneMapping = THREE.ReinhardToneMapping;
     this.renderer.toneMappingExposure = 1.0;
@@ -368,6 +370,7 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
     canvas.addEventListener('touchend', this.onTouchEnd);
     canvas.addEventListener('mousemove', this.onMouseMove);
     canvas.addEventListener('click', this.onClick);
+    this.controls.addEventListener('change', this.onControlsChange);
   }
 
   private setupResizeObserver(): void {
@@ -627,7 +630,7 @@ private createLabelOrigineel(
 
   private createDSOImage(obj: any, pos: THREE.Vector3): THREE.Mesh | undefined {
     const code = obj.code;
-    const number = obj.messierNumber || obj.messierNumber;
+    const number = obj.messierNumber;
     const path = code === 'M'
       ? `/assets/dso/messier/M${number}.webp`
       : `/assets/dso/caldwell/C${number}.webp`;
@@ -905,7 +908,7 @@ private updateVisibility(): void {
     const q = this.searchQuery.toLowerCase();
     const all = this.messierService.realAll();
     this.searchResults = all.filter(obj => {
-      const code = `${obj.code}${obj.messierNumber || obj.messierNumber}`.toLowerCase();
+      const code = `${obj.code}${obj.messierNumber}`.toLowerCase();
       const name = obj.name?.toLowerCase() || '';
       const type = obj.type?.toLowerCase() || '';
       const constell = obj.constellation?.toLowerCase() || '';
@@ -921,6 +924,11 @@ private updateVisibility(): void {
   }
 
   // ===== HUD UPDATE =====
+  private onControlsChange = (): void => {
+    this.updateHUD();
+    this.cdr.markForCheck();
+  };
+
   private updateHUD(): void {
     if (!this.camera || !this.controls) return;
     const targetDir = this.controls.target.clone().normalize();
@@ -953,6 +961,24 @@ private updateVisibility(): void {
   }
 
   // ===== PUBLIEKE METHODES =====
+  get rotationAngleDisplay(): number {
+    return ((this.rotationAngle % 360) + 360) % 360;
+  }
+
+  zoomIn(): void {
+    this.setFieldOfView(this.targetFov * 0.72);
+  }
+
+  zoomOut(): void {
+    this.setFieldOfView(this.targetFov * 1.38);
+  }
+
+  private setFieldOfView(fov: number): void {
+    this.targetFov = THREE.MathUtils.clamp(fov, this.MIN_FOV, this.MAX_FOV);
+    this.updateLabelSizes();
+    this.updateHUD();
+  }
+
   resetView(): void {
     if (this.zoomAnimationFrame) cancelAnimationFrame(this.zoomAnimationFrame);
     this.centerOnTarget();
@@ -1008,7 +1034,7 @@ private updateVisibility(): void {
 
   goToDSODetails(obj: any): void {
     const code = obj.code;
-    const number = obj.messierNumber || obj.caldwellNumber;
+    const number = obj.messierNumber;
     const url = `/dso/${code}${number}`;
     
     // Forceer een echte pagina navigatie door eerst naar een dummy route te gaan

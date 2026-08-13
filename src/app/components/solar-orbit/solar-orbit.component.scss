@@ -1,108 +1,25 @@
-:host {
-  display: block;
-  position: relative;
-}
-
-.orbit-container {
-  position: relative;
-  width: 100%;
-  height: 560px;
-  background: #03030a;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.viewer {
-  position: absolute;
-  inset: 0;
-}
-
-.control-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 50;
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  padding: 0.4rem;
-  background: rgba(10,12,20,0.95);
-  border-bottom: 1px solid #1f2942;
-  backdrop-filter: blur(6px);
-  font-size: 0.7rem;
-  color: #e8ecff;
-}
-
-.control-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-  align-items: center;
-  justify-content: flex-start;
-  overflow-x: auto;
-  padding: 0.2rem 0;
-}
-
-.control-row.hud {
-  font-size: 0.6rem;
-  color: #8899cc;
-  border-top: 1px solid rgba(255,255,255,0.05);
-  padding-top: 0.3rem;
-  justify-content: space-between;
-}
-
-.control-btn {
-  background: #1a233a;
-  border: 1px solid #2d3b5e;
-  color: #e8ecff;
-  padding: 0.25rem 0.45rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.6rem;
-  font-weight: 500;
-  white-space: nowrap;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-
-  &:hover {
-    background: #2d3b5e;
-    border-color: #4a5f93;
-  }
-  &.active {
-    background: #3a4b7a;
-    border-color: #5d7bc4;
-    color: #ffcc66;
-  }
-}
-
-.time-slider {
-  width: 150px;
-  background: #1a233a;
-  border-radius: 4px;
-  height: 4px;
-  cursor: pointer;
-}
-
-.time-display {
-  font-family: monospace;
-  background: rgba(0,0,0,0.4);
-  padding: 0.2rem 0.4rem;
-  border-radius: 4px;
-  font-size: 0.6rem;
-}
-
-@media (max-width: 768px) {
-  .control-row {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    justify-content: flex-start;
-  }
-  .time-slider {
-    width: 100px;
-  }
-}
+:host { position: relative; display: block; }
+.orbit-container { position: relative; width: 100%; height: clamp(480px, 65vh, 640px); overflow: hidden; border: 1px solid #293750; border-radius: .5rem; background: #030711; }
+.viewer { position: absolute; inset: 0; }
+.simulation-tools,.simulation-status,.scale-note,.planet-dock,.true-scale-panel { position: absolute; z-index: 20; }
+.simulation-tools { top: .5rem; left: 50%; display: flex; gap: .25rem; align-items: center; padding: .2rem; border: 1px solid #26334d; border-radius: .35rem; background: rgba(6,11,21,.94); transform: translateX(-50%); }
+.time-controls,.view-controls { display: flex; gap: .1rem; align-items: center; }
+.view-controls { padding-left: .25rem; border-left: 1px solid #26334d; }
+.control-btn { min-height: 1.9rem; padding: .32rem .42rem; border: 0; border-radius: .22rem; background: transparent; color: #9aa7bd; cursor: pointer; font-size: .54rem; font-weight: 700; white-space: nowrap; }
+.control-btn:hover:not(:disabled),.control-btn.active { background: #202d46; color: #fff; }
+.control-btn.reset { color: #e5c773; }
+.control-btn:disabled { opacity: .35; }
+.simulation-status { top: .5rem; left: .5rem; display: flex; gap: .45rem; align-items: center; padding: .45rem .55rem; border: 1px solid #26334d; border-radius: .35rem; background: rgba(6,11,21,.92); color: #e7ecf5; font: .56rem ui-monospace,Consolas,monospace; }
+.simulation-status strong { color: #9db5df; }
+.status-dot { width: .42rem; height: .42rem; border-radius: 50%; background: #65cda8; }.status-dot.paused{background:#e5c773}
+.scale-note { top: 3.6rem; left: .5rem; padding: .35rem .5rem; border-left: 2px solid #52698f; background: rgba(6,11,21,.84); color: #8290a8; font-size: .49rem; }
+.planet-dock { right: .5rem; bottom: .5rem; left: .5rem; display: flex; gap: .08rem; justify-content: center; padding: .18rem; overflow-x: auto; border: 1px solid #26334d; border-radius: .35rem; background: rgba(6,11,21,.94); scrollbar-width: none; }
+.planet-dock button { display: flex; gap: .25rem; align-items: center; padding: .34rem .4rem; border: 0; border-radius: .2rem; background: transparent; color: #8794aa; cursor: pointer; font-size: .51rem; white-space: nowrap; }
+.planet-dock button:hover,.planet-dock button.active{background:#1a2539;color:#fff}
+.planet-dot{width:.55rem;height:.55rem;flex:0 0 auto;border-radius:50%;background:#aaa}.planet-dot.mercury,.scale-disc.mercury{background:#aaa49a}.planet-dot.venus,.scale-disc.venus{background:#e1b86e}.planet-dot.earth,.scale-disc.earth{background:#5f9fe1}.planet-dot.mars,.scale-disc.mars{background:#c96645}.planet-dot.jupiter,.scale-disc.jupiter{background:#d29a6d}.planet-dot.saturn,.scale-disc.saturn{background:#d9c080}.planet-dot.uranus,.scale-disc.uranus{background:#91d5dc}.planet-dot.neptune,.scale-disc.neptune{background:#5377dc}
+.true-scale-panel { top: 50%; left: 50%; width: min(880px,calc(100% - 1rem)); max-height: calc(100% - 5rem); overflow: auto; border: 1px solid #3b4960; border-radius: .45rem; background: #070d17; box-shadow: 0 20px 55px rgba(0,0,0,.58); transform: translate(-50%,-50%); }
+.true-scale-panel header { position: sticky; top: 0; z-index: 2; display: flex; justify-content: space-between; align-items: center; padding: .55rem .65rem; border-bottom: 1px solid #26334d; background:#0a111e; color:#eef2fa;font-size:.7rem }
+.true-scale-panel header button{padding:.3rem .45rem;border:1px solid #35445f;border-radius:.22rem;background:#151f31;color:#c9d1df;cursor:pointer;font-size:.52rem}
+.true-scale-panel>p{margin:0;padding:.45rem .65rem;color:#8996ac;font-size:.54rem}.scale-strip{display:flex;gap:1rem;align-items:end;min-width:810px;padding:.8rem 1rem 1rem;overflow-x:auto}.scale-body{display:grid;width:60px;min-height:250px;flex:0 0 60px;place-items:end center;align-content:end}.scale-body.sun{width:225px;flex-basis:225px}.scale-disc{display:block;border-radius:50%;background:#e5ae45;box-shadow:inset -10px -6px 18px rgba(0,0,0,.28)}.scale-body strong{margin-top:.45rem;color:#e8edf6;font-size:.54rem}
+@media(max-width:860px){.simulation-tools{right:.5rem;left:.5rem;justify-content:center;overflow-x:auto;transform:none}.simulation-status{top:3.6rem}.scale-note{top:6.5rem}}
+@media(max-width:580px){.orbit-container{height:540px}.simulation-tools{display:block}.time-controls,.view-controls{justify-content:center}.view-controls{margin-top:.12rem;padding-top:.12rem;padding-left:0;border-top:1px solid #26334d;border-left:0}.control-btn{flex:1}.simulation-status{top:6rem;right:.5rem;left:.5rem;justify-content:center}.scale-note{display:none}.planet-dock{justify-content:flex-start}.true-scale-panel{max-height:calc(100% - 4rem)}}

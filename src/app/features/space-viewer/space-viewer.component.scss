@@ -1,62 +1,53 @@
-    .space-viewer {
-      width: 100%;
-      height: calc(100vh - 160px);
-      position: relative;
-      overflow: hidden;
-    }
+:host { display: block; background: #030711; }
 
-    .mode-switcher {
-      position: absolute;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1000;
-      display: flex;
-      gap: 10px;
-      background: rgba(10,12,20,0.9);
-      padding: 8px 12px;
-      border-radius: 6px;              
-      backdrop-filter: blur(8px);
-      border: 1px solid #2d3b5e;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    }
+.space-viewer {
+  position: relative;
+  width: 100%;
+  height: calc(100dvh - 70px);
+  min-height: 0;
+  overflow: hidden;
+  background: #030711;
+}
 
-    .mode-switcher button {
-      background: #1a233a;
-      border: 1px solid #2d3b5e;
-      color: #e8ecff;
-      padding: 6px 16px;
-      border-radius: 6px;              
-      cursor: pointer;
-      font-size: 0.8rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      transition: all 0.2s ease;
-    }
+.viewer-stage { position: absolute; inset: 0; }
 
-    .mode-switcher button:hover {
-      background: #2d3b5e;
-      border-color: #4a5f93;
-    }
+.viewer-header {
+  position: absolute;
+  top: 0.55rem;
+  left: 50%;
+  z-index: 100;
+  display: grid;
+  grid-template-columns: minmax(150px, 1fr) auto minmax(150px, 1fr);
+  gap: 1rem;
+  align-items: center;
+  width: min(calc(100% - 1rem), 1120px);
+  min-height: 46px;
+  padding: 0.3rem 0.4rem;
+  border: 1px solid #26334d;
+  border-radius: 0.45rem;
+  background: rgba(6, 11, 21, 0.94);
+  transform: translateX(-50%);
+}
 
-    .mode-switcher button.active {
-      background: #3a4b7a;
-      border-color: #5d7bc4;
-      color: #ffcc66;
-    }
+.viewer-title { display: flex; gap: 0.55rem; align-items: center; min-width: 0; padding-inline: 0.3rem; }
+.viewer-title strong { display: block; color: #eef2fa; font-size: 0.76rem; }
+.eyebrow { display: block; color: #7887a4; font-size: 0.49rem; font-weight: 750; letter-spacing: 0.1em; text-transform: uppercase; }
+.viewer-mark { width: 0.45rem; height: 0.45rem; flex: 0 0 auto; border-radius: 50%; background: #d5b861; }
 
-    @media (max-width: 1000px) {
-      .mode-switcher {
-        top: auto;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        padding: 6px 10px;
-      }
+.mode-switcher { display: flex; gap: 0.15rem; padding: 0.15rem; border: 1px solid #202c42; border-radius: 0.35rem; background: #050a13; }
+.mode-switcher button { min-height: 30px; padding: 0.3rem 0.65rem; border: 0; border-radius: 0.25rem; background: transparent; color: #8795ae; cursor: pointer; font-size: 0.63rem; font-weight: 700; white-space: nowrap; }
+.mode-switcher button:hover { color: #eef2fa; }
+.mode-switcher button.active { background: #202d46; color: #fff; }
+.viewer-hint { justify-self: end; margin: 0; padding-right: 0.35rem; color: #71809c; font-size: 0.56rem; text-align: right; }
 
-      .mode-switcher button {
-        padding: 4px 12px;
-        font-size: 0.7rem;
-      }
-    }
+@media (max-width: 760px) {
+  .viewer-header { grid-template-columns: 1fr auto; }
+  .viewer-hint { display: none; }
+}
+
+@media (max-width: 480px) {
+  .viewer-header { gap: 0.35rem; }
+  .viewer-title .eyebrow { display: none; }
+  .viewer-title strong { font-size: 0.67rem; }
+  .mode-switcher button { padding-inline: 0.45rem; }
+}

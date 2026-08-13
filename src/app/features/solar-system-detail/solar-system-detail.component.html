@@ -1,4 +1,4 @@
-﻿@if (object(); as o) {
+@if (object(); as o) {
 
 <div class="solar-page">
 
@@ -38,7 +38,7 @@
 
     <div class="panel image-panel">
 
-      <div class="panel-title">Imaging Reference</div>
+      <div class="panel-title">Reference image</div>
 
       <div class="image-wrapper">
         <img
@@ -54,7 +54,7 @@
 
     <div class="panel info-panel">
 
-      <div class="panel-title">Object Data</div>
+      <div class="panel-title">Object guide</div>
 
       @if (content(); as c) {
         <p class="description">{{ c.overview }}</p>
@@ -171,7 +171,7 @@
 
     <div class="panel altitude-panel">
 
-      <div class="panel-title">Altitude Profile (24h)</div>
+      <div class="panel-title">24-hour altitude profile</div>
 
       <app-altitude-graph
         [raDeg]="raDeg()"
@@ -267,7 +267,7 @@
 
   <div class="panel orbit-panel">
 
-    <div class="panel-title">Solar System Orbits</div>
+    <div class="panel-title">Interactive orbit model</div>
 
     <div class="orbit-frame">
       <app-solar-orbit></app-solar-orbit>
@@ -278,4 +278,3 @@
 </div>
 
 }
-<br><br><br><br>

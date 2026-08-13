@@ -131,6 +131,8 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
   showGrid = signal(true);
   showInfoPanel = signal(false);
   showSearch = signal(false);
+  showLayerPanel = signal(false);
+  showHelp = signal(false);
   nightMode = signal(false);
 
   infoPanelContent = signal<any>(null);
@@ -207,6 +209,7 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
     canvas.removeEventListener('touchend', this.onTouchEnd);
     canvas.removeEventListener('mousemove', this.onMouseMove);
     canvas.removeEventListener('click', this.onClick);
+    this.controls?.removeEventListener('change', this.onControlsChange);
   }
 
   // =====================================================
@@ -289,7 +292,8 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
     }
 
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
-    this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    const pixelRatioCap = width < 700 ? 1.35 : 1.75;
+    this.renderer.setPixelRatio(Math.min(devicePixelRatio, pixelRatioCap));
     this.renderer.setSize(width, height, false);
     this.renderer.toneMapping = THREE.ReinhardToneMapping;
     this.renderer.toneMappingExposure = 1.0;
@@ -344,6 +348,7 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
     canvas.addEventListener('touchend', this.onTouchEnd);
     canvas.addEventListener('mousemove', this.onMouseMove);
     canvas.addEventListener('click', this.onClick);
+    this.controls.addEventListener('change', this.onControlsChange);
   }
 
   // =====================================================
@@ -870,6 +875,11 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
   }
 
   // ===== HUD UPDATE =====
+  private onControlsChange = () => {
+    this.updateHUD();
+    this.cdr.markForCheck();
+  };
+
   private updateHUD() {
     if (!this.camera || !this.controls) return;
     const targetDir = this.controls.target.clone().normalize();
@@ -921,9 +931,64 @@ export class SkyAtlasComponent implements AfterViewInit, OnDestroy {
 
   toggleSearch() {
     this.showSearch.update(v => !v);
-    if (!this.showSearch()) {
+    if (this.showSearch()) {
+      this.showHelp.set(false);
+    } else {
       this.searchResults = [];
       this.showSearchResults = false;
+    }
+  }
+
+  toggleLayerPanel() {
+    this.showLayerPanel.update(v => !v);
+  }
+
+  toggleHelp() {
+    this.showHelp.update(v => !v);
+    if (this.showHelp()) this.showSearch.set(false);
+  }
+
+  zoomIn() {
+    this.setZoom(this.targetFov * 0.72);
+  }
+
+  zoomOut() {
+    this.setZoom(this.targetFov * 1.38);
+  }
+
+  private setZoom(fov: number) {
+    this.targetFov = THREE.MathUtils.clamp(fov, this.MIN_FOV, this.MAX_FOV);
+    this.updateLabelSizes();
+    this.updateHUD();
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  onKeyboardShortcut(event: KeyboardEvent) {
+    const target = event.target as HTMLElement | null;
+    if (target?.matches('input, textarea, select, [contenteditable="true"]')) {
+      if (event.key === 'Escape') (target as HTMLInputElement).blur();
+      return;
+    }
+
+    if (event.key === '/' || event.key.toLowerCase() === 'f') {
+      event.preventDefault();
+      if (!this.showSearch()) this.toggleSearch();
+    } else if (event.key === 'Escape') {
+      this.showSearch.set(false);
+      this.showHelp.set(false);
+      this.hideInfoPanel();
+    } else if (event.key === '+' || event.key === '=') {
+      this.zoomIn();
+    } else if (event.key === '-' || event.key === '_') {
+      this.zoomOut();
+    } else if (event.key.toLowerCase() === 'g') {
+      this.toggleGrid();
+    } else if (event.key.toLowerCase() === 'd') {
+      this.toggleMessier();
+    } else if (event.key.toLowerCase() === 'c') {
+      this.toggleConstellations();
+    } else if (event.key.toLowerCase() === 'r') {
+      this.resetView();
     }
   }
 

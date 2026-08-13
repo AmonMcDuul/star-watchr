@@ -1,34 +1,43 @@
 <div class="orbit-container">
-
-  <!-- Control bar -->
-  <div class="control-bar">
-
-    <!-- Tijdregeling -->
-    <div class="control-row">
-      <button class="control-btn" (click)="setTimeSpeed(0)" [class.active]="timeSpeed === 0" title="pause">⏸️</button>
-      <button class="control-btn" (click)="setTimeSpeed(1)" [class.active]="timeSpeed === 1" title="1×">1×</button>
-      <!-- <button class="control-btn" (click)="setTimeSpeed(10)" [class.active]="timeSpeed === 10" title="10×">10×</button>
-      <button class="control-btn" (click)="setTimeSpeed(100)" [class.active]="timeSpeed === 100" title="100×">100×</button>
-      <button class="control-btn" (click)="setTimeSpeed(1000)" [class.active]="timeSpeed === 1000" title="1000×">1000×</button> -->
-      <input type="range" min="0" max="1000" step="1" [(ngModel)]="timeSpeed" class="time-slider" />
-      <span class="time-display">{{ currentDateTime | date:'yyyy-MM-dd HH:mm:ss' }}</span>
-      <button class="control-btn" (click)="toggleReverse()" [class.active]="reverse" title="backwards">↩️</button>
+  <div class="simulation-tools" role="toolbar" aria-label="Solar system simulation controls">
+    <div class="time-controls">
+      <button type="button" class="control-btn" (click)="setTimeSpeed(0)" [class.active]="timeSpeed === 0" aria-label="Pause simulation">Pause</button>
+      @for (speed of [1, 10, 100, 1000]; track speed) {
+        <button type="button" class="control-btn" (click)="setTimeSpeed(speed)" [class.active]="timeSpeed === speed">{{ speed }}&times;</button>
+      }
+      <button type="button" class="control-btn" (click)="toggleReverse()" [class.active]="reverse" aria-label="Reverse time">Reverse</button>
     </div>
-
-    <!-- Volgknop -->
-    <div class="control-row">
-      <button class="control-btn" (click)="toggleFollow()" [class.active]="followMode" title="Volg geselecteerd object">👁️ Follow</button>
+    <div class="view-controls">
+      <button type="button" class="control-btn" (click)="toggleFollow()" [class.active]="followMode" [disabled]="!selectedPlanetId">Follow</button>
+      <button type="button" class="control-btn" (click)="toggleOrbits()" [class.active]="showOrbits">Orbits</button>
+      <button type="button" class="control-btn" (click)="toggleTrueScale()" [class.active]="showTrueScale">True sizes</button>
+      <button type="button" class="control-btn reset" (click)="resetSimulation()">Overview</button>
     </div>
-
-    <!-- HUD -->
-    <div class="control-row hud">
-      <span>Speed: {{ timeSpeed }}×</span>
-      <span>Follow: {{ followMode ? 'AAN' : 'UIT' }}</span>
-    </div>
-
   </div>
 
-  <!-- Canvas -->
-  <div #container class="viewer"></div>
+  <div class="simulation-status">
+    <span class="status-dot" [class.paused]="timeSpeed === 0" aria-hidden="true"></span>
+    <span>{{ currentDateTime | date:'MMM d, y, HH:mm' }}</span><strong>{{ timeSpeed }}&times;</strong>
+  </div>
+  <div class="scale-note">Calculated positions / separate exploration scales</div>
 
+  @if (showTrueScale) {
+    <aside class="true-scale-panel" aria-label="Planets shown at their true relative diameters">
+      <header><strong>True relative diameters</strong><button type="button" (click)="toggleTrueScale()">Close</button></header>
+      <p>Same scale for every body; orbital distances are not shown.</p>
+      <div class="scale-strip">
+        <div class="scale-body sun"><span class="scale-disc" [style.width.px]="trueScaleSunDiameterPx" [style.height.px]="trueScaleSunDiameterPx"></span><strong>Sun</strong></div>
+        @for (planet of planets; track planet.id) {
+          <div class="scale-body"><span [class]="'scale-disc ' + planet.id" [style.width.px]="trueScaleDiameterPx(planet)" [style.height.px]="trueScaleDiameterPx(planet)"></span><strong>{{ planet.name }}</strong></div>
+        }
+      </div>
+    </aside>
+  }
+
+  <nav class="planet-dock" aria-label="Focus a planet">
+    @for (planet of planets; track planet.id) {
+      <button type="button" (click)="focusPlanet(planet)" [class.active]="selectedPlanetId === planet.id"><span [class]="'planet-dot ' + planet.id" aria-hidden="true"></span>{{ planet.name }}</button>
+    }
+  </nav>
+  <div #container class="viewer" aria-label="Interactive three-dimensional solar system model"></div>
 </div>

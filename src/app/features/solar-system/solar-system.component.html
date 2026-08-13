@@ -1,4 +1,5 @@
-﻿<div class="solar-system-page">
+<div class="solar-system-page">
+  <header class="catalog-header"><div><h1>Solar system</h1><p>Explore the Sun, planets, moons and smaller bodies.</p></div><a routerLink="/sky-atlas">Open orbit viewer →</a></header>
 
 
   <!-- SUMMARY -->
@@ -188,18 +189,8 @@
 
   </div>
 
-  <section class="object-directory" aria-labelledby="solar-directory-title">
-    <div class="directory-heading">
-      <div>
-        <p class="directory-eyebrow">Complete catalogue</p>
-        <h2 id="solar-directory-title">Solar system object directory</h2>
-      </div>
-      <p>
-        Browse every solar-system guide directly. Category filters above only change the visual
-        gallery; these links remain available for visitors and search engines.
-      </p>
-    </div>
-
+  <details class="object-directory">
+    <summary><span><strong>Complete object directory</strong><small>Browse every solar-system guide</small></span></summary>
     <div class="directory-groups">
       <section>
         <h3>Sun</h3>
@@ -255,5 +246,5 @@
         </nav>
       </section>
     </div>
-  </section>
+  </details>
 </div>

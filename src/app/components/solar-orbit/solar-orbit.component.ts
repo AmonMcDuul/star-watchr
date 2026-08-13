@@ -54,6 +54,9 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
   timeSpeed = 1;
   reverse = false;
   followMode = false;
+  showOrbits = true;
+  showTrueScale = false;
+  readonly trueScaleSunDiameterPx = 220;
   currentDateTime = new Date();
 
   // Three.js
@@ -165,12 +168,16 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (!isPlatformBrowser(this.platformId)) return;
     if (this.animationId != null && typeof cancelAnimationFrame !== 'undefined') {
       cancelAnimationFrame(this.animationId);
     }
+    window.removeEventListener('resize', this.onResize);
+    this.renderer?.domElement.removeEventListener('click', this.onClick);
     this.renderer?.dispose();
     this.composer?.dispose();
     this.scene?.clear();
+    this.renderer?.domElement.remove();
   }
 
   // -----------------------------------------
@@ -190,7 +197,8 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
       antialias: true,
       powerPreference: 'high-performance',
     });
-    this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    const pixelRatioCap = width < 700 ? 1.35 : 1.75;
+    this.renderer.setPixelRatio(Math.min(devicePixelRatio, pixelRatioCap));
     this.renderer.setSize(width, height);
     this.container.nativeElement.appendChild(this.renderer.domElement);
 
@@ -248,7 +256,7 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
     this.scene.add(sky);
 
     const starsGeo = new THREE.BufferGeometry();
-    const starsCount = 4000;
+    const starsCount = this.container.nativeElement.clientWidth < 700 ? 1800 : 4000;
     const positions = new Float32Array(starsCount * 3);
     for (let i = 0; i < starsCount; i++) {
       const r = 4500 + Math.random() * 3000;
@@ -315,7 +323,7 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
     const size = Math.cbrt(planet.radiusKm ?? 3000) * PLANET_SCALE;
     const geometry = new THREE.SphereGeometry(size, 64, 64);
 
-    // Pas de color aan om de helderheid te regelen (0xcccccc ≈ 80% van origineel)
+    // Pas de color aan om de helderheid te regelen (0xcccccc approximately 80% van origineel)
     const material = new THREE.MeshStandardMaterial({
       map: tex,
       roughness: 0.6,
@@ -451,10 +459,11 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
   private createAsteroidBelt() {
     const geometry = new THREE.SphereGeometry(0.25, 4, 4);
     const material = new THREE.MeshStandardMaterial({ color: 0xaaaaaa });
-    const instancedMesh = new THREE.InstancedMesh(geometry, material, ASTEROID_COUNT);
+    const asteroidCount = this.container.nativeElement.clientWidth < 700 ? 1800 : ASTEROID_COUNT;
+    const instancedMesh = new THREE.InstancedMesh(geometry, material, asteroidCount);
     const dummy = new THREE.Object3D();
 
-    for (let i = 0; i < ASTEROID_COUNT; i++) {
+    for (let i = 0; i < asteroidCount; i++) {
       const radius = THREE.MathUtils.randFloat(2.2, 3.5);
       const angle = Math.random() * Math.PI * 2;
       const r = Math.log(radius + 1) * ORBIT_SCALE;
@@ -474,10 +483,11 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
   private createKuiperBelt() {
     const geometry = new THREE.SphereGeometry(0.3, 4, 4);
     const material = new THREE.MeshStandardMaterial({ color: 0x88aaff });
-    const instancedMesh = new THREE.InstancedMesh(geometry, material, KUIPER_COUNT);
+    const kuiperCount = this.container.nativeElement.clientWidth < 700 ? 2200 : KUIPER_COUNT;
+    const instancedMesh = new THREE.InstancedMesh(geometry, material, kuiperCount);
     const dummy = new THREE.Object3D();
 
-    for (let i = 0; i < KUIPER_COUNT; i++) {
+    for (let i = 0; i < kuiperCount; i++) {
       const radius = THREE.MathUtils.randFloat(35, 55);
       const angle = Math.random() * Math.PI * 2;
       const r = Math.log(radius + 1) * ORBIT_SCALE;
@@ -627,6 +637,40 @@ export class SolarOrbitComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   toggleFollow() {
+    if (!this.selectedPlanetId) return;
     this.followMode = !this.followMode;
+  }
+
+  toggleOrbits() {
+    this.showOrbits = !this.showOrbits;
+    this.orbitRings.forEach((orbit) => orbit.visible = this.showOrbits);
+  }
+
+  focusPlanet(planet: Planet) {
+    this.selectedPlanetId = planet.id;
+    this.flyToPlanet(planet.id);
+  }
+
+  toggleTrueScale() {
+    this.showTrueScale = !this.showTrueScale;
+  }
+
+  trueScaleDiameterPx(planet: Planet) {
+    const sunRadiusKm = 696340;
+    return ((planet.radiusKm ?? 0) / sunRadiusKm) * this.trueScaleSunDiameterPx;
+  }
+  resetSimulation() {
+    this.simulationTime = new Date();
+    this.currentDateTime = new Date(this.simulationTime);
+    this.timeSpeed = 1;
+    this.reverse = false;
+    this.followMode = false;
+    this.selectedPlanetId = undefined;
+
+    if (this.camera && this.controls) {
+      this.camera.position.set(0, 220, 520);
+      this.controls.target.set(0, 0, 0);
+      this.controls.update();
+    }
   }
 }

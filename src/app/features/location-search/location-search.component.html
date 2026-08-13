@@ -1,7 +1,7 @@
 <div class="location-wrapper" #wrapper>
   <div class="location-search" [class.active]="searchActive" (click)="activateSearch()">
     <span class="icon">&#8981;</span>
-    <input
+    <input #searchInput
       [(ngModel)]="query"
       (input)="onInput()"
       placeholder="Search location…"

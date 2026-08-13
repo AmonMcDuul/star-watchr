@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { LocationSearchComponent } from "../../location-search/location-search.component";
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { LocationService } from '../../../services/location.service';
 import { ApiService } from '../../../services/api.service';
 import { PlanetVisibilityService } from '../../../services/planet-visibility.server';
@@ -12,7 +13,7 @@ import { UiPreferencesService } from '../../../services/ui-preferences.service';
 
 @Component({
   selector: 'app-forecast-page',
-  imports: [CommonModule, LocationSearchComponent, AstroMetainfoComponent, MatrixLegendComponent, OpenMeteoMatrixComponent],
+  imports: [CommonModule, RouterLink, LocationSearchComponent, AstroMetainfoComponent, MatrixLegendComponent, OpenMeteoMatrixComponent],
   templateUrl: './forecast-page.component.html',
   styleUrl: './forecast-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

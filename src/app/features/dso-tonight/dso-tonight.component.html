@@ -1,4 +1,11 @@
-﻿@if (location.selected() == null) {
+<header class="catalog-header">
+  <div>
+    <h1>Deep-sky objects</h1>
+    <p>Messier and Caldwell targets, filtered for your location and observing time.</p>
+  </div>
+  <span>{{ catalog === 'M' ? 'Messier catalogue' : 'Caldwell catalogue' }}</span>
+</header>
+@if (location.selected() == null) {
   <div class="empty-state">
     <div class="empty-card">
       <h3>Select a location</h3>
@@ -179,9 +186,8 @@
   </div>
 }
 
-<section class="catalog-directory" aria-labelledby="catalog-directory-title">
-  <h2 id="catalog-directory-title">Messier and Caldwell object directory</h2>
-  <p>Browse every deep-sky observing guide, or select a location above for tonight's visibility.</p>
+<details class="catalog-directory">
+  <summary><span><strong>Complete Messier and Caldwell directory</strong><small>Browse all object guides</small></span></summary>
   <nav class="catalog-link-grid" aria-label="Deep-sky object pages">
     @for (object of catalogDirectory; track object.id) {
       <a [routerLink]="['/dso', object.id]">
@@ -189,4 +195,4 @@
       </a>
     }
   </nav>
-</section>
+</details>

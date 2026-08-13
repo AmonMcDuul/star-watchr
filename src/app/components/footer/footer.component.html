@@ -1,13 +1,14 @@
-<footer>
-    <span>© StarWatchr</span>
-  
-    <a class="bmc-button"
-       href="https://www.buymeacoffee.com/starwatchr"
-       target="_blank"
-       rel="noopener">
-      <img
-        src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
-        alt="Buy Me A Coffee">
-    </a>
-  </footer>
-  
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span><strong>StarWatchr</strong> · © {{ currentYear }}</span>
+    <nav aria-label="Footer navigation">
+      <a routerLink="/">Forecast</a>
+      <a routerLink="/dso-forecast">Deep sky</a>
+      <a routerLink="/solar-system">Solar system</a>
+      <a routerLink="/sky-atlas">Atlas</a>
+      <a routerLink="/about">About</a>
+      <a routerLink="/contact">Contact</a>
+    </nav>
+    <a class="support-link" href="https://www.buymeacoffee.com/starwatchr" target="_blank" rel="noopener noreferrer">Support the project ↗</a>
+  </div>
+</footer>
