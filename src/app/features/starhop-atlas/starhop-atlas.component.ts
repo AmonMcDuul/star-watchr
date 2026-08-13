@@ -148,6 +148,7 @@ export class StarhopAtlasComponent implements AfterViewInit, OnDestroy, OnChange
   infoPanelContent: any = null;
   hoverTooltipContent: string | null = null;
   showSearchPanel = false;
+  mobilePanel: 'layers' | 'stars' | 'view' | null = null;
   searchQuery = '';
   searchResults: any[] = [];
 
@@ -902,6 +903,25 @@ private updateVisibility(): void {
     this.zoomAnimationFrame = requestAnimationFrame(animate);
   }
 
+  // ===== MOBILE CONTROLS =====
+  get densityLabel(): string {
+    return this.starDensity === 'sparse' ? 'Low' : this.starDensity === 'dense' ? 'High' : 'Medium';
+  }
+
+  toggleMobilePanel(panel: 'layers' | 'stars' | 'view'): void {
+    this.mobilePanel = this.mobilePanel === panel ? null : panel;
+    this.showSearchPanel = false;
+  }
+
+  closeMobilePanel(): void {
+    this.mobilePanel = null;
+  }
+
+  toggleSearchPanel(): void {
+    this.showSearchPanel = !this.showSearchPanel;
+    this.mobilePanel = null;
+  }
+
   // ===== ZOEKEN =====
   searchObjects(): void {
     if (!this.searchQuery.trim()) { this.searchResults = []; return; }
@@ -980,6 +1000,8 @@ private updateVisibility(): void {
   }
 
   resetView(): void {
+    this.mobilePanel = null;
+    this.showSearchPanel = false;
     if (this.zoomAnimationFrame) cancelAnimationFrame(this.zoomAnimationFrame);
     this.centerOnTarget();
     this.showInfoPanel = false;
@@ -1035,12 +1057,8 @@ private updateVisibility(): void {
   goToDSODetails(obj: any): void {
     const code = obj.code;
     const number = obj.messierNumber;
-    const url = `/dso/${code}${number}`;
-    
-    // Forceer een echte pagina navigatie door eerst naar een dummy route te gaan
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate([url]);
-    });
+    const url = `/dso/${code}${number}`.toLowerCase();
+    this.router.navigateByUrl(url);
     
     this.hideInfoPanel();
   }

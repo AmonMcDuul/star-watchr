@@ -10,6 +10,7 @@ import { MatrixLegendComponent } from "../matrix-legend/matrix-legend.component"
 import { OpenMeteoMatrixComponent } from "../open-meteo-matrix/open-meteo-matrix.component";
 import { OpenMeteoService } from '../../../services/open-meteo.service';
 import { UiPreferencesService } from '../../../services/ui-preferences.service';
+import { PwaInstallService } from '../../../services/pwa-install.service';
 
 @Component({
   selector: 'app-forecast-page',
@@ -24,8 +25,10 @@ export class ForecastPageComponent implements OnInit{
   private apiService = inject(ApiService);
   private planetVisibilityService = inject(PlanetVisibilityService);
   private ui = inject(UiPreferencesService);
+  readonly pwaInstall = inject(PwaInstallService);
 
   openMeteo = signal(true);
+  installHelp = signal<'ios' | 'unavailable' | null>(null);
   
   constructor(){
     const saved = this.location.selected();
@@ -42,5 +45,16 @@ export class ForecastPageComponent implements OnInit{
     });
   }
 
+
+  async installApp(): Promise<void> {
+    const outcome = await this.pwaInstall.install();
+    this.installHelp.set(
+      outcome === 'ios-help' ? 'ios' : outcome === 'unavailable' ? 'unavailable' : null,
+    );
+  }
+
+  dismissInstallHelp(): void {
+    this.installHelp.set(null);
+  }
 
 }

@@ -49,6 +49,7 @@
           "configurations": {
             "production": {
             "outputMode": "static",
+            "serviceWorker": "ngsw-config.json",
             "budgets": [
               {
                 "type": "initial",

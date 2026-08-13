@@ -16,7 +16,23 @@
   <nav class="quick-links" aria-label="Related tools">
     <a routerLink="/dso-forecast">Deep-sky targets</a>
     <a routerLink="/sky-atlas">Open atlas</a>
+    @if (pwaInstall.showInstallAction()) {
+      <button type="button" class="install-app" (click)="installApp()">Install app</button>
+    }
   </nav>
+
+  @if (installHelp(); as help) {
+    <aside class="install-help" aria-live="polite">
+      <p>
+        @if (help === 'ios') {
+          Open the Share menu and choose <strong>Add to Home Screen</strong>.
+        } @else {
+          Use your browser menu and choose <strong>Install StarWatchr</strong> or <strong>Add to Home Screen</strong>.
+        }
+      </p>
+      <button type="button" (click)="dismissInstallHelp()" aria-label="Dismiss installation help">Close</button>
+    </aside>
+  }
 </section>
 
 <section class="matrix-section" aria-label="Astronomy forecast matrix">

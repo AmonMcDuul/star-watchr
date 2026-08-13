@@ -1,39 +1,95 @@
 <div class="starhop-atlas-container">
-  <div class="map-toolbar" role="toolbar" aria-label="Star-hop chart controls">
+  <div class="map-toolbar desktop-toolbar" role="toolbar" aria-label="Star-hop chart controls">
     <div class="tool-group">
       <span class="group-label">Layers</span>
       <button type="button" (click)="toggleConstellations()" [class.active]="showConstellations" [attr.aria-pressed]="showConstellations">Lines</button>
       <button type="button" (click)="toggleConstellationNames()" [class.active]="showConstellationNames" [attr.aria-pressed]="showConstellationNames">Labels</button>
-      <button type="button" (click)="toggleStarNames()" [class.active]="showStarNames" [attr.aria-pressed]="showStarNames">Stars</button>
+      <button type="button" (click)="toggleStarNames()" [class.active]="showStarNames" [attr.aria-pressed]="showStarNames">Star names</button>
       <button type="button" (click)="toggleMessier()" [class.active]="showMessier" [attr.aria-pressed]="showMessier">DSO</button>
       <button type="button" (click)="toggleGrid()" [class.active]="showGrid" [attr.aria-pressed]="showGrid">Grid</button>
     </div>
 
     <div class="tool-group">
-      <span class="group-label">Eyepiece</span>
-      <button type="button" (click)="rotateLeft()" aria-label="Rotate field left 15 degrees">↶ 15°</button>
-      <button type="button" (click)="rotateRight()" aria-label="Rotate field right 15 degrees">15° ↷</button>
+      <span class="group-label">View</span>
+      <button type="button" (click)="rotateLeft()" aria-label="Rotate field left 15 degrees">Left 15&deg;</button>
+      <button type="button" (click)="rotateRight()" aria-label="Rotate field right 15 degrees">Right 15&deg;</button>
       <button type="button" (click)="toggleMirror()" [class.active]="mirrored" [attr.aria-pressed]="mirrored">Mirror</button>
-      <button type="button" (click)="zoomIn()" aria-label="Zoom in">+</button>
-      <button type="button" (click)="zoomOut()" aria-label="Zoom out">−</button>
+      <button type="button" (click)="zoomIn()" aria-label="Zoom in">Zoom +</button>
+      <button type="button" (click)="zoomOut()" aria-label="Zoom out">Zoom &minus;</button>
     </div>
 
     <div class="tool-group actions">
-      <button type="button" (click)="showSearchPanel = !showSearchPanel" [class.active]="showSearchPanel">Search</button>
+      <button type="button" (click)="toggleSearchPanel()" [class.active]="showSearchPanel">Search</button>
       <button type="button" (click)="takeScreenshot()">Save PNG</button>
       <button type="button" (click)="resetView()">Target</button>
     </div>
   </div>
 
+  <div class="mobile-toolbar" role="toolbar" aria-label="Star-hop chart controls">
+    <button type="button" (click)="toggleMobilePanel('layers')" [class.active]="mobilePanel === 'layers'" [attr.aria-expanded]="mobilePanel === 'layers'">
+      <span class="mobile-tool-mark" aria-hidden="true">&#9776;</span><span>Layers</span>
+    </button>
+    <button type="button" (click)="toggleMobilePanel('stars')" [class.active]="mobilePanel === 'stars'" [attr.aria-expanded]="mobilePanel === 'stars'">
+      <span class="mobile-tool-mark" aria-hidden="true">&#10022;</span><span>Stars</span>
+    </button>
+    <button type="button" (click)="toggleMobilePanel('view')" [class.active]="mobilePanel === 'view'" [attr.aria-expanded]="mobilePanel === 'view'">
+      <span class="mobile-tool-mark" aria-hidden="true">&#8857;</span><span>View</span>
+    </button>
+    <button type="button" (click)="toggleSearchPanel()" [class.active]="showSearchPanel" [attr.aria-expanded]="showSearchPanel">
+      <span class="mobile-tool-mark" aria-hidden="true">&#8981;</span><span>Search</span>
+    </button>
+    <button type="button" (click)="resetView()">
+      <span class="mobile-tool-mark" aria-hidden="true">&#9678;</span><span>Target</span>
+    </button>
+  </div>
+
+  @if (mobilePanel === 'layers') {
+    <section class="mobile-control-panel" aria-label="Map layers">
+      <header><strong>Map layers</strong><button type="button" (click)="closeMobilePanel()" aria-label="Close layer controls">Close</button></header>
+      <div class="mobile-option-grid">
+        <button type="button" (click)="toggleConstellations()" [class.active]="showConstellations" [attr.aria-pressed]="showConstellations">Constellation lines</button>
+        <button type="button" (click)="toggleConstellationNames()" [class.active]="showConstellationNames" [attr.aria-pressed]="showConstellationNames">Constellation labels</button>
+        <button type="button" (click)="toggleStarNames()" [class.active]="showStarNames" [attr.aria-pressed]="showStarNames">Bright star names</button>
+        <button type="button" (click)="toggleMessier()" [class.active]="showMessier" [attr.aria-pressed]="showMessier">Other DSO</button>
+        <button type="button" (click)="toggleGrid()" [class.active]="showGrid" [attr.aria-pressed]="showGrid">Coordinate grid</button>
+      </div>
+    </section>
+  }
+
+  @if (mobilePanel === 'stars') {
+    <section class="mobile-control-panel compact-panel" aria-label="Star density">
+      <header><div><strong>Star density</strong><span>{{ densityLabel }}</span></div><button type="button" (click)="closeMobilePanel()" aria-label="Close star density controls">Close</button></header>
+      <div class="density-options" role="group" aria-label="Choose star density">
+        <button type="button" (click)="setDensity('sparse')" [class.active]="starDensity === 'sparse'">Low<small>Bright stars</small></button>
+        <button type="button" (click)="setDensity('normal')" [class.active]="starDensity === 'normal'">Medium<small>Balanced</small></button>
+        <button type="button" (click)="setDensity('dense')" [class.active]="starDensity === 'dense'">High<small>Faint stars</small></button>
+      </div>
+    </section>
+  }
+
+  @if (mobilePanel === 'view') {
+    <section class="mobile-control-panel" aria-label="Chart view controls">
+      <header><strong>Chart view</strong><button type="button" (click)="closeMobilePanel()" aria-label="Close view controls">Close</button></header>
+      <div class="mobile-option-grid view-options">
+        <button type="button" (click)="zoomIn()">Zoom in</button>
+        <button type="button" (click)="zoomOut()">Zoom out</button>
+        <button type="button" (click)="rotateLeft()">Rotate left 15&deg;</button>
+        <button type="button" (click)="rotateRight()">Rotate right 15&deg;</button>
+        <button type="button" (click)="toggleMirror()" [class.active]="mirrored">Mirror image</button>
+        <button type="button" (click)="takeScreenshot()">Save PNG</button>
+      </div>
+    </section>
+  }
+
   <div class="map-readout" aria-label="Chart position">
     <strong>{{ targetName }}</strong>
     <span>{{ hudInfo.ra }}</span>
     <span>{{ hudInfo.dec }}</span>
-    <span>{{ hudInfo.fov | number:'1.1-1' }}° field</span>
-    <span>{{ rotationAngleDisplay }}° rotation</span>
+    <span>{{ hudInfo.fov | number:'1.1-1' }}&deg; field</span>
+    <span>{{ rotationAngleDisplay }}&deg; rotation</span>
   </div>
 
-  <div class="density-control" role="group" aria-label="Star density">
+  <div class="density-control desktop-density" role="group" aria-label="Star density">
     <span>Stars</span>
     <button type="button" (click)="setDensity('sparse')" [class.active]="starDensity === 'sparse'">Low</button>
     <button type="button" (click)="setDensity('normal')" [class.active]="starDensity === 'normal'">Medium</button>
@@ -42,50 +98,41 @@
 
   @if (showSearchPanel) {
     <section class="search-panel" aria-label="Search deep-sky objects">
-      <header>
-        <strong>Find another object</strong>
-        <button type="button" (click)="showSearchPanel = false" aria-label="Close search">×</button>
-      </header>
-      <input type="search" [(ngModel)]="searchQuery" (ngModelChange)="searchObjects()" placeholder="M31, Pleiades, Andromeda…" autofocus autocomplete="off">
+      <header><strong>Find another object</strong><button type="button" (click)="toggleSearchPanel()" aria-label="Close search">Close</button></header>
+      <input type="search" [(ngModel)]="searchQuery" (ngModelChange)="searchObjects()" placeholder="M31, Pleiades, Andromeda..." autofocus autocomplete="off">
       <div class="search-results">
         @for (result of searchResults; track result.code + (result.messierNumber || result.caldwellNumber)) {
           <button type="button" class="search-result" (click)="selectSearchResult(result)">
-            <strong>{{ result.code }}{{ result.messierNumber || result.caldwellNumber }}</strong>
-            <span>{{ result.name }}</span>
-            <small>{{ result.constellation }}</small>
+            <strong>{{ result.code }}{{ result.messierNumber || result.caldwellNumber }}</strong><span>{{ result.name }}</span><small>{{ result.constellation }}</small>
           </button>
         }
-        @if (searchResults.length === 0 && searchQuery) {
-          <p class="no-results">No objects found.</p>
-        }
+        @if (searchResults.length === 0 && searchQuery) { <p class="no-results">No objects found.</p> }
       </div>
     </section>
   }
 
-  @if (hoverTooltipContent) {
-    <div class="map-tooltip">{{ hoverTooltipContent }}</div>
-  }
+  @if (hoverTooltipContent) { <div class="map-tooltip">{{ hoverTooltipContent }}</div> }
 
   @if (showInfoPanel && infoPanelContent) {
     <aside class="info-panel" aria-label="Selected deep-sky object">
-      <button type="button" class="close-btn" (click)="hideInfoPanel()" aria-label="Close object information">×</button>
+      <button type="button" class="close-btn" (click)="hideInfoPanel()" aria-label="Close object information">&times;</button>
       <img [src]="infoPanelContent.image" [alt]="infoPanelContent.name" (error)="handleImageError($event)">
       <div class="info-copy">
         <span class="object-code">{{ infoPanelContent.code }}{{ infoPanelContent.messierNumber || infoPanelContent.caldwellNumber }}</span>
         <h3>{{ infoPanelContent.name }}</h3>
-        <p>{{ infoPanelContent.type }} · {{ infoPanelContent.constellation }}</p>
+        <p>{{ infoPanelContent.type }} &middot; {{ infoPanelContent.constellation }}</p>
         <dl>
           <div><dt>Magnitude</dt><dd>{{ infoPanelContent.magnitude }}</dd></div>
           <div><dt>Distance</dt><dd>{{ infoPanelContent.distance || '—' }} ly</dd></div>
           <div><dt>Size</dt><dd>{{ infoPanelContent.size || '—' }}</dd></div>
           <div><dt>Coordinates</dt><dd>{{ infoPanelContent.rightAscension }} / {{ infoPanelContent.declination }}</dd></div>
         </dl>
-        <button type="button" class="details-btn" (click)="goToDSODetails(infoPanelContent)">Open observing guide →</button>
+        <button type="button" class="details-btn" (click)="goToDSODetails(infoPanelContent)">Open observing guide &rarr;</button>
       </div>
     </aside>
   }
 
   <div class="target-reticle" aria-hidden="true"><span></span></div>
-  <p class="gesture-hint">Drag to pan · scroll or pinch to zoom</p>
+  <p class="gesture-hint">Drag to pan &middot; scroll or pinch to zoom</p>
   <canvas #canvas class="starhop-canvas" aria-label="Interactive star-hop chart"></canvas>
 </div>
